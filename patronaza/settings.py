@@ -77,9 +77,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
-        'NAME': 'patronazadb',
+        'NAME': 'patronaza_db',
         'PASSWORD': 'Vroc+Toaster29',
-        'HOST': '127.0.0.1',
+        'HOST': 'fruity-routy.ddns.net',
         'PORT': '5432'
     }
 }
