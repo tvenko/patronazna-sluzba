@@ -8,8 +8,8 @@ Welcome to patronazna sluzba's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
-   accounts/models
+   
+   modules/models
 
 
 
