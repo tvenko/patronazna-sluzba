@@ -1,5 +1,5 @@
-
 Models
 ======
-..automate:: accounts.models
-	:members:
+.. automodule:: accounts.models
+    :members:
+    :show-inheritance:

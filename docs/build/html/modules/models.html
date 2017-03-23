@@ -154,20 +154,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="models">
-<h1>Models<a class="headerlink" href="#models" title="Povezava na naslov">¶</a></h1>
-<dl class="docutils">
-<dt>..automate:: accounts.models</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">members:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd>
-</dl>
+  <div class="section" id="module-accounts.models">
+<span id="models"></span><h1>Models<a class="headerlink" href="#module-accounts.models" title="Povezava na naslov">¶</a></h1>
+<dl class="class">
+<dt id="accounts.models.Delavec">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">Delavec</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#Delavec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.Delavec" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>class representing all workers</p>
+<p>This is a Delavec Model containing information about workers email (also username),
+first and second name, phone number, personal id, id of institution, and type of worker
+(zdravnik, vodja PS, patronazna sestra,usluzbenec)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.SifraUstanove">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">SifraUstanove</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#SifraUstanove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.SifraUstanove" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>class representing institutions</p>
+<p>This is a SifraUstanove Model containing name of institutions</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.VrstaDelavca">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">VrstaDelavca</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#VrstaDelavca"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.VrstaDelavca" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>class representing type of workers</p>
+<p>This is a VrstaDelavca Model containing type of workers</p>
+</dd></dl>
+
 </div>
 
 
