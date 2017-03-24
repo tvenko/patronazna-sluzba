@@ -6,6 +6,9 @@ class Posta(models.Model):
     stevilka = models.IntegerField(primary_key=True)
     kraj = models.CharField(max_length=255)
 
+    def __str__(self):      #izpis na django admin panelu
+        return self.kraj
+
 class SifraUstanove(models.Model):
     """Razred, ki predstavlja zdravstvene ustanove
 
@@ -18,9 +21,7 @@ class SifraUstanove(models.Model):
     hisna_stevilka = models.CharField(max_length=5)
     posta = models.ForeignKey(Posta, on_delete=models.SET_NULL, null=True)
 
-
-    #izpis na django admin panelu
-    def __str__(self):
+    def __str__(self):      #izpis na django admin panelu
         return self.naziv
 
 class VrstaDelavca(models.Model):
