@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'nli*c*rju^dl_s=7=6hwi+3m%&=wo*vx5434emj9ljyhfq(-$='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fruity-routy.ddns.net']
 
 
 # Application definition
