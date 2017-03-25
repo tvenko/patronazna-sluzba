@@ -155,52 +155,193 @@
            <div itemprop="articleBody">
             
   <h1>Source code for accounts.models</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span></span><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">AbstractBaseUser</span><span class="p">,</span> <span class="n">BaseUserManager</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 
-<div class="viewcode-block" id="SifraUstanove"><a class="viewcode-back" href="../../modules/models.html#accounts.models.SifraUstanove">[docs]</a><span class="k">class</span> <span class="nc">SifraUstanove</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;class representing institutions</span>
+<div class="viewcode-block" id="Posta"><a class="viewcode-back" href="../../modules/models.html#accounts.models.Posta">[docs]</a><span class="k">class</span> <span class="nc">Posta</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rzred, ki predstavlja sifrant pošt</span>
 
-<span class="sd">    This is a SifraUstanove Model containing name of institutions</span>
+<span class="sd">    Model Posta, ki vsebuje poštno številko in ime kraja</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">naziv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">stevilka</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">kraj</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 
-    <span class="c1">#izpis na django admin panelu</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kraj</span></div>
+
+<div class="viewcode-block" id="SifraUstanove"><a class="viewcode-back" href="../../modules/models.html#accounts.models.SifraUstanove">[docs]</a><span class="k">class</span> <span class="nc">SifraUstanove</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja zdravstvene ustanove</span>
+
+<span class="sd">    Model SifraUstanove, ki vsebuje ime zdravstvene ustanove.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">naziv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">ulica</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">hisna_stevilka</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">posta</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Posta</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">naziv</span></div>
 
 <div class="viewcode-block" id="VrstaDelavca"><a class="viewcode-back" href="../../modules/models.html#accounts.models.VrstaDelavca">[docs]</a><span class="k">class</span> <span class="nc">VrstaDelavca</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;class representing type of workers</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja vrste delavcev</span>
 
-<span class="sd">    This is a VrstaDelavca Model containing type of workers</span>
+<span class="sd">    Model VrstaDelavca, ki vsebuje nazive tipov delavcev.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">naziv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
-    <span class="c1">#izpis na django admin panelu</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">naziv</span></div>
 
-<div class="viewcode-block" id="Delavec"><a class="viewcode-back" href="../../modules/models.html#accounts.models.Delavec">[docs]</a><span class="k">class</span> <span class="nc">Delavec</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;class representing all workers</span>
+<div class="viewcode-block" id="SifraOkolisa"><a class="viewcode-back" href="../../modules/models.html#accounts.models.SifraOkolisa">[docs]</a><span class="k">class</span> <span class="nc">SifraOkolisa</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja sifrant okolisev</span>
 
-<span class="sd">    This is a Delavec Model containing information about workers email (also username),</span>
-<span class="sd">    first and second name, phone number, personal id, id of institution, and type of worker</span>
-<span class="sd">    (zdravnik, vodja PS, patronazna sestra,usluzbenec)</span>
+<span class="sd">    Model SifraOkolisa, ki vsebuje naziv okolisa</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">osebna_sifra</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>        <span class="c1"># kako velika je lahko osebna sifra?</span>
-    <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="n">geslo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>                    <span class="c1">#to nisem cist ziher ce je kul tak</span>
+    <span class="n">naziv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">naziv</span></div>
+
+
+<div class="viewcode-block" id="SorodstvenoRazmerje"><a class="viewcode-back" href="../../modules/models.html#accounts.models.SorodstvenoRazmerje">[docs]</a><span class="k">class</span> <span class="nc">SorodstvenoRazmerje</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja sifrant sorodstvenih razmerij</span>
+
+<span class="sd">    Model SorodstvenoRazmerje, ki vsebuje naziv sorodstvenega razmerja</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">naziv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">naziv</span></div>
+
+<div class="viewcode-block" id="KontaktnaOseba"><a class="viewcode-back" href="../../modules/models.html#accounts.models.KontaktnaOseba">[docs]</a><span class="k">class</span> <span class="nc">KontaktnaOseba</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki vsebuje podatke o kontaktni osebi pacienta</span>
+
+<span class="sd">    Model KontaktnaOseba, ki vsebuje ime, priimek, telefonsko stevilko in sifro sorodsvenega razmerja</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">priimek</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
     <span class="n">ime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-    <span class="n">tel</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>                        <span class="c1">#so lahko tudi +386?</span>
+    <span class="n">tel</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">sorodstveno_razmerje</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SorodstvenoRazmerje</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ime</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">priimek</span></div>
+
+
+<div class="viewcode-block" id="UporabnikManager"><a class="viewcode-back" href="../../modules/models.html#accounts.models.UporabnikManager">[docs]</a><span class="k">class</span> <span class="nc">UporabnikManager</span><span class="p">(</span><span class="n">BaseUserManager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred UporabnikManager je potreben zaradi tega, ker imamo lasten model za Uporabnika.</span>
+<span class="sd">    S tem razredom pokrijemo funkcionalnosti, ki jih ima privzeti Django uporabniski model.&quot;&quot;&quot;</span>
+
+    <span class="c1">#ukaz za kreiranjenovega uporabnika</span>
+    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">email</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Uporabnik mora imeti veljaven e-mail naslov&#39;</span><span class="p">)</span>
+
+        <span class="n">account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span>
+            <span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">normalize_email</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">account</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">account</span>
+
+    <span class="c1">#ukaz za kreiranje novega administratorja</span>
+    <span class="k">def</span> <span class="nf">create_superuser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">account</span><span class="o">.</span><span class="n">je_admin</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">account</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">account</span></div>
+
+<div class="viewcode-block" id="Uporabnik"><a class="viewcode-back" href="../../modules/models.html#accounts.models.Uporabnik">[docs]</a><span class="k">class</span> <span class="nc">Uporabnik</span><span class="p">(</span><span class="n">AbstractBaseUser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja uporabnike.</span>
+
+<span class="sd">    Model Uporabnik je krovni razred za model Delavec in Pacient.</span>
+<span class="sd">    Vsebuje email (hkrati tudi uporabnisko ime), priimek, ime, telefonsko stevilko,</span>
+<span class="sd">    in podatek o tem ali je admin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">priimek</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">ime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">tel</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">je_admin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">UporabnikManager</span><span class="p">()</span>
+
+    <span class="c1">#potrebno zaradi django auth</span>
+    <span class="n">USERNAME_FIELD</span> <span class="o">=</span> <span class="s1">&#39;email&#39;</span>
+    <span class="n">REQUIRED_FIELDS</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ime</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">priimek</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">email</span>
+
+    <span class="k">def</span> <span class="nf">get_full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ime</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">priimek</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ime</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_superuser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">je_admin</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_staff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">je_admin</span>
+
+    <span class="k">def</span> <span class="nf">has_perm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">je_admin</span>
+
+    <span class="k">def</span> <span class="nf">has_module_perms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_label</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">je_admin</span></div>
+
+<div class="viewcode-block" id="Delavec"><a class="viewcode-back" href="../../modules/models.html#accounts.models.Delavec">[docs]</a><span class="k">class</span> <span class="nc">Delavec</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja zdravtvene delavce</span>
+
+<span class="sd">    Model Delavec deduje od modela Uporabnik in dodaja osebni stevilki,</span>
+<span class="sd">    sifri zdravstvene ustanove in tipu delavca(zdravnik, vodja PS, patronazna sestra,usluzbenec).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">uporabnik</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Uporabnik</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+    <span class="n">osebna_sifra</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">sifra_ustanove</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SifraUstanove</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">vrsta_delavca</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">VrstaDelavca</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1">#izpis na django admin panelu</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ime</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">priimek</span></div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uporabnik</span><span class="o">.</span><span class="n">ime</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">uporabnik</span><span class="o">.</span><span class="n">priimek</span></div>
+
+<div class="viewcode-block" id="Pacient"><a class="viewcode-back" href="../../modules/models.html#accounts.models.Pacient">[docs]</a><span class="k">class</span> <span class="nc">Pacient</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja paciente</span>
+
+<span class="sd">    Model Pacient deduje od razreda Uporabnik in dodaja stevilko zdravstvene kartice, ulico, posto,</span>
+<span class="sd">    sifro okolisa, datum rojstva, spol in kontaktno osebo.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">uporabnik</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Uporabnik</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+    <span class="n">st_kartice</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ulica</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">posta</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Posta</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sifra_okolisa</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SifraOkolisa</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">datum_rojstva</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">spol</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+    <span class="n">kontaktna_oseba</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">KontaktnaOseba</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#potrebno dodati se paciente, ki so lahko vezan nanj</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uporabnik</span><span class="o">.</span><span class="n">ime</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">uporabnik</span><span class="o">.</span><span class="n">priimek</span></div>
 </pre></div>
 
            </div>

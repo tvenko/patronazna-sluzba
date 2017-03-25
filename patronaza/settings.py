@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'nli*c*rju^dl_s=7=6hwi+3m%&=wo*vx5434emj9ljyhfq(-$='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['fruity-routy.ddns.net']
+ALLOWED_HOSTS = ['fruity-routy.ddns.net', 'localhost']
 
 
 # Application definition
@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
-        'NAME': 'patronaza_db',
+        'NAME': 'patronaza_baza',
         'PASSWORD': 'Vroc+Toaster29',
         'HOST': 'fruity-routy.ddns.net',
         'PORT': '5432'
@@ -123,3 +123,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'accounts.Uporabnik'

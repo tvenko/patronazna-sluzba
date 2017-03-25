@@ -160,26 +160,84 @@
 <dt id="accounts.models.Delavec">
 <em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">Delavec</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#Delavec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.Delavec" title="Povezava na to definicijo">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
-<p>class representing all workers</p>
-<p>This is a Delavec Model containing information about workers email (also username),
-first and second name, phone number, personal id, id of institution, and type of worker
-(zdravnik, vodja PS, patronazna sestra,usluzbenec)</p>
+<p>Razred, ki predstavlja zdravtvene delavce</p>
+<p>Model Delavec deduje od modela Uporabnik in dodaja osebni stevilki,
+sifri zdravstvene ustanove in tipu delavca(zdravnik, vodja PS, patronazna sestra,usluzbenec).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.KontaktnaOseba">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">KontaktnaOseba</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#KontaktnaOseba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.KontaktnaOseba" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki vsebuje podatke o kontaktni osebi pacienta</p>
+<p>Model KontaktnaOseba, ki vsebuje ime, priimek, telefonsko stevilko in sifro sorodsvenega razmerja</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.Pacient">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">Pacient</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#Pacient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.Pacient" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki predstavlja paciente</p>
+<p>Model Pacient deduje od razreda Uporabnik in dodaja stevilko zdravstvene kartice, ulico, posto,
+sifro okolisa, datum rojstva, spol in kontaktno osebo.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.Posta">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">Posta</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#Posta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.Posta" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Rzred, ki predstavlja sifrant pošt</p>
+<p>Model Posta, ki vsebuje poštno številko in ime kraja</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.SifraOkolisa">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">SifraOkolisa</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#SifraOkolisa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.SifraOkolisa" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki predstavlja sifrant okolisev</p>
+<p>Model SifraOkolisa, ki vsebuje naziv okolisa</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="accounts.models.SifraUstanove">
 <em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">SifraUstanove</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#SifraUstanove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.SifraUstanove" title="Povezava na to definicijo">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
-<p>class representing institutions</p>
-<p>This is a SifraUstanove Model containing name of institutions</p>
+<p>Razred, ki predstavlja zdravstvene ustanove</p>
+<p>Model SifraUstanove, ki vsebuje ime zdravstvene ustanove.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.SorodstvenoRazmerje">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">SorodstvenoRazmerje</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#SorodstvenoRazmerje"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.SorodstvenoRazmerje" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki predstavlja sifrant sorodstvenih razmerij</p>
+<p>Model SorodstvenoRazmerje, ki vsebuje naziv sorodstvenega razmerja</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.Uporabnik">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">Uporabnik</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#Uporabnik"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.Uporabnik" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.base_user.AbstractBaseUser</span></code></p>
+<p>Razred, ki predstavlja uporabnike.</p>
+<p>Model Uporabnik je krovni razred za model Delavec in Pacient.
+Vsebuje email (hkrati tudi uporabnisko ime), priimek, ime, telefonsko stevilko,
+in podatek o tem ali je admin.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.UporabnikManager">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">UporabnikManager</code><a class="reference internal" href="../_modules/accounts/models.html#UporabnikManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.UporabnikManager" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.base_user.BaseUserManager</span></code></p>
+<p>Razred UporabnikManager je potreben zaradi tega, ker imamo lasten model za Uporabnika.
+S tem razredom pokrijemo funkcionalnosti, ki jih ima privzeti Django uporabniski model.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="accounts.models.VrstaDelavca">
 <em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">VrstaDelavca</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#VrstaDelavca"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.VrstaDelavca" title="Povezava na to definicijo">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
-<p>class representing type of workers</p>
-<p>This is a VrstaDelavca Model containing type of workers</p>
+<p>Razred, ki predstavlja vrste delavcev</p>
+<p>Model VrstaDelavca, ki vsebuje nazive tipov delavcev.</p>
 </dd></dl>
 
 </div>
