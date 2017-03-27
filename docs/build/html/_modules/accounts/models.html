@@ -159,16 +159,16 @@
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 
 <div class="viewcode-block" id="Posta"><a class="viewcode-back" href="../../modules/models.html#accounts.models.Posta">[docs]</a><span class="k">class</span> <span class="nc">Posta</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Rzred, ki predstavlja sifrant pošt</span>
+    <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja sifrant post</span>
 
-<span class="sd">    Model Posta, ki vsebuje poštno številko in ime kraja</span>
+<span class="sd">    Model Posta, ki vsebuje postno stevilko in ime kraja</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">stevilka</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">kraj</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="c1">#izpis na django admin panelu</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kraj</span></div>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stevilka</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">kraj</span></div>
 
 <div class="viewcode-block" id="SifraUstanove"><a class="viewcode-back" href="../../modules/models.html#accounts.models.SifraUstanove">[docs]</a><span class="k">class</span> <span class="nc">SifraUstanove</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Razred, ki predstavlja zdravstvene ustanove</span>
