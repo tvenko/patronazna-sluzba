@@ -90,7 +90,11 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-accounts.models">Uporabniki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-delovniNalog.models">Delovni Nalog</a></li>
 </ul>
 
             
@@ -157,7 +161,12 @@
   <div class="section" id="models">
 <h1>Models<a class="headerlink" href="#models" title="Povezava na naslov">¶</a></h1>
 <img alt="../_images/baza.png" src="../_images/baza.png" />
-<span class="target" id="module-accounts.models"></span><dl class="class">
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="module-accounts.models">
+<span id="uporabniki"></span><h1>Uporabniki<a class="headerlink" href="#module-accounts.models" title="Povezava na naslov">¶</a></h1>
+<dl class="class">
 <dt id="accounts.models.Delavec">
 <em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">Delavec</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#Delavec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.Delavec" title="Povezava na to definicijo">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
@@ -239,6 +248,50 @@ S tem razredom pokrijemo funkcionalnosti, ki jih ima privzeti Django uporabniski
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
 <p>Razred, ki predstavlja vrste delavcev</p>
 <p>Model VrstaDelavca, ki vsebuje nazive tipov delavcev.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-delovniNalog.models">
+<span id="delovni-nalog"></span><h1>Delovni Nalog<a class="headerlink" href="#module-delovniNalog.models" title="Povezava na naslov">¶</a></h1>
+<dl class="class">
+<dt id="delovniNalog.models.Bolezen">
+<em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">Bolezen</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#Bolezen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.Bolezen" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki predstavlja sifrant bolezni</p>
+<p>Model Bolezen vsebuje sifro in opis bolezni.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="delovniNalog.models.DelovniNalog">
+<em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">DelovniNalog</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#DelovniNalog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.DelovniNalog" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki vsebuje vse informacije o delovnem nalogu</p>
+<p>Model DelovniNalog, vsebuje tuje kljuce sifro zdravnika, id pacienta, id obiska, sifro zdravila,
+id materiala, sifro bolezni in sifro vrste obiska.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="delovniNalog.models.Material">
+<em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">Material</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#Material"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.Material" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki vsebuje sifrant materiala</p>
+<p>Model Material vsebuje id in opis materiala.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="delovniNalog.models.VrstaObiska">
+<em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">VrstaObiska</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#VrstaObiska"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.VrstaObiska" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki predstavlja sifrant vrst obiskov</p>
+<p>Model VrstaObiska vsebuje sifro in opis vrste obiska.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="delovniNalog.models.Zdravilo">
+<em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">Zdravilo</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#Zdravilo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.Zdravilo" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki vsebuje sifrant zdravil</p>
+<p>Model Zdravilo vsebuje sifro, naziv in opis zdravila.</p>
 </dd></dl>
 
 </div>
