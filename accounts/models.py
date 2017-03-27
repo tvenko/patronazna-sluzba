@@ -11,7 +11,7 @@ class Posta(models.Model):
     kraj = models.CharField(max_length=255)
 
     def __str__(self):      #izpis na django admin panelu
-        return self.kraj
+        return str(self.stevilka)+" "+self.kraj
 
 class SifraUstanove(models.Model):
     """Razred, ki predstavlja zdravstvene ustanove
