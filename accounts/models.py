@@ -2,9 +2,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 class Posta(models.Model):
-    """Rzred, ki predstavlja sifrant pošt
+    """Razred, ki predstavlja sifrant post
 
-    Model Posta, ki vsebuje poštno številko in ime kraja
+    Model Posta, ki vsebuje postno stevilko in ime kraja
     """
 
     stevilka = models.IntegerField(primary_key=True)

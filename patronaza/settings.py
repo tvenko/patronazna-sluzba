@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 print('base dir:', BASE_DIR)
 
 config = RawConfigParser()
-config.read(os.path.join(BASE_DIR, 'patronaza\setting.ini'))
+config.read(os.path.join(BASE_DIR, 'patronaza/setting.ini'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
