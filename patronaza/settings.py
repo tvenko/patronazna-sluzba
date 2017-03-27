@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['fruity-routy.ddns.net']
 
 INSTALLED_APPS = [
     'accounts',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,3 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GRAPH_MODELS = {
+	'all_applications': True,
+	'group_models': True,
+}
