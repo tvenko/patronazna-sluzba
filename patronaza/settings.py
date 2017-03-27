@@ -11,21 +11,25 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from configparser import RawConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print('base dir:', BASE_DIR)
 
+config = RawConfigParser()
+config.read(os.path.join(BASE_DIR, 'patronaza\setting.ini'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nli*c*rju^dl_s=7=6hwi+3m%&=wo*vx5434emj9ljyhfq(-$='
+SECRET_KEY = config.get('secrets','SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['fruity-routy.ddns.net']
+ALLOWED_HOSTS = ['fruity-routy.ddns.net', 'localhost']
 
 
 # Application definition
@@ -77,12 +81,12 @@ WSGI_APPLICATION = 'patronaza.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'NAME': 'patronaza_db',
-        'PASSWORD': 'Vroc+Toaster29',
-        'HOST': 'fruity-routy.ddns.net',
-        'PORT': '5432'
+        'ENGINE': config.get('database', 'DATABASE_ENGINE'),
+        'USER': config.get('database', 'DATABASE_USER'),
+        'NAME': config.get('database', 'DATABASE_NAME'),
+        'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
+        'HOST': config.get('database', 'DATABASE_HOST'),
+        'PORT': config.get('database', 'DATABASE_PORT')
     }
 }
 
@@ -129,3 +133,5 @@ GRAPH_MODELS = {
 	'all_applications': True,
 	'group_models': True,
 }
+
+AUTH_USER_MODEL = 'accounts.Uporabnik'
