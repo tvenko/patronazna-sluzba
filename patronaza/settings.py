@@ -15,7 +15,6 @@ from configparser import RawConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print('base dir:', BASE_DIR)
 
 config = RawConfigParser()
 config.read(os.path.join(BASE_DIR, 'patronaza/setting.ini'))
@@ -35,7 +34,6 @@ ALLOWED_HOSTS = ['fruity-routy.ddns.net', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #3rd party apps
     'rest_framework',
+
+    #our apps
+    'accounts',
+    'delovniNalog',
+    'obisk',
 ]
 
 MIDDLEWARE = [
