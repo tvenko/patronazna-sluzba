@@ -1,0 +1,14 @@
+Django==1.10.6
+django-extensions==1.7.7
+djangorestframework==3.6.2
+gunicorn==19.7.1
+Sphinx==1.5.3
+pydot==1.2.3
+configparser==3.5.0
+matplotlib==2.0.0
+numpy==1.12.1
+psycopg2
+pydotplus
+pyqtgraph
+python-dateutil
+graphviz
