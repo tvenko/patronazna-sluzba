@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+admin.site.register(DelovniNalog)
+admin.site.register(VrstaObiska)
+admin.site.register(Bolezen)
+admin.site.register(Material)
+admin.site.register(Zdravilo)
