@@ -1,6 +1,6 @@
 from django.db import models
 
-#se ni dokoncan -> stvar naslednjga sprinta zej se ne rabimo
+#se ni dokoncan -> stvar 8 uporabniske zgodbe
 class Obisk(models.Model):
     """Razred, ki bo vseboval podatke o obiskih
 

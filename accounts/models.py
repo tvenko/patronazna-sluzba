@@ -176,12 +176,14 @@ class Pacient(models.Model):
 
     st_kartice = models.IntegerField(primary_key=True)
     ulica = models.CharField(max_length=255)
+    hisna_stevilka = models.IntegerField()
     posta = models.ForeignKey(Posta, on_delete=models.SET_NULL, null=True)
     sifra_okolisa = models.ForeignKey(SifraOkolisa, on_delete=models.SET_NULL, null=True)
     datum_rojstva = models.DateField()
     spol = models.BooleanField()
-    kontaktna_oseba = models.ForeignKey(KontaktnaOseba, on_delete=models.SET_NULL, null=True)
-    #potrebno dodati se paciente, ki so lahko vezan nanj
+    kontaktna_oseba = models.ForeignKey(KontaktnaOseba, on_delete=models.SET_NULL, null=True, blank=True)
+    je_aktiviran = models.BooleanField(default=False)
+    vezani_pacienti = models.ManyToManyField('self')
 
     def __str__(self):      #izpis na django admin panelu
         return self.uporabnik.ime+" "+self.uporabnik.priimek

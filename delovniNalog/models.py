@@ -58,9 +58,9 @@ class DelovniNalog(models.Model):
     """
 
     sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True) #kak naredit da bos lahk sam zdravnika zbral?
-    id_pacienta = models.ForeignKey(Pacient, on_delete=models.SET_NULL, null=True)
+    id_pacienta = models.ManyToManyField(Pacient)
     id_obiska = models.ForeignKey(Obisk, on_delete=models.SET_NULL, null=True)
-    sifra_zdravila = models.ForeignKey(Zdravilo, on_delete=models.SET_NULL, null=True)
-    id_materiala = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
+    sifra_zdravila = models.ManyToManyField(Zdravilo)
+    id_materiala = models.ManyToManyField(Material)
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True)
     sifra_vrste_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
