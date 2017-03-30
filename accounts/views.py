@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics, status
+from rest_framework import generics, status, request
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from accounts.models import Uporabnik, Delavec
+from accounts.models import *
 from accounts.serializers import *
 
 
@@ -36,7 +36,7 @@ class UporabnikSeznam(generics.ListCreateAPIView):
     queryset = Uporabnik.objects.all()
     serializer_class = UporabnikSerializer
 
-class UporabnikPodrobno(generics.RetrieveUpdateAPIView):
+class UporabnikPodrobno(generics.RetrieveUpdateDestroyAPIView):
     """
         Razred, ki implementira metodi get in update
         get - vrne uporabnik za podani id
@@ -67,3 +67,19 @@ class DelavecPodrobno(generics.RetrieveUpdateDestroyAPIView):
 
     #def perform_create(self, serializer):
     #    serializer.save(uporabnik=)
+
+class VrstaDelavcaSeznam(generics.ListCreateAPIView):
+    queryset = VrstaDelavca.objects.all()
+    serializer_class = VrstaDelavcaSerializer
+
+class VrstaDelavcaPodrobno(generics.RetrieveUpdateDestroyAPIView):
+    queryset = VrstaDelavca.objects.all()
+    serializer_class = VrstaDelavcaSerializer
+
+class UstanoveSeznam(generics.ListCreateAPIView):
+    queryset = SifraUstanove.objects.all()
+    serializer_class = UstanoveSerializer
+
+class UstanovaPodrobno(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SifraUstanove.objects.all()
+    serializer_class = UstanoveSerializer
