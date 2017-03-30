@@ -183,7 +183,7 @@ class Pacient(models.Model):
     spol = models.BooleanField()
     kontaktna_oseba = models.ForeignKey(KontaktnaOseba, on_delete=models.SET_NULL, null=True, blank=True)
     je_aktiviran = models.BooleanField(default=False)
-    vezani_pacienti = models.ManyToManyField('self',null=True, blank=True)
+    vezani_pacienti = models.ManyToManyField('self', blank=True)
 
     def __str__(self):      #izpis na django admin panelu
         return self.uporabnik.ime+" "+self.uporabnik.priimek

@@ -8,7 +8,6 @@ class VrstaObiska(models.Model):
     Model VrstaObiska vsebuje sifro in opis vrste obiska.
     """
 
-    sifra = models.IntegerField(primary_key=True)
     opis = models.CharField(max_length=255)
 
     def __str__(self):
@@ -63,4 +62,4 @@ class DelovniNalog(models.Model):
     sifra_zdravila = models.ManyToManyField(Zdravilo)
     id_materiala = models.ManyToManyField(Material)
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True)
-    sifra_vrste_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
+    vrste_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)

@@ -2,15 +2,27 @@ from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from accounts.models import Uporabnik, Delavec, Pacient
 
+class UporabnikSerializer(serializers.ModelSerializer):
+    """
+    Razred, ki serializira objekt Uporabnik v JSON
+    """
+
+    class Meta:
+        model = Uporabnik
+        fields = ('id', 'ime', 'priimek', 'email', 'password', 'tel')
+        write_only_fields = ('password', 'id')
+        read_only_fields = ('last_login', 'je_admin')
+
 class DelavecSerializer(serializers.ModelSerializer):
 
-    password = serializers.CharField(write_only=True, required=False)
-    confirm_password = serializers.CharField(write_only=True, required=False)
+    """
+        Razred, ki serializira objekt Delavec v JSON
+    """
+
+    uporabnik = serializers.PrimaryKeyRelatedField(read_only=True, source='uporabnik.ime')
+    sifra_ustanove = serializers.PrimaryKeyRelatedField(read_only=True, source='sifra_ustanove.naziv')
+    vrsta_delavca = serializers.PrimaryKeyRelatedField(read_only=True, source='vrsta_delavca.naziv')
 
     class Meta:
         model = Delavec
-        fields = ('email', 'password', 'priimek', 'ime', 'tel', 'osebna_sifra', 'sifra_ustanove', 'vrsta_delavca')
-        read_only_fields = ('last_login')
-
-        def create(self, validated_date):
-            return (Delavec.object.create(**validated_date))
+        fields = ('uporabnik', 'osebna_sifra', 'sifra_ustanove', 'vrsta_delavca')

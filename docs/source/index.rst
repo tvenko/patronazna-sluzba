@@ -10,7 +10,8 @@ Welcome to patronazna sluzba's documentation!
    :maxdepth: 2
    
    modules/models
-
+   modules/serializers
+   modules/views
 
 
 Indices and tables
