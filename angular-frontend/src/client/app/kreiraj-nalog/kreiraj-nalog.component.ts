@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { vrstaObiska, Pacient } from '../shared/models/index';
-import { PacientInfoService } from '../shared/services/index';
+import { PacientService } from '../shared/services/index';
 
 /**
  * This class represents the lazy loaded DelovniNalogComponent.
@@ -19,7 +19,7 @@ export class KreirajNalogComponent implements OnInit {
   neveljavnaStevilka: boolean;
   data: any [];
 
-  constructor(public pacientInfoService: PacientInfoService) {
+  constructor(public pacientInfoService: PacientService) {
     this.stevilkaPacienta = undefined;
   }
 

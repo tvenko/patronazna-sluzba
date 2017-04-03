@@ -1,1 +1,1 @@
-export * from './pacient-info/pacient-info.service';
+export * from './pacient/pacient.service';

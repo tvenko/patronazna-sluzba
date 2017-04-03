@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Pacient } from '../../models/index';
 // import 'rxjs/add/operator/do';  // for debugging
 
 /**
  * This class provides the NameList service with methods to read names and add names.
  */
 @Injectable()
-export class PacientInfoService {
+export class PacientService {
   baseURL: any;
   token: any;
 
@@ -28,9 +27,9 @@ export class PacientInfoService {
    * TODO nas pravi naslov za pacienta
    * @return {Pacient} The Observable for the HTTP request.
    */
-  get(id: string): Observable<Pacient> {
+  getVrsteObiskov(): Observable<string[]> {
 
-    return this.http.get(this.baseURL + '/racuni/pacienti/' + id)
+    return this.http.get(this.baseURL + '/racuni/pacienti/')
                     .map((res: Response) => res.json())
     //              .do(data => console.log('server data:', data))  // debug
                     .catch(this.handleError);
