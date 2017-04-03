@@ -1,6 +1,12 @@
-[
-  "Edsger Dijkstra",
-  "Donald Knuth",
-  "Alan Turing",
-  "Grace Hopper"
-]
+{
+  "stevilkaPacienta": 13,
+  "ime": "David",
+  "priimek": "Rubin",
+  "ulica": "Draza vas",
+  "hisnaStevilka": "73",
+  "datumRojstva": "13.3.1995",
+  "postaId": 3215,
+  "postaNaziv": "Loce",
+  "telefon": "/",
+  "eposta": "dr4266@student.uni-lj.si"
+}
