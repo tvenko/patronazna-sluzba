@@ -12,3 +12,5 @@ pydotplus
 pyqtgraph
 python-dateutil
 graphviz
+coreapi==2.3.0
+django-rest-swagger==2.1.2

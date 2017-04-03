@@ -14,7 +14,15 @@ class UporabnikSerializer(serializers.ModelSerializer):
         read_only_fields = ('last_login', 'je_admin')
 
     def create(self, validated_data):
-        return Uporabnik(**validated_data)
+        uporabnik = Uporabnik(
+            email = validated_data['email'],
+            ime = validated_data['ime'],
+            priimek = validated_data['priimek'],
+            tel = validated_data['tel'],
+        )
+        uporabnik.set_password(validated_data['password'])
+        uporabnik.save()
+        return uporabnik
 
 class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -26,9 +34,9 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     priimek = serializers.CharField(source='uporabnik.priimek')
     email = serializers.EmailField(source='uporabnik.email')
     tel = serializers.CharField(source='uporabnik.tel')
-    sifra_ustanove = serializers.HyperlinkedRelatedField(view_name='ustanova-podrobno', read_only=True)
+    sifra_ustanove = serializers.HyperlinkedRelatedField(view_name='ustanova-detail', read_only=True)
     naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
-    vrsta_delavca = serializers.HyperlinkedRelatedField(view_name='vrstadelavca-podrobno', read_only=True)
+    vrsta_delavca = serializers.HyperlinkedRelatedField(view_name='vrstadelavca-detail', read_only=True)
     naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
 
     class Meta:
