@@ -1,0 +1,65 @@
+<p>KREIRANJE NALOGA</p>
+
+<select [(ngModel)]="izbranaVrsta" *ngIf="data?.obiski">
+  <option *ngFor="let obisk of data.obiski" [ngValue]="obisk" >
+    {{obisk.naziv}}
+  </option>
+</select>
+<div *ngIf="!data?.obiski">
+  Prišlo je do težave pri doseganju strežnika.
+</div>
+<!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
+<div *ngIf="!izbranaVrsta.naziv">
+  <!-- Izvajalec -->
+  <div class="panel panel-success" >
+    <div class="panel-heading">
+      <h3 class="panel-title">Izvajalec</h3>
+    </div>
+    <div class="panel-body">
+      // TODO preko delavca v seji <br>
+      Stevilka izvajalca:
+      Naziv izvajalca:
+    </div>
+  </div>
+  <!-- Zdravnik -->
+  <div class="panel panel-success" >
+    <div class="panel-heading">
+      <h3 class="panel-title">Zdravnik</h3>
+    </div>
+    <div class="panel-body">
+      // TODO preko seje <br>
+      Stevilka zdravnika:
+      Naziv zdravnika:
+    </div>
+  </div>
+  <!-- Zavarovana oseba (lahko vec pri obisku otrocnice)-->
+  <div class="panel panel-success" >
+    <div class="panel-heading">
+      <h3 class="panel-title">Zavarovana oseba</h3>
+    </div>
+    <div class="panel-body">
+      Stevilka zavarovane osebe: <input type="text" [(ngModel)]="stevilkaPacienta"/>
+      <button type="button" class="btn btn-primary btn-xs" (click)="pridobiPodatke()">Pridobi podatke</button>
+      <!-- Napaka pri validaciji stevilke -->
+      <div *ngIf="neveljavnaStevilka" class="alert alert-warning" role="alert">
+        <strong>Šment!</strong> Prosimo preverite številko zavarovanja.
+      </div>
+      <!-- TODO Napaka za izpad baze? -->
+      <div *ngIf="problemPridobivanja" class="alert alert-warning" role="alert">
+        <strong>Joj!</strong> Prišlo je do napake pri povezavi.
+      </div>
+      <!-- TODO Izpisi ce je vec pacientov -->
+      <div *ngIf="!neveljavnaStevilka && neveljavnaStevilka != undefined && !problemPridobivanja">
+        Datum rojstva: {{ pacient.datumRojstva }} <br>
+        Priimek: {{ pacient.priimek }} <br>
+        Ime: {{ pacient.ime }} <br>
+        Ulica, hišna številka: {{ pacient.ulica }}, {{pacient.hisnaStevilka}} <br>
+        Poštna številka: {{ pacient.posta }} <br>
+        Kraj: {{ pacient.kraj }} <br>
+        Telefonska: {{ pacient.telefon }} <br>
+        E-pošta: {{ pacient.eposta }} <br>
+        ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
+      </div>
+    </div>
+  </div>
+</div>

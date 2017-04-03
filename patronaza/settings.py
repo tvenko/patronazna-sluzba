@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #3rd party apps
     'rest_framework',
     'rest_framework_swagger',
+    'corsheaders',
 
     #our apps
     'accounts',
@@ -55,11 +56,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'patronaza.urls'
@@ -147,9 +149,13 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
 GRAPH_MODELS = {
 	'applications': 'accounts',
 	'group_models': True,
 }
 
 AUTH_USER_MODEL = 'accounts.Uporabnik'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
