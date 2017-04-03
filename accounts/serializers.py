@@ -88,6 +88,7 @@ class PacientSerializer(serializers.ModelSerializer):
     posta = serializers.PrimaryKeyRelatedField(read_only=True)
     kraj = serializers.CharField(source='posta.kraj')
     kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
+    hisnaStevilka = serializers.CharField(source='hisna_stevilka')
 
     class Meta:
         model = Pacient
