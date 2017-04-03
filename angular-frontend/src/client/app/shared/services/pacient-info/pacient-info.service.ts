@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Pacient } from '../../models/index';
 // import 'rxjs/add/operator/do';  // for debugging
@@ -9,21 +9,28 @@ import { Pacient } from '../../models/index';
  */
 @Injectable()
 export class PacientInfoService {
+  baseURL: any;
+  token: any;
 
   /**
    * Creates a new NameListService with the injected Http.
    * @param {Http} http - The injected Http.
    * @constructor
    */
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+    this.baseURL = 'http://fruity-routy.ddns.net';
+    this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa'
+
+  }
 
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource.
    * TODO nas pravi naslov za pacienta
    * @return {Pacient} The Observable for the HTTP request.
    */
-  get(id: number): Observable<Pacient> {
-    return this.http.get('assets/data.json')
+  get(id: string): Observable<Pacient> {
+
+    return this.http.get(this.baseURL + '/racuni/pacienti/' + id)
                     .map((res: Response) => res.json())
     //              .do(data => console.log('server data:', data))  // debug
                     .catch(this.handleError);

@@ -14,14 +14,13 @@ import { PacientInfoService } from '../shared/services/index';
 export class KreirajNalogComponent implements OnInit {
   izbranaVrsta = new vrstaObiska;
   pacient = new Pacient;
-  stevilkaPacienta: number;
+  stevilkaPacienta: string;
   problemPridobivanja: boolean;
   neveljavnaStevilka: boolean;
   data: any [];
 
   constructor(public pacientInfoService: PacientInfoService) {
     this.stevilkaPacienta = undefined;
-    console.log(this.neveljavnaStevilka);
   }
 
   ngOnInit() { }
