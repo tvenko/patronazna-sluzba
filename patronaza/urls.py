@@ -16,10 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from rest_framework.schemas import get_schema_view
+from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
+
 from accounts.views import index
+
+schema_view = get_schema_view(title='Account API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 
 urlpatterns = [
     url(r'^$', index, name='index'),
+    url(r'^docs/', schema_view, name='docs'),
     url(r'^racuni/', include('accounts.urls')),
+    url(r'^dn/', include('delovniNalog.urls')),
     url(r'^admin/', admin.site.urls),
 ]

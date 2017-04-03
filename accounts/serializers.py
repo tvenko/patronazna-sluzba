@@ -14,7 +14,15 @@ class UporabnikSerializer(serializers.ModelSerializer):
         read_only_fields = ('last_login', 'je_admin')
 
     def create(self, validated_data):
-        return Uporabnik(**validated_data)
+        uporabnik = Uporabnik(
+            email = validated_data['email'],
+            ime = validated_data['ime'],
+            priimek = validated_data['priimek'],
+            tel = validated_data['tel'],
+        )
+        uporabnik.set_password(validated_data['password'])
+        uporabnik.save()
+        return uporabnik
 
 class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -26,9 +34,9 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     priimek = serializers.CharField(source='uporabnik.priimek')
     email = serializers.EmailField(source='uporabnik.email')
     tel = serializers.CharField(source='uporabnik.tel')
-    sifra_ustanove = serializers.HyperlinkedRelatedField(view_name='ustanova-podrobno', read_only=True)
+    sifra_ustanove = serializers.HyperlinkedRelatedField(view_name='ustanova-detail', read_only=True)
     naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
-    vrsta_delavca = serializers.HyperlinkedRelatedField(view_name='vrstadelavca-podrobno', read_only=True)
+    vrsta_delavca = serializers.HyperlinkedRelatedField(view_name='vrstadelavca-detail', read_only=True)
     naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
 
     class Meta:
@@ -69,6 +77,21 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
         uporabnik, created = Uporabnik.objects.get_or_create(user=delavec, defaults=uporabnik_data)
         if not created and uporabnik_data is not None:
             super(DelavecSerializer, self).update(uporabnik, uporabnik_data)
+
+class PacientSerializer(serializers.ModelSerializer):
+
+    uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    email = serializers.EmailField(source='uporabnik.email')
+    tel = serializers.CharField(source='uporabnik.tel')
+    posta = serializers.PrimaryKeyRelatedField(read_only=True)
+    kontaktna_oseba = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Pacient
+        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'st_kartice', 'ulica', 'hisna_stevilka', 'posta', 'sifra_okolisa',
+                  'datum_rojstva', 'spol', 'kontaktna_oseba')
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """

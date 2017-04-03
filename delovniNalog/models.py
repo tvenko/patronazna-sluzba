@@ -63,3 +63,9 @@ class DelovniNalog(models.Model):
     id_materiala = models.ManyToManyField(Material)
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True)
     vrste_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
+    #datum prvega obiska
+    #je obvezen datum
+    #stevilo obiskov
+    #casovni interval
+    #casovno obdobje
+    #sestra
