@@ -79,8 +79,6 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
             super(DelavecSerializer, self).update(uporabnik, uporabnik_data)
 
 class PacientSerializer(serializers.ModelSerializer):
-
-    uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
     ime = serializers.CharField(source='uporabnik.ime')
     priimek = serializers.CharField(source='uporabnik.priimek')
     eposta = serializers.EmailField(source='uporabnik.email')
