@@ -78,6 +78,21 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
         if not created and uporabnik_data is not None:
             super(DelavecSerializer, self).update(uporabnik, uporabnik_data)
 
+class PacientSerializer(serializers.ModelSerializer):
+
+    uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    email = serializers.EmailField(source='uporabnik.email')
+    tel = serializers.CharField(source='uporabnik.tel')
+    posta = serializers.PrimaryKeyRelatedField(read_only=True)
+    kontaktna_oseba = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Pacient
+        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'st_kartice', 'ulica', 'hisna_stevilka', 'posta', 'sifra_okolisa',
+                  'datum_rojstva', 'spol', 'kontaktna_oseba')
+
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
         Razred, ki serializira objekt VrstaDelavca v JSON

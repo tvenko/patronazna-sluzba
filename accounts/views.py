@@ -1,10 +1,6 @@
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics, status, request, viewsets
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import viewsets, permissions
 
-from accounts.models import *
 from accounts.serializers import *
 
 
@@ -13,16 +9,24 @@ def index(request):
 
 class UporabnikViewSet(viewsets.ModelViewSet):
     queryset = Uporabnik.objects.all()
+    permission_classes = (permissions.IsAdminUser,)
     serializer_class = UporabnikSerializer
 
 class DelavciViewSet(viewsets.ModelViewSet):
     queryset = Delavec.objects.all()
+    permission_class = permissions.IsAuthenticated
     serializer_class = DelavecSerializer
+
+class PacientiViewSet(viewsets.ModelViewSet):
+    queryset = Pacient.objects.all()
+    serializer_class = PacientSerializer
 
 class VrstaDelavcaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = VrstaDelavca.objects.all()
+    permission_class = permissions.IsAuthenticated
     serializer_class = VrstaDelavcaSerializer
 
 class UstanoveViewSet(viewsets.ModelViewSet):
     queryset = SifraUstanove.objects.all()
+    permission_class = permissions.IsAuthenticated
     serializer_class = UstanoveSerializer
