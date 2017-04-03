@@ -83,15 +83,19 @@ class PacientSerializer(serializers.ModelSerializer):
     uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
     ime = serializers.CharField(source='uporabnik.ime')
     priimek = serializers.CharField(source='uporabnik.priimek')
-    email = serializers.EmailField(source='uporabnik.email')
-    tel = serializers.CharField(source='uporabnik.tel')
+    eposta = serializers.EmailField(source='uporabnik.email')
+    telefon = serializers.CharField(source='uporabnik.tel')
+    stevilkaPacienta = serializers.IntegerField(source='st_kartice')
+    datumRojstva = serializers.DateField(source='datum_rojstva')
     posta = serializers.PrimaryKeyRelatedField(read_only=True)
-    kontaktna_oseba = serializers.PrimaryKeyRelatedField(read_only=True)
+    kraj = serializers.CharField(source='posta.kraj')
+    kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
 
     class Meta:
         model = Pacient
-        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'st_kartice', 'ulica', 'hisna_stevilka', 'posta', 'sifra_okolisa',
-                  'datum_rojstva', 'spol', 'kontaktna_oseba')
+        fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
+                    'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva',
+                    'kontaktnaOseba')
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """

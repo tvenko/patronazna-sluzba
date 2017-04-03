@@ -5,8 +5,9 @@ export class Pacient {
   ulica: string;
   hisnaStevilka: string;
   datumRojstva: any;
-  postaId: number;
-  postaNaziv: string;
+  posta: number;
+  kraj: string;
   telefon: any;
   eposta: any;
+  kontaktnaOseba: any;
 }

@@ -5,8 +5,9 @@
   "ulica": "Draza vas",
   "hisnaStevilka": "73",
   "datumRojstva": "13.3.1995",
-  "postaId": 3215,
-  "postaNaziv": "Loce",
+  "posta": 3215,
+  "kraj": "Loce",
   "telefon": "/",
-  "eposta": "dr4266@student.uni-lj.si"
+  "eposta": "dr4266@student.uni-lj.si",
+  "kontaktnaOseba": 1
 }
