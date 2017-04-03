@@ -35,6 +35,7 @@ export class KreirajNalogComponent implements OnInit {
         .subscribe(
           response => {
             this.pacient = response;
+            console.log(response.vezaniPacienti);
           },
           error => {
             this.problemPridobivanja = true;

@@ -10,4 +10,5 @@ export class Pacient {
   telefon: any;
   eposta: any;
   kontaktnaOseba: any;
+  vezaniPacienti: any[];
 }

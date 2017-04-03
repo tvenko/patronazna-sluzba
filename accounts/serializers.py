@@ -79,6 +79,9 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
             super(DelavecSerializer, self).update(uporabnik, uporabnik_data)
 
 class PacientSerializer(serializers.ModelSerializer):
+    """
+        Razred, ki vraca podatke za Vezanega pacienta.
+    """
     ime = serializers.CharField(source='uporabnik.ime')
     priimek = serializers.CharField(source='uporabnik.priimek')
     eposta = serializers.EmailField(source='uporabnik.email')
@@ -94,7 +97,29 @@ class PacientSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
                     'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva',
-                    'kontaktnaOseba')
+                    'kontaktnaOseba',)
+
+class PacientSerializer(serializers.ModelSerializer):
+    """
+        Razred, ki vraca Pacienta
+    """
+    vezaniPacienti = PacientSerializer(many=True, read_only=True, source='vezani_pacienti')
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    eposta = serializers.EmailField(source='uporabnik.email')
+    telefon = serializers.CharField(source='uporabnik.tel')
+    stevilkaPacienta = serializers.IntegerField(source='st_kartice')
+    datumRojstva = serializers.DateField(source='datum_rojstva')
+    posta = serializers.PrimaryKeyRelatedField(read_only=True)
+    kraj = serializers.CharField(source='posta.kraj')
+    kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
+    hisnaStevilka = serializers.CharField(source='hisna_stevilka')
+
+    class Meta:
+        model = Pacient
+        fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
+                    'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva',
+                    'kontaktnaOseba','vezaniPacienti')
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
