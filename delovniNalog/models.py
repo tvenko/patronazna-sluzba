@@ -1,6 +1,6 @@
 from django.db import models
 from obisk.models import Obisk
-from accounts.models import Delavec, Pacient
+from accounts.models import Delavec, Pacient, Uporabnik
 
 class VrstaObiska(models.Model):
     """Razred, ki predstavlja sifrant vrst obiskov
@@ -59,13 +59,16 @@ class DelovniNalog(models.Model):
     sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True) #kak naredit da bos lahk sam zdravnika zbral?
     id_pacienta = models.ManyToManyField(Pacient)
     id_obiska = models.ForeignKey(Obisk, on_delete=models.SET_NULL, null=True)
-    sifra_zdravila = models.ManyToManyField(Zdravilo)
-    id_materiala = models.ManyToManyField(Material)
-    sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True)
-    vrste_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
-    #datum prvega obiska
-    #je obvezen datum
-    #stevilo obiskov
-    #casovni interval
-    #casovno obdobje
-    #sestra
+    sifra_zdravila = models.ManyToManyField(Zdravilo, blank=True)
+    id_materiala = models.ManyToManyField(Material, blank=True) #kak dolocis stevilo materiala?
+    sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True, blank=True)
+    vrsta_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
+    datum_prvega_obiska = models.DateField()
+    je_obvezen_datum = models.BooleanField()
+    stevilo_obiskov = models.IntegerField()
+    casovni_interval = models.TimeField(blank=True, null=True)
+    casovno_obdobje = models.DateField(blank=True, null=True)
+    patronazna_sestra = models.ForeignKey(Uporabnik, on_delete=models.SET_NULL, null=True) #kak naredis da bos lahko zbral sam partonzano sestro
+
+    def __str__(self):
+        return str(self.id)
