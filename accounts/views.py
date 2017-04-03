@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from rest_framework import viewsets, permissions
+from accounts.permissions import IsAdminOrReadAuthenticated
 
 from accounts.serializers import *
 
@@ -8,13 +9,13 @@ def index(request):
     return HttpResponse("Hello, world. You're at the accounts index.")
 
 class UporabnikViewSet(viewsets.ModelViewSet):
-    queryset = Uporabnik.objects.all()
     permission_classes = (permissions.IsAdminUser,)
+    queryset = Uporabnik.objects.all()
     serializer_class = UporabnikSerializer
 
 class DelavciViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAdminOrReadAuthenticated,)
     queryset = Delavec.objects.all()
-    permission_class = permissions.IsAuthenticated
     serializer_class = DelavecSerializer
 
 class PacientiViewSet(viewsets.ModelViewSet):
@@ -22,11 +23,11 @@ class PacientiViewSet(viewsets.ModelViewSet):
     serializer_class = PacientSerializer
 
 class VrstaDelavcaViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = VrstaDelavca.objects.all()
-    permission_class = permissions.IsAuthenticated
     serializer_class = VrstaDelavcaSerializer
 
 class UstanoveViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = SifraUstanove.objects.all()
-    permission_class = permissions.IsAuthenticated
     serializer_class = UstanoveSerializer
