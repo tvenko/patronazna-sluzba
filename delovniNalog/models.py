@@ -9,6 +9,8 @@ class VrstaObiska(models.Model):
     """
 
     opis = models.CharField(max_length=255)
+    material = models.BooleanField(default=False)
+    vezani_pacienti = models.BooleanField(default=False)
 
     def __str__(self):
         return self.opis
@@ -56,19 +58,29 @@ class DelovniNalog(models.Model):
     id materiala, sifro bolezni in sifro vrste obiska.
     """
 
-    sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True) #kak naredit da bos lahk sam zdravnika zbral?
+    sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True)
     id_pacienta = models.ManyToManyField(Pacient)
     id_obiska = models.ForeignKey(Obisk, on_delete=models.SET_NULL, null=True)
     sifra_zdravila = models.ManyToManyField(Zdravilo, blank=True)
-    id_materiala = models.ManyToManyField(Material, blank=True) #kak dolocis stevilo materiala?
+    id_materiala = models.ManyToManyField(Material, blank=True, through='DelovniNalogMaterial')
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True, blank=True)
     vrsta_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
     datum_prvega_obiska = models.DateField()
     je_obvezen_datum = models.BooleanField()
     stevilo_obiskov = models.IntegerField()
-    casovni_interval = models.TimeField(blank=True, null=True)
+    casovni_interval = models.IntegerField(blank=True, null=True)
     casovno_obdobje = models.DateField(blank=True, null=True)
-    patronazna_sestra = models.ForeignKey(Uporabnik, on_delete=models.SET_NULL, null=True) #kak naredis da bos lahko zbral sam partonzano sestro
+    patronazna_sestra = models.ForeignKey(Uporabnik, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return str(self.id)
+
+class DelovniNalogMaterial(models.Model):
+    """Razred, ki prdstavlja vmesno tabelo za manyToMany povezavo med delovnim nalogom in materialom
+
+    Model DelovniNalogMaterial vsebuje id delovnega naloga, id material in kolicino materiala
+    """
+
+    id_delovni_nalog = models.ForeignKey(DelovniNalog)
+    id_material = models.ForeignKey(Material)
+    kolicina = models.IntegerField()
