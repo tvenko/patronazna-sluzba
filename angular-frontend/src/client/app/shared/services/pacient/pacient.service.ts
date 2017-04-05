@@ -19,7 +19,7 @@ export class PacientService {
    */
   constructor(private http: Http) {
     this.baseURL = 'http://fruity-routy.ddns.net';
-    this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa'
+    this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa';
 
   }
 

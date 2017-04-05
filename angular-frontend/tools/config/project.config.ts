@@ -11,6 +11,22 @@ export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
+
+  FONTS_DEST = `${this.APP_DEST}/fonts`;
+  FONTS_SRC = ['node_modules/font-awesome/fonts/**'];
+
+  PRIME_NG_THEME = 'omega';
+  CSS_IMAGE_DEST = `${this.CSS_DEST}/images`;
+  CSS_IMAGE_SRC = [
+    'node_modules/primeng/resources/themes/' + this.PRIME_NG_THEME + '/images/**'
+  ];
+
+  THEME_FONTS_DEST = `${this.APP_DEST}/css/fonts`;
+  THEME_FONTS_SRC = [
+      'node_modules/primeng/resources/themes/' + this.PRIME_NG_THEME + '/fonts/**',
+  ];
+
+
   constructor() {
     super();
     // this.APP_TITLE = 'Put name of your app here';
@@ -19,12 +35,7 @@ export class ProjectConfig extends SeedConfig {
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
 
-    // Add `NPM` third-party libraries to be injected/bundled.
-    this.NPM_DEPENDENCIES = [
-      ...this.NPM_DEPENDENCIES,
-      // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
-      // {src: 'lodash/lodash.min.js', inject: 'libs'},
-    ];
+    
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
@@ -57,6 +68,10 @@ export class ProjectConfig extends SeedConfig {
       { src: 'bootstrap/dist/css/bootstrap.min.css', inject: true }, // inject into css section
       { src: 'bootstrap/dist/css/bootstrap-theme.min.css', inject: true }, // inject into css section
       { src: 'bootstrap/dist/css/bootstrap-theme.min.css.map', inject: true }, // inject into css section
+
+      { src: 'primeng/resources/primeng.css', inject: true },
+      { src: 'primeng/resources/themes/omega/theme.css', inject: true },
+      { src: 'font-awesome/css/font-awesome.min.css', inject: true },
     ];
 
     // *towards the bottom, replace extended packages with this:
@@ -85,6 +100,7 @@ export class ProjectConfig extends SeedConfig {
     }
     ];
     this.addPackagesBundles(additionalPackages);
+
   }
 
 

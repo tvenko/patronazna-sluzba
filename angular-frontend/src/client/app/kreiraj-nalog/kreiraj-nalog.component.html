@@ -1,15 +1,6 @@
 <p>KREIRANJE NALOGA</p>
 
-<select [(ngModel)]="izbranaVrsta" *ngIf="data?.obiski">
-  <option *ngFor="let obisk of data.obiski" [ngValue]="obisk" >
-    {{obisk.naziv}}
-  </option>
-</select>
-<div *ngIf="!data?.obiski">
-  Prišlo je do težave pri doseganju strežnika.
-</div>
-<!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
-<div *ngIf="!izbranaVrsta.naziv">
+<form [formGroup]="myForm" novalidate>
   <!-- Izvajalec -->
   <div class="panel panel-success" >
     <div class="panel-heading">
@@ -32,40 +23,151 @@
       Naziv zdravnika:
     </div>
   </div>
+
+  <!-- Dropdown za izbiro vrste obiska -->
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Vrsta obiska</h3>
+    </div>
+    <div class="panel-body">
+      <select class="form-control" [(ngModel)]="izbranaVrsta" *ngIf="vrsteObiskov" [ngModelOptions]="{standalone: true}">
+        <option *ngFor="let obisk of vrsteObiskov.results" [ngValue]="obisk" >
+          {{ obisk.opis }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div *ngIf="!vrsteObiskov?.results">
+    <div *ngIf="problemPridobivanja" class="alert alert-warning" role="alert">
+      <strong>Opa!</strong> Prišlo je do napake pri povezavi s strežnikom.
+    </div>
+  </div>
+
+  <!-- Potrebno je napisati material pri aplikaciji injekcij -->
+  <div class="panel panel-success" *ngIf="prikaziMaterial()">
+    <div class="panel-heading">
+      <h3 class="panel-title">Material potreben za obisk</h3>
+    </div>
+    <div class="panel-body">
+      <div class="container">
+        <div *ngIf="izbranaVrsta.id == 4">
+
+          <!-- Pri aplikaciji injekcij moras izbrati zdravilo -->
+          <div formArrayName="zdravila">
+            <div *ngFor="let zdravilo of myForm.controls.zdravila.controls; let i=index">
+              <div>
+                <span> Zdravilo {{i + 1}}</span>
+                <i class="material-icons clickable" *ngIf="myForm.controls.zdravila.length > 1" (click)="odstraniZdravilo(i)">highlight_off</i>
+              </div>
+              <div [formGroupName]="i"  class="form-group">
+                <!-- Vnosno polje za izbiro zdravila -->
+                <div>
+                  <label>Naziv</label>
+                  <input class="form-control" type="text" formControlName="naziv">
+                  <small [hidden]="!myForm.controls.zdravila.controls[i].controls.naziv.valid">Opis je obvezno polje</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-info btn-xs" (click)="dodajZdravilo()">Dodaj zdravilo</button>
+
+        </div>
+
+        <!-- Pri odvzemu krvi moras izbrati materiali in kolicino -->
+        <div *ngIf="izbranaVrsta.id == 5">
+          <div formArrayName="materiali">
+            <div *ngFor="let material of myForm.controls.materiali.controls; let i=index">
+              <div>
+                <span> Material {{i + 1}}</span>
+                <i class="material-icons clickable" *ngIf="myForm.controls.materiali.length > 1" (click)="odstraniMaterial(i)">highlight_off</i>
+              </div>
+              <div [formGroupName]="i" class="form-group">
+                <!-- Vnosno polje za izbiro zdravila -->
+                <div>
+                  <label>Opis</label>
+                  <input class="form-control" type="text" formControlName="opis">
+                  <small [hidden]="!myForm.controls.materiali.controls[i].controls.opis.valid">Opis je obvezno polje</small>
+                </div>
+                <!-- Vnosno polje za kolicino -->
+                <div>
+                  <label>Kolicina</label>
+                  <input class="form-control" type="text" formControlName="kolicina">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-info btn-xs" (click)="dodajMaterial()">Dodaj material</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- Zavarovana oseba (lahko vec pri obisku otrocnice)-->
   <div class="panel panel-success" >
     <div class="panel-heading">
       <h3 class="panel-title">Zavarovana oseba</h3>
     </div>
     <div class="panel-body">
-      Stevilka zavarovane osebe: <input type="text" [(ngModel)]="stevilkaPacienta"/>
-      <button type="button" class="btn btn-primary btn-xs" (click)="pridobiPodatke()">Pridobi podatke</button>
-      <!-- Napaka pri validaciji stevilke -->
-      <div *ngIf="neveljavnaStevilka" class="alert alert-warning" role="alert">
-        <strong>Šment!</strong> Prosimo preverite številko zavarovanja.
-      </div>
-      <!-- TODO Napaka za izpad baze? -->
-      <div *ngIf="problemPridobivanja" class="alert alert-warning" role="alert">
-        <strong>Joj!</strong> Prišlo je do napake pri povezavi.
-      </div>
-      <!-- TODO Izpisi ce je vec pacientov -->
-      <div *ngIf="!neveljavnaStevilka && neveljavnaStevilka != undefined && !problemPridobivanja && pacient">
-        Datum rojstva: {{ pacient.datumRojstva }} <br>
-        Priimek: {{ pacient.priimek }} <br>
-        Ime: {{ pacient.ime }} <br>
-        Ulica, hišna številka: {{ pacient.ulica }}, {{pacient.hisnaStevilka}} <br>
-        Poštna številka: {{ pacient.posta }} <br>
-        Kraj: {{ pacient.kraj }} <br>
-        Telefonska: {{ pacient.telefon }} <br>
-        E-pošta: {{ pacient.eposta }} <br>
-        ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
-        Vezani pacienti:
-        <ul>
-          <li *ngFor="let otrok of pacient.vezaniPacienti">
-             {{ otrok.ime }} {{ otrok.priimek }}
-          </li>
-        </ul>
+      <div class="form-group">
+        <label>Številka zavarovane osebe</label>
+        <input class="form-control" type="text" [(ngModel)]="stevilkaPacienta" [ngModelOptions]="{standalone: true}"/>
+        <button type="button" class="btn btn-primary btn-xs" (click)="pridobiPodatke()">Pridobi podatke</button>
+        <!-- Napaka pri validaciji stevilke -->
+        <div *ngIf="neveljavnaStevilka" class="alert alert-warning" role="alert">
+          <strong>Šment!</strong> Prosimo preverite številko zavarovanja.
+        </div>
+        <!-- TODO Napaka za izpad baze? -->
+        <div *ngIf="problemPridobivanja" class="alert alert-warning" role="alert">
+          <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov.
+        </div>
+        <!-- TODO Izpisi ce je vec pacientov -->
+        <div *ngIf="!neveljavnaStevilka && neveljavnaStevilka != undefined && !problemPridobivanja && pacient">
+          Datum rojstva: {{ pacient.datumRojstva }} <br>
+          Priimek: {{ pacient.priimek }} <br>
+          Ime: {{ pacient.ime }} <br>
+          Ulica, hišna številka: {{ pacient.ulica }}, {{pacient.hisnaStevilka}} <br>
+          Poštna številka: {{ pacient.posta }} <br>
+          Kraj: {{ pacient.kraj }} <br>
+          Telefonska: {{ pacient.telefon }} <br>
+          E-pošta: {{ pacient.eposta }} <br>
+          ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
+          <!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
+          <div *ngIf="izbranaVrsta?.vezani_pacienti">
+            Vezani pacienti:
+            <ul>
+              <li *ngFor="let otrok of pacient.vezani_pacienti">
+                {{ otrok.ime }} {{ otrok.priimek }}
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Izbira casovnega obdobja za obisk -->
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Datum obiska</h3>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Datum prvega obiska</label>
+        <p-calendar formControlName="prviDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDate"></p-calendar>
+        <div>
+          <p-radioButton name="obveznostDatuma" label="Datum je obvezen" value="true" formControlName="obvezen"></p-radioButton>
+          <p-radioButton class="left-margin" name="obveznostDatuma" label="Datum je spremenljiv" value="false" formControlName="obvezen"></p-radioButton>
+        </div>
+        <label>Število obiskov</label>
+        <input type="text" formControlName="steviloObiskov" class="form-control">
+        <div>
+          <p-radioButton name="intervalAliZadnjiDan" label="Izberi interval obiskov" value="true" formControlName="interval"></p-radioButton>
+          <p-radioButton class="left-margin" name="intervalAliZadnjiDan" label="Izberi zadnji datum" value="false" formControlName="interval"></p-radioButton>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+</form>
