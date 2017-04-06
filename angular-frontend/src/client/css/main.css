@@ -57,3 +57,8 @@ li {
 .clickable {
   cursor: pointer;
 }
+
+.md-margin {
+  margin: 20px;
+  margin-top: 10px;
+}

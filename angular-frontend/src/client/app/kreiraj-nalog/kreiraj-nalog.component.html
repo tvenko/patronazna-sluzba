@@ -30,7 +30,7 @@
       <h3 class="panel-title">Vrsta obiska</h3>
     </div>
     <div class="panel-body">
-      <select class="form-control" [(ngModel)]="izbranaVrsta" *ngIf="vrsteObiskov" [ngModelOptions]="{standalone: true}">
+      <select class="form-control" *ngIf="vrsteObiskov" formControlName="vrstaObiska">
         <option *ngFor="let obisk of vrsteObiskov.results" [ngValue]="obisk" >
           {{ obisk.opis }}
         </option>
@@ -50,7 +50,7 @@
     </div>
     <div class="panel-body">
       <div class="container">
-        <div *ngIf="izbranaVrsta.id == 4">
+        <div *ngIf="myForm.controls.vrstaObiska.value.id == 4">
 
           <!-- Pri aplikaciji injekcij moras izbrati zdravilo -->
           <div formArrayName="zdravila">
@@ -63,8 +63,12 @@
                 <!-- Vnosno polje za izbiro zdravila -->
                 <div>
                   <label>Naziv</label>
-                  <input class="form-control" type="text" formControlName="naziv">
-                  <small [hidden]="!myForm.controls.zdravila.controls[i].controls.naziv.valid">Opis je obvezno polje</small>
+                  <select class="form-control" formControlName="naziv">
+                    <option *ngFor="let lek of zdravila.results">
+                      {{ lek.naziv }}
+                    </option>
+                  </select>
+                  <!--<small [hidden]="!myForm.controls.zdravila.controls[i].controls.naziv.valid">Opis je obvezno polje</small>-->
                 </div>
               </div>
             </div>
@@ -74,7 +78,7 @@
         </div>
 
         <!-- Pri odvzemu krvi moras izbrati materiali in kolicino -->
-        <div *ngIf="izbranaVrsta.id == 5">
+        <div *ngIf="myForm.controls.vrstaObiska.value.id == 5">
           <div formArrayName="materiali">
             <div *ngFor="let material of myForm.controls.materiali.controls; let i=index">
               <div>
@@ -85,13 +89,17 @@
                 <!-- Vnosno polje za izbiro zdravila -->
                 <div>
                   <label>Opis</label>
-                  <input class="form-control" type="text" formControlName="opis">
-                  <small [hidden]="!myForm.controls.materiali.controls[i].controls.opis.valid">Opis je obvezno polje</small>
+                  <select class="form-control" formControlName="opis">
+                    <option *ngFor="let material of epruvete.results">
+                      {{ material.opis }}
+                    </option>
+                  </select>
+                  <!--<small [hidden]="!myForm.controls.materiali.controls[i].controls.opis.valid">Opis je obvezno polje</small>-->
                 </div>
                 <!-- Vnosno polje za kolicino -->
                 <div>
                   <label>Kolicina</label>
-                  <input class="form-control" type="text" formControlName="kolicina">
+                  <input class="form-control" type="number" formControlName="kolicina" min="1">
                 </div>
               </div>
             </div>
@@ -154,20 +162,27 @@
     <div class="panel-body">
       <div class="form-group">
         <label>Datum prvega obiska</label>
-        <p-calendar formControlName="prviDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDate"></p-calendar>
+        <p-calendar formControlName="prviDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDate" [disabledDays]="[0,6]"></p-calendar>
         <div>
           <p-radioButton name="obveznostDatuma" label="Datum je obvezen" value="true" formControlName="obvezen"></p-radioButton>
           <p-radioButton class="left-margin" name="obveznostDatuma" label="Datum je spremenljiv" value="false" formControlName="obvezen"></p-radioButton>
         </div>
         <label>Število obiskov</label>
-        <input type="text" formControlName="steviloObiskov" class="form-control">
+        <input type="number" formControlName="steviloObiskov" class="form-control" min="1">
         <div>
-          <p-radioButton name="intervalAliZadnjiDan" label="Izberi interval obiskov" value="true" formControlName="interval"></p-radioButton>
-          <p-radioButton class="left-margin" name="intervalAliZadnjiDan" label="Izberi zadnji datum" value="false" formControlName="interval"></p-radioButton>
+          <p-radioButton name="intervalAliZadnjiDan" label="Izberi interval obiskov" value="true" [(ngModel)]="interval" [ngModelOptions]="{standalone: true}"></p-radioButton>
+          <p-radioButton class="left-margin" name="intervalAliZadnjiDan" label="Izberi zadnji datum" value="false" [(ngModel)]="interval" [ngModelOptions]="{standalone: true}"></p-radioButton>
         </div>
-      
+        <div class="" *ngIf="interval == 'true'">
+          <label>Vnesite koliko dni naj preteče med obiski</label>
+          <input type="number" controlForName="interval" min="1" class="form-control" formControlName="interval">
+        </div>
+        <div class="" *ngIf="izracunajMinimalenDatum()">
+          <label>Datum zadnjega obiska</label>
+          <p-calendar formControlName="zadnjiDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]"></p-calendar>
+        </div>
       </div>
     </div>
   </div>
-
+  <button pButton type="submit" label="Naprej" (click)="pregled()" class="md-margin"></button>
 </form>

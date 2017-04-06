@@ -18,7 +18,7 @@ export class PacientService {
    * @constructor
    */
   constructor(private http: Http) {
-    this.baseURL = 'http://fruity-routy.ddns.net';
+    this.baseURL = 'http://fruity-routy.ddns.net:3030';
     this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa';
 
   }

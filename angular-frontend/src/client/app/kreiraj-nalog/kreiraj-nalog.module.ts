@@ -4,7 +4,7 @@ import { KreirajNalogRoutingModule } from './kreiraj-nalog-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { AlertModule } from 'ng2-bootstrap/alert';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
+import { CalendarModule, RadioButtonModule, ButtonModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [KreirajNalogRoutingModule, SharedModule, AlertModule.forRoot(),

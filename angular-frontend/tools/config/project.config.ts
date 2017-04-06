@@ -35,8 +35,6 @@ export class ProjectConfig extends SeedConfig {
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
 
-    
-
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
