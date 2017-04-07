@@ -1,27 +1,93 @@
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
-from rest_framework.exceptions import NotAuthenticated
+from rest_framework.exceptions import NotAuthenticated, ParseError
 
 from delovniNalog.models import *
 
-class DelovninalogSerializer(serializers.HyperlinkedModelSerializer):
+class DelovniNalogMaterialSerializer(serializers.HyperlinkedModelSerializer):
+
+    id_delovni_nalog = serializers.HyperlinkedRelatedField(view_name='delovni_nalog-detail', read_only=True)
+    id_materiala = serializers.HyperlinkedRelatedField(view_name='material-detail', read_only=True)
+
+    class Meta:
+        model = DelovniNalogMaterial
+        fields = ('id_delovni_nalog', 'id_materiala', 'kolicina',)
+
+class DelovniNalogGetSerializer(serializers.HyperlinkedModelSerializer):
 
     vrsta_obiska = serializers.PrimaryKeyRelatedField(source='vrsta_obiska.opis', read_only=True)
+    material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True)
 
     class Meta:
         model = DelovniNalog
 
         #ne znam vkljucit bolezni ki ima za pk charfield
         fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
-                  'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila', 'id_materiala',
-                   'vrsta_obiska', 'patronazna_sestra')
+                  'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
+                  'material', 'vrsta_obiska', 'patronazna_sestra')
 
-        def create(self, validated_data):
-            zdravnik = Delavec.objects.get(osebna_sifra = validated_data['sifra_zdravnika'])
-            if (zdravnik.vrsta_delavca == "zdravnik"):
-                sifra_zdravnika = validated_data['sifra_zdravnika']
+class DelovniNalogPostSerializer(serializers.ModelSerializer):
+
+    #material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True, read_only=True)
+    kolicinaMateriala = serializers.IntegerField(source='id_materiala.kolicina', required=False)
+    material = serializers.IntegerField(source='id_materiala.id_materiala', required=False)
+
+    class Meta:
+        model = DelovniNalog
+
+        #ne znam vkljucit bolezni ki ima za pk charfield
+        fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
+                  'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
+                   'vrsta_obiska', 'patronazna_sestra', 'kolicinaMateriala', 'id_materiala', 'material')
+
+    def create(self, validated_data):
+        print("----CHECK-----")
+        #for key, data in zip (validated_data.keys(), validated_data.values()):
+        #    if type(data) == str:
+        #        print(key)
+            #else:
+            #    print(key, data)
+        print(validated_data.keys())
+        if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "zdravnik"):
+            if ('casovni_interval' in validated_data.keys()):
+                delovniNalog = DelovniNalog(
+                    sifra_zdravnika=validated_data['sifra_zdravnika'],
+                    vrsta_obiska=validated_data['vrsta_obiska'],
+                    datum_prvega_obiska=validated_data['datum_prvega_obiska'],
+                    je_obvezen_datum=validated_data['je_obvezen_datum'],
+                    stevilo_obiskov=validated_data['stevilo_obiskov'],
+                    casovni_interval=validated_data['casovni_interval']
+                )
+            elif ('casovno_obdobje' in validated_data.keys()):
+                delovniNalog = DelovniNalog(
+                    sifra_zdravnika=validated_data['sifra_zdravnika'],
+                    vrsta_obiska=validated_data['vrsta_obiska'],
+                    datum_prvega_obiska=validated_data['datum_prvega_obiska'],
+                    je_obvezen_datum=validated_data['je_obvezen_datum'],
+                    stevilo_obiskov=validated_data['stevilo_obiskov'],
+                    casovno_obdobje=validated_data['casovno_obdobje']
+                )
             else:
-                return NotAuthenticated(detail=None, code=None)
+                return ParseError()
+            delovniNalog.save()
+            delovniNalog.id_pacienta = validated_data['id_pacienta']
+            if ('sifra_zdravila' in validated_data.keys()):
+                delovniNalog.sifra_zdravila = validated_data['sifra_zdravila']
+            if('materiala' in validated_data.keys()):
+                print('----SMO NOT-----')
+                material = DelovniNalogMaterial(
+                    id_delovni_nalog = delovniNalog.id,
+                    id_materiala = validated_data['id_materiala'],
+                    kolicina = validated_data['kolicinaMateriala']
+                )
+                material.save()
+                print(material)
+                delovniNalog.id_materiala = material.objects.get(id)
+            return delovniNalog
+        else:
+            print('ni zdravnik!!!')
+            return NotAuthenticated(detail='Niste prijavljeni kot zdravnik', code=401)
+
 
 class VrstaObiskaSerializer(serializers.ModelSerializer):
 

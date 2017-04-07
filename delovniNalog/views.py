@@ -20,4 +20,12 @@ class ZdravilaViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DelovniNalogViewSet(viewsets.ModelViewSet):
     queryset = DelovniNalog.objects.all()
-    serializer_class = DelovninalogSerializer
+    serializer_class = DelovniNalogPostSerializer
+    #def get_serializer_class(self):
+    #    if self.request.method == 'POST':
+    #        return DelovniNalogPostSerializer
+    #    return DelovniNalogGetSerializer
+
+class DelovniNalogMaterialViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = DelovniNalogMaterial.objects.all()
+    serializer_class = DelovniNalogMaterialSerializer

@@ -71,7 +71,10 @@ class KontaktnaOseba(models.Model):
     priimek = models.CharField(max_length=30)
     ime = models.CharField(max_length=30)
     tel = models.CharField(max_length=13)
-    sorodstveno_razmerje = models.ForeignKey(SorodstvenoRazmerje, on_delete=models.SET_NULL, null=True)
+    #to sem popravil zaradi POST pacient, ker nisem znal vpisat sorodstvenega razmerja ce je biu Foreign key
+    #op. nisem ga dobil med validated_data
+    #sorodstveno_razmerje = models.ForeignKey(SorodstvenoRazmerje, on_delete=models.SET_NULL, null=True)
+    sorodstveno_razmerje = models.CharField(max_length=20)
 
     def __str__(self):      #izpis na django admin panelu
         return self.ime+" "+self.priimek
@@ -180,7 +183,7 @@ class Pacient(models.Model):
     posta = models.ForeignKey(Posta, on_delete=models.SET_NULL, null=True)
     sifra_okolisa = models.ForeignKey(SifraOkolisa, on_delete=models.SET_NULL, null=True)
     datum_rojstva = models.DateField()
-    spol = models.BooleanField()
+    spol = models.BooleanField() #0 zenska, 1 moski
     kontaktna_oseba = models.ForeignKey(KontaktnaOseba, on_delete=models.SET_NULL, null=True, blank=True)
     je_aktiviran = models.BooleanField(default=False)
     vezani_pacienti = models.ManyToManyField('self', blank=True)

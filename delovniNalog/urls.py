@@ -9,6 +9,7 @@ router.register(r'bolezni', views.BolezenViewSet, base_name='bolezen')
 router.register(r'material', views.MaterialViewSet, base_name='material')
 router.register(r'zdravila', views.ZdravilaViewSet, base_name='zdravilo')
 router.register(r'delovninalogi', views.DelovniNalogViewSet, base_name='delovni_nalog')
+router.register(r'delovninalogmaterial', views.DelovniNalogMaterialViewSet, base_name='delovni_nalog_material')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

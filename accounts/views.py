@@ -20,7 +20,11 @@ class DelavciViewSet(viewsets.ModelViewSet):
 
 class PacientiViewSet(viewsets.ModelViewSet):
     queryset = Pacient.objects.all()
-    serializer_class = PacientSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return PacientPostSerializer
+        return PacientGetSerializer
+
 
 class VrstaDelavcaViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -31,3 +35,7 @@ class UstanoveViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = SifraUstanove.objects.all()
     serializer_class = UstanoveSerializer
+
+class KontaktnaOsebaViewSet(viewsets.ModelViewSet):
+    queryset = KontaktnaOseba.objects.all()
+    serializer_class =  KontaktnaOsebaSerializer
