@@ -93,7 +93,8 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
         if not created and uporabnik_data is not None:
             super(DelavecSerializer, self).update(uporabnik, uporabnik_data)
 
-class PacientSerializer(serializers.ModelSerializer):
+
+class PacientGetSerializer(serializers.ModelSerializer):
     """
         Razred, ki vraca podatke za Vezanega pacienta.
     """
@@ -114,13 +115,36 @@ class PacientSerializer(serializers.ModelSerializer):
                     'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva',
                     'kontaktnaOseba',)
 
-class PacientSerializer(serializers.ModelSerializer):
+class PacientGetSerializer(serializers.ModelSerializer):
     """
-        Razred, ki vraca Pacienta
+        Razred, ki vraca podatke za pacienta.
+    """
+    #uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
+    vezaniPacienti = PacientGetSerializer(many=True, read_only=True, source='vezani_pacienti')
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    eposta = serializers.EmailField(source='uporabnik.email')
+    telefon = serializers.CharField(source='uporabnik.tel')
+    stevilkaPacienta = serializers.IntegerField(source='st_kartice')
+    datumRojstva = serializers.DateField(source='datum_rojstva')
+    posta = serializers.PrimaryKeyRelatedField(read_only=True)
+    kraj = serializers.CharField(source='posta.kraj')
+    kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
+    hisnaStevilka = serializers.CharField(source='hisna_stevilka')
+
+    class Meta:
+        model = Pacient
+        fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
+                  'ulica', 'hisnaStevilka', 'posta', 'kraj', 'datumRojstva',
+                  'kontaktnaOseba', 'vezaniPacienti')
+
+class PacientPostSerializer(serializers.ModelSerializer):
+    """
+        Razred, za kreiranje pacienta
     """
 
     uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
-    vezaniPacienti = PacientSerializer(many=True, read_only=True, source='vezani_pacienti')
+    #vezaniPacienti = PacientGetSerializer(many=True, read_only=True, source='vezani_pacienti')
     ime = serializers.CharField(source='uporabnik.ime')
     priimek = serializers.CharField(source='uporabnik.priimek')
     eposta = serializers.EmailField(source='uporabnik.email')
@@ -142,7 +166,7 @@ class PacientSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('uporabnik', 'ime', 'priimek', 'eposta', 'password', 'telefon', 'stevilkaPacienta',
                     'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva', 'spol',
-                    'kontaktnaOseba', 'vezaniPacienti', 'sifra_okolisa', 'kontaktIme', 'kontaktPriimek',
+                    'kontaktnaOseba', 'sifra_okolisa', 'kontaktIme', 'kontaktPriimek',
                   'kontaktTelefon', 'kontaktSorodstvo')
 
     def create(self, validated_data):
@@ -155,13 +179,13 @@ class PacientSerializer(serializers.ModelSerializer):
         posta = Posta.objects.get(kraj = validated_data.pop('posta')['kraj'])
         print('posta: ', posta)
         if ('vezaniPacienti' in validated_data.keys()):
-            validated_data['vezaniPacienti'] = PacientSerializer.create(PacientSerializer, validated_data.pop('vezaniPacienti'))
+            validated_data['vezaniPacienti'] = PacientPostSerializer.create(PacientPostSerializer, validated_data.pop('vezaniPacienti'))
         if ('kontaktna_oseba' in validated_data.keys()):
             validated_data['kontaktna_oseba'] = KontaktnaOsebaSerializer.create(KontaktnaOsebaSerializer, validated_data.pop('kontaktna_oseba'))
         validated_data['uporabnik'] = uporabnik
         validated_data['posta'] = posta
         print('data: ', validated_data)
-        pacient = super(PacientSerializer, self).create(validated_data)
+        pacient = super(PacientPostSerializer, self).create(validated_data)
         return pacient
 
 
