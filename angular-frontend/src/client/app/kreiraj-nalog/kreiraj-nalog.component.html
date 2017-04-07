@@ -1,6 +1,6 @@
 <p>KREIRANJE NALOGA</p>
 
-<form [formGroup]="myForm" novalidate>
+<form [formGroup]="myForm" novalidate (ngSubmit)="myForm.valid && pregled()">
   <!-- Izvajalec -->
   <div class="panel panel-success" >
     <div class="panel-heading">
@@ -31,7 +31,7 @@
     </div>
     <div class="panel-body">
       <select class="form-control" *ngIf="vrsteObiskov" formControlName="vrstaObiska">
-        <option *ngFor="let obisk of vrsteObiskov.results" [ngValue]="obisk" >
+        <option *ngFor="let obisk of vrsteObiskov.results">
           {{ obisk.opis }}
         </option>
       </select>
@@ -68,7 +68,7 @@
                       {{ lek.naziv }}
                     </option>
                   </select>
-                  <!--<small [hidden]="!myForm.controls.zdravila.controls[i].controls.naziv.valid">Opis je obvezno polje</small>-->
+                  <small [hidden]="!myForm.controls.zdravila.controls[i].controls.naziv.valid">Opis je obvezno polje</small>
                 </div>
               </div>
             </div>
@@ -119,8 +119,9 @@
     <div class="panel-body">
       <div class="form-group">
         <label>Številka zavarovane osebe</label>
-        <input class="form-control" type="text" [(ngModel)]="stevilkaPacienta" [ngModelOptions]="{standalone: true}"/>
+        <input class="form-control" type="text" formControlName="stevilkaPacienta" required/>
         <button type="button" class="btn btn-primary btn-xs" (click)="pridobiPodatke()">Pridobi podatke</button>
+        <small [hidden]="myForm.submitted && !myForm.controls.zdravila.controls.stevilkaPacienta.valid">Delovni nalog potrebuje vsaj enega pacienta</small>
         <!-- Napaka pri validaciji stevilke -->
         <div *ngIf="neveljavnaStevilka" class="alert alert-warning" role="alert">
           <strong>Šment!</strong> Prosimo preverite številko zavarovanja.
@@ -141,7 +142,7 @@
           E-pošta: {{ pacient.eposta }} <br>
           ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
           <!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
-          <div *ngIf="izbranaVrsta?.vezani_pacienti">
+          <div *ngIf="myForm.controls.vrstaObiska.value?.vezani_pacienti">
             Vezani pacienti:
             <ul>
               <li *ngFor="let otrok of pacient.vezani_pacienti">
@@ -166,6 +167,7 @@
         <div>
           <p-radioButton name="obveznostDatuma" label="Datum je obvezen" value="true" formControlName="obvezen"></p-radioButton>
           <p-radioButton class="left-margin" name="obveznostDatuma" label="Datum je spremenljiv" value="false" formControlName="obvezen"></p-radioButton>
+`         <small [hidden]="!myForm.controls.obvezen.vaild">Polje je obvezno</small>`
         </div>
         <label>Število obiskov</label>
         <input type="number" formControlName="steviloObiskov" class="form-control" min="1">
@@ -180,9 +182,10 @@
         <div class="" *ngIf="izracunajMinimalenDatum()">
           <label>Datum zadnjega obiska</label>
           <p-calendar formControlName="zadnjiDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]"></p-calendar>
+          <small [hidden]=""
         </div>
       </div>
     </div>
   </div>
-  <button pButton type="submit" label="Naprej" (click)="pregled()" class="md-margin"></button>
+  <button pButton type="submit" label="Naprej" class="md-margin"></button>
 </form>

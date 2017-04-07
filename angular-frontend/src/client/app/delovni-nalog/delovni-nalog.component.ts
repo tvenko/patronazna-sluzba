@@ -9,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'delovni-nalog.component.html',
   styleUrls: ['delovni-nalog.component.css'],
 })
-export class DelovniNalogComponent implements OnInit {
+export class DelovniNalogComponent {
 
-  ngOnInit() { }
+
 
 }

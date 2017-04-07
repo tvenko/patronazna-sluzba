@@ -1,3 +1,3 @@
-export * from './vrstaObiska';
-export * from './pacient';
-export * from './delovni-nalog';
+export * from './pacient.interface';
+export * from './delovni-nalog.interface';
+export * from './delavec.interface';

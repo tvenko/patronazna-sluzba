@@ -8,11 +8,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class PrijavaComponent {
   public loginForm = this.fb.group({
-    email: ["", Validators.required],
-    password: ["", Validators.required]
+    email: ['', Validators.required],
+    password: ['', Validators.required]
   });
   constructor(public fb: FormBuilder) {}
-  doLogin(event) {
+  doLogin(event: any) {
 	//TODO: logika za prijavo
     console.log(event);
     console.log(this.loginForm.value);
