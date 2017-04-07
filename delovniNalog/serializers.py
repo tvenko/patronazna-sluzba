@@ -41,14 +41,13 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
                    'vrsta_obiska', 'patronazna_sestra', 'kolicinaMateriala', 'id_materiala', 'material')
 
     def create(self, validated_data):
-        print("----CHECK-----")
-        #for key, data in zip (validated_data.keys(), validated_data.values()):
-        #    if type(data) == str:
-        #        print(key)
-            #else:
-            #    print(key, data)
         print(validated_data.keys())
-        if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "zdravnik"):
+        if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS" or validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "zdravnik"):
+            if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS"):
+                if (validated_data['vrsta_obiska'].opis == "kontrola zdravstvenega stanja" or
+                    validated_data['vrsta_obiska'].opis == "aplikacija injekcij" or
+                    validated_data['vrsta_obiska'].opis == "odvzem krvi"):
+                    return NotAuthenticated(detail='Niste prijavljeni kot zdravnik', code=401)
             if ('casovni_interval' in validated_data.keys()):
                 delovniNalog = DelovniNalog(
                     sifra_zdravnika=validated_data['sifra_zdravnika'],
@@ -73,7 +72,15 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
             delovniNalog.id_pacienta = validated_data['id_pacienta']
             if ('sifra_zdravila' in validated_data.keys()):
                 delovniNalog.sifra_zdravila = validated_data['sifra_zdravila']
-            if('materiala' in validated_data.keys()):
+
+            #priredi MS delovnemu nalogu
+            okolis_pacient = validated_data.pop('id_pacienta')[0].sifra_okolisa
+            if(Delavec.objects.get(sifra_okolisa = okolis_pacient)):
+                sestra = Delavec.objects.get(sifra_okolisa = okolis_pacient)
+                delovniNalog.patronazna_sestra = sestra.uporabnik
+
+            #tale kos kode ne dela, noce poslat id_materiala in kolicine materiala
+            if(False and 'materiala' in validated_data.keys()):
                 print('----SMO NOT-----')
                 material = DelovniNalogMaterial(
                     id_delovni_nalog = delovniNalog.id,
