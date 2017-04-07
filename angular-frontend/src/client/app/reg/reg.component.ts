@@ -19,6 +19,7 @@ ngOnInit() {
   this.regForm = this.fb.group({
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
+    tel: ['', Validators.required],
     sifra1: ['', Validators.required],
     sifra2: ['', Validators.required],
     email: ['', Validators.required],
@@ -26,16 +27,20 @@ ngOnInit() {
     geslo2: ['', Validators.required]
   });
 
+  // todo validacija gesla
+
+  // todo styling
+
 }
 
 
 
-  //delavci: Delavec[] = [];
-  //delavec: Delavec;
+  delavci: Delavec[] = [];
+  delavec: Delavec;
 
   registriraj(podatki: any) {
-    //this.delavec = new Delavec(podatki.sifra1, podatki.ime, podatki.priimek, podatki.email, podatki.geslo, podatki.confirm);
-    //if (podatki) this.delavci.push(this.delavec);
+    this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.geslo2);
+    if (podatki) this.delavci.push(this.delavec);
     console.log(podatki);
   }
 

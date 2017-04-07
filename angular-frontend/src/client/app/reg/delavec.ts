@@ -1,8 +1,11 @@
 export class Delavec {
   constructor(
-    public sifra1: number,
     public ime: string,
     public priimek: string,
+    public tel: string,
+
+    public sifra1: number,
+    public sifra2: number,
 
     public email: string,
     public geslo1: string,
