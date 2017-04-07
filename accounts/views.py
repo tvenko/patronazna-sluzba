@@ -31,3 +31,7 @@ class UstanoveViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = SifraUstanove.objects.all()
     serializer_class = UstanoveSerializer
+
+class KontaktnaOsebaViewSet(viewsets.ModelViewSet):
+    queryset = KontaktnaOseba.objects.all()
+    serializer_class =  KontaktnaOsebaSerializer

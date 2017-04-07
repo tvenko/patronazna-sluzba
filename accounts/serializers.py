@@ -2,6 +2,20 @@ from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from accounts.models import *
 
+class KontaktnaOsebaSerializer(serializers.ModelSerializer):
+
+    sorodstveno_razmerje = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+
+        model = KontaktnaOseba
+        fields = ('ime', 'priimek', 'tel', 'sorodstveno_razmerje')
+
+    def create(self, validated_data):
+        kontaktnaOseba = KontaktnaOseba(**validated_data)
+        kontaktnaOseba.save()
+        return kontaktnaOseba
+
 class UporabnikSerializer(serializers.ModelSerializer):
     """
     Razred, ki serializira objekt Uporabnik v JSON
@@ -34,6 +48,7 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     priimek = serializers.CharField(source='uporabnik.priimek')
     email = serializers.EmailField(source='uporabnik.email')
     tel = serializers.CharField(source='uporabnik.tel')
+    password = serializers.CharField(source='uporabnik.password')
     sifra_ustanove = serializers.HyperlinkedRelatedField(view_name='ustanova-detail', read_only=True)
     naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
     vrsta_delavca = serializers.HyperlinkedRelatedField(view_name='vrstadelavca-detail', read_only=True)
@@ -41,7 +56,7 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Delavec
-        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'osebna_sifra', 'sifra_ustanove', 'naziv_ustanove', 'vrsta_delavca', 'naziv_delavca')
+        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'password', 'osebna_sifra', 'sifra_ustanove', 'naziv_ustanove', 'vrsta_delavca', 'naziv_delavca')
 
     def create(self, validated_data):
         """
@@ -103,23 +118,52 @@ class PacientSerializer(serializers.ModelSerializer):
     """
         Razred, ki vraca Pacienta
     """
+
+    uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
     vezaniPacienti = PacientSerializer(many=True, read_only=True, source='vezani_pacienti')
     ime = serializers.CharField(source='uporabnik.ime')
     priimek = serializers.CharField(source='uporabnik.priimek')
     eposta = serializers.EmailField(source='uporabnik.email')
+    password = serializers.CharField(source='uporabnik.password')
     telefon = serializers.CharField(source='uporabnik.tel')
     stevilkaPacienta = serializers.IntegerField(source='st_kartice')
     datumRojstva = serializers.DateField(source='datum_rojstva')
     posta = serializers.PrimaryKeyRelatedField(read_only=True)
     kraj = serializers.CharField(source='posta.kraj')
     kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
+    kontaktIme = serializers.CharField(source='kontaktna_oseba.ime', required=False)
+    kontaktPriimek = serializers.CharField(source='kontaktna_oseba.priimek', required=False)
+    kontaktTelefon = serializers.CharField(source='kontaktna_oseba.tel', required=False)
+    kontaktSorodstvo = serializers.CharField(source='kontaktna_oseba.sorodstveno_razmerje', required=False)
     hisnaStevilka = serializers.CharField(source='hisna_stevilka')
+
 
     class Meta:
         model = Pacient
-        fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
-                    'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva',
-                    'kontaktnaOseba','vezaniPacienti')
+        fields = ('uporabnik', 'ime', 'priimek', 'eposta', 'password', 'telefon', 'stevilkaPacienta',
+                    'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva', 'spol',
+                    'kontaktnaOseba', 'vezaniPacienti', 'sifra_okolisa', 'kontaktIme', 'kontaktPriimek',
+                  'kontaktTelefon', 'kontaktSorodstvo')
+
+    def create(self, validated_data):
+        print('data: ', validated_data)
+        uporabnik_data = validated_data.pop('uporabnik', None)
+        uporabnik = UporabnikSerializer.create(UporabnikSerializer, uporabnik_data)
+        uporabnik.save()
+        print('uporabnik: ', uporabnik)
+        print(validated_data['posta'])
+        posta = Posta.objects.get(kraj = validated_data.pop('posta')['kraj'])
+        print('posta: ', posta)
+        if ('vezaniPacienti' in validated_data.keys()):
+            validated_data['vezaniPacienti'] = PacientSerializer.create(PacientSerializer, validated_data.pop('vezaniPacienti'))
+        if ('kontaktna_oseba' in validated_data.keys()):
+            validated_data['kontaktna_oseba'] = KontaktnaOsebaSerializer.create(KontaktnaOsebaSerializer, validated_data.pop('kontaktna_oseba'))
+        validated_data['uporabnik'] = uporabnik
+        validated_data['posta'] = posta
+        print('data: ', validated_data)
+        pacient = super(PacientSerializer, self).create(validated_data)
+        return pacient
+
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
