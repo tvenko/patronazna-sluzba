@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VrstaObiska, Pacient, Zdravilo, DelovniNalog, Material } from '../shared/models/index';
+import { Pacient, Zdravilo, DelovniNalog, Material } from '../shared/models/index';
 import { PacientService, DelovniNalogService } from '../shared/services/index';
 import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 
@@ -13,10 +13,9 @@ import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@ang
   styleUrls: ['kreiraj-nalog.component.css']
 })
 export class KreirajNalogComponent implements OnInit {
-  public pacient = new Pacient;
+  public pacient: any;
   public zdravila: any;
   public vrsteObiskov: any;
-  public stevilkaPacienta: string;
   public problemPridobivanja: boolean;
   public neveljavnaStevilka: boolean;
   public epruvete: any[];
@@ -33,7 +32,6 @@ export class KreirajNalogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stevilkaPacienta = undefined;
     this.dobiVrsteObiskov();
     this.pridobiZdravila();
     this.pridobiEpruvete();
@@ -46,22 +44,23 @@ export class KreirajNalogComponent implements OnInit {
       materiali: this._fb.array([
         this.initMaterial(),
       ]),
-      prviDatum: [''],
+      prviDatum: ['', Validators.required],
       zadnjiDatum: [''],
-      steviloObiskov: [''],
-      obvezen: [''],
+      steviloObiskov: ['', Validators.required],
+      obvezen: ['', Validators.required],
       vrstaObiska: [''],
-      interval: ['']
+      interval: [''],
+      stevilkaPacienta: ['', Validators.required]
     });
 
     // Lokalizacija za izbiro datuma
     this.si = {
             firstDayOfWeek: 0,
-            dayNames: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
-            dayNamesShort: ["Ned", "Pon", "Tor", "Sre", "Čet", "Pet", "Sob"],
-            dayNamesMin: ["Ne","Po","To","Sr","Če","Pe","So"],
-            monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
-            monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
+            dayNames: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
+            dayNamesShort: ['Ned', 'Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob'],
+            dayNamesMin: ['Ne','Po','To','Sr','Če','Pe','So'],
+            monthNames: [ 'Januar','Februar','Marec','April','Maj','Junij','Julij','Avgust','September','Oktober','November','December' ],
+            monthNamesShort: [ 'Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun','Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec' ]
     };
 
     // Minimalen datum za izbiro obiska
@@ -71,7 +70,8 @@ export class KreirajNalogComponent implements OnInit {
 
 
   pregled() {
-    console.log(this.myForm.value);
+    console.log('Ali je forma veljavna? ' + this.myForm.valid);
+    console.log(this.myForm);
   }
 
   /**
@@ -80,7 +80,7 @@ export class KreirajNalogComponent implements OnInit {
    */
    izracunajMinimalenDatum() {
 
-     if (!this.interval || this.interval == 'true') {
+     if (!this.interval || this.interval === 'true') {
        return false;
      } else {
        this.minDateKoncen = new Date(this.myForm.controls.prviDatum.value);
@@ -90,7 +90,7 @@ export class KreirajNalogComponent implements OnInit {
    }
 
    /**
-    * Dodaj delovne dni k datumu
+    * Dodaj delovne dni k datumu (TODO upostevaj praznike)
     */
    addWorkDays(startDate: Date, days: number) {
     // Get the day of the week as a number (0 = Sunday, 1 = Monday, .... 6 = Saturday)
@@ -123,9 +123,9 @@ export class KreirajNalogComponent implements OnInit {
    */
   initZdravila() {
     return this._fb.group({
-      naziv: ['', [Validators.required]],
+      naziv: [''],
       sifra: ['']
-    })
+    });
   }
 
   /**
@@ -133,10 +133,10 @@ export class KreirajNalogComponent implements OnInit {
    */
   initMaterial() {
     return this._fb.group({
-      opis: ['', Validators.required],
-      id: ['', Validators.required],
-      kolicina: ['', Validators.required]
-    })
+      opis: [''],
+      id: [''],
+      kolicina: ['']
+    });
   }
 
   /**
@@ -145,11 +145,11 @@ export class KreirajNalogComponent implements OnInit {
   pridobiPodatke() {
     this.problemPridobivanja = false;
 
-    if (!this.stevilkaPacienta) {
+    if (!this.myForm.controls.stevilkaPacienta.value) {
       this.neveljavnaStevilka = true;
     } else {
       this.neveljavnaStevilka = false;
-      this.pacientInfoService.get(this.stevilkaPacienta)
+      this.pacientInfoService.get(this.myForm.controls.stevilkaPacienta.value)
         .subscribe(
           response => {
             this.pacient = response;
