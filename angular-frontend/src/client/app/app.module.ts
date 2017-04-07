@@ -14,11 +14,12 @@ import { SharedModule } from './shared/shared.module';
 import { DelovniNalogModule } from './delovni-nalog/delovni-nalog.module';
 import { KreirajNalogModule } from './kreiraj-nalog/kreiraj-nalog.module';
 import { PrijavaModule } from './prijava/prijava.module';
+import { RegModule } from './reg/reg.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, AboutModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
-    MessagesModule, BrowserAnimationsModule, PrijavaModule],
+    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule],
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,

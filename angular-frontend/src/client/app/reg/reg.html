@@ -1,0 +1,21 @@
+<form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
+
+    <input formControlName="ime" type="ime" placeholder="Ime"><br/>
+    <p *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.pristine">Required</p>
+
+    <input formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
+    <p *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.pristine">Required</p>
+
+    <input formControlName="sifra1" type="sifra1" placeholder="Šifra uslužbenca"><br/>
+
+    <input formControlName="sifra2" type="sifra2" placeholder="Šifra ustanove"><br/>
+
+    <input formControlName="email" type="email" placeholder="Email"><br/>
+
+    <input formControlName="geslo1" type="geslo1" placeholder="Geslo">
+
+    <input formControlName="geslo2" type="geslo2" placeholder="Geslo"><br/>
+
+
+  <button type="submit" [disabled]="!regForm.valid">Registriraj</button>
+</form>
