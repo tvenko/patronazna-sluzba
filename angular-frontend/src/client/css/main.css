@@ -46,26 +46,19 @@ li {
   margin-top: 4px;
 }
 
-input {
-  border: 1px solid #106cc8;
-  font-size: 14px;
-  height: 40px;
-  outline: none;
-  padding: 8px;
+.left-margin {
+  margin-left: 20px;
 }
 
-button {
-  background-color: #106cc8;
-  border-style: none;
-  color: rgba(255, 255, 255, 0.87);
+.red-color {
+  color: red;
+}
+
+.clickable {
   cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  height: 40px;
-  padding: 8px 18px;
-  text-decoration: none;
 }
 
-button:hover {
-  background-color: #28739e;
+.md-margin {
+  margin: 20px;
+  margin-top: 10px;
 }

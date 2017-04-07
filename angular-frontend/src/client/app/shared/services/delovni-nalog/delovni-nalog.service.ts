@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
  * This class provides the NameList service with methods to read names and add names.
  */
 @Injectable()
-export class PacientService {
+export class DelovniNalogService {
   baseURL: any;
   token: any;
 
@@ -17,24 +17,42 @@ export class PacientService {
    * @constructor
    */
   constructor(private http: Http) {
-    this.baseURL = 'http://fruity-routy.ddns.net';
-    this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa'
+    this.baseURL = 'http://fruity-routy.ddns.net:3030/api';
+    this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa';
 
   }
 
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource.
-   * TODO nas pravi naslov za pacienta
-   * @return {Pacient} The Observable for the HTTP request.
+   * @return {string} The Observable for the HTTP request.
    */
   getVrsteObiskov(): Observable<string[]> {
 
-    return this.http.get(this.baseURL + '/racuni/pacienti/')
+    return this.http.get(this.baseURL + '/dn/vrsteobiskov/')
                     .map((res: Response) => res.json())
     //              .do(data => console.log('server data:', data))  // debug
                     .catch(this.handleError);
   }
 
+  /**
+   * Vrne vsa zdravila v bazi
+   * @return {string} seznam zdravil
+   */
+  getZdravila(): Observable<any[]> {
+    return this.http.get(this.baseURL + '/dn/zdravila/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Vrne vse vrste epruvet v bazi
+   * @return {string} seznam epruvet
+   */
+   getEpruvete(): Observable<any[]> {
+     return this.http.get(this.baseURL + '/dn/material/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+   }
 
   /**
     * Handle HTTP error
