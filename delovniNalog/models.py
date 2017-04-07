@@ -59,7 +59,7 @@ class DelovniNalog(models.Model):
     """
 
     sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True)
-    id_pacienta = models.ManyToManyField(Pacient)
+    id_pacienta = models.ManyToManyField(Pacient, blank=True)
     id_obiska = models.ForeignKey(Obisk, on_delete=models.SET_NULL, null=True)
     sifra_zdravila = models.ManyToManyField(Zdravilo, blank=True)
     id_materiala = models.ManyToManyField(Material, blank=True, through='DelovniNalogMaterial')
@@ -75,12 +75,13 @@ class DelovniNalog(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 class DelovniNalogMaterial(models.Model):
     """Razred, ki prdstavlja vmesno tabelo za manyToMany povezavo med delovnim nalogom in materialom
 
     Model DelovniNalogMaterial vsebuje id delovnega naloga, id material in kolicino materiala
     """
 
-    id_delovni_nalog = models.ForeignKey(DelovniNalog)
-    id_material = models.ForeignKey(Material)
+    id_delovni_nalog = models.ForeignKey(DelovniNalog, on_delete=models.CASCADE)
+    id_materiala = models.ForeignKey(Material, on_delete=models.CASCADE)
     kolicina = models.IntegerField()

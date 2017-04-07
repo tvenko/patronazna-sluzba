@@ -20,4 +20,8 @@ class ZdravilaViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DelovniNalogViewSet(viewsets.ModelViewSet):
     queryset = DelovniNalog.objects.all()
-    serializer_class = DelovninalogSerializer
+    serializer_class = DelovniNalogSerializer
+
+class DelovniNalogMaterialViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = DelovniNalogMaterial.objects.all()
+    serializer_class = DelovniNalogMaterialSerializer

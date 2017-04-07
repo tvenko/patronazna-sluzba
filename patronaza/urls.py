@@ -26,7 +26,7 @@ schema_view = get_schema_view(title='Account API', renderer_classes=[OpenAPIRend
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^docs/', schema_view, name='docs'),
-    url(r'^racuni/', include('accounts.urls')),
-    url(r'^dn/', include('delovniNalog.urls')),
+    url(r'^api/v1/racuni/', include('accounts.urls')),
+    url(r'^api/v1/dn/', include('delovniNalog.urls')),
     url(r'^admin/', admin.site.urls),
 ]
