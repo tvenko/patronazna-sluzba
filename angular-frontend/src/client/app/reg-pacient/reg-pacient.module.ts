@@ -3,20 +3,20 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { RegComponent } from './reg.component';
-import { RegRoutingModule } from './reg-routing.module';
+import { RegPacientComponent } from './reg-pacient.component';
+import { RegPacientRoutingModule } from './reg-pacient-routing.module';
 import { EqualValidator } from './validacija';
 
 @NgModule({
   declarations: [
-    RegComponent, EqualValidator
+    RegPacientComponent, EqualValidator
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-	RegRoutingModule
+	RegPacientRoutingModule
   ],
-  exports: [RegComponent]
+  exports: [RegPacientComponent]
 })
-export class RegModule { }
+export class RegPacientModule { }

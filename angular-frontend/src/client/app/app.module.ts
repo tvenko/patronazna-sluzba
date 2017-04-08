@@ -15,11 +15,12 @@ import { DelovniNalogModule } from './delovni-nalog/delovni-nalog.module';
 import { KreirajNalogModule } from './kreiraj-nalog/kreiraj-nalog.module';
 import { PrijavaModule } from './prijava/prijava.module';
 import { RegModule } from './reg/reg.module';
+import { RegPacientModule } from './reg-pacient/reg-pacient.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, AboutModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
-    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule],
+    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule, RegPacientModule],
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,

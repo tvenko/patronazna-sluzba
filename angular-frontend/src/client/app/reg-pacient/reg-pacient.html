@@ -1,9 +1,17 @@
 <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
 
+    <input formControlName="zavarovanje" type="zavarovanje" placeholder="Številka zavarovanja" required
+      pattern="^\d*$"><br/>
+    <small *ngIf="regForm.controls.zavarovanje.errors && !regForm.controls.zavarovanje.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <small *ngIf="regForm.controls.zavarovanje.errors && regForm.controls.zavarovanje.errors.pattern" class="text-danger">Številka zavarovanja lahko vsebuje le številke</small><br/>
+
     <input formControlName="ime" type="ime" placeholder="Ime"><br/>
     <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno</small><br/>
 
     <input formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
+    <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
+
+    <input formControlName="naslov" type="naslov" placeholder="Naslov"><br/>
     <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
 
     <input formControlName="tel" type="tel" placeholder="Telefonska številka" required
