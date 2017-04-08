@@ -21,7 +21,7 @@ export class Pacient {
 
     // kontaktna oseba
     // pacienti za katere skrbi
-    public osrkbovanci: Pacient[],
+    public osrkbovanci?: Pacient[],
 
 
     ) { }

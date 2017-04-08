@@ -19,15 +19,15 @@
     <small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno</small><br/>
     <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">Telefonska številka lahko vsebuje le številke</small><br/>
 
-    <input formControlName="sifra1" type="sifra1" placeholder="Šifra uslužbenca" required
+    <input formControlName="sifraOkolisa" type="sifraOkolisa" placeholder="Šifra okoliša" required
       pattern="^\d*$"><br/>
-    <small *ngIf="regForm.controls.sifra1.errors && !regForm.controls.sifra1.untouched" class="text-danger">Polje je obvezno</small><br/>
-    <small *ngIf="regForm.controls.sifra1.errors && regForm.controls.sifra1.errors.pattern" class="text-danger">Šifra lahko vsebuje le številke</small><br/>
+    <small *ngIf="regForm.controls.sifraOkolisa.errors && !regForm.controls.sifraOkolisa.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <small *ngIf="regForm.controls.sifraOkolisa.errors && regForm.controls.sifraOkolisa.errors.pattern" class="text-danger">Šifra lahko vsebuje le številke</small><br/>
 
-    <input formControlName="sifra2" type="sifra2" placeholder="Šifra ustanove" required
-      pattern="^\d*$"><br/>
-    <small *ngIf="regForm.controls.sifra2.errors && !regForm.controls.sifra2.untouched" class="text-danger">Polje je obvezno</small><br/>
-    <small *ngIf="regForm.controls.sifra2.errors && regForm.controls.sifra2.errors.pattern" class="text-danger">Šifra lahko vsebuje le številke</small><br/>
+    <p-calendar formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [maxDate]="minDate" [defaultDate]="minDate" [yearNavigator]="true" [monthNavigator]="true" placeholder="dd.mm.llll"></p-calendar><br/>
+
+    <p-radioButton name="spol" label="Ženski" value="false" formControlName="spol"></p-radioButton>
+    <p-radioButton class="left-margin" name="spol" label="Moški" value="false" formControlName="spol"></p-radioButton><br/>
 
     <input formControlName="email" type="email" placeholder="Email" required
       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><br/>

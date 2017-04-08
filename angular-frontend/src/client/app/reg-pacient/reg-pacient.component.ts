@@ -10,7 +10,9 @@ import { Pacient } from './pacient';
 })
 export class RegPacientComponent {
   public regForm: FormGroup;
-  public events: any[] = [];
+  public date: Date;
+  public minDate: Date;
+  public si: any;
 
   constructor(private fb: FormBuilder) {}
 
@@ -30,6 +32,18 @@ ngOnInit() {
     geslo2: ['', Validators.required]
   });
 
+  this.si = {
+          firstDayOfWeek: 0,
+          dayNames: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
+          dayNamesShort: ["Ned", "Pon", "Tor", "Sre", "Čet", "Pet", "Sob"],
+          dayNamesMin: ["Ne","Po","To","Sr","Če","Pe","So"],
+          monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
+          monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
+  };
+
+  let bdate = new Date(); 
+  bdate.setFullYear(bdate.getFullYear() - 18);
+  this.minDate = new Date(bdate);
 }
 
   pacient: Pacient;

@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RegPacientComponent } from './reg-pacient.component';
 import { RegPacientRoutingModule } from './reg-pacient-routing.module';
 import { EqualValidator } from './validacija';
+import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { EqualValidator } from './validacija';
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-	RegPacientRoutingModule
+	RegPacientRoutingModule,
+  CalendarModule, RadioButtonModule,
   ],
   exports: [RegPacientComponent]
 })
