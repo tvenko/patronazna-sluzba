@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Config } from '../../config/env.config';
 // import 'rxjs/add/operator/do';  // for debugging
 
 /**
@@ -17,8 +18,6 @@ export class DelovniNalogService {
    * @constructor
    */
   constructor(private http: Http) {
-    this.baseURL = 'http://fruity-routy.ddns.net:3030';
-    this.token = 'OgJOsZc9wEkkrJQIUyoAdbwHtxEViMuDYm68OqJsT0oMwxjWvqEtast4PNPtfJXa';
 
   }
 
@@ -27,8 +26,7 @@ export class DelovniNalogService {
    * @return {string} The Observable for the HTTP request.
    */
   getVrsteObiskov(): Observable<string[]> {
-
-    return this.http.get(this.baseURL + '/dn/vrsteobiskov/')
+    return this.http.get(Config.API + 'dn/vrsteobiskov/')
                     .map((res: Response) => res.json())
     //              .do(data => console.log('server data:', data))  // debug
                     .catch(this.handleError);
@@ -39,7 +37,7 @@ export class DelovniNalogService {
    * @return {string} seznam zdravil
    */
   getZdravila(): Observable<any[]> {
-    return this.http.get(this.baseURL + '/dn/zdravila/')
+    return this.http.get(Config.API + 'dn/zdravila/')
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }
@@ -49,7 +47,7 @@ export class DelovniNalogService {
    * @return {string} seznam epruvet
    */
    getEpruvete(): Observable<any[]> {
-     return this.http.get(this.baseURL + '/dn/material/')
+     return this.http.get(Config.API + 'dn/material/')
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
    }
