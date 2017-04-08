@@ -11,6 +11,7 @@ router.register(r'pacienti', views.PacientiViewSet, base_name='pacient')
 router.register(r'vrstedelavcev', views.VrstaDelavcaViewSet, base_name='vrstadelavca')
 router.register(r'ustanove', views.UstanoveViewSet, base_name='ustanova')
 router.register(r'kontaktneosebe', views.KontaktnaOsebaViewSet, base_name='kontaktna_oseba')
+router.register(r'sifreokolisa', views.SifraOkolisaViewSet, base_name='sifra_okolisa')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

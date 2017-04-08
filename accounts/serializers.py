@@ -53,10 +53,13 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
     vrsta_delavca = serializers.HyperlinkedRelatedField(view_name='vrstadelavca-detail', read_only=True)
     naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
+    sifra_okolisa = serializers.HyperlinkedRelatedField(view_name='sifra_okolisa-detail', read_only=True)
+    naziv_okolisa = serializers.CharField(source='sifra_okolisa.naziv')
 
     class Meta:
         model = Delavec
-        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'password', 'osebna_sifra', 'sifra_ustanove', 'naziv_ustanove', 'vrsta_delavca', 'naziv_delavca')
+        fields = ('uporabnik', 'ime', 'priimek', 'email', 'tel', 'password', 'osebna_sifra', 'sifra_ustanove',
+                  'naziv_ustanove', 'vrsta_delavca', 'naziv_delavca', 'sifra_okolisa', 'naziv_okolisa')
 
     def create(self, validated_data):
         """
@@ -64,6 +67,8 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
         :param validated_data: podatki, ki jih dobimo iz klica v JSON obliki
         :return: nov objekt delavca
         """
+
+        print(validated_data.keys())
         # iz JSONa vzamemo podatke o uporabniku
         uporabnik_data = validated_data.pop('uporabnik', None)
         # iz JSONa vzamemo podatke o ustanovi in jo po nazivu posicemo v bazi
@@ -75,8 +80,13 @@ class DelavecSerializer(serializers.HyperlinkedModelSerializer):
         # klicemo metodo create v razredu UporabnikSerializer, ki ustvari novega uporabnika
         uporabnik = UporabnikSerializer.create(UporabnikSerializer, uporabnik_data)
         uporabnik.save()
-        # na novo sestavimo podatke v JSON obliki, ki jih potrebuje DelavecSerializer da ustvari novega delavca
-        validated_data = {'uporabnik': uporabnik, 'osebna_sifra': osebna_sifra, 'sifra_ustanove': ustanova, 'vrsta_delavca': vrsta_delavca}
+        if ('sifra_okolisa' in validated_data.keys()):
+            okolis = SifraOkolisa.objects.get(naziv = validated_data.pop('sifra_okolisa', None)['naziv'])
+            validated_data = {'uporabnik': uporabnik, 'osebna_sifra': osebna_sifra, 'sifra_ustanove': ustanova,
+                          'vrsta_delavca': vrsta_delavca, 'sifra_okolisa': okolis}
+        else:
+            # na novo sestavimo podatke v JSON obliki, ki jih potrebuje DelavecSerializer da ustvari novega delavca
+            validated_data = {'uporabnik': uporabnik, 'osebna_sifra': osebna_sifra, 'sifra_ustanove': ustanova, 'vrsta_delavca': vrsta_delavca}
         #ustvarimo novega delavca
         delavec = super(DelavecSerializer, self).create(validated_data)
         return delavec
@@ -203,4 +213,10 @@ class UstanoveSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = SifraUstanove
+        fields = ('id', 'naziv')
+
+class SifrakolisaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SifraOkolisa
         fields = ('id', 'naziv')

@@ -164,6 +164,7 @@ class Delavec(models.Model):
     osebna_sifra = models.IntegerField(primary_key=True)
     sifra_ustanove = models.ForeignKey(SifraUstanove, on_delete=models.SET_NULL, null=True)
     vrsta_delavca = models.ForeignKey(VrstaDelavca, on_delete=models.SET_NULL, null=True)
+    sifra_okolisa = models.ForeignKey(SifraOkolisa, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):      #izpis na django admin panelu
         return self.uporabnik.ime+" "+self.uporabnik.priimek
