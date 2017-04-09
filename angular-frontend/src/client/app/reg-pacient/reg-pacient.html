@@ -1,0 +1,43 @@
+<form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
+
+    <input formControlName="zavarovanje" type="zavarovanje" placeholder="Številka zavarovanja" required
+      pattern="^\d*$"><br/>
+    <small *ngIf="regForm.controls.zavarovanje.errors && !regForm.controls.zavarovanje.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <small *ngIf="regForm.controls.zavarovanje.errors && regForm.controls.zavarovanje.errors.pattern" class="text-danger">Številka zavarovanja lahko vsebuje le številke</small><br/>
+
+    <input formControlName="ime" type="ime" placeholder="Ime"><br/>
+    <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno</small><br/>
+
+    <input formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
+    <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
+
+    <input formControlName="naslov" type="naslov" placeholder="Naslov"><br/>
+    <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
+
+    <input formControlName="tel" type="tel" placeholder="Telefonska številka" required
+      pattern="^\d*$"><br/>
+    <small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">Telefonska številka lahko vsebuje le številke</small><br/>
+
+    <input formControlName="sifraOkolisa" type="sifraOkolisa" placeholder="Šifra okoliša" required
+      pattern="^\d*$"><br/>
+    <small *ngIf="regForm.controls.sifraOkolisa.errors && !regForm.controls.sifraOkolisa.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <small *ngIf="regForm.controls.sifraOkolisa.errors && regForm.controls.sifraOkolisa.errors.pattern" class="text-danger">Šifra lahko vsebuje le številke</small><br/>
+
+    <p-calendar formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [maxDate]="minDate" [defaultDate]="minDate" [yearNavigator]="true" [monthNavigator]="true" placeholder="dd.mm.llll"></p-calendar><br/>
+
+    <p-radioButton name="spol" label="Ženski" value="false" formControlName="spol"></p-radioButton>
+    <p-radioButton class="left-margin" name="spol" label="Moški" value="false" formControlName="spol"></p-radioButton><br/>
+
+    <input formControlName="email" type="email" placeholder="Email" required
+      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><br/>
+      <small *ngIf="regForm.controls.email.errors && !regForm.controls.email.errors.untouched" class="text-danger">Polje je obvezno</small><br/>
+      <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">Email mora slediti formatu <i>email@email.si</i>.</small><br/>
+
+    <input formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true"><br/>
+
+    <input formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><br/>
+    <small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
+
+  <button type="submit" [disabled]="!regForm.valid">Registriraj</button>
+</form>
