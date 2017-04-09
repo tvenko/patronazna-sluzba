@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^api/v1/racuni/', include('accounts.urls')),
     url(r'^api/v1/dn/', include('delovniNalog.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^api-token-auth/', obtain_jwt_token),
-    url(r'^api-token-refresh/', refresh_jwt_token),
-    url(r'^api-token-verify/', verify_jwt_token),
+    url(r'^api/v1/token/auth/', obtain_jwt_token),
+    url(r'^api/v1/token/refresh/', refresh_jwt_token),
+    url(r'^api/v1/token/verify/', verify_jwt_token),
 ]

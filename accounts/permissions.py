@@ -9,6 +9,7 @@ class IsAdminOrReadAuthenticated(permissions.BasePermission):
         # Preveri ali ima uporabnik v request dovoljenje za ogled (vseh?)
 
         # Dovoljeno le adminu da vidi vse delavce
+        return True; # Zacasna resitev za Swagger
         if request.user.je_admin:
             return True
 
