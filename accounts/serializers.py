@@ -205,7 +205,7 @@ class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = VrstaDelavca
-        fields = ('sifra', 'naziv')
+        fields = ('id', 'naziv')
 
 class UstanoveSerializer(serializers.ModelSerializer):
     """

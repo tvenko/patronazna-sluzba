@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule, RadioButtonModule, ButtonModule } from 'primeng/primeng';
 
 @NgModule({
-  imports: [KreirajNalogRoutingModule, SharedModule, AlertModule.forRoot(),
+  imports: [KreirajNalogRoutingModule, SharedModule.forRoot(), AlertModule.forRoot(),
       ReactiveFormsModule, CalendarModule, RadioButtonModule],
   declarations: [KreirajNalogComponent],
   exports: [KreirajNalogComponent]

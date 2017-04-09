@@ -4,7 +4,7 @@ import { DelovniNalogRoutingModule } from './delovni-nalog-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  imports: [DelovniNalogRoutingModule, SharedModule],
+  imports: [DelovniNalogRoutingModule, SharedModule.forRoot()],
   declarations: [DelovniNalogComponent],
   exports: [DelovniNalogComponent]
 })

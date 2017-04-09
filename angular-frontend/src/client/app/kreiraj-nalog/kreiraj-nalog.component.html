@@ -1,3 +1,4 @@
+<sd-navbar></sd-navbar>
 <p>KREIRANJE NALOGA</p>
 
 <form [formGroup]="myForm" novalidate (ngSubmit)="myForm.valid && pregled()">
@@ -69,7 +70,7 @@
                 <div>
                   <label>Naziv</label>
                   <select class="form-control" formControlName="naziv">
-                    <option *ngFor="let lek of zdravila.results">
+                    <option *ngFor="let lek of zdravila.results" [ngValue]="lek">
                       {{ lek.naziv }}
                     </option>
                   </select>
@@ -179,9 +180,9 @@
     </div>
     <div class="form-group" [ngClass]="{'has-error':!myForm.controls.steviloObiskov.valid}">
       <label>Število obiskov</label>
-      <input type="number" formControlName="steviloObiskov" class="form-control" min="1" required>
+      <input type="number" formControlName="steviloObiskov" class="form-control" min="1" max="10" required>
       <small *ngIf="!myForm.controls.steviloObiskov.valid" class="text-danger">
-        Vnesite veljavno število obiskov (1 do ...)
+        Vnesite število obiskov (1 do 10)
       </small>
     </div>
     <div formGroupName="obdobjeObiskov">
@@ -190,7 +191,7 @@
     </div>
     <!-- Group za izbiro vmesnih dni med obiski -->
     <div formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'vmesniDnevi'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.interval.valid}">
-      <label>Vnesite koliko dni naj preteče med obiski</label>
+      <label>Interval med obiski</label>
       <input type="number" min="1" class="form-control" formControlName="interval">
       <small *ngIf="!myForm.controls.obdobjeObiskov.controls.interval.valid" class="text-danger">
         Vnesite število dni, ki naj pretečejo med obiski

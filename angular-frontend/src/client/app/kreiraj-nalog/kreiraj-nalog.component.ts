@@ -36,6 +36,7 @@ export class KreirajNalogComponent implements OnInit {
       this.pridobiZdravila();
       this.pridobiEpruvete();
 
+
       // Inicializacija forme za dodajanje materiala
       this.myForm = this._fb.group({
         zdravila: this._fb.array([
@@ -46,7 +47,7 @@ export class KreirajNalogComponent implements OnInit {
         ]),
         prviDatum: ['', [Validators.required]],
         obdobjeObiskov: this.initObdobjeObiskovGroup(),
-        steviloObiskov: ['', [Validators.required, Validators.pattern(/^[1-9]\d*$/)]],
+        steviloObiskov: ['', [Validators.required, Validators.pattern(/^([1-9]|10)$/)]],
         obvezen: ['false', [Validators.required]],
         vrstaObiska: ['', Validators.required],
         stevilkaPacienta: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
@@ -88,8 +89,7 @@ export class KreirajNalogComponent implements OnInit {
         if (tip === 'vmesniDnevi') {
           intervalCtrl.setValidators([Validators.required, Validators.pattern(/^[1-9]\d*$/)]);
           zadnjiDatumCtrl.setValidators(null);
-        }
-        else {
+        } else {
           intervalCtrl.setValidators(null);
           zadnjiDatumCtrl.setValidators(Validators.required);
         }

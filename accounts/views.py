@@ -6,7 +6,7 @@ from accounts.serializers import *
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the accounts index.")
+    return HttpResponse("Deluje! Nahajate se na API od aplikacije Patronažna sestra.")
 
 class UporabnikViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAdminUser,)

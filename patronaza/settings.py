@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 from configparser import RawConfigParser
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     #3rd party apps
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework.authtoken',
     'corsheaders',
 
     #our apps
@@ -104,9 +106,15 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-       'rest_framework.permissions.AllowAny',
+        #'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+
     ),
     'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+   ),
 }
 
 # Password validation
@@ -159,3 +167,10 @@ AUTH_USER_MODEL = 'accounts.Uporabnik'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
+
+#Json Web Token Authentication
+# (http://getblimp.github.io/django-rest-framework-jwt/)
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
+}
