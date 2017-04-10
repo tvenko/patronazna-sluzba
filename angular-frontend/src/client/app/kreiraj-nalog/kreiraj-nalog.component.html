@@ -69,7 +69,7 @@
                 <!-- Vnosno polje za izbiro zdravila -->
                 <div>
                   <label>Naziv</label>
-                  <select class="form-control" formControlName="naziv">
+                  <select class="form-control" formControlName="zdravilo">
                     <option *ngFor="let lek of zdravila.results" [ngValue]="lek">
                       {{ lek.naziv }}
                     </option>
@@ -97,8 +97,8 @@
               <!-- Vnosno polje za izbiro zdravila -->
               <div>
                 <label>Opis</label>
-                <select class="form-control" formControlName="opis">
-                  <option *ngFor="let material of epruvete.results">
+                <select class="form-control" formControlName="material">
+                  <option *ngFor="let material of epruvete.results" [ngValue]="material">
                     {{ material.opis }}
                   </option>
                 </select>

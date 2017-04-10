@@ -65,11 +65,11 @@ class DelovniNalog(models.Model):
     id_materiala = models.ManyToManyField(Material, blank=True, through='DelovniNalogMaterial')
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True, blank=True)
     vrsta_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
-    datum_prvega_obiska = models.DateField()
+    datum_prvega_obiska = models.DateTimeField()
     je_obvezen_datum = models.BooleanField()
     stevilo_obiskov = models.IntegerField()
     casovni_interval = models.IntegerField(blank=True, null=True)
-    casovno_obdobje = models.DateField(blank=True, null=True)
+    casovno_obdobje = models.DateTimeField(blank=True, null=True)
     patronazna_sestra = models.ForeignKey(Uporabnik, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

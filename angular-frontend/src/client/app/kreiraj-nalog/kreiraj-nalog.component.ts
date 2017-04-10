@@ -70,9 +70,81 @@ export class KreirajNalogComponent implements OnInit {
 
     }
 
-
+    /**
+     * Pregled naloga preden je poslan (moznost preklica)
+     */
     pregled() {
-      console.log(JSON.stringify(this.myForm.value));
+      // TODO modal z pregledom (?)
+
+      // Ce je na modalu kliknil ok
+      if (true) {
+        this.posljiNalog();
+      }
+    }
+
+
+    /**
+     * Poslji formo 'myForm' kot nov nalog na streznik
+     * TODO preuredi formo da bo uporabljala ista imena spremenljivk
+     */
+    posljiNalog() {
+      let ctrl = (<any>this.myForm).controls;
+      let novNalog = <any>{};
+      // TODO Preberi iz seje
+      novNalog.sifra_zdravnika = 56736;
+      novNalog.id_pacienta = <any>[]
+      novNalog.id_pacienta[0] = parseInt(ctrl.stevilkaPacienta.value);
+      if (ctrl.vrstaObiska.value.vezani_pacienti) {
+        // TODO dodaj vezane pacienti pri obisku otrocnice
+      }
+      novNalog.datum_prvega_obiska = ctrl.prviDatum.value;
+      novNalog.vrsta_obiska = ctrl.vrstaObiska.value.id;
+      novNalog.stevilo_obiskov = ctrl.steviloObiskov.value;
+
+      // Definiraj koncni datum ali intervale med njimi
+      if (ctrl.obdobjeObiskov.value.type === 'zadnjiDan') {
+        novNalog.casovno_obdobje = ctrl.obdobjeObiskov.controls.koncniDatum.value;
+      } else {
+        novNalog.casovni_interval = ctrl.obdobjeObiskov.controls.interval.value;
+      }
+
+      // Ce je potreba dodaj material (odvzem krvi)
+      if (ctrl.vrstaObiska.value.material) {
+        novNalog.material = <any>[];
+        for(var i=0; i<ctrl.materiali.controls.length; i++) {
+          novNalog.material[i] = <any>{};
+          novNalog.material[i].id_materiala = ctrl.materiali.controls[i]
+            .controls.material.value.id;
+          novNalog.material[i].kolicina = ctrl.materiali.controls[i].controls
+            .kolicina.value;
+        }
+      }
+
+      // Ce je potreba po zdravilih dopisi zdravila (pri aplikaciji injekcij)
+      if (ctrl.vrstaObiska.value.id == 4) {
+        novNalog.zdravila = <any>[];
+        for (var i=0; i<ctrl.zdravila.controls.length; i++) {
+          novNalog.zdravila[i] = ctrl.zdravila.controls[i].controls.zdravilo
+            .value.sifra;
+        }
+      }
+
+      if (ctrl.obvezen.value === 'true')
+        novNalog.je_obvezen_datum = true;
+      else
+        novNalog.je_obvezen_datum = false;
+
+      console.log(JSON.stringify(novNalog));
+      this.delovniNalogService.ustvari(novNalog)
+        .subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log('Napaka:');
+            console.log(error);
+          }
+        )
     }
 
     /**
@@ -183,8 +255,7 @@ export class KreirajNalogComponent implements OnInit {
     */
     initZdravila() {
       return this._fb.group({
-        naziv: [''],
-        sifra: ['']
+        zdravilo: ['']
       });
     }
 
@@ -193,8 +264,7 @@ export class KreirajNalogComponent implements OnInit {
     */
     initMaterial() {
       return this._fb.group({
-        opis: [''],
-        id: [''],
+        material: [''],
         kolicina: ['']
       });
     }

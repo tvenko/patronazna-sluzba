@@ -21,6 +21,12 @@ export class DelovniNalogService {
 
   }
 
+  ustvari(nalog: any): Observable<string[]> {
+    return this.http.post(Config.API + 'dn/delovninalogi/',  nalog)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource.
    * @return {string} The Observable for the HTTP request.

@@ -4,10 +4,10 @@ from rest_framework.exceptions import NotAuthenticated, ParseError
 
 from delovniNalog.models import *
 
-class DelovniNalogMaterialSerializer(serializers.HyperlinkedModelSerializer):
-
-    id_delovni_nalog = serializers.HyperlinkedRelatedField(view_name='delovni_nalog-detail', read_only=True)
-    id_materiala = serializers.HyperlinkedRelatedField(view_name='material-detail', read_only=True)
+class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
+    '''Serializira material delovnega naloga'''
+    id_materiala = serializers.PrimaryKeyRelatedField(queryset=Material.objects.all())
+    id_delovni_nalog = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = DelovniNalogMaterial
@@ -28,9 +28,9 @@ class DelovniNalogGetSerializer(serializers.HyperlinkedModelSerializer):
 
 class DelovniNalogPostSerializer(serializers.ModelSerializer):
 
-    #material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True, read_only=True)
-    kolicinaMateriala = serializers.IntegerField(source='id_materiala.kolicina', required=False)
-    material = serializers.IntegerField(source='id_materiala.id_materiala', required=False)
+    material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True, required=False) #read_only=True
+    #kolicinaMateriala = serializers.IntegerField(source='id_materiala.kolicina', required=False)
+    #material_id = serializers.IntegerField(source='id_materiala.id_materiala', required=False)
 
     class Meta:
         model = DelovniNalog
@@ -38,10 +38,10 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
         #ne znam vkljucit bolezni ki ima za pk charfield
         fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
                   'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
-                   'vrsta_obiska', 'patronazna_sestra', 'kolicinaMateriala', 'id_materiala', 'material')
+                   'vrsta_obiska', 'patronazna_sestra', 'material')
 
     def create(self, validated_data):
-        print(validated_data.keys())
+        # TODO preveri z JWT tokenom ali je zdravnik, ne samo preko polja v body (!)
         if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS" or validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "zdravnik"):
             if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS"):
                 if (validated_data['vrsta_obiska'].opis == "kontrola zdravstvenega stanja" or
@@ -79,17 +79,18 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
                 sestra = Delavec.objects.get(sifra_okolisa = okolis_pacient)
                 delovniNalog.patronazna_sestra = sestra.uporabnik
 
-            #tale kos kode ne dela, noce poslat id_materiala in kolicine materiala
-            if(False and 'materiala' in validated_data.keys()):
-                print('----SMO NOT-----')
-                material = DelovniNalogMaterial(
-                    id_delovni_nalog = delovniNalog.id,
-                    id_materiala = validated_data['id_materiala'],
-                    kolicina = validated_data['kolicinaMateriala']
-                )
-                material.save()
-                print(material)
-                delovniNalog.id_materiala = material.objects.get(id)
+            # (Popravljeno) doda material ce je bil poslan
+            if('delovninalogmaterial_set' in validated_data.keys()):
+                # Napisanih je vec materialov, vsak je v OrderedDict
+                for material in validated_data['delovninalogmaterial_set']:
+                    novi_material = DelovniNalogMaterial(
+                        id_delovni_nalog = delovniNalog,
+                        id_materiala = material['id_materiala'],
+                        kolicina = material['kolicina']
+                    )
+                    novi_material.save()
+                # Nevem ce je potrebna spodnja vrstica ?
+                #delovniNalog.id_materiala = material.objects.get(id)
             return delovniNalog
         else:
             print('ni zdravnik!!!')
