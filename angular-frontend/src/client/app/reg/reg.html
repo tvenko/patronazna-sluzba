@@ -3,11 +3,11 @@
 <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
   <p></p>
 
-    <input class="form-control" formControlName="ime" type="ime" placeholder="Ime"><br/>
+    <input class="form-control" formControlName="ime" type="ime" placeholder="Ime" ><br/>
     <input class="form-control" formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
 
     <label>Vrsta uslužbenca: </label>
-    <select class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca">
+    <select class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca" placeholder="Vrsta uslućbenca">
       <option *ngFor="let vrsta of vrstaDelavca" [ngValue]="vrsta">{{ vrsta }}</option>
     </select><br/>
 
@@ -28,8 +28,7 @@
     <input class="form-control" formControlName="email" type="email" placeholder="Email" required
       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><br/>
 
-
-    <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true"><br/>
+    <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})"><br/>
 
     <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><br/>
 

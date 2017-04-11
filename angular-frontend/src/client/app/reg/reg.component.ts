@@ -6,7 +6,8 @@ import { Delavec } from './delavec';
 @Component({
   moduleId: module.id,
   selector: 'reg',
-  templateUrl: 'reg.html'
+  templateUrl: 'reg.html',
+  styleUrls: ['reg.component.css']
 })
 export class RegComponent {
   public regForm: FormGroup;

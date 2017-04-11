@@ -54,7 +54,6 @@
       <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">Email mora slediti formatu <i>email@email.si</i>.</small><br/>
       --->
 
-    <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true"><br/>
 
     <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><br/>
 
