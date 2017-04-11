@@ -51,7 +51,9 @@ ngOnInit() {
 
   registriraj(podatki: any) {
     //this.pacient = new Delavec(podatki.ime, podatki.priimek, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.geslo2);
-    console.log(podatki);
+    //this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.sifraOkolisa);
+    //console.log(this.pacient);
+    console.log(JSON.stringify(podatki));
 
     // todo REST implementacija
   }
