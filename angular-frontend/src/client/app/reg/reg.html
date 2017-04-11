@@ -1,35 +1,31 @@
+<sd-navbar></sd-navbar>
+  <div class="form-group">
 <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
+  <p></p>
 
-    <input formControlName="ime" type="ime" placeholder="Ime"><br/>
-    <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <input class="form-control" formControlName="ime" type="ime" placeholder="Ime"><br/>
+    <input class="form-control" formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
 
-    <input formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
-    <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
 
-    <input formControlName="tel" type="tel" placeholder="Telefonska številka" required
+    <input class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
       pattern="^\d*$"><br/>
-    <small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno</small><br/>
-    <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">Telefonska številka lahko vsebuje le številke</small><br/>
 
-    <input formControlName="sifra1" type="sifra1" placeholder="Šifra uslužbenca" required
+    <input class="form-control" formControlName="sifra1" type="sifra1" placeholder="Šifra uslužbenca" required
       pattern="^\d*$"><br/>
-    <small *ngIf="regForm.controls.sifra1.errors && !regForm.controls.sifra1.untouched" class="text-danger">Polje je obvezno</small><br/>
-    <small *ngIf="regForm.controls.sifra1.errors && regForm.controls.sifra1.errors.pattern" class="text-danger">Šifra lahko vsebuje le številke</small><br/>
 
-    <input formControlName="sifra2" type="sifra2" placeholder="Šifra ustanove" required
+    <input class="form-control" formControlName="sifra2" type="sifra2" placeholder="Šifra ustanove" required
       pattern="^\d*$"><br/>
-    <small *ngIf="regForm.controls.sifra2.errors && !regForm.controls.sifra2.untouched" class="text-danger">Polje je obvezno</small><br/>
-    <small *ngIf="regForm.controls.sifra2.errors && regForm.controls.sifra2.errors.pattern" class="text-danger">Šifra lahko vsebuje le številke</small><br/>
 
-    <input formControlName="email" type="email" placeholder="Email" required
+    <input class="form-control" formControlName="email" type="email" placeholder="Email" required
       pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><br/>
-      <small *ngIf="regForm.controls.email.errors && !regForm.controls.email.errors.untouched" class="text-danger">Polje je obvezno</small><br/>
-      <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">Email mora slediti formatu <i>email@email.si</i>.</small><br/>
 
-    <input formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true"><br/>
 
-    <input formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><br/>
-    <small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
+    <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true"><br/>
 
-  <button type="submit" [disabled]="!regForm.valid">Registriraj</button>
+    <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><br/>
+
+  <!---<button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>--->
+  <button class="form-control" type="submit">Registriraj</button>
+
 </form>
+</div>

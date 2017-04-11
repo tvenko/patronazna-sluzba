@@ -6,7 +6,8 @@ import { Pacient } from './pacient';
 @Component({
   moduleId: module.id,
   selector: 'reg-pacient',
-  templateUrl: 'reg-pacient.html'
+  templateUrl: 'reg-pacient.html',
+  styleUrls: ['reg-pacient.component.css']
 })
 export class RegPacientComponent {
   public regForm: FormGroup;
@@ -41,7 +42,7 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
-  let bdate = new Date(); 
+  let bdate = new Date();
   bdate.setFullYear(bdate.getFullYear() - 18);
   this.minDate = new Date(bdate);
 }

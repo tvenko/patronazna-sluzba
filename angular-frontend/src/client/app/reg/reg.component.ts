@@ -32,10 +32,17 @@ ngOnInit() {
   delavec: Delavec;
 
   registriraj(podatki: any) {
-    this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.geslo2);
-    console.log(podatki);
+    //this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.geslo2);
+    //console.log(podatki);
 
     // todo REST implementacija
+    var url = "http://fruity-routy.ddns.net:3030/api/v1/racuni/delavci/";
+    var client = new XMLHttpRequest();
+    client.open("GET", url, true);
+    client.send();
+    console.log(client.status);
+    console.log(client.statusText);
+
   }
 
 }
