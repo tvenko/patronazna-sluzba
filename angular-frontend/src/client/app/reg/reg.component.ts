@@ -48,6 +48,8 @@ ngOnInit() {
     console.log(client.status);
     console.log(client.statusText);
 
+    
+
   }
 
   rabiSifroOkolisa() {  return ((this.regForm.controls.vrstaDelavca._value === "medicinska sestra") ? true : false); }
