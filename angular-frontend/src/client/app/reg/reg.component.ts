@@ -10,15 +10,19 @@ import { Delavec } from './delavec';
 })
 export class RegComponent {
   public regForm: FormGroup;
-  public events: any[] = [];
+  public vrstaDelavca: any[];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.vrstaDelavca=["zdravnik", "vodja patronažne službe", "medicinska sestra", "uslužbenec"];
+  }
 
 ngOnInit() {
 
   this.regForm = this.fb.group({
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
+    vrstaDelavca: ['', Validators.required],
+    sifraOkolisa: ['', Validators.required],
     tel: ['', Validators.required],
     sifra1: ['', Validators.required],
     sifra2: ['', Validators.required],
@@ -39,10 +43,12 @@ ngOnInit() {
     var url = "http://fruity-routy.ddns.net:3030/api/v1/racuni/delavci/";
     var client = new XMLHttpRequest();
     client.open("GET", url, true);
-    client.send();
+    client.send("1");
     console.log(client.status);
     console.log(client.statusText);
 
   }
+
+  rabiSifroOkolisa() {  return ((this.regForm.controls.vrstaDelavca._value === "medicinska sestra") ? true : false); }
 
 }

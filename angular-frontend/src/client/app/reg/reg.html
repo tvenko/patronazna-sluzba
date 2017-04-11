@@ -6,6 +6,15 @@
     <input class="form-control" formControlName="ime" type="ime" placeholder="Ime"><br/>
     <input class="form-control" formControlName="priimek" type="priimek" placeholder="Priimek"><br/>
 
+    <label>Vrsta uslužbenca: </label>
+    <select class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca">
+      <option *ngFor="let vrsta of vrstaDelavca" [ngValue]="vrsta">{{ vrsta }}</option>
+    </select><br/>
+
+    <div *ngIf="rabiSifroOkolisa()">
+      <input class="form-control" formControlName="sifraOkolisa" type="text" placeholder="Šifra okoliša" required
+        pattern="^\d*$"><br/>
+    </div>
 
     <input class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
       pattern="^\d*$"><br/>
