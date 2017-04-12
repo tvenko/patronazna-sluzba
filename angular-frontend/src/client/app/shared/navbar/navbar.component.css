@@ -18,5 +18,9 @@ nav a {
 }
 
 nav a.router-link-active {
-  color: #106cc8;
+  color: #5fc241;
+}
+
+nav a:hover {
+  color: rgba(95, 194, 65, 0.53);
 }

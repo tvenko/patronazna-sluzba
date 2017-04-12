@@ -25,6 +25,8 @@ export class KreirajNalogComponent implements OnInit {
   public minDateKoncen: Date;
   public si: any;
   public interval: string;
+  private pokaziPregled: boolean;
+  private posljiNalog: boolean;
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -35,7 +37,8 @@ export class KreirajNalogComponent implements OnInit {
       this.dobiVrsteObiskov();
       this.pridobiZdravila();
       this.pridobiEpruvete();
-
+      this.pokaziPregled = false;
+      this.posljiNalog = false;
 
       // Inicializacija forme za dodajanje materiala
       this.myForm = this._fb.group({
@@ -67,7 +70,7 @@ export class KreirajNalogComponent implements OnInit {
       let today = new Date();
       this.minDate = new Date(today);
       this.subscribeSpremeboGumbovKoncnegaDatuma();
-
+      this.izracunajMinimalenDatum();
     }
 
     /**
@@ -75,11 +78,8 @@ export class KreirajNalogComponent implements OnInit {
      */
     pregled() {
       // TODO modal z pregledom (?)
+      this.pokaziPregled = true;
 
-      // Ce je na modalu kliknil ok
-      if (true) {
-        this.posljiNalog();
-      }
     }
 
 
@@ -87,7 +87,7 @@ export class KreirajNalogComponent implements OnInit {
      * Poslji formo 'myForm' kot nov nalog na streznik
      * TODO preuredi formo da bo uporabljala ista imena spremenljivk
      */
-    posljiNalog() {
+    poslji() {
       let ctrl = (<any>this.myForm).controls;
       let novNalog = <any>{};
       // TODO Preberi iz seje
@@ -109,7 +109,7 @@ export class KreirajNalogComponent implements OnInit {
       }
 
       // Ce je potreba dodaj material (odvzem krvi)
-      if (ctrl.vrstaObiska.value.material) {
+      if (ctrl.vrstaObiska.value.id == 5) {
         novNalog.material = <any>[];
         for(var i=0; i<ctrl.materiali.controls.length; i++) {
           novNalog.material[i] = <any>{};
@@ -122,9 +122,9 @@ export class KreirajNalogComponent implements OnInit {
 
       // Ce je potreba po zdravilih dopisi zdravila (pri aplikaciji injekcij)
       if (ctrl.vrstaObiska.value.id == 4) {
-        novNalog.zdravila = <any>[];
+        novNalog.sifra_zdravila = <any>[];
         for (var i=0; i<ctrl.zdravila.controls.length; i++) {
-          novNalog.zdravila[i] = ctrl.zdravila.controls[i].controls.zdravilo
+          novNalog.sifra_zdravila[i] = ctrl.zdravila.controls[i].controls.zdravilo
             .value.sifra;
         }
       }
@@ -141,8 +141,6 @@ export class KreirajNalogComponent implements OnInit {
             console.log(response);
           },
           error => {
-            console.log('Napaka:');
-            console.log(error);
           }
         )
     }
@@ -207,18 +205,16 @@ export class KreirajNalogComponent implements OnInit {
 
     /**
     * Izracuna minimalen datum za koncen datum obiskov
-    * @return boolean ali zeli vnesti koncen datum in ne interval
     */
     izracunajMinimalenDatum() {
-      let izbranNacin = (<any>this.myForm).controls.obdobjeObiskov.controls.type.value;
+      let izbranNacinChanges = (<any>this.myForm).controls.obdobjeObiskov.controls.type.valueChanges;
 
-      if (!izbranNacin || izbranNacin == 'vmesniDnevi') {
-        return false;
-      } else {
-        this.minDateKoncen = new Date(this.myForm.controls.prviDatum.value);
-        this.addWorkDays(this.minDateKoncen, this.myForm.controls.steviloObiskov.value-1);
-        return true;
-      }
+      izbranNacinChanges.subscribe((nacin: any) => {
+        if (nacin === 'zadnjiDan') {
+          this.minDateKoncen = new Date(this.myForm.controls.prviDatum.value);
+          this.addWorkDays(this.minDateKoncen, this.myForm.controls.steviloObiskov.value-1);
+        }
+      });
     }
 
     /**
@@ -312,7 +308,7 @@ export class KreirajNalogComponent implements OnInit {
     * @return boolean ali rabi vrsta obiska material
     */
     prikaziMaterial(): boolean {
-      if (this.myForm.controls.vrstaObiska.value.material) {
+      if (this.myForm.controls.vrstaObiska.value && this.myForm.controls.vrstaObiska.value.material) {
         return true;
       } else {
         return false;

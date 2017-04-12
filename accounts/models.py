@@ -71,6 +71,11 @@ class KontaktnaOseba(models.Model):
     priimek = models.CharField(max_length=30)
     ime = models.CharField(max_length=30)
     tel = models.CharField(max_length=13)
+
+    ulica = models.CharField(max_length=255)
+    hisna_stevilka = models.CharField(max_length=6)
+    posta = models.ForeignKey(Posta, on_delete=models.SET_NULL, null=True)
+
     #to sem popravil zaradi POST pacient, ker nisem znal vpisat sorodstvenega razmerja ce je biu Foreign key
     #op. nisem ga dobil med validated_data
     #sorodstveno_razmerje = models.ForeignKey(SorodstvenoRazmerje, on_delete=models.SET_NULL, null=True)

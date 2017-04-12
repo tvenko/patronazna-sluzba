@@ -17,6 +17,6 @@ router.register(r'sifreokolisa', views.SifraOkolisaViewSet, base_name='sifra_oko
 # Vkljucen JWT, je dovolj samo na root url?
 urlpatterns = [
     url(r'^', include(router.urls)),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', obtain_jwt_token),
 ]
