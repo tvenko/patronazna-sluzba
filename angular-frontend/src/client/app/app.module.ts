@@ -24,9 +24,7 @@ import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
 	PrijavaRoutingModule],
-  declarations: [AppComponent, PrijavaComponent],
-    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule, RegPacientModule, AboutModule,],
-  declarations: [AppComponent],
+  declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
