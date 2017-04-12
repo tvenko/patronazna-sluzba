@@ -43,7 +43,15 @@ ngOnInit() {
 
   registriraj(podatki: any) {
     /* uporabnik, ime, priimek, vrsta delavca, naziv vrste, tel, osebna sifra, sifra ustanove, naziv ustanove, email, pass, sifra okolisa, naziv okolisa */
-    this.delavec = new Delavec("9", podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.vrstaDelavca, podatki.tel,  podatki.sifra1, podatki.sifra2, "bla", podatki.email, podatki.geslo1, podatki.sifreOkolisa.id, podatki.sifreOkolisa.naziv);
+
+    //this.delavec = new Delavec(1, podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.vrstaDelavca, podatki.tel, 123, podatki.sifra2, "bla", podatki.email, podatki.geslo1, podatki.sifreOkolisa.id, podatki.sifreOkolisa.naziv);
+
+    //this.delavec = new Delavec(1, podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.vrstaDelavca, podatki.tel, 123, podatki.sifra2, "bla", podatki.email, podatki.geslo1, podatki.sifreOkolisa.id, podatki.sifreOkolisa.naziv);
+
+    this.delavec = new Delavec(1, "ime", "priimek", "http://localhost:8000/api/v1/racuni/vrstedelavcev/4/", "delavec ZD", "040123123", 1234, "http://localhost:8000/api/v1/racuni/ustanove/5600/", "Zdravstveni dom Vič-Rudnik", "email@gmail.com", "geslo123", "http://localhost:8000/api/v1/racuni/sifreokolisa/3/", "Ljubljana šiška");
+
+    //this.delavec = new Delavec(9, podatki.ime, podatki.priimek,  "http://localhost:8000/api/v1/racuni/vrstedelavcev/4/", "delavec ZD", podatki.tel, 1234, "http://localhost:8000/api/v1/racuni/ustanove/5600/", "Zdravstveni dom Vič-Rudnik", podatki.email, podatki.geslo1, "http://localhost:8000/api/v1/racuni/sifreokolisa/3/", podatki.sifreOkolisa.naziv);
+
     console.log(JSON.stringify(this.delavec));
 
     this.delavecService.ustvari(this.delavec)
