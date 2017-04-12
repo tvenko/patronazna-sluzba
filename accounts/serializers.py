@@ -9,7 +9,8 @@ class KontaktnaOsebaSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = KontaktnaOseba
-        fields = ('ime', 'priimek', 'tel', 'sorodstveno_razmerje')
+        fields = ('ime', 'priimek', 'tel', 'sorodstveno_razmerje', 'ulica',
+        'hisna_stevilka', 'posta')
 
     def create(self, validated_data):
         kontaktnaOseba = KontaktnaOseba(**validated_data)
