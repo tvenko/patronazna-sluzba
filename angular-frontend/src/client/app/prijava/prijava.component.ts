@@ -1,20 +1,39 @@
-import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+ 
+import { AuthenticationService } from '../shared/services/avtentikacija/authentication.service';
+ 
 @Component({
-  moduleId: module.id,
-  selector: 'prijava',
-  templateUrl: 'prijava.html'
+    moduleId: module.id,
+    templateUrl: 'prijava.component.html'
 })
-export class PrijavaComponent {
-  public loginForm = this.fb.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required]
-  });
-  constructor(public fb: FormBuilder) {}
-  doLogin(event: any) {
-	//TODO: logika za prijavo
-    console.log(event);
-    console.log(this.loginForm.value);
-  }
+ 
+export class PrijavaComponent implements OnInit {
+    model: any = {};
+    loading = false;
+    error = '';
+ 
+    constructor(
+        private router: Router,
+        private authenticationService: AuthenticationService) { }
+ 
+    ngOnInit() {
+        // resetiraj status prijave
+        this.authenticationService.odjava();
+    }
+ 
+	prijava() {
+        this.loading = true;
+        this.authenticationService.prijava(this.model.username, this.model.password)
+            .subscribe(result => {
+                if (result === true) {
+                    // prijava uspešna, pojdi na domačo stran
+                    this.router.navigate(['/']);
+                } else {
+                    // prijava neuspešna
+                    this.error = 'Uporabniško ime in/ali geslo je nepravilno.';
+                    this.loading = false;
+                }
+            });
+    }
 }

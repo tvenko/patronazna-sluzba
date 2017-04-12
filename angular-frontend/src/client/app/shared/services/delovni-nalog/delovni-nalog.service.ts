@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Config } from '../../config/env.config';
 // import 'rxjs/add/operator/do';  // for debugging
+import 'rxjs/add/observable/of';
 
 /**
  * This class provides the NameList service with methods to read names and add names.

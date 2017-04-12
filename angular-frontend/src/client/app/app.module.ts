@@ -13,19 +13,23 @@ import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import { DelovniNalogModule } from './delovni-nalog/delovni-nalog.module';
 import { KreirajNalogModule } from './kreiraj-nalog/kreiraj-nalog.module';
-import { PrijavaModule } from './prijava/prijava.module';
 import { RegModule } from './reg/reg.module';
 import { RegPacientModule } from './reg-pacient/reg-pacient.module';
+import { AuthenticationService } from './shared/services/avtentikacija/authentication.service';
+import { PrijavaComponent } from './prijava/prijava.component';
+import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, AboutModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
-    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule, RegPacientModule],
-  declarations: [AppComponent],
+    MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
+	PrijavaRoutingModule],
+  declarations: [AppComponent, PrijavaComponent],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
-  }],
+  },
+  AuthenticationService],
   bootstrap: [AppComponent]
 
 })
