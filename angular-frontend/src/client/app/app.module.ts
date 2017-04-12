@@ -18,9 +18,9 @@ import { RegModule } from './reg/reg.module';
 import { RegPacientModule } from './reg-pacient/reg-pacient.module';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, AppRoutingModule, AboutModule, HomeModule, SharedModule.forRoot(),
+  imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
-    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule, RegPacientModule],
+    MessagesModule, BrowserAnimationsModule, PrijavaModule, RegModule, RegPacientModule, AboutModule,],
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,

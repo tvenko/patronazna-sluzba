@@ -147,36 +147,44 @@
           <h3 class="panel-title">Zavarovana oseba</h3>
         </div>
         <div class="panel-body">
-          <div class="form-group" [ngClass]="{'has-error':!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched}">
-            <label>Številka zavarovane osebe</label>
-            <input class="form-control" type="text" formControlName="stevilkaPacienta" required/>
-            <button type="button" class="btn btn-primary btn-xs" (click)="myForm.controls.stevilkaPacienta.valid && pridobiPodatke()">Pridobi podatke</button>
-            <small *ngIf="!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched" class="text-danger">
-              Številka pacienta je obvezna in mora vsebovati 9 števk.
-            </small>
-            <!-- TODO Napaka za izpad baze? -->
-            <div *ngIf="problemPridobivanja" class="alert alert-warning" role="alert">
-              <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov.
+          <div class="ui-grid ui-grid-responsive ui-grid-pad">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-12 form-group" [ngClass]="{'has-error':!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched}">
+                <label>Številka zavarovane osebe</label>
+                <input class="form-control" type="text" formControlName="stevilkaPacienta" required/>
+                <button type="button" class="btn btn-primary btn-xs" (click)="myForm.controls.stevilkaPacienta.valid && pridobiPodatke()">Pridobi podatke</button>
+                <small *ngIf="!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched" class="text-danger">
+                  Številka pacienta je obvezna in mora vsebovati 9 števk.
+                </small>
+              </div>
             </div>
-            <!-- TODO Izpisi ce je vec pacientov -->
-            <div *ngIf="!neveljavnaStevilka && neveljavnaStevilka != undefined && !problemPridobivanja && pacient">
-              Datum rojstva: {{ pacient.datumRojstva }} <br>
-              Priimek: {{ pacient.priimek }} <br>
-              Ime: {{ pacient.ime }} <br>
-              Ulica, hišna številka: {{ pacient.ulica }}, {{pacient.hisnaStevilka}} <br>
-              Poštna številka: {{ pacient.posta }} <br>
-              Kraj: {{ pacient.kraj }} <br>
-              Telefonska: {{ pacient.telefon }} <br>
-              E-pošta: {{ pacient.eposta }} <br>
-              ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
-              <!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
-              <div *ngIf="myForm.controls.vrstaObiska.value?.vezani_pacienti">
-                Vezani pacienti:
-                <ul>
-                  <li *ngFor="let otrok of pacient.vezaniPacienti">
-                    {{ otrok.ime }} {{ otrok.priimek }} ({{ otrok.stevilkaPacienta }})
-                  </li>
-                </ul>
+            <div class="ui-grid-row">
+              <!-- TODO Napaka za izpad baze? -->
+              <div *ngIf="problemPridobivanja" class="ui-grid-col-12 alert alert-warning" role="alert">
+                <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov.
+              </div>
+            </div>
+            <div class="ui-grid-row">
+              <!-- TODO Izpisi ce je vec pacientov -->
+              <div class="ui-grid-col-8" *ngIf="!neveljavnaStevilka && neveljavnaStevilka != undefined && !problemPridobivanja && pacient">
+                Datum rojstva: {{ pacient.datumRojstva }} <br>
+                Priimek: {{ pacient.priimek }} <br>
+                Ime: {{ pacient.ime }} <br>
+                Ulica, hišna številka: {{ pacient.ulica }}, {{pacient.hisnaStevilka}} <br>
+                Poštna številka: {{ pacient.posta }} <br>
+                Kraj: {{ pacient.kraj }} <br>
+                Telefonska: {{ pacient.telefon }} <br>
+                E-pošta: {{ pacient.eposta }} <br>
+                ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
+                <!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
+                <div *ngIf="myForm.controls.vrstaObiska.value?.vezani_pacienti">
+                  Vezani pacienti:
+                  <ul>
+                    <li *ngFor="let otrok of pacient.vezaniPacienti">
+                      {{ otrok.ime }} {{ otrok.priimek }} ({{ otrok.stevilkaPacienta }})
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -195,48 +203,74 @@
           <h3 class="panel-title">Datum obiska</h3>
         </div>
         <div class="panel-body">
-          <div class="form-group" [ngClass]="{'has-error':!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched}">
-            <label>Datum prvega obiska</label>
-            <p-calendar formControlName="prviDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDate" [disabledDays]="[0,6]" [readonlyInput]="true" required></p-calendar>
-            <small *ngIf="!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched" class="text-danger">
-              Datum ni veljaven
-            </small>
-          </div>
-          <div class="form-group" [ngClass]="{'has-error':!myForm.controls.obvezen.valid}">
-            <p-radioButton name="obveznostDatuma" label="Datum je spremenljiv" value="false" formControlName="obvezen"></p-radioButton>
-            <p-radioButton class="left-margin" name="obveznostDatuma" label="Datum je obvezen" value="true" formControlName="obvezen" required></p-radioButton>
-          </div>
-          <div class="form-group" [ngClass]="{'has-error':!myForm.controls.steviloObiskov.valid && !myForm.controls.steviloObiskov.untouched}">
-            <label>Število obiskov</label>
-            <input type="number" formControlName="steviloObiskov" class="form-control" min="1" max="10" required>
-            <small *ngIf="!myForm.controls.steviloObiskov.valid && !myForm.controls.steviloObiskov.untouched" class="text-danger">
-              Vnesite število obiskov (1 do 10)
-            </small>
-          </div>
-          <div formGroupName="obdobjeObiskov">
-            <p-radioButton name="intervalAliZadnjiDan" label="Izberi interval obiskov" value="vmesniDnevi" formControlName="type"></p-radioButton>
-            <p-radioButton class="left-margin" name="intervalAliZadnjiDan" label="Izberi zadnji datum" value="zadnjiDan" formControlName="type"></p-radioButton>
-          </div>
+          <div class="ui-grid ui-grid-responsive ui-grid-pad">
+            <!-- Vnos prvega datuma -->
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-12" [ngClass]="{'has-error':!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched}">
+                <label>Datum prvega obiska</label> <br>
+                <p-calendar class="ui-fluid" formControlName="prviDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDate" [disabledDays]="[0,6]" [readonlyInput]="true" required></p-calendar><br>
+                <small *ngIf="!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched" class="text-danger">
+                  Datum ni veljaven
+                </small>
+              </div>
+            </div>
+            <!-- gumb za izbiro ali je datum obvezen -->
+            <div class="ui-grid-row" [ngClass]="{'has-error':!myForm.controls.obvezen.valid}">
+              <div class="ui-grid-col-6">
+                <div class="ui-grid-col-6">
+                  <p-radioButton name="obveznostDatuma" label="Datum je spremenljiv" value="false" formControlName="obvezen"></p-radioButton>
+                </div>
+                <div class="ui-grid-col-6">
+                  <p-radioButton class="left-margin" name="obveznostDatuma" label="Datum je obvezen" value="true" formControlName="obvezen" required></p-radioButton>
+                </div>
+              </div>
+            </div>
+            <!-- vnosno polje stevila obiskov -->
+            <div class="ui-grid-row">
+              <div class="form-group ui-grid-col-12" [ngClass]="{'has-error':!myForm.controls.steviloObiskov.valid && !myForm.controls.steviloObiskov.untouched}">
+                <label>Število obiskov</label>
+                <input type="number" formControlName="steviloObiskov" class="form-control" min="1" max="10" required>
+                <small *ngIf="!myForm.controls.steviloObiskov.valid && !myForm.controls.steviloObiskov.untouched" class="text-danger">
+                  Vnesite število obiskov (1 do 10)
+                </small>
+              </div>
+            </div>
+            <!-- gumba za izbor bodisi intervala, bodisi koncnega datuma -->
+            <div class="ui-grid-row">
+              <div formGroupName="obdobjeObiskov" class="ui-grid-col-6">
+                <div class="ui-grid-col-6">
+                  <p-radioButton name="intervalAliZadnjiDan" label="Izberi interval obiskov" value="vmesniDnevi" formControlName="type"></p-radioButton>
+                </div>
+                <div class="ui-grid-col-6">
+                  <p-radioButton class="left-margin" name="intervalAliZadnjiDan" label="Izberi zadnji datum" value="zadnjiDan" formControlName="type"></p-radioButton>
+                </div>
+              </div>
+            </div>
           <!-- Group za izbiro vmesnih dni med obiski -->
-          <div formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'vmesniDnevi'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched}">
+          <div class="ui-grid-row">
+          <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'vmesniDnevi'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched}">
             <label>Interval med obiski</label>
             <input type="number" min="1" class="form-control" formControlName="interval">
             <small *ngIf="!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched" class="text-danger">
               Vnesite število dni, ki naj pretečejo med obiski
             </small>
           </div>
+        </div>
           <!-- Group za izbiro koncnega datuma -->
-          <div formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value === 'zadnjiDan'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouche}">
-            <label>Datum zadnjega obiska</label>
-            <p-calendar formControlName="koncniDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar>
-            <small *ngIf="!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouched" class="text-danger">
-              Izberite datum zadnjega obiska
-            </small>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value === 'zadnjiDan'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouche}">
+              <label>Datum zadnjega obiska</label><br>
+              <p-calendar class="ui-fluid" formControlName="koncniDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar><br>
+              <small *ngIf="!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouched" class="text-danger">
+                Izberite datum zadnjega obiska
+              </small>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="container">
@@ -251,6 +285,7 @@
       <button pButton type="submit" label="Naprej" class="md-margin" [disabled]="!myForm.valid"></button>
     </div>
   </div>
+  <!-- TODO: sporocilo da je bilo uspesno poslano -->
 </div>
 
 <p-dialog header="Pregled vnosov" [(visible)]="pokaziPregled" modal="modal" responsive="true">
@@ -259,6 +294,7 @@
     Vrsta obiska: {{ myForm.controls.vrstaObiska.value?.opis}} <br>
     Številka pacienta: {{ myForm.controls.stevilkaPacienta.value }} <br>
     Vezani pacienti: <!-- TODO: dodaj v obrazec moznost izbire vezanega --> <br>
+    Je obisk obvezen?: {{ myForm.controls.obvezen.value }} <br>
     Prvi datum: {{ myForm.controls.prviDatum.value }} <br>
     Število obiskov: {{ myForm.controls.steviloObiskov.value }} <br>
     Število dni med obiski: {{ myForm.controls.obdobjeObiskov.controls.interval.value }} <br>
