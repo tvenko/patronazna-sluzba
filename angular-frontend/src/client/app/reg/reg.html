@@ -11,17 +11,23 @@
     <label>Vrsta uslužbenca: </label>
     <select class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca" placeholder="Vrsta uslućbenca">
       <option *ngFor="let vrsta of vrstaDelavca" [ngValue]="vrsta">{{ vrsta }}</option>
-    </select><br/>
+    </select>
+    <!---<select class="form-control" *ngIf="vrstaDelavca" formControlName="vrstaDelavca">
+      <option *ngFor="let vrsta of vrstaDelavca.results" [ngValue]="vrsta">
+        {{ vrsta }}
+      </option>
+    </select>--->
 
     <div *ngIf="rabiSifroOkolisa()">
-      <input class="form-control" formControlName="sifraOkolisa" type="text" placeholder="Šifra okoliša" required
-        pattern="^\d*$">
-        <small *ngIf="regForm.controls.sifraOkolisa.errors && !regForm.controls.sifraOkolisa.untouched" class="text-danger">Polje je obvezno</small>
-        <small *ngIf="regForm.controls.sifraOkolisa.errors && regForm.controls.sifraOkolisa.errors.pattern" class="text-danger">in šifra okoliša lahko vsebuje le številke</small>
-        <br/>
+      <label>Šifra okoliša: </label>
+      <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
+        <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+          {{ sifra.naziv }}
+        </option>
+      </select>
     </div>
 
-    <input class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
+    <br/><input class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
       pattern="^\d*$"><small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno</small>
       <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">in telefonska številka lahko vsebuje le številke</small>
       <br/>
