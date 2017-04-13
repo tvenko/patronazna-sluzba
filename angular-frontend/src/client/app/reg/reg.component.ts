@@ -58,7 +58,6 @@ ngOnInit() {
     this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.email, podatki.tel, podatki.geslo1, parseInt(podatki.sifra1), podatki.vrstaDelavca, podatki.sifra2, okolis);
     //console.log(JSON.stringify(this.delavec));
 
-<<<<<<< HEAD
     this.delavecService.ustvari(this.delavec)
       .subscribe(
         response => {
@@ -68,9 +67,6 @@ ngOnInit() {
         }
       )
   }
-=======
-
->>>>>>> 7a495246864e9740a68c971898d64b776f9fee92
 
   dobiSifre() {
     this.problemPridobivanja = false;
@@ -98,12 +94,8 @@ ngOnInit() {
     );
   }
 
-<<<<<<< HEAD
   rabiSifroOkolisa() {
     return ((this.regForm.controls.vrstaDelavca.value === "patronažna sestra") ? true : false);
   }
-=======
-  rabiSifroOkolisa() {  return ((this.regForm.controls.vrstaDelavca.value === "medicinska sestra") ? true : false); }
->>>>>>> 7a495246864e9740a68c971898d64b776f9fee92
 
 }
