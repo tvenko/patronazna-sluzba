@@ -33,7 +33,6 @@ export class AuthenticationService {
 							tipUporabnika = response.json().delavec[0].naziv_delavca;
 						}
 					
-					
 						// določi token
 						this.token = token;
 						// shrani uporabniško ime, jwt token in ti uporabika lokalno
@@ -54,7 +53,9 @@ export class AuthenticationService {
         // počisti token iz lokalnega pomnilnika
         this.token = null;
         localStorage.removeItem('currentUser');
-		localStorage.removeItem('podatkiPacienta');
+		if (localStorage.getItem('podatkiPacienta')) {
+			localStorage.removeItem('podatkiPacienta');
+		}
     }
 
 	private handleError (error: any) {
