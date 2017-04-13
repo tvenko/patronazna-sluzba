@@ -24,7 +24,7 @@ class UporabnikSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Uporabnik
-        fields = ('id', 'ime', 'priimek', 'email', 'password', 'tel')
+        fields = ('id', 'ime', 'priimek', 'email', 'tel')
         write_only_fields = ('password', 'id')
         read_only_fields = ('last_login', 'je_admin')
 

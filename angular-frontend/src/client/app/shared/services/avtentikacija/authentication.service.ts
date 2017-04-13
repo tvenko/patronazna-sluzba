@@ -21,6 +21,7 @@ export class AuthenticationService {
             .map(
 				(response : Response) => {
 					let token = response.json() && response.json().token;
+          console.log(response);
 					if (token) {
 						// določi token
 						this.token = token;

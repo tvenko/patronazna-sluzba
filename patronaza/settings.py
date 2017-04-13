@@ -173,4 +173,5 @@ CORS_ALLOW_CREDENTIALS = False
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.handler.jwt_response_payload_handler',
 }
