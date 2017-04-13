@@ -21,6 +21,10 @@ import { AuthenticationService } from './shared/services/avtentikacija/authentic
 import { PrijavaComponent } from './prijava/prijava.component';
 import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
 import { AuthGuard } from './guards/auth.guard';
+import { KreiranjeNalogaGuard } from './guards/kreiranjeNaloga.guard';
+import { PregledNalogovGuard } from './guards/pregledNalogov.guard';
+import { RegistracijaDelavcaGuard } from './guards/registracijaDelavca.guard';
+import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.guard';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
@@ -32,7 +36,8 @@ import { AuthGuard } from './guards/auth.guard';
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   },
-  AuthenticationService, AuthGuard],
+  AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard, 
+  RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
   bootstrap: [AppComponent]
 
 })
