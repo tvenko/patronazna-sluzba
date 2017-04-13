@@ -6,11 +6,11 @@ import { PacientService } from '../shared/services/index';
 
 @Component({
   moduleId: module.id,
-  selector: 'reg-pacient',
-  templateUrl: 'reg-pacient.html',
-  styleUrls: ['reg-pacient.component.css']
+  selector: 'oskrbovani-pacient',
+  templateUrl: 'oskrbovani-pacient.html',
+  styleUrls: ['oskrbovani-pacient.component.css']
 })
-export class RegPacientComponent {
+export class OskrbovaniPacientComponent {
   public regForm: FormGroup;
   public date: Date;
   public minDate: Date;

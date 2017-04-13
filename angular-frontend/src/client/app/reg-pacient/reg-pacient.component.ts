@@ -35,7 +35,7 @@ ngOnInit() {
     sifreOkolisa: ['', Validators.required],
     tel: ['', Validators.required],
     email: ['', Validators.required],
-    datumRojstva: ['', Validators.required],
+    datumRojstva: [''],
     spol: ['', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
@@ -63,18 +63,12 @@ ngOnInit() {
   pacient: Pacient;
 
   registriraj(podatki: any) {
-    // pobrisi podatke kontakta
+
     if (!this.prikaziKontakt) {
-      podatki.kontaktIme = "";
-      podatki.kontaktPriimek = "";
-      podatki.kontaktNaslov = "";
-      podatki.kontaktTelefon = "";
-      podatki.kontaktSorodstvo = "";
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa);
+    } else {
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
     }
-    var spol = false;
-    if (podatki.spol == "Moški") spol = true;
-    console.log(spol);
-    this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
 
     console.log(JSON.stringify(this.pacient));
 

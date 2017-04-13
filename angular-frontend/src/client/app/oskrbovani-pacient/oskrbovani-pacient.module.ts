@@ -4,23 +4,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { SharedModule } from '../shared/shared.module';
 
-import { RegPacientComponent } from './oskrbovani-pacient.component';
-import { RegPacientRoutingModule } from './oskrbovani-pacient-routing.module';
+import { OskrbovaniPacientComponent } from './oskrbovani-pacient.component';
+import { OskrbovaniPacientRoutingModule } from './oskrbovani-pacient-routing.module';
 import { EqualValidator } from './validacija';
 import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
-    RegPacientComponent, EqualValidator
+    OskrbovaniPacientComponent, EqualValidator
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-	RegPacientRoutingModule,
+	OskrbovaniPacientRoutingModule,
   CalendarModule, RadioButtonModule,
     SharedModule.forRoot()
   ],
-  exports: [RegPacientComponent]
+  exports: [OskrbovaniPacientComponent]
 })
 export class OskrbovaniPacientModule { }

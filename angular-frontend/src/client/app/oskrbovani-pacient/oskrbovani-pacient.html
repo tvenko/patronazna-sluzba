@@ -53,34 +53,10 @@
       <br/>
 
 
-    <input class="form-control" formControlName="email" type="text" placeholder="Email" required
-      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
-      <small *ngIf="regForm.controls.email.errors && !regForm.controls.email.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">in email mora slediti formatu <i>email@email.si</i>.</small>
-      <br/>
-
-    <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="^((?=.*\d)(?=.*[a-zA-Z]).{8,})">
-    <small *ngIf="(regForm.controls.geslo1.errors && regForm.controls.geslo1.errors.pattern) || (regForm.controls.geslo1.errors && !regForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko</small>
-    <br/>
-
-    <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false">
-    <small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
-
-    <button class="form-control" (click)="dodajKontakt()" *ngIf="!prikaziKontakt">Dodajte kontaktno osebo</button><button class="form-control" (click)="odstraniKontakt()" *ngIf="prikaziKontakt">Odstrani kontaktno osebo</button>
-
-    <br/>
-
-    <div *ngIf="prikaziKontakt">
-      <input class="form-control" formControlName="kontaktIme" type="text" placeholder="Ime kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktPriimek" type="text" placeholder="Priimek kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktTelefon" type="text" placeholder="Telefonska številka kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktNaslov" type="text" placeholder="Naslov kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktSorodstvo" type="text" placeholder="Sorodstvena vez s kontaktno osebo"><br/>
-    </div>
 
   <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
   <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosimo, preverite označena polja.</small>
-  <button class="form-control" type="submit">Registriraj</button>
+  <button class="form-control" type="submit">Registrirajte oskrbovanca</button>
 
 
 </form>

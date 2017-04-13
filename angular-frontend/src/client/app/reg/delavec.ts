@@ -8,6 +8,6 @@ export class Delavec {
     public osebna_sifra: number,
     public naziv_delavca: string,
     public naziv_ustanove: string,
-    public naziv_okolisa: any,
+    public naziv_okolisa?: any,
     ) { }
 }

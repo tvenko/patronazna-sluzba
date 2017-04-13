@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RegPacientComponent } from './oskrbovani-pacient.component';
+import { OskrbovaniPacientComponent } from './oskrbovani-pacient.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'reg-pacient', component: RegPacientComponent }
+      { path: 'oskrbovani-pacient', component: OskrbovaniPacientComponent }
     ])
   ],
   exports: [RouterModule]
 })
-export class RegPacientRoutingModule { }
+export class OskrbovaniPacientRoutingModule { }
