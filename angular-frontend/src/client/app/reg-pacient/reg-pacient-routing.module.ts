@@ -6,7 +6,7 @@ import { AuthGuard } from '../guards/auth.guard';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'reg-pacient', component: RegPacientComponent, canActivate: [AuthGuard] }
+      { path: 'reg-pacient', component: RegPacientComponent }
     ])
   ],
   exports: [RouterModule]
