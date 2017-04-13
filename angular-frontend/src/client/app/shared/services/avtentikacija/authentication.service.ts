@@ -23,7 +23,7 @@ export class AuthenticationService {
 					let token = response.json() && response.json().token;
 					if (token) {
 					
-						// določi tip uporabnika in morebitno številko pacienta
+						// določi tip uporabnika in nastavi podatke pacienta
 						var tipUporabnika = "";
 						if (response.json().pacient) {
 							tipUporabnika = "pacient";
@@ -36,7 +36,7 @@ export class AuthenticationService {
 					
 						// določi token
 						this.token = token;
-						// shrani uporabniško ime, jwt token, tip uporabnika in morebitno številko pacienta lokalno
+						// shrani uporabniško ime, jwt token in ti uporabika lokalno
 						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika }));
 						// vrni true za uspešno prijavo
 						return true;
@@ -54,6 +54,7 @@ export class AuthenticationService {
         // počisti token iz lokalnega pomnilnika
         this.token = null;
         localStorage.removeItem('currentUser');
+		localStorage.removeItem('podatkiPacienta');
     }
 
 	private handleError (error: any) {
