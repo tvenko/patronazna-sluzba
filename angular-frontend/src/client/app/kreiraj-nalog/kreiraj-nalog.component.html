@@ -1,4 +1,4 @@
-<sd-navbar></sd-navbar>
+<sd-navbar-vodja-zdravnik></sd-navbar-vodja-zdravnik>
 <p>KREIRANJE NALOGA</p>
 
 <form [formGroup]="myForm" novalidate (ngSubmit)="myForm.valid && pregled()">
@@ -12,9 +12,24 @@
             <h3 class="panel-title">Izvajalec</h3>
           </div>
           <div class="panel-body">
-            // TODO preko delavca v seji <br>
-            Stevilka izvajalca:
-            Naziv izvajalca:
+            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-6">
+                  Šifra ustanove:
+                </div>
+                <div class="ui-grid-col-6">
+                   {{ zdravnik.sifra_bolnice }}
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-6">
+                  Naziv izvajalca:
+                </div>
+                <div class="ui-grid-col-6">
+                   {{ zdravnik.naziv_ustanove }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -25,9 +40,25 @@
             <h3 class="panel-title">Zdravnik</h3>
           </div>
           <div class="panel-body">
-            // TODO preko seje <br>
-            Stevilka zdravnika:
-            Naziv zdravnika:
+            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-6">
+                  Številka zdravnika:
+                </div>
+                <div class="ui-grid-col-6">
+                   {{ zdravnik.osebna_sifra }}
+                </div>
+              </div>
+
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-6">
+                  Naziv zdravnika:
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ zdravnik.ime }} {{ zdravnik.priimek}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -302,7 +333,7 @@
         Številka zdravnika:
       </div>
       <div class="ui-grid-col-6">
-        <!-- TODO: dobi iz seje -->
+        {{ zdravnik.osebna_sifra }}
       </div>
     </div>
     <div class="ui-grid-row">

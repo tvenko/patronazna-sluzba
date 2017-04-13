@@ -22,7 +22,7 @@ export class AuthenticationService {
 				(response : Response) => {
 					let token = response.json() && response.json().token;
 					if (token) {
-					
+
 						// določi tip uporabnika in nastavi podatke pacienta
 						var tipUporabnika = "";
 						if (response.json().pacient) {
@@ -31,8 +31,9 @@ export class AuthenticationService {
 						}
 						else if (response.json().delavec) {
 							tipUporabnika = response.json().delavec[0].naziv_delavca;
+              localStorage.setItem('podatkiIzvajalca', JSON.stringify(response.json().delavec[0]));
 						}
-					
+
 						// določi token
 						this.token = token;
 						// shrani uporabniško ime, jwt token in ti uporabika lokalno
