@@ -76,7 +76,7 @@
           <div class="panel-body">
             <div class="form-group" [ngClass]="{'has-error':!myForm.controls.vrstaObiska.valid && !myForm.controls.vrstaObiska.untouched}">
               <select class="form-control" *ngIf="vrsteObiskov" formControlName="vrstaObiska">
-                <option *ngFor="let obisk of vrsteObiskov.results" [ngValue]="obisk">
+                <option *ngFor="let obisk of vrsteObiskov" [ngValue]="obisk">
                   {{ obisk.opis }}
                 </option>
               </select>

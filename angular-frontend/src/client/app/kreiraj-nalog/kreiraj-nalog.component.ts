@@ -109,7 +109,7 @@ export class KreirajNalogComponent implements OnInit {
       let ctrl = (<any>this.myForm).controls;
       let novNalog = <any>{};
       // TODO Preberi iz seje
-      novNalog.sifra_zdravnika = 56736;
+      novNalog.sifra_zdravnika = this.zdravnik.osebna_sifra;
       novNalog.id_pacienta = <any>[];
       novNalog.id_pacienta[0] = parseInt(ctrl.stevilkaPacienta.value);
       if (ctrl.vrstaObiska.value.vezani_pacienti) {
@@ -320,7 +320,17 @@ export class KreirajNalogComponent implements OnInit {
       this.delovniNalogService.getVrsteObiskov()
       .subscribe(
         response => {
-          this.vrsteObiskov = response;
+          if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
+            this.vrsteObiskov = [];
+            var that = this;
+            response.results.forEach(function(entry:any) {
+              if (entry.id < 4)
+                that.vrsteObiskov.push(entry);
+            });
+          } else {
+            this.vrsteObiskov = response.results;
+          }
+
         },
         error => {
           this.problemPridobivanja = true;
