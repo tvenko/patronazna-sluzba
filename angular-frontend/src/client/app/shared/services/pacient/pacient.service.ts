@@ -35,6 +35,14 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  /**
+   * Vrne sifre okolisa
+   */
+  getSifreOkolisa(): Observable<any[]> {
+    return this.http.get(Config.API + 'racuni/sifreokolisa/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
 
   /**
     * Handle HTTP error

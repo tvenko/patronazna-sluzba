@@ -41,7 +41,6 @@ export class DelavecService {
 
   /**
    * Vrne sifre okolisa
-   * @return {string} seznam zdravil
    */
   getSifreOkolisa(): Observable<any[]> {
     return this.http.get(Config.API + 'racuni/sifreokolisa/')

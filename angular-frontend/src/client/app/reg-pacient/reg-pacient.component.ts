@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { Pacient } from './pacient';
+import { PacientService } from '../shared/services/index';
 
 @Component({
   moduleId: module.id,
@@ -15,16 +16,19 @@ export class RegPacientComponent {
   public minDate: Date;
   public si: any;
 
-  constructor(private fb: FormBuilder) {}
+  public sifreOkolisa: any;
+  public problemPridobivanja: boolean;
+
+  constructor(private fb: FormBuilder, private pacientService: PacientService) {}
 
 ngOnInit() {
-
+  this.dobiSifre();
   this.regForm = this.fb.group({
     zavarovanje: ['', Validators.required],
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
     naslov: ['', Validators.required],
-    sifraOkolisa: ['', Validators.required],
+    sifreOkolisa: ['', Validators.required],
     tel: ['', Validators.required],
     email: ['', Validators.required],
     datumRojstva: ['', Validators.required],
@@ -50,12 +54,24 @@ ngOnInit() {
   pacient: Pacient;
 
   registriraj(podatki: any) {
-    //this.pacient = new Delavec(podatki.ime, podatki.priimek, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.geslo2);
     //this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.sifraOkolisa);
     //console.log(this.pacient);
     console.log(JSON.stringify(podatki));
 
     // todo REST implementacija
+  }
+
+  dobiSifre() {
+    this.problemPridobivanja = false;
+    this.pacientService.getSifreOkolisa()
+    .subscribe(
+      response => {
+        this.sifreOkolisa = response;
+      },
+      error => {
+        this.problemPridobivanja = true;
+      }
+    );
   }
 
 }

@@ -12,13 +12,23 @@ import { DelavecService } from '../shared/services/index';
 })
 export class RegComponent {
   public regForm: FormGroup;
-  public vrstaDelavca: any[];
-  //public vrstaDelavca: any;
+  public vrstaDelavca: any;
+  public nazivUstanove: any;
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
 
   constructor(private fb: FormBuilder, private delavecService: DelavecService,) {
-    this.vrstaDelavca=["zdravnik", "vodja patronažne službe", "medicinska sestra", "uslužbenec"];
+    this.vrstaDelavca=["zdravnik", "vodja PS", "patronažna sestra", "delavec ZD"];
+    this.nazivUstanove=["ZD Medvode",
+    "UKC Ljubljanapediatrična klinika",
+    "Zdravstveni dom Domžale",
+    "Zdravstveni dom Maribor",
+    "Bolnišnica Ptuj",
+    "Zdravstveni dom Vič-Rudnik",
+    "Zdravstveni dom Ljubljana-šentvid",
+    "Zdravstveni dom center",
+    "Splošna bolnišnica Celje",
+    "ZD Slov. Konjice"];
   }
 
 ngOnInit() {
@@ -34,7 +44,7 @@ ngOnInit() {
     email: ['', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
-    sifreOkolisa: ['', Validators.required],
+    sifreOkolisa: [''],
   });
 
 }
@@ -42,16 +52,11 @@ ngOnInit() {
   delavec: Delavec;
 
   registriraj(podatki: any) {
-    /* uporabnik, ime, priimek, vrsta delavca, naziv vrste, tel, osebna sifra, sifra ustanove, naziv ustanove, email, pass, sifra okolisa, naziv okolisa */
-
-    //this.delavec = new Delavec(1, podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.vrstaDelavca, podatki.tel, 123, podatki.sifra2, "bla", podatki.email, podatki.geslo1, podatki.sifreOkolisa.id, podatki.sifreOkolisa.naziv);
-
-    //this.delavec = new Delavec(1, podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.vrstaDelavca, podatki.tel, 123, podatki.sifra2, "bla", podatki.email, podatki.geslo1, podatki.sifreOkolisa.id, podatki.sifreOkolisa.naziv);
-
-    this.delavec = new Delavec(1, "ime", "priimek", "http://localhost:8000/api/v1/racuni/vrstedelavcev/4/", "delavec ZD", "040123123", 1234, "http://localhost:8000/api/v1/racuni/ustanove/5600/", "Zdravstveni dom Vič-Rudnik", "email@gmail.com", "geslo123", "http://localhost:8000/api/v1/racuni/sifreokolisa/3/", "Ljubljana šiška");
-
-    //this.delavec = new Delavec(9, podatki.ime, podatki.priimek,  "http://localhost:8000/api/v1/racuni/vrstedelavcev/4/", "delavec ZD", podatki.tel, 1234, "http://localhost:8000/api/v1/racuni/ustanove/5600/", "Zdravstveni dom Vič-Rudnik", podatki.email, podatki.geslo1, "http://localhost:8000/api/v1/racuni/sifreokolisa/3/", podatki.sifreOkolisa.naziv);
-
+    // zacasna resitev
+    // server ne sprejme null vrednosti okolisa
+    var okolis = (podatki.sifreOkolisa.naziv) ? podatki.sifreOkolisa.naziv : "Ljubljana center";
+    this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.email, podatki.tel, podatki.geslo1, parseInt(podatki.sifra1), podatki.vrstaDelavca, podatki.sifra2, okolis);
+    console.log(okolis);
     console.log(JSON.stringify(this.delavec));
 
     this.delavecService.ustvari(this.delavec)
@@ -91,7 +96,7 @@ ngOnInit() {
   }
 
   rabiSifroOkolisa() {
-    return ((this.regForm.controls.vrstaDelavca.value === "medicinska sestra") ? true : false);
+    return ((this.regForm.controls.vrstaDelavca.value === "patronažna sestra") ? true : false);
   }
 
 }

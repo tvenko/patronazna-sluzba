@@ -27,14 +27,15 @@
       <br/>
 
       <input class="form-control" formControlName="naslov" type="text" placeholder="Naslov">
-      <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
+      <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small>
 
-      <input class="form-control" formControlName="sifraOkolisa" type="text" placeholder="Šifra okoliša" required
-        pattern="^\d*$">
-      <small *ngIf="regForm.controls.sifraOkolisa.errors && !regForm.controls.sifraOkolisa.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.sifraOkolisa.errors && regForm.controls.sifraOkolisa.errors.pattern" class="text-danger">in šifra okoliša lahko vsebuje le številke</small>
+      <label>Šifra okoliša: </label>
+      <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
+        <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+          {{ sifra.naziv }}
+        </option>
+      </select>
       <br/>
-
 
       <input class="form-control" formControlName="tel" type="text" placeholder="Telefonska številka" required
         pattern="^\d*$">
@@ -60,8 +61,9 @@
 
     <button class="form-control" type="submit" disabled>Dodaj oskrbovanega člana</button><br/>
 
-  <!---<button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>--->
-  <button class="form-control" type="submit">Registriraj</button>
+  <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
+  <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosim, preverite označena polja.</small>
+  <!---<button class="form-control" type="submit">Registriraj</button>--->
 
 
 </form>
