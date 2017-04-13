@@ -21,12 +21,23 @@ export class AuthenticationService {
             .map(
 				(response : Response) => {
 					let token = response.json() && response.json().token;
-          console.log(response);
 					if (token) {
+					
+						// določi tip uporabnika in morebitno številko pacienta
+						var tipUporabnika = "";
+						var stevilkaPacienta = "";
+						if (response.json().pacient) {
+							tipUporabnika = "pacient";
+							stevilkaPacienta = response.json().pacient[0].stevilkaPacienta;
+						}
+						else if (response.json().delavec) {
+							tipUporabnika = response.json().delavec[0].naziv_delavca;
+						}
+					
 						// določi token
 						this.token = token;
-						// shrani uporabniško ime in jwt token lokalno
-						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+						// shrani uporabniško ime, jwt token, tip uporabnika in morebitno številko pacienta lokalno
+						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika, stevilkaPacienta: stevilkaPacienta}));
 						// vrni true za uspešno prijavo
 						return true;
 					}
