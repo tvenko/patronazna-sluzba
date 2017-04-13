@@ -19,12 +19,12 @@ def jwt_response_payload_handler(token, user=None, request=None):
     pacient = json.loads(PacientiViewSet.as_view({'get': 'list'})(request).render().content.decode('utf-8'))['results']
 
     # Vrne samo tistega, katero vlogo podpira, ce ni nobene vrni samo uporabnika
-    if not delavec:
+    if not delavec and pacient:
         return {
             'token': token,
             'pacient': pacient
         }
-    elif not pacient:
+    elif not pacient and delavec:
         return {
             'token': token,
             'delavec': delavec
