@@ -25,19 +25,19 @@ export class AuthenticationService {
 					
 						// določi tip uporabnika in morebitno številko pacienta
 						var tipUporabnika = "";
-						var stevilkaPacienta = "";
 						if (response.json().pacient) {
 							tipUporabnika = "pacient";
-							stevilkaPacienta = response.json().pacient[0].stevilkaPacienta;
+							localStorage.setItem('podatkiPacienta', JSON.stringify(response.json().pacient[0]));
 						}
 						else if (response.json().delavec) {
 							tipUporabnika = response.json().delavec[0].naziv_delavca;
 						}
 					
+					
 						// določi token
 						this.token = token;
 						// shrani uporabniško ime, jwt token, tip uporabnika in morebitno številko pacienta lokalno
-						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika, stevilkaPacienta: stevilkaPacienta}));
+						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika }));
 						// vrni true za uspešno prijavo
 						return true;
 					}
