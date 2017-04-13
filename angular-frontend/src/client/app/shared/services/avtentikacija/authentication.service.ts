@@ -35,7 +35,7 @@ export class AuthenticationService {
 					
 						// določi token
 						this.token = token;
-						// shrani uporabniško ime, jwt token in ti uporabika lokalno
+						// shrani uporabniško ime, jwt token in tip uporabika lokalno
 						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika }));
 						// vrni true za uspešno prijavo
 						return true;
