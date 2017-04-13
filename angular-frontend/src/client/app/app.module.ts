@@ -18,6 +18,7 @@ import { RegPacientModule } from './reg-pacient/reg-pacient.module';
 import { AuthenticationService } from './shared/services/avtentikacija/authentication.service';
 import { PrijavaComponent } from './prijava/prijava.component';
 import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
@@ -29,7 +30,7 @@ import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   },
-  AuthenticationService],
+  AuthenticationService, AuthGuard],
   bootstrap: [AppComponent]
 
 })
