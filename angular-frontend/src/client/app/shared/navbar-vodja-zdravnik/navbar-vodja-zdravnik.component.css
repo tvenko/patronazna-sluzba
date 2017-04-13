@@ -1,0 +1,26 @@
+:host {
+  border: 0 solid #e1e1e1;
+  border-bottom-width: 1px;
+  display: block;
+  height: 40px;
+  padding: 0 16px;
+}
+
+nav a {
+  color: #8f8f8f;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 40px;
+  margin-right: 20px;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+nav a.router-link-active {
+  color: #5fc241;
+}
+
+nav a:hover {
+  color: rgba(95, 194, 65, 0.53);
+}

@@ -1,3 +1,68 @@
-<sd-navbar></sd-navbar>
+<sd-navbar-vodja-zdravnik></sd-navbar-vodja-zdravnik>
+<div class="ui-grid ui-grid-responsive ui-grid-pad">
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-4">
+      <h2>Vaši delovni nalogi</h2>
+    </div>
+  </div>
+  <!-- Body od vseh osebnih podatkov -->
+  <div class="ui-grid-row" *ngFor="let nalog of delovniNalogi">
+    <div class="ui-grid-col-8">
 
-<p>Pregled nalogov ... (V izdelavi)</p>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          Datum prvega obiska:
+        </div>
+        <div class="ui-grid-col-6">
+          {{ nalog.datum_prvega_obiska | date }}
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          Ali je datum obvezen:
+        </div>
+        <div class="ui-grid-col-6">
+          {{ nalog.je_obvezen_datum }}
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          Število obiskov:
+        </div>
+        <div class="ui-grid-col-6">
+          {{ nalog.stevilo_obiskov }}
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          Časovni interval:
+        </div>
+        <div class="ui-grid-col-6">
+          {{ nalog.casovni_interval }}
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          Časovno obdobje
+        </div>
+        <div class="ui-grid-col-6">
+          {{ nalog.casovno_obdobje }}
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          Številka pacienta:
+        </div>
+        <div class="ui-grid-col-6">
+          {{ nalog.id_pacienta }}
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -29,6 +29,7 @@ export class KreirajNalogComponent implements OnInit {
   public posljiNalog: boolean;
   public sporociloStreznika: boolean;
   public napakaStreznika: boolean;
+  public zdravnik: any;
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -76,6 +77,15 @@ export class KreirajNalogComponent implements OnInit {
       this.minDate = new Date(today);
       this.subscribeSpremeboGumbovKoncnegaDatuma();
       this.izracunajMinimalenDatum();
+      // Pridobi podatke o izvajalcu iz lokalne shrambe
+      this.zdravnik = JSON.parse(localStorage.getItem('podatkiIzvajalca'));
+
+      if (!this.zdravnik)
+        this.zdravnik = {};
+      else {
+        this.zdravnik.sifra_bolnice = this.zdravnik.sifra_ustanove.slice(-5).substring(0,4);
+      }
+
     }
 
     /**
