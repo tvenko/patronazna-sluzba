@@ -12,10 +12,7 @@ import { PacientService } from '../shared/services/index';
 })
 export class OskrbovaniPacientComponent {
   public regForm: FormGroup;
-  public date: Date;
-  public minDate: Date;
   public si: any;
-  public prikaziKontakt : boolean;
 
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
@@ -24,7 +21,6 @@ export class OskrbovaniPacientComponent {
 
 ngOnInit() {
   this.dobiSifre();
-  this.prikaziKontakt = false;
   this.regForm = this.fb.group({
     zavarovanje: ['', Validators.required],
     ime: ['', Validators.required],
@@ -35,15 +31,10 @@ ngOnInit() {
     sifreOkolisa: ['', Validators.required],
     tel: ['', Validators.required],
     email: ['', Validators.required],
-    datumRojstva: ['', Validators.required],
+    datumRojstva: [''],
     spol: ['', Validators.required],
     geslo1: ['', Validators.required],
-    geslo2: ['', Validators.required],
-    kontaktIme: ['', Validators.required],
-    kontaktPriimek: ['', Validators.required],
-    kontaktTelefon: ['', Validators.required],
-    kontaktSorodstvo: ['', Validators.required],
-    kontaktNaslov: ['', Validators.required]
+    geslo2: ['', Validators.required]
   });
 
   this.si = {
@@ -55,28 +46,20 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
-  let bdate = new Date();
-  bdate.setFullYear(bdate.getFullYear() - 18);
-  this.minDate = new Date(bdate);
+  //let bdate = new Date();
+  //bdate.setFullYear(bdate.getFullYear() - 18);
+  //this.minDate = new Date(bdate);
 }
 
   pacient: Pacient;
 
   registriraj(podatki: any) {
-    // pobrisi podatke kontakta
-    if (!this.prikaziKontakt) {
-      podatki.kontaktIme = "";
-      podatki.kontaktPriimek = "";
-      podatki.kontaktNaslov = "";
-      podatki.kontaktTelefon = "";
-      podatki.kontaktSorodstvo = "";
-    }
-
-    this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
 
     console.log(JSON.stringify(this.pacient));
 
-    this.pacientService.ustvari(this.pacient)
+
+    /*this.pacientService.ustvari(this.pacient)
       .subscribe(
         response => {
           console.log(response);
@@ -84,16 +67,13 @@ ngOnInit() {
         error => {
         }
       )
+      */
+      // vezi pacienta na trenutni login
+      console.log(JSON.parse(localStorage.getItem('currentUser')));
 
-    // todo REST implementacija
+
   }
 
-  dodajKontakt() {
-    this.prikaziKontakt = true;
-  }
-  odstraniKontakt() {
-    this.prikaziKontakt = false;
-  }
 
   dobiSifre() {
     this.problemPridobivanja = false;
