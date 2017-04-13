@@ -1,8 +1,11 @@
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from rest_framework.exceptions import NotAuthenticated, ParseError
+from datetime import date
+import datetime
 
 from delovniNalog.models import *
+from obisk.serializers import ObiskSerializer
 
 class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
     '''Serializira material delovnega naloga'''
@@ -40,8 +43,34 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
                   'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
                    'vrsta_obiska', 'patronazna_sestra', 'material')
 
+    #funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan koncen datum
+    def kreirajObiskObdobje(self, stObiskov, zacetniDatum, koncniDatum, patronaznaSestra, jeObvezen = False):
+        stDni = koncniDatum-zacetniDatum
+        interval = int(stDni.days/stObiskov)
+        datum = zacetniDatum
+        for i in range(0, stObiskov):
+            data = {'patronazna_sestra': patronaznaSestra, 'datum': datum, 'je_obvezen_datum': jeObvezen}
+            ObiskSerializer.create(self, data)
+            datum += datetime.timedelta(days=interval)
+            if(datum.weekday() == 6):
+                datum += datetime.timedelta(days=1)
+            elif (datum.weekday() == 5):
+                datum += datetime.timedelta(days=2)
+
+    # funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan interval med obiski
+    def kreirajObiskInterval(self, stObiskov, zacetniDatum, interval, patronaznaSestra, jeObvezen = False):
+        datum = zacetniDatum
+        for i in range(0, stObiskov):
+            data = {'patronazna_sestra': patronaznaSestra, 'datum': datum, 'je_obvezen_datum': jeObvezen}
+            ObiskSerializer.create(self, data)
+            datum += datetime.timedelta(days=interval)
+            if (datum.weekday() == 6):
+                datum += datetime.timedelta(days=1)
+            elif (datum.weekday() == 5):
+                datum += datetime.timedelta(days=2)
+
     def create(self, validated_data):
-        # TODO preveri z JWT tokenom ali je zdravnik, ne samo preko polja v body (!)
+        # TODO preveri z JWT tokenom ali je zdravnik, ne samo preko polja v body (!) to je lazje preverit z request.user??
         if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS" or validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "zdravnik"):
             if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS"):
                 if (validated_data['vrsta_obiska'].opis == "kontrola zdravstvenega stanja" or
@@ -91,6 +120,19 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
                     novi_material.save()
                 # Nevem ce je potrebna spodnja vrstica ?
                 #delovniNalog.id_materiala = material.objects.get(id)
+
+            #Kreira zapise o Obisku v bazo
+            if ('casovno_obdobje' in validated_data.keys()):
+                self.kreirajObiskObdobje(validated_data['stevilo_obiskov'], validated_data['datum_prvega_obiska'],
+                                           validated_data['casovno_obdobje'], delovniNalog.patronazna_sestra,
+                                           validated_data['je_obvezen_datum'])
+            elif('casovni_interval' in validated_data.keys()):
+                self.kreirajObiskInterval(validated_data['stevilo_obiskov'], validated_data['datum_prvega_obiska'],
+                                          validated_data['casovni_interval'], delovniNalog.patronazna_sestra,
+                                          validated_data['je_obvezen_datum'])
+            else:
+                print('se ni')
+
             return delovniNalog
         else:
             print('ni zdravnik!!!')
