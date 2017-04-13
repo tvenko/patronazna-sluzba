@@ -56,8 +56,7 @@ ngOnInit() {
     // server ne sprejme null vrednosti okolisa
     var okolis = (podatki.sifreOkolisa.naziv) ? podatki.sifreOkolisa.naziv : "Ljubljana center";
     this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.email, podatki.tel, podatki.geslo1, parseInt(podatki.sifra1), podatki.vrstaDelavca, podatki.sifra2, okolis);
-    console.log(okolis);
-    console.log(JSON.stringify(this.delavec));
+    //console.log(JSON.stringify(this.delavec));
 
     this.delavecService.ustvari(this.delavec)
       .subscribe(

@@ -71,10 +71,8 @@ ngOnInit() {
       podatki.kontaktTelefon = "";
       podatki.kontaktSorodstvo = "";
     }
-    var spol = false;
-    if (podatki.spol == "Moški") spol = true;
-    console.log(spol);
-    this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
+
+    this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
 
     console.log(JSON.stringify(this.pacient));
 
@@ -87,6 +85,7 @@ ngOnInit() {
         }
       )
 
+    // todo REST implementacija
   }
 
   dodajKontakt() {

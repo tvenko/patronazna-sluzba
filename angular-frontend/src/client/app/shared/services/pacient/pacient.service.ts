@@ -35,6 +35,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  ustvari(pacient: any): Observable<string[]> {
+    return this.http.post(Config.API + 'racuni/pacienti/',  pacient)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   /**
    * Vrne sifre okolisa
    */

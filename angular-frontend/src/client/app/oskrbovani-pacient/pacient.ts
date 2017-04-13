@@ -15,7 +15,7 @@ export class Pacient {
     public kraj: string,
 
     public datumRojstva: string,
-    public spol: boolean,
+    public spol: string,
 
     public sifra_okolisa: string,
 
