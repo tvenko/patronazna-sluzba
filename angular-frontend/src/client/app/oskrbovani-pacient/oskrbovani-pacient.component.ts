@@ -46,20 +46,23 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
-  //let bdate = new Date();
-  //bdate.setFullYear(bdate.getFullYear() - 18);
-  //this.minDate = new Date(bdate);
 }
 
   pacient: Pacient;
 
+  vString(datum: Date) {
+    var m = datum.getMonth()+1;
+    var d = datum.getDate();
+    var y = datum.getFullYear();
+    return y+"-"+m+"-"+d;
+  }
   registriraj(podatki: any) {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
 
     console.log(JSON.stringify(this.pacient));
 
 
-    /*this.pacientService.ustvari(this.pacient)
+    this.pacientService.ustvari(this.pacient)
       .subscribe(
         response => {
           console.log(response);
@@ -67,9 +70,9 @@ ngOnInit() {
         error => {
         }
       )
-      */
+
       // vezi pacienta na trenutni login
-      console.log(JSON.parse(localStorage.getItem('currentUser')));
+      console.log(JSON.parse(localStorage.getItem('podatkiPacienta')));
 
 
   }
