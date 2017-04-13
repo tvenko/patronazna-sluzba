@@ -323,12 +323,12 @@ export class KreirajNalogComponent implements OnInit {
           if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
             this.vrsteObiskov = [];
             var that = this;
-            response.results.forEach(function(entry:any) {
+            (response as any).results.forEach(function(entry:any) {
               if (entry.id < 4)
                 that.vrsteObiskov.push(entry);
             });
           } else {
-            this.vrsteObiskov = response.results;
+            this.vrsteObiskov = (response as any).results;
           }
 
         },
