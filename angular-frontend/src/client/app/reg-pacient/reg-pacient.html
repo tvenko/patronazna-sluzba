@@ -10,7 +10,7 @@
       <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small>
       <br/>
 
-      <p-calendar  formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" yearRange="c-50:c+10" [showIcon]="true" [yearNavigator]="true" placeholder="Datum rojstva"></p-calendar>
+      <p-calendar  formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" [showIcon]="true" placeholder="Datum rojstva"></p-calendar>
       <small *ngIf="regForm.controls.datumRojstva.errors && !regForm.controls.datumRojstva.untouched" class="text-danger">Polje je obvezno</small>
       <br/><br/>
 
