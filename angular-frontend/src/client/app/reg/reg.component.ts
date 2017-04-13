@@ -57,7 +57,7 @@ ngOnInit() {
     } else {
       this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.email, podatki.tel, podatki.geslo1, parseInt(podatki.sifra1), podatki.vrstaDelavca, podatki.sifra2);
     }
-    //console.log(JSON.stringify(this.delavec));
+    console.log(JSON.stringify(this.delavec));
 
     this.delavecService.ustvari(this.delavec)
       .subscribe(
