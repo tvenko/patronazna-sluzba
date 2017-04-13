@@ -25,8 +25,10 @@ export class KreirajNalogComponent implements OnInit {
   public minDateKoncen: Date;
   public si: any;
   public interval: string;
-  private pokaziPregled: boolean;
-  private posljiNalog: boolean;
+  public pokaziPregled: boolean;
+  public posljiNalog: boolean;
+  public sporociloStreznika: boolean;
+  public napakaStreznika: boolean;
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -39,6 +41,9 @@ export class KreirajNalogComponent implements OnInit {
       this.pridobiEpruvete();
       this.pokaziPregled = false;
       this.posljiNalog = false;
+      this.pacient = '';
+      this.napakaStreznika = false;
+      this.sporociloStreznika = false;
 
       // Inicializacija forme za dodajanje materiala
       this.myForm = this._fb.group({
@@ -77,9 +82,12 @@ export class KreirajNalogComponent implements OnInit {
      * Pregled naloga preden je poslan (moznost preklica)
      */
     pregled() {
-      // TODO modal z pregledom (?)
-      this.pokaziPregled = true;
+      // Pridobi podatke za pacienta
+      if (!this.pacient || this.problemPridobivanja) {
+          this.pridobiPodatke();
+      }
 
+      this.pokaziPregled = true;
     }
 
 
@@ -92,7 +100,7 @@ export class KreirajNalogComponent implements OnInit {
       let novNalog = <any>{};
       // TODO Preberi iz seje
       novNalog.sifra_zdravnika = 56736;
-      novNalog.id_pacienta = <any>[]
+      novNalog.id_pacienta = <any>[];
       novNalog.id_pacienta[0] = parseInt(ctrl.stevilkaPacienta.value);
       if (ctrl.vrstaObiska.value.vezani_pacienti) {
         // TODO dodaj vezane pacienti pri obisku otrocnice
@@ -129,20 +137,26 @@ export class KreirajNalogComponent implements OnInit {
         }
       }
 
+      // Ce je vrsta obiska obisk otrocnice, potem poslji se vezane paciente
+      if (ctrl.vrstaObiska.value.id) {}
+
       if (ctrl.obvezen.value === 'true')
         novNalog.je_obvezen_datum = true;
       else
         novNalog.je_obvezen_datum = false;
 
-      console.log(JSON.stringify(novNalog));
+      //console.log(JSON.stringify(novNalog));
       this.delovniNalogService.ustvari(novNalog)
         .subscribe(
           response => {
-            console.log(response);
+            this.sporociloStreznika = true;
+            this.napakaStreznika = false;
           },
           error => {
+            this.sporociloStreznika = false;
+            this.napakaStreznika = true;
           }
-        )
+        );
     }
 
     /**
@@ -188,9 +202,9 @@ export class KreirajNalogComponent implements OnInit {
     */
     aliRabiMaterial() {
       if (this.myForm.controls.vrstaObiska.value.id == 5)
-      return true;
+        return true;
       else
-      return false;
+        return false;
     }
 
     /**
@@ -198,9 +212,9 @@ export class KreirajNalogComponent implements OnInit {
     */
     aliRabiZdravilo() {
       if (this.myForm.controls.vrstaObiska.value.id == 4)
-      return true;
+        return true;
       else
-      return false;
+        return false;
     }
 
     /**
@@ -270,6 +284,7 @@ export class KreirajNalogComponent implements OnInit {
     */
     pridobiPodatke() {
       this.problemPridobivanja = false;
+      this.pacient = '';
 
       if (!this.myForm.controls.stevilkaPacienta.value) {
         this.neveljavnaStevilka = true;

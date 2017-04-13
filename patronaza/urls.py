@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^docs/', schema_view, name='docs'),
     url(r'^api/v1/racuni/', include('accounts.urls')),
     url(r'^api/v1/dn/', include('delovniNalog.urls')),
+    url(r'^api/v1/obiski/', include('obisk.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/token/auth/', obtain_jwt_token),
     url(r'^api/v1/token/refresh/', refresh_jwt_token),

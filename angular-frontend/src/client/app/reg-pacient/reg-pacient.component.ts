@@ -55,9 +55,9 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
-  let bdate = new Date();
-  bdate.setFullYear(bdate.getFullYear() - 18);
-  this.minDate = new Date(bdate);
+  //let bdate = new Date();
+  //bdate.setFullYear(bdate.getFullYear() - 18);
+  //this.minDate = new Date(bdate);
 }
 
   pacient: Pacient;

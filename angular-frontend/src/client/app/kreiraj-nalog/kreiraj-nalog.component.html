@@ -161,7 +161,7 @@
             <div class="ui-grid-row">
               <!-- TODO Napaka za izpad baze? -->
               <div *ngIf="problemPridobivanja" class="ui-grid-col-12 alert alert-warning" role="alert">
-                <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov.
+                <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov. Je številka pacienta pravilna?
               </div>
             </div>
             <div class="ui-grid-row">
@@ -246,31 +246,32 @@
                 </div>
               </div>
             </div>
-          <!-- Group za izbiro vmesnih dni med obiski -->
-          <div class="ui-grid-row">
-          <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'vmesniDnevi'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched}">
-            <label>Interval med obiski</label>
-            <input type="number" min="1" class="form-control" formControlName="interval">
-            <small *ngIf="!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched" class="text-danger">
-              Vnesite število dni, ki naj pretečejo med obiski
-            </small>
-          </div>
-        </div>
-          <!-- Group za izbiro koncnega datuma -->
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value === 'zadnjiDan'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouche}">
-              <label>Datum zadnjega obiska</label><br>
-              <p-calendar class="ui-fluid" formControlName="koncniDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar><br>
-              <small *ngIf="!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouched" class="text-danger">
-                Izberite datum zadnjega obiska
-              </small>
+            <!-- Group za izbiro vmesnih dni med obiski -->
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'vmesniDnevi'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched}">
+                <label>Interval med obiski</label>
+                <input type="number" min="1" class="form-control" formControlName="interval">
+                <small *ngIf="!myForm.controls.obdobjeObiskov.controls.interval.valid && !myForm.controls.obdobjeObiskov.controls.interval.untouched" class="text-danger">
+                  Vnesite število dni, ki naj pretečejo med obiski
+                </small>
+              </div>
             </div>
+            <!-- Group za izbiro koncnega datuma -->
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value === 'zadnjiDan'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouche}">
+                <label>Datum zadnjega obiska</label><br>
+                <p-calendar class="ui-fluid" formControlName="koncniDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar><br>
+                <small *ngIf="!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouched" class="text-danger">
+                  Izberite datum zadnjega obiska
+                </small>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <div class="container">
@@ -282,6 +283,12 @@
       <small *ngIf="!myForm.valid" class="text-danger">
         Obrazec še ni veljaven
       </small>
+      <small *ngIf="this.sporociloStreznika" class="text-success">
+        Nalog je bil uspešno shranjen
+      </small>
+      <small *ngIf="this.napakaStreznika" class="text-danger">
+        Prišlo je do napake pri shranjevanju, poskusite kasneje
+      </small>
       <button pButton type="submit" label="Naprej" class="md-margin" [disabled]="!myForm.valid"></button>
     </div>
   </div>
@@ -289,23 +296,126 @@
 </div>
 
 <p-dialog header="Pregled vnosov" [(visible)]="pokaziPregled" modal="modal" responsive="true">
-    <p>
-    Številka zdravnika: <!-- TODO: dobi iz seje --> <br>
-    Vrsta obiska: {{ myForm.controls.vrstaObiska.value?.opis}} <br>
-    Številka pacienta: {{ myForm.controls.stevilkaPacienta.value }} <br>
-    Vezani pacienti: <!-- TODO: dodaj v obrazec moznost izbire vezanega --> <br>
-    Je obisk obvezen?: {{ myForm.controls.obvezen.value }} <br>
-    Prvi datum: {{ myForm.controls.prviDatum.value }} <br>
-    Število obiskov: {{ myForm.controls.steviloObiskov.value }} <br>
-    Število dni med obiski: {{ myForm.controls.obdobjeObiskov.controls.interval.value }} <br>
-    Datum zadnjega obiska: {{ myForm.controls.obdobjeObiskov.controls.koncniDatum.value }} <br>
+  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Številka zdravnika:
+      </div>
+      <div class="ui-grid-col-6">
+        <!-- TODO: dobi iz seje -->
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Vrsta obiska:
+      </div>
+      <div class="ui-grid-col-6">
+        {{ myForm.controls.vrstaObiska.value?.opis}}
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Številka pacienta:
+      </div>
+      <div class="ui-grid-col-6">{{ myForm.controls.stevilkaPacienta.value }}
+      </div>
+    </div>
+      <div class="ui-grid-row" *ngIf="!problemPridobivanja && pacient">
+        <div class="ui-grid-col-6">
+          Ime pacienta:
+        </div>
+        <div class="ui-grid-col-6">
+          {{ pacient.priimek }}, {{ pacient.ime }}
+        </div>
+      </div>
+      <div class="ui-grid-row" *ngIf="!problemPridobivanja && pacient && myForm.controls.vrstaObiska.value?.vezani_pacienti">
+        <div class="ui-grid-col-6">
+          Vezani pacienti (otroci):
+        </div>
+        <div class="ui-grid-col-6" >
+          <ul>
+            <li *ngFor="let otrok of pacient.vezaniPacienti">
+              {{ otrok.priimek }}, {{ otrok.ime }} ({{ otrok.stevilkaPacienta }})
+            </li>
+          </ul>
+        </div>
+      </div>
+    <div *ngIf="problemPridobivanja" class="ui-grid-col-12 alert alert-warning" role="alert">
+      <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov. Je številka pacienta pravilna?
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Je obisk obvezen?:
+      </div>
+      <div class="ui-grid-col-6">
+        {{ myForm.controls.obvezen.value }}
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Prvi datum:
+      </div>
+      <div class="ui-grid-col-6">
+        {{ myForm.controls.prviDatum.value | date }}
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Število obiskov:
+      </div>
+      <div class="ui-grid-col-6">
+        {{ myForm.controls.steviloObiskov.value }}
+      </div>
 
-    </p>
-        <p-footer>
-            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                <button type="button" pButton icon="fa-check" (click)="pokaziPregled=false; poslji()" label="Pošlji"></button>
-                <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="pokaziPregled=false" label="Popravi"></button>
-            </div>
-        </p-footer>
+    </div>
+    <div *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'vmesniDnevi'" class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Število dni med obiski:
+      </div>
+      <div class="ui-grid-col-6">
+        {{ myForm.controls.obdobjeObiskov.controls.interval.value }} dni
+      </div>
+    </div>
+    <div *ngIf="myForm.controls.obdobjeObiskov.controls.type.value == 'zadnjiDan'" class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        Datum zadnjega obiska:
+      </div>
+      <div class="ui-grid-col-6">
+        {{ myForm.controls.obdobjeObiskov.controls.koncniDatum.value | date }}
+      </div>
+    </div>
+    <div class="ui-grid-row" *ngIf="this.myForm.controls.vrstaObiska.value?.id == 5">
+      <div class="ui-grid-col-6">
+        Material:
+      </div>
+      <div class="ui-grid-col-6">
+        <ul>
+          <li *ngFor="let material of myForm.controls.materiali.controls">
+            {{ material.controls.material.value.opis }}: {{ material.controls.kolicina.value }}
+          </li>
+        </ul>
+    </div>
+  </div>
+    <div class="ui-grid-row" *ngIf="this.myForm.controls.vrstaObiska.value?.id == 4">
+      <div class="ui-grid-col-6">
+        Zdravila:
+      </div>
+      <div class="ui-grid-col-6">
+        <ul>
+          <li *ngFor="let zdravilo of myForm.controls.zdravila.controls">
+            {{ zdravilo.controls.zdravilo.value.naziv }}
+          </li>
+        </ul>
+    </div>
+  </div>
+  </div>
+
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" [disabled]="problemPridobivanja || !pacient" pButton icon="fa-check" (click)="pokaziPregled=false; poslji()" label="Pošlji"></button>
+      <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="pokaziPregled=false" label="Popravi"></button>
+    </div>
+  </p-footer>
 </p-dialog>
 </form>
