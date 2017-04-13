@@ -14,7 +14,7 @@ export class PregledNalogovGuard implements CanActivate {
 			return true;
         }
  
-        this.router.navigate(['/']);
+        this.router.navigate(['/ni-dostopa.html']);
         return false;
     }
 }
