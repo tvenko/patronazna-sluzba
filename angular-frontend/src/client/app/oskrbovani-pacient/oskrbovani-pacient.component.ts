@@ -6,11 +6,11 @@ import { PacientService } from '../shared/services/index';
 
 @Component({
   moduleId: module.id,
-  selector: 'reg-pacient',
-  templateUrl: 'reg-pacient.html',
-  styleUrls: ['reg-pacient.component.css']
+  selector: 'oskrbovani-pacient',
+  templateUrl: 'oskrbovani-pacient.html',
+  styleUrls: ['oskrbovani-pacient.component.css']
 })
-export class RegPacientComponent {
+export class OskrbovaniPacientComponent {
   public regForm: FormGroup;
   public date: Date;
   public minDate: Date;
@@ -35,7 +35,7 @@ ngOnInit() {
     sifreOkolisa: ['', Validators.required],
     tel: ['', Validators.required],
     email: ['', Validators.required],
-    datumRojstva: [''],
+    datumRojstva: ['', Validators.required],
     spol: ['', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
@@ -55,20 +55,24 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
-  //let bdate = new Date();
-  //bdate.setFullYear(bdate.getFullYear() - 18);
-  //this.minDate = new Date(bdate);
+  let bdate = new Date();
+  bdate.setFullYear(bdate.getFullYear() - 18);
+  this.minDate = new Date(bdate);
 }
 
   pacient: Pacient;
 
   registriraj(podatki: any) {
-
+    // pobrisi podatke kontakta
     if (!this.prikaziKontakt) {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa);
-    } else {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
+      podatki.kontaktIme = "";
+      podatki.kontaktPriimek = "";
+      podatki.kontaktNaslov = "";
+      podatki.kontaktTelefon = "";
+      podatki.kontaktSorodstvo = "";
     }
+
+    this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, podatki.datumRojstva, podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
 
     console.log(JSON.stringify(this.pacient));
 
@@ -81,6 +85,7 @@ ngOnInit() {
         }
       )
 
+    // todo REST implementacija
   }
 
   dodajKontakt() {

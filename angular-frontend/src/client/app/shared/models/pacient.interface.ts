@@ -1,14 +1,24 @@
 export interface Pacient {
-  stevilkaPacienta: number;
-  ime: string;
-  priimek: string;
-  ulica: string;
-  hisnaStevilka: string;
-  datumRojstva: any;
-  posta: number;
-  kraj: string;
-  telefon: any;
-  eposta: any;
-  kontaktnaOseba: any;
-  vezaniPacienti: any[];
+  ime: string,
+  priimek: string,
+  datumRojstva: string,
+  spol: string,
+  stevilkaPacienta: string,
+  ulica: string,
+  hisnaStevilka: string,
+  kraj: string,
+  sifra_okolisa: string,
+  telefon: string,
+
+  kontaktSorodstvo: string,
+  kontaktIme: string,
+  kontaktPriimek: string,
+  kontaktUlica: string,
+  kontaktHisnaStevilka: string,
+  kontaktKraj: string,
+  kontaktPostnaStevilka: string
+  kontaktTelefon: string,
+
+  eposta: string,
+  password: string,
 }

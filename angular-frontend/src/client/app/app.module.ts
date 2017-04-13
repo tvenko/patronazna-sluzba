@@ -15,6 +15,7 @@ import { DelovniNalogModule } from './delovni-nalog/delovni-nalog.module';
 import { KreirajNalogModule } from './kreiraj-nalog/kreiraj-nalog.module';
 import { RegModule } from './reg/reg.module';
 import { RegPacientModule } from './reg-pacient/reg-pacient.module';
+import { OskrbovaniPacientModule } from './oskrbovani-pacient/oskrbovani-pacient.module';
 import { AuthenticationService } from './shared/services/avtentikacija/authentication.service';
 import { PrijavaComponent } from './prijava/prijava.component';
 import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
@@ -24,7 +25,7 @@ import { AuthGuard } from './guards/auth.guard';
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
-	PrijavaRoutingModule],
+	PrijavaRoutingModule, OskrbovaniPacientModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
