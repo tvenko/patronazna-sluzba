@@ -25,10 +25,10 @@ export class KreirajNalogComponent implements OnInit {
   public minDateKoncen: Date;
   public si: any;
   public interval: string;
-  private pokaziPregled: boolean;
-  private posljiNalog: boolean;
-  private sporociloStreznika: boolean;
-  private napakaStreznika: boolean;
+  public pokaziPregled: boolean;
+  public posljiNalog: boolean;
+  public sporociloStreznika: boolean;
+  public napakaStreznika: boolean;
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -87,7 +87,6 @@ export class KreirajNalogComponent implements OnInit {
           this.pridobiPodatke();
       }
 
-      console.log(this.myForm);
       this.pokaziPregled = true;
     }
 
@@ -101,7 +100,7 @@ export class KreirajNalogComponent implements OnInit {
       let novNalog = <any>{};
       // TODO Preberi iz seje
       novNalog.sifra_zdravnika = 56736;
-      novNalog.id_pacienta = <any>[]
+      novNalog.id_pacienta = <any>[];
       novNalog.id_pacienta[0] = parseInt(ctrl.stevilkaPacienta.value);
       if (ctrl.vrstaObiska.value.vezani_pacienti) {
         // TODO dodaj vezane pacienti pri obisku otrocnice
@@ -146,7 +145,7 @@ export class KreirajNalogComponent implements OnInit {
       else
         novNalog.je_obvezen_datum = false;
 
-      console.log(JSON.stringify(novNalog));
+      //console.log(JSON.stringify(novNalog));
       this.delovniNalogService.ustvari(novNalog)
         .subscribe(
           response => {
@@ -157,7 +156,7 @@ export class KreirajNalogComponent implements OnInit {
             this.sporociloStreznika = false;
             this.napakaStreznika = true;
           }
-        )
+        );
     }
 
     /**
