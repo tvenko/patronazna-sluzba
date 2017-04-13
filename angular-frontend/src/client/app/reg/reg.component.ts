@@ -40,11 +40,11 @@ ngOnInit() {
     this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.sifraOkolisa);
     console.log(JSON.stringify(this.delavec));
 
-    
+
 
 
   }
 
-  rabiSifroOkolisa() {  return ((this.regForm.controls.vrstaDelavca._value === "medicinska sestra") ? true : false); }
+  rabiSifroOkolisa() {  return ((this.regForm.controls.vrstaDelavca.value === "medicinska sestra") ? true : false); }
 
 }

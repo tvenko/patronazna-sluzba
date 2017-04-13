@@ -27,6 +27,8 @@ export class KreirajNalogComponent implements OnInit {
   public interval: string;
   private pokaziPregled: boolean;
   private posljiNalog: boolean;
+  private sporociloStreznika: boolean;
+  private napakaStreznika: boolean;
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -39,6 +41,9 @@ export class KreirajNalogComponent implements OnInit {
       this.pridobiEpruvete();
       this.pokaziPregled = false;
       this.posljiNalog = false;
+      this.pacient = '';
+      this.napakaStreznika = false;
+      this.sporociloStreznika = false;
 
       // Inicializacija forme za dodajanje materiala
       this.myForm = this._fb.group({
@@ -77,9 +82,13 @@ export class KreirajNalogComponent implements OnInit {
      * Pregled naloga preden je poslan (moznost preklica)
      */
     pregled() {
-      // TODO modal z pregledom (?)
-      this.pokaziPregled = true;
+      // Pridobi podatke za pacienta
+      if (!this.pacient || this.problemPridobivanja) {
+          this.pridobiPodatke();
+      }
 
+      console.log(this.myForm);
+      this.pokaziPregled = true;
     }
 
 
@@ -129,6 +138,9 @@ export class KreirajNalogComponent implements OnInit {
         }
       }
 
+      // Ce je vrsta obiska obisk otrocnice, potem poslji se vezane paciente
+      if (ctrl.vrstaObiska.value.id) {}
+
       if (ctrl.obvezen.value === 'true')
         novNalog.je_obvezen_datum = true;
       else
@@ -138,9 +150,12 @@ export class KreirajNalogComponent implements OnInit {
       this.delovniNalogService.ustvari(novNalog)
         .subscribe(
           response => {
-            console.log(response);
+            this.sporociloStreznika = true;
+            this.napakaStreznika = false;
           },
           error => {
+            this.sporociloStreznika = false;
+            this.napakaStreznika = true;
           }
         )
     }
@@ -188,9 +203,9 @@ export class KreirajNalogComponent implements OnInit {
     */
     aliRabiMaterial() {
       if (this.myForm.controls.vrstaObiska.value.id == 5)
-      return true;
+        return true;
       else
-      return false;
+        return false;
     }
 
     /**
@@ -198,9 +213,9 @@ export class KreirajNalogComponent implements OnInit {
     */
     aliRabiZdravilo() {
       if (this.myForm.controls.vrstaObiska.value.id == 4)
-      return true;
+        return true;
       else
-      return false;
+        return false;
     }
 
     /**
@@ -270,6 +285,7 @@ export class KreirajNalogComponent implements OnInit {
     */
     pridobiPodatke() {
       this.problemPridobivanja = false;
+      this.pacient = '';
 
       if (!this.myForm.controls.stevilkaPacienta.value) {
         this.neveljavnaStevilka = true;
