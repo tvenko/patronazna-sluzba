@@ -31,7 +31,7 @@ import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.g
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
-	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule, DostopRoutingModule],
+	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
