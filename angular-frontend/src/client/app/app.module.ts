@@ -20,6 +20,7 @@ import { PacientProfilModule } from './pacient-profil/pacient-profil.module';
 import { AuthenticationService } from './shared/services/avtentikacija/authentication.service';
 import { PrijavaComponent } from './prijava/prijava.component';
 import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
+import { DostopRoutingModule } from './ni-dostopa/ni-dostopa-routing.module';
 import { AuthGuard } from './guards/auth.guard';
 import { KreiranjeNalogaGuard } from './guards/kreiranjeNaloga.guard';
 import { PregledNalogovGuard } from './guards/pregledNalogov.guard';
@@ -30,13 +31,13 @@ import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.g
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
-	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule],
+	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule, DostopRoutingModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   },
-  AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard, 
+  AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard,
   RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
   bootstrap: [AppComponent]
 
