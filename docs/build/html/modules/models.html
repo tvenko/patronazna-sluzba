@@ -36,7 +36,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Išči" href="../search.html"/>
     <link rel="top" title="patronazna sluzba 0.0.1 documentation" href="../index.html"/>
-        <link rel="next" title="Views" href="views.html"/>
+        <link rel="next" title="Serializers" href="serializers.html"/>
         <link rel="prev" title="Welcome to patronazna sluzba’s documentation!" href="../index.html"/> 
 
   
@@ -96,6 +96,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#module-accounts.models">Uporabniki</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-delovniNalog.models">Delovni Nalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serializers.html">Serializers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Views</a></li>
 </ul>
 
@@ -175,6 +176,12 @@
 <p>Razred, ki predstavlja zdravtvene delavce</p>
 <p>Model Delavec deduje od modela Uporabnik in dodaja osebni stevilki,
 sifri zdravstvene ustanove in tipu delavca(zdravnik, vodja PS, patronazna sestra,usluzbenec).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="accounts.models.KadrovskaDelavec">
+<em class="property">class </em><code class="descclassname">accounts.models.</code><code class="descname">KadrovskaDelavec</code><span class="sig-paren">(</span><em>osebna_sifra</em>, <em>ime</em>, <em>priimek</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/accounts/models.html#KadrovskaDelavec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#accounts.models.KadrovskaDelavec" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
 </dd></dl>
 
 <dl class="class">
@@ -273,6 +280,14 @@ id materiala, sifro bolezni in sifro vrste obiska.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="delovniNalog.models.DelovniNalogMaterial">
+<em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">DelovniNalogMaterial</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#DelovniNalogMaterial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.DelovniNalogMaterial" title="Povezava na to definicijo">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Razred, ki prdstavlja vmesno tabelo za manyToMany povezavo med delovnim nalogom in materialom</p>
+<p>Model DelovniNalogMaterial vsebuje id delovnega naloga, id material in kolicino materiala</p>
+</dd></dl>
+
+<dl class="class">
 <dt id="delovniNalog.models.Material">
 <em class="property">class </em><code class="descclassname">delovniNalog.models.</code><code class="descname">Material</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/delovniNalog/models.html#Material"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#delovniNalog.models.Material" title="Povezava na to definicijo">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
@@ -308,7 +323,7 @@ id materiala, sifro bolezni in sifro vrste obiska.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="views.html" class="btn btn-neutral float-right" title="Views" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="serializers.html" class="btn btn-neutral float-right" title="Serializers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral" title="Welcome to patronazna sluzba’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

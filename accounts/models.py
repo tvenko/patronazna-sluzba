@@ -196,3 +196,9 @@ class Pacient(models.Model):
 
     def __str__(self):      #izpis na django admin panelu
         return self.uporabnik.ime+" "+self.uporabnik.priimek
+
+class KadrovskaDelavec(models.Model):
+
+    osebna_sifra = models.IntegerField(primary_key=True)
+    ime = models.CharField(max_length=30)
+    priimek = models.CharField(max_length=30)

@@ -63,3 +63,7 @@ class KontaktnaOsebaViewSet(viewsets.ModelViewSet):
 class SifraOkolisaViewSet(viewsets.ModelViewSet):
     queryset = SifraOkolisa.objects.all()
     serializer_class = SifrakolisaSerializer
+
+class KadrovskaDelavecViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = KadrovskaDelavec.objects.all()
+    serializer_class = KadrovkaDelavcSerializer

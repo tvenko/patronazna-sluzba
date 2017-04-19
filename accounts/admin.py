@@ -11,4 +11,4 @@ admin.site.register(SifraOkolisa)
 admin.site.register(Pacient)
 admin.site.register(KontaktnaOseba)
 admin.site.register(Uporabnik)
-
+admin.site.register(KadrovskaDelavec)

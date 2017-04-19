@@ -221,3 +221,9 @@ class SifrakolisaSerializer(serializers.ModelSerializer):
     class Meta:
         model = SifraOkolisa
         fields = ('id', 'naziv')
+
+class KadrovkaDelavcSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = KadrovskaDelavec
+        fields = ('id', 'ime', 'priimek')

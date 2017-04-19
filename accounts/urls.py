@@ -13,6 +13,7 @@ router.register(r'vrstedelavcev', views.VrstaDelavcaViewSet, base_name='vrstadel
 router.register(r'ustanove', views.UstanoveViewSet, base_name='ustanova')
 router.register(r'kontaktneosebe', views.KontaktnaOsebaViewSet, base_name='kontaktna_oseba')
 router.register(r'sifreokolisa', views.SifraOkolisaViewSet, base_name='sifra_okolisa')
+router.register(r'kadrovskadelavci', views.KadrovskaDelavecViewSet, base_name='kadrovksa_delavec')
 
 # Vkljucen JWT, je dovolj samo na root url?
 urlpatterns = [
