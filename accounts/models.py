@@ -192,10 +192,21 @@ class Pacient(models.Model):
     spol = models.BooleanField() #0 zenska, 1 moski
     kontaktna_oseba = models.ForeignKey(KontaktnaOseba, on_delete=models.SET_NULL, null=True, blank=True)
     je_aktiviran = models.BooleanField(default=False)
-    vezani_pacienti = models.ManyToManyField('self', blank=True)
 
     def __str__(self):      #izpis na django admin panelu
         return self.uporabnik.ime+" "+self.uporabnik.priimek
+
+class VezaniPacient(models.Model):
+
+    st_kartice = models.IntegerField(primary_key=True)
+    ime = models.CharField(max_length=30)
+    priimek = models.CharField(max_length=30)
+    datum_rojstva = models.DateField()
+    spol = models.BooleanField() #0 zenska, 1 moski
+    pacient_skrbni = models.ForeignKey(Pacient, related_name='vezani_pacienti')
+
+    def __str__(self):
+        return self.ime+" "+self.priimek
 
 class KadrovskaDelavec(models.Model):
 
