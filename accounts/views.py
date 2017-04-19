@@ -29,6 +29,10 @@ class DelavciViewSet(viewsets.ModelViewSet):
             queryset = Delavec.objects.filter(uporabnik_id=uporabnik)
         return queryset
 
+class VezaniPacientiViewSet(viewsets.ModelViewSet):
+    queryset = VezaniPacient.objects.all()
+    serializer_class = VezaniPacientSerializer
+
 class PacientiViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':

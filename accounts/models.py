@@ -203,7 +203,7 @@ class VezaniPacient(models.Model):
     priimek = models.CharField(max_length=30)
     datum_rojstva = models.DateField()
     spol = models.BooleanField() #0 zenska, 1 moski
-    pacient_skrbni = models.ForeignKey(Pacient, related_name='vezani_pacienti')
+    pacient_skrbnik = models.ForeignKey(Pacient, related_name='vezani_pacienti')
 
     def __str__(self):
         return self.ime+" "+self.priimek
