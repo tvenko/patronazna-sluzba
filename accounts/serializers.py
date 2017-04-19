@@ -108,20 +108,11 @@ class VezaniPacientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VezaniPacient
-        fields = ('st_kartice', 'ime', 'priimek', 'spol', 'datum_rojstva')
+        fields = ('st_kartice', 'ime', 'priimek', 'spol', 'datum_rojstva', 'pacient_skrbnik')
 
     def create(self, validated_data):
-        print('---check-----')
-        vezaniPacient = VezaniPacient(
-            st_kartice = validated_data['st_kartice'],
-            ime = validated_data['ime'],
-            priimek = validated_data['priimek'],
-            datum_rojstva = validated_data['datum_rojstva'],
-            spol = validated_data['spol'],
-            pacient_skrbnik = validated_data['pacient_skrbnik']
-        )
+        vezaniPacient = VezaniPacient(**validated_data)
         vezaniPacient.save()
-        print(vezaniPacient)
         return vezaniPacient
 
 class PacientGetSerializer(serializers.ModelSerializer):
@@ -185,6 +176,7 @@ class PacientPostSerializer(serializers.ModelSerializer):
                   'otrokStKartice', 'otrokDatumRojstva', 'vezaniPacienti',)
 
     def create(self, validated_data):
+        print('data: ', validated_data)
         jeVezanPacient = False
         uporabnik_data = validated_data.pop('uporabnik', None)
         uporabnik = UporabnikSerializer.create(UporabnikSerializer, uporabnik_data)
@@ -192,7 +184,8 @@ class PacientPostSerializer(serializers.ModelSerializer):
         posta = Posta.objects.get(kraj = validated_data.pop('posta')['kraj'])
         if ('vezani_pacienti' in validated_data.keys()):
             data = validated_data.pop('vezani_pacienti')
-            jeVezanPacient = True
+            if ('ime' in data.keys()):
+                jeVezanPacient = True
         if ('kontaktna_oseba' in validated_data.keys()):
             validated_data['kontaktna_oseba'] = KontaktnaOsebaSerializer.create(KontaktnaOsebaSerializer, validated_data.pop('kontaktna_oseba'))
         validated_data['uporabnik'] = uporabnik
@@ -201,7 +194,6 @@ class PacientPostSerializer(serializers.ModelSerializer):
         if (jeVezanPacient):
             data['pacient_skrbnik'] = pacient
             VezaniPacientSerializer.create(VezaniPacientSerializer, data)
-            jeVezanPacient = False
         return pacient
 
 
