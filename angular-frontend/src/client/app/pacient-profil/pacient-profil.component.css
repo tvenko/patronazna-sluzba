@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  padding: 0 16px;
+}
+
+label {
+  margin-top: 10px;
+}
+
+/* Problem pri theme.css in primeng.css Button znacka pobere plav hover*/
+.ui-button.ui-button-danger:hover, .ui-button.ui-button-danger:focus {
+    background-color: #d43f3a;
+    border-color: #d9534f;
+}
+.ui-button.ui-button-warning:hover, .ui-button.ui-button-warning:focus {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+div.ui-grid-row {
+  margin-bottom: 4px;
+}
+
+div.vezancek {
+  margin-bottom: 15px;
+}
+
+div.pacient {
+  margin-bottom: 35px;
+}

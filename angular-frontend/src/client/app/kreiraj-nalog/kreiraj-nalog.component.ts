@@ -29,6 +29,7 @@ export class KreirajNalogComponent implements OnInit {
   public posljiNalog: boolean;
   public sporociloStreznika: boolean;
   public napakaStreznika: boolean;
+  public zdravnik: any;
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -76,6 +77,15 @@ export class KreirajNalogComponent implements OnInit {
       this.minDate = new Date(today);
       this.subscribeSpremeboGumbovKoncnegaDatuma();
       this.izracunajMinimalenDatum();
+      // Pridobi podatke o izvajalcu iz lokalne shrambe
+      this.zdravnik = JSON.parse(localStorage.getItem('podatkiIzvajalca'));
+
+      if (!this.zdravnik)
+        this.zdravnik = {};
+      else {
+        this.zdravnik.sifra_bolnice = this.zdravnik.sifra_ustanove.slice(-5).substring(0,4);
+      }
+
     }
 
     /**
@@ -99,7 +109,7 @@ export class KreirajNalogComponent implements OnInit {
       let ctrl = (<any>this.myForm).controls;
       let novNalog = <any>{};
       // TODO Preberi iz seje
-      novNalog.sifra_zdravnika = 56736;
+      novNalog.sifra_zdravnika = this.zdravnik.osebna_sifra;
       novNalog.id_pacienta = <any>[];
       novNalog.id_pacienta[0] = parseInt(ctrl.stevilkaPacienta.value);
       if (ctrl.vrstaObiska.value.vezani_pacienti) {
@@ -310,7 +320,17 @@ export class KreirajNalogComponent implements OnInit {
       this.delovniNalogService.getVrsteObiskov()
       .subscribe(
         response => {
-          this.vrsteObiskov = response;
+          if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
+            this.vrsteObiskov = [];
+            var that = this;
+            (response as any).results.forEach(function(entry:any) {
+              if (entry.id < 4)
+                that.vrsteObiskov.push(entry);
+            });
+          } else {
+            this.vrsteObiskov = (response as any).results;
+          }
+
         },
         error => {
           this.problemPridobivanja = true;

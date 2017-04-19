@@ -21,12 +21,23 @@ export class AuthenticationService {
             .map(
 				(response : Response) => {
 					let token = response.json() && response.json().token;
-          console.log(response);
 					if (token) {
+
+						// določi tip uporabnika in nastavi podatke pacienta
+						var tipUporabnika = "";
+						if (response.json().pacient) {
+							tipUporabnika = "pacient";
+							localStorage.setItem('podatkiPacienta', JSON.stringify(response.json().pacient[0]));
+						}
+						else if (response.json().delavec) {
+							tipUporabnika = response.json().delavec[0].naziv_delavca;
+              localStorage.setItem('podatkiIzvajalca', JSON.stringify(response.json().delavec[0]));
+						}
+
 						// določi token
 						this.token = token;
-						// shrani uporabniško ime in jwt token lokalno
-						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+						// shrani uporabniško ime, jwt token in tip uporabika lokalno
+						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika }));
 						// vrni true za uspešno prijavo
 						return true;
 					}
@@ -43,6 +54,9 @@ export class AuthenticationService {
         // počisti token iz lokalnega pomnilnika
         this.token = null;
         localStorage.removeItem('currentUser');
+		if (localStorage.getItem('podatkiPacienta')) {
+			localStorage.removeItem('podatkiPacienta');
+		}
     }
 
 	private handleError (error: any) {

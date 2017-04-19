@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { Delavec } from './delavec';
+import { DelavecService } from '../shared/services/index';
 
 @Component({
   moduleId: module.id,
@@ -11,14 +12,28 @@ import { Delavec } from './delavec';
 })
 export class RegComponent {
   public regForm: FormGroup;
-  public vrstaDelavca: any[];
+  public vrstaDelavca: any;
+  public nazivUstanove: any;
+  public sifreOkolisa: any;
+  public problemPridobivanja: boolean;
 
-  constructor(private fb: FormBuilder) {
-    this.vrstaDelavca=["zdravnik", "vodja patronažne službe", "medicinska sestra", "uslužbenec"];
+  constructor(private fb: FormBuilder, private delavecService: DelavecService,) {
+    this.vrstaDelavca=["zdravnik", "vodja PS", "patronažna sestra", "delavec ZD"];
+    this.nazivUstanove=["ZD Medvode",
+    "UKC Ljubljanapediatrična klinika",
+    "Zdravstveni dom Domžale",
+    "Zdravstveni dom Maribor",
+    "Bolnišnica Ptuj",
+    "Zdravstveni dom Vič-Rudnik",
+    "Zdravstveni dom Ljubljana-šentvid",
+    "Zdravstveni dom center",
+    "Splošna bolnišnica Celje",
+    "ZD Slov. Konjice"];
   }
 
 ngOnInit() {
-
+  this.dobiSifre();
+  //this.dobiVrste();
   this.regForm = this.fb.group({
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
@@ -29,7 +44,7 @@ ngOnInit() {
     email: ['', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
-    sifraOkolisa: ['', Validators.required]
+    sifreOkolisa: [''],
   });
 
 }
@@ -37,14 +52,52 @@ ngOnInit() {
   delavec: Delavec;
 
   registriraj(podatki: any) {
-    this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.vrstaDelavca, podatki.tel,  podatki.sifra1, podatki.sifra2, podatki.email, podatki.geslo1, podatki.sifraOkolisa);
+    console.log(this.sifreOkolisa);
+    if (podatki.sifreOkolisa.naziv) {
+      this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.email, podatki.tel, podatki.geslo1, parseInt(podatki.sifra1), podatki.vrstaDelavca, podatki.sifra2, podatki.sifreOkolisa.naziv);
+    } else {
+      this.delavec = new Delavec(podatki.ime, podatki.priimek, podatki.email, podatki.tel, podatki.geslo1, parseInt(podatki.sifra1), podatki.vrstaDelavca, podatki.sifra2, "Ljubljana vič");
+    }
     console.log(JSON.stringify(this.delavec));
 
-
-
-
+    this.delavecService.ustvari(this.delavec)
+      .subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+        }
+      )
   }
 
-  rabiSifroOkolisa() {  return ((this.regForm.controls.vrstaDelavca.value === "medicinska sestra") ? true : false); }
+  dobiSifre() {
+    this.problemPridobivanja = false;
+    this.delavecService.getSifreOkolisa()
+    .subscribe(
+      response => {
+        this.sifreOkolisa = response;
+      },
+      error => {
+        this.problemPridobivanja = true;
+      }
+    );
+  }
+
+  dobiVrste() {
+    this.problemPridobivanja = false;
+    this.delavecService.getVrsteDelavcev()
+    .subscribe(
+      response => {
+        this.vrstaDelavca = response;
+      },
+      error => {
+        this.problemPridobivanja = true;
+      }
+    );
+  }
+
+  rabiSifroOkolisa() {
+    return ((this.regForm.controls.vrstaDelavca.value === "patronažna sestra") ? true : false);
+  }
 
 }

@@ -28,7 +28,19 @@ export class PrijavaComponent implements OnInit {
             .subscribe(result => {
                 if (result === true) {
                     // prijava uspešna, pojdi na domačo stran
-                    this.router.navigate(['/']);
+										let tipUporabnika = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika;
+										let imeUporabnika = JSON.parse(localStorage.getItem('currentUser')).username;
+
+										// Admin TODO (izboljsaj varnost?)
+										if (imeUporabnika === 'admin@gmail.com') {
+											this.router.navigate(['/'])
+										}	else if (tipUporabnika === 'pacient') {
+                    	this.router.navigate(['/pacient/profil']);
+										} else if (tipUporabnika === 'zdravnik' || tipUporabnika === 'vodja PS') {
+											this.router.navigate(['/nalogi']);
+										} else {
+											this.router.navigate(['/']);
+										}
                 } else {
                     // prijava neuspešna
                     this.error = 'Uporabniško ime in/ali geslo je nepravilno.';

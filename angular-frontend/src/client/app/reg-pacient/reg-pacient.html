@@ -1,4 +1,4 @@
-<sd-navbar></sd-navbar>
+<sd-navbar-zunaj></sd-navbar-zunaj>
   <div class="form-group">
 <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
 <p></p>
@@ -10,13 +10,13 @@
       <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small>
       <br/>
 
-      <p-calendar  formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [maxDate]="minDate" [defaultDate]="minDate" [yearNavigator]="true" [monthNavigator]="true" placeholder="Datum rojstva"></p-calendar>
+      <p-calendar  formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" [showIcon]="true" placeholder="Datum rojstva"></p-calendar>
       <small *ngIf="regForm.controls.datumRojstva.errors && !regForm.controls.datumRojstva.untouched" class="text-danger">Polje je obvezno</small>
       <br/><br/>
 
       <label>Spol: </label>
       <p-radioButton name="spol" label="Ženski" value="false" formControlName="spol"></p-radioButton>
-      <p-radioButton class="left-margin" name="spol" label="Moški" value="false" formControlName="spol"></p-radioButton>
+      <p-radioButton class="left-margin" name="spol" label="Moški" value="true" formControlName="spol"></p-radioButton>
       <br/><br/>
 
       <input class="form-control" formControlName="zavarovanje" type="text" placeholder="Številka zavarovanja" required
@@ -26,15 +26,24 @@
       <small *ngIf="regForm.controls.zavarovanje.errors && regForm.controls.zavarovanje.errors.pattern" class="text-danger">in številka zavarovanja lahko vsebuje le številke</small>
       <br/>
 
-      <input class="form-control" formControlName="naslov" type="text" placeholder="Naslov">
-      <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
+      <div class="col-sm-8">
+        <input class="form-control" formControlName="ulica" type="text" placeholder="Ulica">
+      </div>
+      <div class="col-sm-1">
+        <input class="form-control" formControlName="hisnast" type="text" placeholder="Hišna št.">
+      </div><div class="col-sm-3">
+        <input class="form-control" formControlName="kraj" type="text" placeholder="Pošta">
+      </div>
 
-      <input class="form-control" formControlName="sifraOkolisa" type="text" placeholder="Šifra okoliša" required
-        pattern="^\d*$">
-      <small *ngIf="regForm.controls.sifraOkolisa.errors && !regForm.controls.sifraOkolisa.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.sifraOkolisa.errors && regForm.controls.sifraOkolisa.errors.pattern" class="text-danger">in šifra okoliša lahko vsebuje le številke</small>
+      <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno<br/></small>
+
+      <label>Šifra okoliša: </label>
+      <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
+        <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+          {{ sifra.naziv }}
+        </option>
+      </select>
       <br/>
-
 
       <input class="form-control" formControlName="tel" type="text" placeholder="Telefonska številka" required
         pattern="^\d*$">
@@ -56,13 +65,20 @@
     <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false">
     <small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
 
-    <button class="form-control" type="submit" disabled>Dodaj kontaktno osebo</button><br/>
-    
-    <button class="form-control" type="submit" disabled>Dodaj oskrbovanega člana</button><br/>
+    <button class="form-control" (click)="dodajKontakt()" *ngIf="!prikaziKontakt">Dodajte kontaktno osebo</button><button class="form-control" (click)="odstraniKontakt()" *ngIf="prikaziKontakt">Odstrani kontaktno osebo</button>
 
-  <!---<button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>--->
-  <button class="form-control" type="submit">Registriraj</button>
+    <br/>
 
+    <div *ngIf="prikaziKontakt">
+      <input class="form-control" formControlName="kontaktIme" type="text" placeholder="Ime kontaktne osebe"><br/>
+      <input class="form-control" formControlName="kontaktPriimek" type="text" placeholder="Priimek kontaktne osebe"><br/>
+      <input class="form-control" formControlName="kontaktTelefon" type="text" placeholder="Telefonska številka kontaktne osebe"><br/>
+      <input class="form-control" formControlName="kontaktNaslov" type="text" placeholder="Naslov kontaktne osebe"><br/>
+      <input class="form-control" formControlName="kontaktSorodstvo" type="text" placeholder="Sorodstvena vez s kontaktno osebo"><br/>
+    </div>
+
+  <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
+  <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosimo, preverite označena polja.</small>
 
 </form>
   </div>

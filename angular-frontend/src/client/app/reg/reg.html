@@ -4,41 +4,40 @@
   <p></p>
 
     <input class="form-control" formControlName="ime" type="ime" placeholder="Ime" >
-    <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno</small>
+    <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno.</small>
     <br/>
-    <input class="form-control" formControlName="priimek" type="priimek" placeholder="Priimek"><small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small><br/>
+    <input class="form-control" formControlName="priimek" type="priimek" placeholder="Priimek"><small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno.</small><br/>
 
     <label>Vrsta uslužbenca: </label>
     <select class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca" placeholder="Vrsta uslućbenca">
       <option *ngFor="let vrsta of vrstaDelavca" [ngValue]="vrsta">{{ vrsta }}</option>
-    </select><br/>
+    </select>
 
     <div *ngIf="rabiSifroOkolisa()">
-      <input class="form-control" formControlName="sifraOkolisa" type="text" placeholder="Šifra okoliša" required
-        pattern="^\d*$">
-        <small *ngIf="regForm.controls.sifraOkolisa.errors && !regForm.controls.sifraOkolisa.untouched" class="text-danger">Polje je obvezno</small>
-        <small *ngIf="regForm.controls.sifraOkolisa.errors && regForm.controls.sifraOkolisa.errors.pattern" class="text-danger">in šifra okoliša lahko vsebuje le številke</small>
-        <br/>
+      <label>Šifra okoliša: </label>
+      <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
+        <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+          {{ sifra.naziv }}
+        </option>
+      </select>
     </div>
 
-    <input class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
-      pattern="^\d*$"><small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">in telefonska številka lahko vsebuje le številke</small>
+    <br/><input class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
+      pattern="^\d*$"><small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno. </small>
+      <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">Telefonska številka lahko vsebuje le številke</small>
       <br/>
 
     <input class="form-control" formControlName="sifra1" type="sifra1" placeholder="Šifra uslužbenca" required
-      pattern="^\d*$"><small *ngIf="regForm.controls.sifra1.errors && !regForm.controls.sifra1.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.sifra1.errors && regForm.controls.sifra1.errors.pattern" class="text-danger">in šifra uslužbenca lahko vsebuje le številke</small>
-      <br/>
+      pattern="^\d*$"><small *ngIf="regForm.controls.sifra1.errors && !regForm.controls.sifra1.untouched" class="text-danger">Polje je obvezno. </small>
 
-    <input class="form-control" formControlName="sifra2" type="sifra2" placeholder="Šifra ustanove" required
-      pattern="^\d*$"><small *ngIf="regForm.controls.sifra2.errors && !regForm.controls.sifra2.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.sifra2.errors && regForm.controls.sifra2.errors.pattern" class="text-danger">in šifra okoliša lahko vsebuje le številke</small>
-      <br/>
+      <label>Naziv ustanove: </label>
+      <select class="form-control" formControlName="sifra2" id="sifra2">
+        <option *ngFor="let sifra of nazivUstanove" [ngValue]="sifra">{{ sifra }}</option>
+      </select><small *ngIf="regForm.controls.sifra2.errors && !regForm.controls.sifra2.untouched" class="text-danger">Polje je obvezno. </small><br/>
 
     <input class="form-control" formControlName="email" type="email" placeholder="Email" required
-      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><small *ngIf="regForm.controls.email.errors && !regForm.controls.email.untouched" class="text-danger">Polje je obvezno</small>
-      <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">in email mora slediti formatu <i>email@email.si</i>.</small>
+      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><small *ngIf="regForm.controls.email.errors && !regForm.controls.email.untouched" class="text-danger">Polje je obvezno. </small>
+      <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">Email mora slediti formatu <i>email@email.si</i>.</small>
       <br/>
 
     <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})"><small *ngIf="(regForm.controls.geslo1.errors && regForm.controls.geslo1.errors.pattern) || (regForm.controls.geslo1.errors && !regForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko</small>
@@ -46,8 +45,9 @@
 
     <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
 
-  <!---<button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>--->
-  <button class="form-control" type="submit">Registriraj</button>
+    <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
+    <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosim, še enrkat preverite obrazec.</small>
+    <!---<button class="form-control" type="submit">Registriraj</button>--->
 
 </form>
 </div>

@@ -15,22 +15,30 @@ import { DelovniNalogModule } from './delovni-nalog/delovni-nalog.module';
 import { KreirajNalogModule } from './kreiraj-nalog/kreiraj-nalog.module';
 import { RegModule } from './reg/reg.module';
 import { RegPacientModule } from './reg-pacient/reg-pacient.module';
+import { OskrbovaniPacientModule } from './oskrbovani-pacient/oskrbovani-pacient.module';
+import { PacientProfilModule } from './pacient-profil/pacient-profil.module';
 import { AuthenticationService } from './shared/services/avtentikacija/authentication.service';
 import { PrijavaComponent } from './prijava/prijava.component';
 import { PrijavaRoutingModule } from './prijava/prijava-routing.module';
+import { DostopRoutingModule } from './ni-dostopa/ni-dostopa-routing.module';
 import { AuthGuard } from './guards/auth.guard';
+import { KreiranjeNalogaGuard } from './guards/kreiranjeNaloga.guard';
+import { PregledNalogovGuard } from './guards/pregledNalogov.guard';
+import { RegistracijaDelavcaGuard } from './guards/registracijaDelavca.guard';
+import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.guard';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
-	PrijavaRoutingModule],
+	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   },
-  AuthenticationService, AuthGuard],
+  AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard,
+  RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
   bootstrap: [AppComponent]
 
 })
