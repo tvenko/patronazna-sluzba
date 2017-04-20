@@ -3,3 +3,5 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Obisk)
+admin.site.register(Meritev)
+admin.site.register(MeritveNaObisku)
