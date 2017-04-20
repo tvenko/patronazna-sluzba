@@ -1,5 +1,4 @@
 from django.db import models
-from obisk.models import Obisk
 from accounts.models import Delavec, Pacient, Uporabnik
 
 class VrstaObiska(models.Model):
@@ -60,7 +59,6 @@ class DelovniNalog(models.Model):
 
     sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True)
     id_pacienta = models.ManyToManyField(Pacient, blank=True)
-    id_obiska = models.ForeignKey(Obisk, on_delete=models.SET_NULL, null=True)
     sifra_zdravila = models.ManyToManyField(Zdravilo, blank=True)
     id_materiala = models.ManyToManyField(Material, blank=True, through='DelovniNalogMaterial')
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True, blank=True)

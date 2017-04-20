@@ -144,7 +144,7 @@ class PacientPostSerializer(serializers.ModelSerializer):
     """
 
     uporabnik = serializers.PrimaryKeyRelatedField(read_only=True)
-    vezaniPacienti = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source='vezani_pacienti')
+    vezani_pacienti = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     otrokIme = serializers.CharField(source='vezani_pacienti.ime', required=False)
     otrokPriimek = serializers.CharField(source='vezani_pacienti.priimek', required=False)
     otrokStKartice = serializers.IntegerField(source='vezani_pacienti.st_kartice', required=False)
@@ -173,7 +173,7 @@ class PacientPostSerializer(serializers.ModelSerializer):
                     'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva', 'spol',
                     'kontaktnaOseba', 'sifra_okolisa', 'kontaktIme', 'kontaktPriimek',
                   'kontaktTelefon', 'kontaktSorodstvo', 'otrokIme', 'otrokPriimek', 'otrokSpol',
-                  'otrokStKartice', 'otrokDatumRojstva', 'vezaniPacienti',)
+                  'otrokStKartice', 'otrokDatumRojstva', 'vezani_pacienti',)
 
     def create(self, validated_data):
         print('data: ', validated_data)
