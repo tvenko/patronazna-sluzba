@@ -44,12 +44,13 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
                    'vrsta_obiska', 'patronazna_sestra', 'material')
 
     #funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan koncen datum
-    def kreirajObiskObdobje(self, stObiskov, zacetniDatum, koncniDatum, patronaznaSestra, jeObvezen = False):
+    def kreirajObiskObdobje(self, stObiskov, zacetniDatum, koncniDatum, patronaznaSestra, delovniNalog, jeObvezen = False):
         stDni = koncniDatum-zacetniDatum
         interval = int(stDni.days/stObiskov)
         datum = zacetniDatum
         for i in range(0, stObiskov):
-            data = {'patronazna_sestra': patronaznaSestra, 'datum': datum, 'je_obvezen_datum': jeObvezen}
+            data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
+                    'delovni_nalog': delovniNalog}
             ObiskSerializer.create(self, data)
             datum += datetime.timedelta(days=interval)
             if(datum.weekday() == 6):
@@ -58,10 +59,11 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
                 datum += datetime.timedelta(days=2)
 
     # funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan interval med obiski
-    def kreirajObiskInterval(self, stObiskov, zacetniDatum, interval, patronaznaSestra, jeObvezen = False):
+    def kreirajObiskInterval(self, stObiskov, zacetniDatum, interval, patronaznaSestra, delovniNalog, jeObvezen = False):
         datum = zacetniDatum
         for i in range(0, stObiskov):
-            data = {'patronazna_sestra': patronaznaSestra, 'datum': datum, 'je_obvezen_datum': jeObvezen}
+            data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
+                    'delovni_nalog': delovniNalog}
             ObiskSerializer.create(self, data)
             datum += datetime.timedelta(days=interval)
             if (datum.weekday() == 6):
@@ -125,11 +127,11 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
             if ('casovno_obdobje' in validated_data.keys()):
                 self.kreirajObiskObdobje(validated_data['stevilo_obiskov'], validated_data['datum_prvega_obiska'],
                                            validated_data['casovno_obdobje'], delovniNalog.patronazna_sestra,
-                                           validated_data['je_obvezen_datum'])
+                                           delovniNalog, validated_data['je_obvezen_datum'])
             elif('casovni_interval' in validated_data.keys()):
                 self.kreirajObiskInterval(validated_data['stevilo_obiskov'], validated_data['datum_prvega_obiska'],
                                           validated_data['casovni_interval'], delovniNalog.patronazna_sestra,
-                                          validated_data['je_obvezen_datum'])
+                                          delovniNalog, validated_data['je_obvezen_datum'])
             else:
                 print('se ni')
 
