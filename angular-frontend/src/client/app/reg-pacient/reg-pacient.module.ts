@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RegPacientComponent } from './reg-pacient.component';
 import { RegPacientRoutingModule } from './reg-pacient-routing.module';
 import { EqualValidator } from './validacija';
-import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
+import { CalendarModule, RadioButtonModule, DialogModule, ButtonModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
     ReactiveFormsModule,
     HttpModule,
 	RegPacientRoutingModule,
-  CalendarModule, RadioButtonModule,
+  CalendarModule, RadioButtonModule, DialogModule, ButtonModule,
     SharedModule.forRoot()
   ],
   exports: [RegPacientComponent]

@@ -41,6 +41,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  ustvariVezanega(pacient: any): Observable<string[]> {
+    return this.http.post(Config.API + 'racuni/vezanipacienti/',  pacient)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   /**
    * Vrne sifre okolisa
    */

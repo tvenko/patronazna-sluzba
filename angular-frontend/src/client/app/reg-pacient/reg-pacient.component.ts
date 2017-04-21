@@ -19,11 +19,13 @@ export class RegPacientComponent {
 
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
+  public prikaziPregled: boolean;
 
   constructor(private fb: FormBuilder, private pacientService: PacientService) {}
 
 ngOnInit() {
   this.dobiSifre();
+  this.prikaziPregled = false;
   this.prikaziKontakt = false;
   this.regForm = this.fb.group({
     zavarovanje: ['', Validators.required],
@@ -39,11 +41,11 @@ ngOnInit() {
     spol: ['', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
-    kontaktIme: ['', Validators.required],
-    kontaktPriimek: ['', Validators.required],
-    kontaktTelefon: ['', Validators.required],
-    kontaktSorodstvo: ['', Validators.required],
-    kontaktNaslov: ['', Validators.required]
+    kontaktIme: [''],
+    kontaktPriimek: [''],
+    kontaktTelefon: [''],
+    kontaktSorodstvo: [''],
+    kontaktNaslov: ['']
   });
 
   this.si = {
@@ -55,9 +57,9 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
-  //let bdate = new Date();
+  let bdate = new Date();
   //bdate.setFullYear(bdate.getFullYear() - 18);
-  //this.minDate = new Date(bdate);
+  this.minDate = new Date(bdate);
 }
 
   pacient: Pacient;
@@ -69,11 +71,14 @@ ngOnInit() {
     return y+"-"+m+"-"+d;
   }
 
+
+
   registriraj(podatki: any) {
+    this.prikaziPregled = true;
     if (!this.prikaziKontakt) {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifraOkolisa);
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id);
     } else {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
     }
 
     console.log(JSON.stringify(this.pacient));
@@ -86,7 +91,7 @@ ngOnInit() {
         error => {
         }
       )
-
+      this.regForm.reset();
   }
 
   dodajKontakt() {

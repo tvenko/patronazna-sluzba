@@ -7,7 +7,8 @@ import { SharedModule } from '../shared/shared.module';
 import { OskrbovaniPacientComponent } from './oskrbovani-pacient.component';
 import { OskrbovaniPacientRoutingModule } from './oskrbovani-pacient-routing.module';
 import { EqualValidator } from './validacija';
-import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
+import { AlertModule } from 'ng2-bootstrap/alert';
+import { CalendarModule, RadioButtonModule, DialogModule, ButtonModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { CalendarModule, RadioButtonModule } from 'primeng/primeng';
     ReactiveFormsModule,
     HttpModule,
 	OskrbovaniPacientRoutingModule,
-  CalendarModule, RadioButtonModule,
+  CalendarModule, RadioButtonModule, DialogModule, ButtonModule,
     SharedModule.forRoot()
   ],
   exports: [OskrbovaniPacientComponent]

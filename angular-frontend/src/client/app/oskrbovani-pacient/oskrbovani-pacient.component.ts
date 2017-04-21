@@ -14,12 +14,20 @@ export class OskrbovaniPacientComponent {
   public regForm: FormGroup;
   public si: any;
 
+  public trenutniPacient: any;
+  public prikaziPregled: boolean;
+
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
+
+  public date: Date;
+  public minDate: Date;
 
   constructor(private fb: FormBuilder, private pacientService: PacientService) {}
 
 ngOnInit() {
+  this.prikaziPregled = false;
+  this.trenutniPacient = JSON.parse(localStorage.getItem('podatkiPacienta')).stevilkaPacienta;
   this.dobiSifre();
   this.regForm = this.fb.group({
     zavarovanje: ['', Validators.required],
@@ -46,6 +54,10 @@ ngOnInit() {
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
   };
 
+  let bdate = new Date();
+  //bdate.setFullYear(bdate.getFullYear() - 18);
+  this.minDate = new Date(bdate);
+
 }
 
   pacient: Pacient;
@@ -57,12 +69,11 @@ ngOnInit() {
     return y+"-"+m+"-"+d;
   }
   registriraj(podatki: any) {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifraOkolisa, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
+    this.prikaziPregled = true;
+    this.pacient = new Pacient(podatki.ime, podatki.priimek, parseInt(podatki.zavarovanje), this.vString(podatki.datumRojstva), podatki.spol, this.trenutniPacient);
 
-    console.log(JSON.stringify(this.pacient));
 
-
-    this.pacientService.ustvari(this.pacient)
+    this.pacientService.ustvariVezanega(this.pacient)
       .subscribe(
         response => {
           console.log(response);
@@ -70,11 +81,7 @@ ngOnInit() {
         error => {
         }
       )
-
-      // vezi pacienta na trenutni login
-      console.log(JSON.parse(localStorage.getItem('podatkiPacienta')));
-
-
+      this.regForm.reset();
   }
 
 

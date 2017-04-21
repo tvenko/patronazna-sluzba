@@ -3,31 +3,12 @@ export class Pacient {
     public ime: string,
     public priimek: string,
 
-    public eposta: string,
-    public password: string,
+    public st_kartice: number,
 
-    public telefon: string,
+    public datum_rojstva: string,
+    public spol: boolean,
 
-    public stevilkaPacienta: number,
-
-    public ulica: string,
-    public hisnaStevilka: string,
-    public kraj: string,
-
-    public datumRojstva: string,
-    public spol: string,
-
-    public sifra_okolisa: string,
-
-    public kontaktIme?: string,
-    public kontaktPriimek?: string,
-    public kontaktTelefon?: string,
-    public kontaktNaslov?: string,
-    public kontaktSorodstvo?: string,
-
-    // kontaktna oseba
-    // pacienti za katere skrbi
-    public osrkbovanci?: Pacient[],
+    public pacient_skrbnik: string
 
     ) { }
 }
