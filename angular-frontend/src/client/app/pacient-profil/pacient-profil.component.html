@@ -80,12 +80,12 @@
     </div>
   </div>
 
-  <div class="ui-grid-row" *ngIf="this.pacient.vezanipacienti">
+  <div class="ui-grid-row" *ngIf="this.pacient.vezaniPacienti">
     <div class="ui-grid-col-4">
       <h3>Podatki vaših vezanih pacientov</h3>
     </div>
   </div>
-    <div class="ui-grid-row vezancek" *ngFor="let vezancek of this.pacient.vezanipacienti">
+    <div class="ui-grid-row vezancek" *ngFor="let vezancek of this.pacient.vezaniPacienti">
       <div class="ui-grid-col-8">
         <!-- Ime in priimek -->
         <div class="ui-grid-row">
@@ -103,7 +103,7 @@
             Datum rojstva:
           </div>
           <div class="ui-grid-col-6">
-            {{ vezancek.datumRojstva | date }}
+            {{ vezancek.datum_rojstva | date }}
           </div>
         </div>
 
@@ -113,49 +113,11 @@
             Številka kartice:
           </div>
           <div class="ui-grid-col-6">
-            {{ vezancek.stevilkapacienta }}
+            {{ vezancek.st_kartice }}
           </div>
         </div>
 
-        <!-- Naslov -->
-        <div class="ui-grid-row">
-          <div class="ui-grid-col-3">
-            Naslov:
-          </div>
-          <div class="ui-grid-col-6">
-            {{ vezancek.ulica }} {{ vezancek.hisnaStevilka }}, {{vezancek.posta}} {{vezancek.kraj}}
-          </div>
-        </div>
 
-        <!-- okolis
-        <div class="ui-grid-row">
-          <div class="ui-grid-col-3">
-            Registriran okoliš:
-          </div>
-          <div class="ui-grid-col-6">
-            Slovenske Konjice
-          </div>
-        </div> -->
-
-        <!-- Eposta -->
-        <div class="ui-grid-row">
-          <div class="ui-grid-col-3">
-            E-pošta:
-          </div>
-          <div class="ui-grid-col-6">
-            {{ vezancek.eposta }}
-          </div>
-        </div>
-
-        <!-- Telefonska stevilka -->
-        <div class="ui-grid-row">
-          <div class="ui-grid-col-3">
-            Telefonska številka:
-          </div>
-          <div class="ui-grid-col-6">
-            {{ vezancek.telefon }}
-          </div>
-        </div>
       </div>
 
   </div>
