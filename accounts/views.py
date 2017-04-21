@@ -11,9 +11,12 @@ def index(request):
     return HttpResponse("Deluje! Nahajate se na API od aplikacije Patronažna sestra.")
 
 class UporabnikViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAdminUser,)
+    #permission_classes = (permissions.IsAdminUser,)
     queryset = Uporabnik.objects.all()
-    serializer_class = UporabnikSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'PUT':
+            return PosodobiGesloUporabnikaSerializer
+        return UporabnikSerializer
 
 class DelavciViewSet(viewsets.ModelViewSet):
     #permission_classes = (IsAdminOrReadAuthenticated,)

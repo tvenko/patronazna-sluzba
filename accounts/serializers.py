@@ -39,6 +39,22 @@ class UporabnikSerializer(serializers.ModelSerializer):
         uporabnik.save()
         return uporabnik
 
+    def update(self, uporabnik, validated_data):
+        uporabnik.set_password(validated_data['password'])
+        uporabnik.save()
+        return uporabnik
+
+class PosodobiGesloUporabnikaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Uporabnik
+        fields = ('password',)
+
+    def update(self, uporabnik, validated_data):
+        uporabnik.set_password(validated_data['password'])
+        uporabnik.save()
+        return uporabnik
+
 class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     """
         Razred, ki serializira objekt Delavec v JSON
