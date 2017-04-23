@@ -24,9 +24,9 @@ class UporabnikSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Uporabnik
-        fields = ('id', 'ime', 'priimek', 'email', 'tel')
+        fields = ('id', 'ime', 'priimek', 'email', 'tel', 'last_login', 'je_admin')
         write_only_fields = ('password', 'id')
-        read_only_fields = ('last_login', 'je_admin')
+        #read_only_fields = ('last_login', 'je_admin')
 
     def create(self, validated_data):
         uporabnik = Uporabnik(
@@ -54,6 +54,17 @@ class PosodobiGesloUporabnikaSerializer(serializers.ModelSerializer):
         uporabnik.set_password(validated_data['password'])
         uporabnik.save()
         return uporabnik
+
+class PosodobiDatumUporabnikaSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = Uporabnik
+		fields = ('last_login',)
+		
+	def update(self, uporabnik, validated_data):
+		uporabnik.last_login = validated_data.get('last_login', uporabnik.last_login)
+		uporabnik.save()
+		return uporabnik
 
 class DelavecSerializer(serializers.HyperlinkedModelSerializer):
     """

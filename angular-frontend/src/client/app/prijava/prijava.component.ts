@@ -19,7 +19,9 @@ export class PrijavaComponent implements OnInit {
  
     ngOnInit() {
         // resetiraj status prijave
-        this.authenticationService.odjava();
+        this.authenticationService.odjava()
+			.subscribe(result => {
+			});
     }
  
 	prijava() {

@@ -22,15 +22,17 @@ def jwt_response_payload_handler(token, user=None, request=None):
     if not delavec and pacient:
         return {
             'token': token,
+			'uporabnik': uporabnik,
             'pacient': pacient
         }
     elif not pacient and delavec:
         return {
             'token': token,
+			'uporabnik': uporabnik,
             'delavec': delavec
         }
     else:
         return {
             'token': token,
-            'user': uporabnik
+            'uporabnik': uporabnik
         }

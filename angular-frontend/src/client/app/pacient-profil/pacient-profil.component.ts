@@ -11,11 +11,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PacientProfilComponent implements OnInit {
   public pacient: any;
+  public datum: any;
 
   ngOnInit() {
     // on init
     this.pacient = JSON.parse(localStorage.getItem('podatkiPacienta'));
     if (!this.pacient)
       this.pacient = {};
+	this.datum = JSON.parse(localStorage.getItem('currentUser')).datum;
   }
 }

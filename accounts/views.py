@@ -14,9 +14,11 @@ class UporabnikViewSet(viewsets.ModelViewSet):
     #permission_classes = (permissions.IsAdminUser,)
     queryset = Uporabnik.objects.all()
     def get_serializer_class(self):
-        if self.request.method == 'PUT':
-            return PosodobiGesloUporabnikaSerializer
-        return UporabnikSerializer
+	    if self.request.method == 'PUT':
+		    return PosodobiGesloUporabnikaSerializer
+	    if self.request.method == 'PATCH':
+		    return PosodobiDatumUporabnikaSerializer
+	    return UporabnikSerializer
 
 class DelavciViewSet(viewsets.ModelViewSet):
     #permission_classes = (IsAdminOrReadAuthenticated,)
