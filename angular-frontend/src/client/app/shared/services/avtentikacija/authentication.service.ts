@@ -27,6 +27,8 @@ export class AuthenticationService {
 					let token = response.json() && response.json().token;
 					if (token) {
 						
+						console.log(response.json());
+						
 						//določi id uporabnika
 						this.id = JSON.stringify(response.json().uporabnik.id);
 						
@@ -94,6 +96,7 @@ export class AuthenticationService {
     odjava(): Observable<boolean> {
 		
 		var headers = new Headers();
+		headers.append('Authorization', 'JWT ' + this.token);
 		headers.append('Content-Type', 'application/json');
 		
 		// počisti token in podatke uporabnika iz lokalnega pomnilnika
@@ -106,7 +109,7 @@ export class AuthenticationService {
 		//pošlji datum prijave
 		if (this.id.length !== 0) {
 			
-			return this.http.patch(Config.API +  'racuni/uporabniki/' + this.id + '/', JSON.stringify({ last_login: this.datumStr }), {headers: headers})
+			return this.http.patch(Config.API + 'racuni/uporabniki/' + this.id + '/', JSON.stringify({ last_login: this.datumStr }), {headers: headers})
 				.map(
 					(response : Response) => {
 						return true;
