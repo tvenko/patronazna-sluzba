@@ -33,16 +33,8 @@ ngOnInit() {
     zavarovanje: ['', Validators.required],
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
-    ulica: ['', Validators.required],
-    hisnast: ['', Validators.required],
-    kraj: ['', Validators.required],
-    sifreOkolisa: ['', Validators.required],
-    tel: ['', Validators.required],
-    email: ['', Validators.required],
     datumRojstva: [''],
     spol: ['', Validators.required],
-    geslo1: ['', Validators.required],
-    geslo2: ['', Validators.required]
   });
 
   this.si = {
