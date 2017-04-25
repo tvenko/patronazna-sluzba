@@ -20,6 +20,7 @@ export class RegPacientComponent {
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
   public prikaziPregled: boolean;
+  public prikaziNapako: boolean;
 
   constructor(private fb: FormBuilder, private pacientService: PacientService) {}
 
@@ -74,7 +75,8 @@ ngOnInit() {
 
 
   registriraj(podatki: any) {
-    this.prikaziPregled = true;
+    // this.regForm.reset();
+    // dodaj da dela samo ko je registrcija ok
     if (!this.prikaziKontakt) {
       this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id);
     } else {
@@ -89,9 +91,10 @@ ngOnInit() {
           console.log(response);
         },
         error => {
+          // filtriraj glede na razlicne napake
+          this.prikaziNapako = true;
         }
       )
-      this.regForm.reset();
   }
 
   dodajKontakt() {
