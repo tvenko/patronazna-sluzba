@@ -26,7 +26,6 @@ class UporabnikSerializer(serializers.ModelSerializer):
         model = Uporabnik
         fields = ('id', 'ime', 'priimek', 'email', 'tel', 'last_login', 'je_admin')
         write_only_fields = ('password', 'id')
-        #read_only_fields = ('last_login', 'je_admin')
 
     def create(self, validated_data):
         uporabnik = Uporabnik(
@@ -35,11 +34,6 @@ class UporabnikSerializer(serializers.ModelSerializer):
             priimek = validated_data['priimek'],
             tel = validated_data['tel'],
         )
-        uporabnik.set_password(validated_data['password'])
-        uporabnik.save()
-        return uporabnik
-
-    def update(self, uporabnik, validated_data):
         uporabnik.set_password(validated_data['password'])
         uporabnik.save()
         return uporabnik

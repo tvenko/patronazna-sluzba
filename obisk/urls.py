@@ -5,6 +5,7 @@ from obisk import views
 
 router = routers.DefaultRouter()
 router.register(r'obiski', views.ObiskViewSet, base_name='obisk')
+router.register(r'meritve', views.MeritevViewSet, base_name='meritev')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

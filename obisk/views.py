@@ -4,4 +4,11 @@ from .serializers import *
 
 class ObiskViewSet(viewsets.ModelViewSet):
     queryset = Obisk.objects.all()
-    serializer_class = ObiskSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'PUT':
+            return ObiskUpdateSerializer
+        return ObiskSerializer
+
+class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Meritev.objects.all()
+    serializer_class = MeritevSeializer
