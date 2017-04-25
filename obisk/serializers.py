@@ -23,6 +23,7 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
     # TODO dodaj se update za meritev in njeno vrednost
     #idMeritve = serializers.PrimaryKeyRelatedField(read_only=True, required=False, source='Meritev.id')
     #vrednostMeritve = serializers.CharField(required=False, source='MeritveNaObisku.vrednost')
+    meritev = MeritveNaObiskuSerializer(source='materialnaobisku_set', required=False)
     nadomestnaPatronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='nadomestna_patronazna_sestra')
     jeOpravljen = serializers.BooleanField(required=False, source='je_opravljen')
 
@@ -55,4 +56,10 @@ class MeritevSeializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meritev
+        fields = '__all__'
+
+class MeritveNaObiskuSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeritveNaObisku
         fields = '__all__'

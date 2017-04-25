@@ -12,3 +12,7 @@ class ObiskViewSet(viewsets.ModelViewSet):
 class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Meritev.objects.all()
     serializer_class = MeritevSeializer
+
+class MeritveNaObiskuViewSet(viewsets.ReadOnlyModelViewSet):
+	queryset = MeritveNaObisku.objects.all()
+	serializer_class = MeritveNaObiskuSerializer
