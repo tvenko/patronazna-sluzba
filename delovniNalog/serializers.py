@@ -24,7 +24,6 @@ class DelovniNalogGetSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DelovniNalog
 
-        #ne znam vkljucit bolezni ki ima za pk charfield
         fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
                   'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
                   'material', 'vrsta_obiska', 'patronazna_sestra')
@@ -32,13 +31,10 @@ class DelovniNalogGetSerializer(serializers.HyperlinkedModelSerializer):
 class DelovniNalogPostSerializer(serializers.ModelSerializer):
 
     material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True, required=False) #read_only=True
-    #kolicinaMateriala = serializers.IntegerField(source='id_materiala.kolicina', required=False)
-    #material_id = serializers.IntegerField(source='id_materiala.id_materiala', required=False)
 
     class Meta:
         model = DelovniNalog
 
-        #ne znam vkljucit bolezni ki ima za pk charfield
         fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
                   'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
                    'vrsta_obiska', 'patronazna_sestra', 'material')
@@ -137,7 +133,6 @@ class DelovniNalogPostSerializer(serializers.ModelSerializer):
 
             return delovniNalog
         else:
-            print('ni zdravnik!!!')
             return NotAuthenticated(detail='Niste prijavljeni kot zdravnik', code=401)
 
 

@@ -30,7 +30,7 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
     # TODO dodaj se update za meritev in njeno vrednost
     #idMeritve = serializers.PrimaryKeyRelatedField(read_only=True, required=False, source='Meritev.id')
     #vrednostMeritve = serializers.CharField(required=False, source='MeritveNaObisku.vrednost')
-    meritev = MeritveNaObiskuSerializer(source='materialnaobisku_set', required=False)
+    meritev = MeritveNaObiskuSerializer(source='meritevnaobisku_set', many=True,  required=False)
     nadomestnaPatronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='nadomestna_patronazna_sestra')
     jeOpravljen = serializers.BooleanField(required=False, source='je_opravljen')
 
@@ -39,7 +39,7 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
         fields = ('patronaznaSestra', 'dejanskiDatum', 'nadomestnaPatronaznaSestra', 'jeOpravljen', 'meritev')
 
     def update(self, obisk, validated_data):
-        print('data: ', validated_data)
+        #print('data: ', validated_data)
         if ('patronazna_sestra' in validated_data.keys()):
             sestra = Delavec.objects.get(uporabnik = validated_data['patronazna_sestra'])
             if (sestra.vrsta_delavca.naziv == 'patronažna sestra'):
@@ -56,6 +56,27 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
             # TODO vrni custom error
         if ('je_opravljen' in validated_data.keys()):
             obisk.je_opravljen = validated_data['je_opravljen']
+        if ('meritevnaobisku_set' in validated_data.keys()):
+            for meritev in validated_data['meritevnaobisku_set']:
+                m = meritev['id_meritve']
+                if (m.sp_meja and m.zg_meja):
+                    if (int(meritev['vrednost']) > m.sp_meja and int(meritev['vrednost']) < m.zg_meja):
+                        novaMeritev = MeritveNaObisku(
+                            id_obisk = obisk,
+                            id_meritve = meritev['id_meritve'],
+                            vrednost = meritev['vrednost'],
+                        )
+                        novaMeritev.save()
+                    else:
+                        print('ni v mejah')
+                        # TODO vrni custom error
+                else:
+                    novaMeritev = MeritveNaObisku(
+                        id_obisk=obisk,
+                        id_meritve=meritev['id_meritve'],
+                        vrednost=meritev['vrednost'],
+                    )
+                    novaMeritev.save()
         obisk.save()
         return obisk
 
