@@ -27,7 +27,7 @@ config.read(os.path.join(BASE_DIR, 'patronaza/setting.ini'))
 SECRET_KEY = config.get('secrets','SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.get('debug', 'DEBUG')
 
 ALLOWED_HOSTS = ['fruity-routy.ddns.net', 'localhost']
 

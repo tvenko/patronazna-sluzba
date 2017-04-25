@@ -3,6 +3,13 @@ from .models import *
 from accounts.models import Uporabnik, Delavec
 from rest_framework.exceptions import ParseError
 
+class MeritveNaObiskuSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeritveNaObisku
+        fields = '__all__'
+
+
 class ObiskSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -29,7 +36,7 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Obisk
-        fields = ('patronaznaSestra', 'dejanskiDatum', 'nadomestnaPatronaznaSestra', 'jeOpravljen')
+        fields = ('patronaznaSestra', 'dejanskiDatum', 'nadomestnaPatronaznaSestra', 'jeOpravljen', 'meritev')
 
     def update(self, obisk, validated_data):
         print('data: ', validated_data)
@@ -56,10 +63,4 @@ class MeritevSeializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meritev
-        fields = '__all__'
-
-class MeritveNaObiskuSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = MeritveNaObisku
         fields = '__all__'
