@@ -19,21 +19,24 @@ class ZdravilaViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ZdraviloSerializer
 
 class DelovniNalogViewSet(viewsets.ModelViewSet):
-    serializer_class = DelovniNalogPostSerializer
+    serializer_class = DelovniNalogSerializer
 
     def get_queryset(self):
         """
-        Vrne ddelovni nalog za dolocenega zdravnika
+        Vrne delovne naloge od vsakega delavca, vodja PS dobi vse
         """
-        queryset = DelovniNalog.objects.all()
-        zdravnik = self.request.query_params.get('sifra_zdravnika', None)
-        if zdravnik is not None:
-            queryset = DelovniNalog.objects.filter(sifra_zdravnika=zdravnik)
+
+        sifra_delavca = self.request.query_params.get('sifra_delavca', None)
+        if (sifra_delavca is not None):
+            delavec = Delavec.objects.get(osebna_sifra = sifra_delavca)
+            if (delavec is not None):
+                if (delavec.vrsta_delavca.naziv == "patronažna sestra"):
+                    queryset = DelovniNalog.objects.filter(patronazna_sestra=delavec)
+                elif (delavec.vrsta_delavca.naziv == "zdravnik"):
+                    queryset = DelovniNalog.objects.filter(sifra_zdravnika=delavec)
+                elif (delavec.vrsta_delavca.naziv == "vodja PS"):
+                    queryset = DelovniNalog.objects.all()
         return queryset
-    #def get_serializer_class(self):
-    #    if self.request.method == 'POST':
-    #        return DelovniNalogPostSerializer
-    #    return DelovniNalogGetSerializer
 
 class DelovniNalogMaterialViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = DelovniNalogMaterial.objects.all()
