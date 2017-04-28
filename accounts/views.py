@@ -13,7 +13,7 @@ def index(request):
 
 class UporabnikViewSet(viewsets.ModelViewSet):
     #permission_classes = (permissions.IsAdminUser,)
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
     queryset = Uporabnik.objects.all()
     def get_serializer_class(self):
 	    if self.request.method == 'PUT':

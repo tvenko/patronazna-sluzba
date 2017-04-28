@@ -1,4 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
+from django.http import HttpResponse
 from rest_framework import serializers
 from accounts.models import *
 
@@ -40,14 +41,20 @@ class UporabnikSerializer(serializers.ModelSerializer):
 
 class PosodobiGesloUporabnikaSerializer(serializers.ModelSerializer):
 
+    novoGeslo = serializers.CharField(source='password')
+    # ime je zato ker on rabi eno polje ki je ze v bazi in ne more bit dvakrat isto, je cesko nareto ampak dela :)
+    staroGeslo = serializers.CharField(source='ime')
+
     class Meta:
         model = Uporabnik
-        fields = ('password',)
+        fields = ('novoGeslo', 'staroGeslo')
 
     def update(self, uporabnik, validated_data):
-        uporabnik.set_password(validated_data['password'])
-        uporabnik.save()
-        return uporabnik
+        print(validated_data)
+        if (uporabnik.check_password(validated_data['ime'])):
+            uporabnik.set_password(validated_data['password'])
+            uporabnik.save()
+            return uporabnik
 
 class PosodobiDatumUporabnikaSerializer(serializers.ModelSerializer):
 
