@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'corsheaders',
+	'simple_email_confirmation',
 
     #our apps
     'accounts',
