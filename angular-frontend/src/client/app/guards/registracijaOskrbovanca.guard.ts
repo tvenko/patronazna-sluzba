@@ -14,7 +14,7 @@ export class RegistracijaOskrbovancaGuard implements CanActivate {
 			return true;
         }
  
-        this.router.navigate(['/ni-dostopa.html']);
+        this.router.navigate(['/ni-dostopa']);
         return false;
     }
 }

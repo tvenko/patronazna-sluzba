@@ -7,12 +7,12 @@ export class RegistracijaDelavcaGuard implements CanActivate {
  
     canActivate() {
 
-        if (JSON.parse(localStorage.getItem('currentUser')).admin) {
+        if (JSON.parse(localStorage.getItem('currentUser')).admin === "true") {
             
 			return true;
         }
  
-        this.router.navigate(['/ni-dostopa.html']);
+        this.router.navigate(['/ni-dostopa']);
         return false;
     }
 }
