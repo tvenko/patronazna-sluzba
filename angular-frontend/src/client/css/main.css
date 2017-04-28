@@ -62,3 +62,47 @@ li {
   margin: 20px;
   margin-top: 10px;
 }
+
+.ps-align-center {
+  text-align: center;
+}
+
+.ps-vertical-middle {
+  vertical-align: middle;
+  text-align: right;
+}
+
+.ps-nav-item {
+  padding: 10px 15px;
+}
+
+.ps-height-25 {
+  height: 25px;
+}
+
+.ps-profile-label {
+  color: #b2b1b6; /*b6b6b8*/
+  font-weight: 100;
+}
+
+.ps-margin-right {
+  margin-right: 5px;
+}
+
+.ps-margin-left {
+  margin-left: 10px;
+}
+
+.main {
+  padding: 30px;
+}
+
+.ps-edit-icon {
+  vertical-align: super;
+  color: rgb(32, 214, 21);
+
+}
+
+.ps-edit-icon:after {
+  display: block;
+}
