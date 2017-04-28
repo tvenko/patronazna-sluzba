@@ -54,16 +54,17 @@ export class AuthenticationService {
 						
 						//pridobi datum zadnje prijave
 						var datumObj = response.json().uporabnik.last_login;
+						var dateAgain = "";
 						
 						if (datumObj !== null) {
 							//spremeni datum v slovenski format
 							var ura = datumObj.substring(11,13);
 							//zelo grd način prilagajanja časovnega pasa
-							ura = (parseInt(ura) + 2) + "";
-							var dateAgain = datumObj.substring(8,10) + "-" + datumObj.substring(5,7) + "-" + datumObj.substring(0,4) + " " + ura + datumObj.substring(13,19);
+							//ura = (parseInt(ura) + 2) + "";
+							dateAgain = datumObj.substring(8,10) + "-" + datumObj.substring(5,7) + "-" + datumObj.substring(0,4) + " " + ura + datumObj.substring(13,19);
 						}
 						else {
-							datumObj = "prva prijava";
+							dateAgain = "Prva prijava";
 						}
 						
 						// določi tip uporabnika in nastavi podatke pacienta
