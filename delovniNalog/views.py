@@ -25,11 +25,11 @@ class DelovniNalogViewSet(viewsets.ModelViewSet):
 
     def filtriraj(self):
         if (self.delavec.vrsta_delavca.naziv == "patronažna sestra"):
-            queryset = DelovniNalog.objects.filter(patronazna_sestra=self.delavec)
+            queryset = DelovniNalog.objects.filter(patronazna_sestra=self.delavec.uporabnik).order_by('datum_izdaje')
         elif (self.delavec.vrsta_delavca.naziv == "zdravnik"):
-            queryset = DelovniNalog.objects.filter(sifra_zdravnika=self.delavec)
+            queryset = DelovniNalog.objects.filter(sifra_zdravnika=self.delavec).order_by('datum_izdaje')
         elif (self.delavec.vrsta_delavca.naziv == "vodja PS"):
-            queryset = DelovniNalog.objects.all()
+            queryset = DelovniNalog.objects.all().order_by('datum_izdaje')
         if (self.datum):
             q = queryset.filter(datum_izdaje=self.datum)
             queryset = q
@@ -57,7 +57,6 @@ class DelovniNalogViewSet(viewsets.ModelViewSet):
             q = queryset.filter(patronazna_sestra=sestra.uporabnik)
             queryset = q
         if (self.nadomestna_sestra):
-            print(self.nadomestna_sestra)
             sestra = Delavec.objects.get(osebna_sifra = self.nadomestna_sestra)
             obisk = Obisk.objects.filter(nadomestna_patronazna_sestra=sestra.uporabnik)
             q = queryset.filter(obisk = obisk)
