@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import Delavec, Pacient, Uporabnik
+import datetime
 
 class VrstaObiska(models.Model):
     """Razred, ki predstavlja sifrant vrst obiskov
@@ -64,6 +65,7 @@ class DelovniNalog(models.Model):
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True, blank=True)
     vrsta_obiska = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
     datum_prvega_obiska = models.DateTimeField()
+    datum_izdaje = models.DateField(default=datetime.date.today())
     je_obvezen_datum = models.BooleanField()
     stevilo_obiskov = models.IntegerField()
     casovni_interval = models.IntegerField(blank=True, null=True)

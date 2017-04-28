@@ -25,7 +25,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
 
         fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
                   'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
-                   'vrsta_obiska', 'patronazna_sestra', 'material')
+                   'vrsta_obiska', 'patronazna_sestra', 'material', 'datum_izdaje')
 
     #funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan koncen datum
     def kreirajObiskObdobje(self, stObiskov, zacetniDatum, koncniDatum, patronaznaSestra, delovniNalog, jeObvezen = False):
