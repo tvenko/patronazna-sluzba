@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from delovniNalog.serializers import *
+from django.utils import timezone
+from obisk.models import Obisk
 
 class VrstaObiskaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = VrstaObiska.objects.all()
@@ -28,8 +30,39 @@ class DelovniNalogViewSet(viewsets.ModelViewSet):
             queryset = DelovniNalog.objects.filter(sifra_zdravnika=self.delavec)
         elif (self.delavec.vrsta_delavca.naziv == "vodja PS"):
             queryset = DelovniNalog.objects.all()
-        if (self.datum is not None):
-            queryset.filter()
+        if (self.datum):
+            q = queryset.filter(datum_izdaje=self.datum)
+            queryset = q
+        elif (self.zacetni_datum or self.koncni_datum):
+            if (self.zacetni_datum and self.koncni_datum):
+                q = queryset.filter(datum_izdaje__range=[self.zacetni_datum, self.koncni_datum])
+                queryset = q
+            elif (self.zacetni_datum):
+                q = queryset.filter(datum_izdaje__range=[self.zacetni_datum, timezone.now()+timezone.timedelta(1)])
+                queryset = q
+            else:
+                q = queryset.filter(datum_izdaje__range=['0001-01-01', self.koncni_datum])
+                queryset = q
+        if (self.vrsta_obiska):
+            q = queryset.filter(vrsta_obiska=self.vrsta_obiska)
+            queryset = q
+        if (self.izdajatelj):
+            q = queryset.filter(sifra_zdravnika=self.izdajatelj)
+            queryset = q
+        if (self.pacient):
+            q = queryset.filter(id_pacienta=self.pacient)
+            queryset = q
+        if (self.sestra):
+            sestra = Delavec.objects.get(osebna_sifra=self.sestra)
+            q = queryset.filter(patronazna_sestra=sestra.uporabnik)
+            queryset = q
+        if (self.nadomestna_sestra):
+            print(self.nadomestna_sestra)
+            sestra = Delavec.objects.get(osebna_sifra = self.nadomestna_sestra)
+            obisk = Obisk.objects.filter(nadomestna_patronazna_sestra=sestra.uporabnik)
+            q = queryset.filter(obisk = obisk)
+            queryset = q
+        return queryset
 
     def get_queryset(self):
         """
@@ -46,18 +79,10 @@ class DelovniNalogViewSet(viewsets.ModelViewSet):
         self.sestra = self.request.query_params.get('ms')
         self.nadomestna_sestra = self.request.query_params.get('nms')
 
-        if (self.sifra_delavca is not None):
+        if (self.sifra_delavca):
             self.delavec = Delavec.objects.get(osebna_sifra = self.sifra_delavca)
-            if (self.delavec is not None):
-                if (delavec.vrsta_delavca.naziv == "patronažna sestra"):
-                    self.filtriraj();
-                    queryset = DelovniNalog.objects.filter(patronazna_sestra=delavec)
-                elif (delavec.vrsta_delavca.naziv == "zdravnik"):
-                    self.filtriraj();
-                    queryset = DelovniNalog.objects.filter(sifra_zdravnika=delavec)
-                elif (delavec.vrsta_delavca.naziv == "vodja PS"):
-                    self.filtriraj();
-                    queryset = DelovniNalog.objects.all()
+            if (self.delavec):
+                queryset = self.filtriraj()
         return queryset
 
 class DelovniNalogMaterialViewSet(viewsets.ReadOnlyModelViewSet):

@@ -1,0 +1,39 @@
+-------------------------
+QUERYSET ZA DELOVNI NALOG
+-------------------------
+
+user -> OBVEZNO, vrne delovne naloge za delavca (MS samo njene naloge, ...)
+	sprejme: osebna_sifra delavca
+
+dat -> 	vrne delovne naloge ustvarjene na tisti dan
+	sprejme: LLLL-MM-DD
+
+zac_dat -> vrne delovne naloge ustvarjene od tistega dneva naprej (exluzivno)
+	   sprejme: LLLL-MM-DD
+
+konc_dat -> vrne delovne naloge ustvarjene do tega dneva (inkluzivno)
+	    sprejme: LLLL-MM-DD
+
+vo -> 	vrne delovne naloge glede na vrsto obiska
+	sprejme: id vrste obiska
+
+izd ->	vrne delovne naloge glede na izdajatelja delovnega naloga
+	sprejme: osebna_sifra delavca
+
+pac ->	vrne delovne naloge glede na pacienta v delovnem nalogu
+	sprejme: st_kartice pacienta
+
+ms ->	vrne delovne naloge, ki so dodeljeni doloceni patronazni sestri
+	sprejme: osebna_sifra delavec
+
+nms ->	vrne delovne naloge, ki so dodeljeni nadomestni patronazni sestri
+	sprejme: osebna_sifra delavec
+
+primer uporabe:
+http://fruity-routy.ddns.net:3030/api/v1/dn/delovninalogi/?user=56722&zac_dat=2017-04-12&vo=1
+
+------------------
+QUERYSET ZA OBSIKE
+------------------
+
+*se pride
