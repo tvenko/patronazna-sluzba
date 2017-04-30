@@ -117,7 +117,7 @@ ngOnInit() {
     this.pacientService.getPoste()
       .subscribe(
         response => {
-          this.poste = respose;
+          this.poste = response;
         },
         error => {
           this.problemPridobivanja = true;
