@@ -1,103 +1,233 @@
-
 <sd-navbar-zunaj></sd-navbar-zunaj>
-<div class="form-group">
-  <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
-    <p></p>
 
-    <input class="form-control" formControlName="ime" type="text" placeholder="Ime">
-    <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno</small>
-    <br/>
-    <input class="form-control" formControlName="priimek" type="text" placeholder="Priimek">
-    <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small>
-    <br/>
+<div class="container">
+  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6">
+        <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)" class=" register-block">
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-6" style="padding-right: 5px;"
+              [ngClass]="{ 'has-error': regForm.controls.ime.touched && regForm.controls.ime.invalid }">
+              <label>Vaše ime</label>
+              <input class="form-control" formControlName="ime" type="text" placeholder="Ime">
+              <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">
+                Vnesite svoje ime.
+              </small>
+            </div>
+            <div class="ui-grid-col-6" style="padding-left: 5px;"
+              [ngClass]="{ 'has-error': regForm.controls.priimek.invalid && regForm.controls.priimek.touched }">
+              <label>Vaš priimek</label>
+              <input class="form-control" formControlName="priimek" type="text" placeholder="Priimek">
+              <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">
+                Vnesite svoj priimek.
+              </small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.datumRojstva.invalid && regForm.controls.datumRojstva.touched }">
+              <label>Datum rojstva</label>
+              <p-calendar formControlName="datumRojstva" dateFormat="dd.mm.yy"
+              [locale]="si" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="1900:2017" placeholder="Datum rojstva"
+              [maxDate]=minDate inputStyleClass="form-control" class="ui-fluid"></p-calendar>
+              <small *ngIf="regForm.controls.datumRojstva.errors && !regForm.controls.datumRojstva.untouched" class="text-danger">
+                Izberite svoj datum rojstva.
+              </small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12" [ngClass]="{ 'has-error': regForm.controls.spol.invalid && regForm.controls.spol.touched }">
+              <label>Spol</label>
+              <p-radioButton name="spol" label="Ženski" value="false" formControlName="spol"></p-radioButton>
+              <p-radioButton class="left-margin" name="spol" label="Moški" value="true" formControlName="spol"></p-radioButton>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.zavarovanje.invalid && regForm.controls.zavarovanje.touched }">
+              <label>Številka zdravstvenega zavarovanja</label>
+              <input class="form-control" formControlName="zavarovanje" type="text"
+              placeholder="Številka zavarovanja" required pattern="^\d*$">
+              <small *ngIf="regForm.controls.zavarovanje.errors && !regForm.controls.zavarovanje.untouched"
+              class="text-danger">Vnesite veljavno številko zdravstvenega zavarovanja.</small>
+            </div>
+          </div>
 
-    <p-calendar  formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" [showIcon]="true" placeholder="Datum rojstva" [maxDate]=minDate></p-calendar>
-    <small *ngIf="regForm.controls.datumRojstva.errors && !regForm.controls.datumRojstva.untouched" class="text-danger">Polje je obvezno</small>
-    <br/><br/>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-7"
+              [ngClass]="{ 'has-error': regForm.controls.ulica.invalid && regForm.controls.ulica.touched }">
+              <label>Ulica</label>
+              <input class="form-control" formControlName="ulica" type="text" placeholder="Ulica">
+              <small *ngIf="regForm.controls.ulica.touched && regForm.controls.ulica.invalid" class="text-danger">
+                Vnesite ulico vašega prebivališča.
+              </small>
+            </div>
+            <div class="ui-grid-col-1">
+            </div>
+            <div class="ui-grid-col-4"
+              [ngClass]="{ 'has-error': regForm.controls.hisnast.invalid && regForm.controls.hisnast.touched }">
+              <label>Hišna števlika</label>
+              <input class="form-control" formControlName="hisnast" type="text" placeholder="Hišna št.">
+              <small *ngIf="regForm.controls.hisnast.touched && regForm.controls.hisnast.invalid" class="text-danger">
+                Vnesite hišno številko.
+              </small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.kraj.invalid && regForm.controls.kraj.touched }">
+              <label>Pošta</label>
+              <!-- TODO autocomplete -->
+              <input class="form-control" formControlName="kraj" type="text" placeholder="Pošta">
+              <!--<p-autoComplete [(ngModel)]="text" [suggestions]="poste" (completeMethod)="search($event)"
+                [ngModelOptions]="{standalone: true}"></p-autoComplete>-->
+              <small *ngIf="regForm.controls.hisnast.touched && regForm.controls.hisnast.invalid" class="text-danger">
+                Vnesite pošto.
+              </small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.sifreOkolisa.invalid && regForm.controls.sifreOkolisa.touched }">
+              <label>Šifra okoliša</label>
+              <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
+                <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+                  {{ sifra.naziv }}
+                </option>
+              </select>
+              <small *ngIf="regForm.controls.sifreOkolisa.invalid && regForm.controls.sifreOkolisa.touched"
+                class="text-danger">
+                Izberite šifro okoliša.
+              </small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.tel.invalid && regForm.controls.tel.touched }">
+              <label>Telefon</label>
+              <input class="form-control" formControlName="tel" type="text"
+                placeholder="Telefonska številka" required pattern="^\d*$">
+              <small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched"
+                class="text-danger">Vnesite veljavno telefonsko številko (samo števke).</small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.email.invalid && regForm.controls.email.touched }">
+              <label>Epošta</label>
+              <input class="form-control" formControlName="email" type="text" placeholder="Email" required
+              pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+              <small *ngIf="regForm.controls.email.errors && !regForm.controls.email.untouched"
+                class="text-danger">Vnesite veljaven epoštni naslov.</small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.geslo1.invalid && regForm.controls.geslo1.touched }">
+              <label>Geslo</label>
+              <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="^((?=.*\d)(?=.*[a-zA-Z]).{8,})">
+              <small *ngIf="(regForm.controls.geslo1.errors && regForm.controls.geslo1.errors.pattern) || (regForm.controls.geslo1.errors && !regForm.controls.geslo1.untouched)"
+                class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko.</small>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12"
+              [ngClass]="{ 'has-error': regForm.controls.geslo2.invalid && regForm.controls.geslo2.touched }">
+              <label>Ponovite geslo</label>
+              <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false">
+              <small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
+            </div>
+          </div>
+          <div class="ui-grid-row form-group">
+            <div class="ui-grid-col-12">
+              <label style="margin-right: 10px;">
+                Dodaj kontaktno osebo? <i style="vertical-align: top;" class="fa fa-info" aria-hidden="true" title="Podatki niso obvezni"></i>
 
-    <label>Spol: </label>
-    <p-radioButton name="spol" label="Ženski" value="false" formControlName="spol"></p-radioButton>
-    <p-radioButton class="left-margin" name="spol" label="Moški" value="true" formControlName="spol"></p-radioButton>
-    <br/><br/>
+              </label>
+              <p-checkbox name="groupname" binary="true" [(ngModel)]="prikaziKontakt"
+                [ngModelOptions]="{standalone: true}"></p-checkbox>
+            </div>
+          </div>
 
-    <input class="form-control" formControlName="zavarovanje" type="text" placeholder="Številka zavarovanja" required
-    pattern="^\d*$">
+          <div *ngIf="prikaziKontakt" class="ui-grid-row form-group">
+            <div class="ui-grid-col-1"></div>
+            <div class="ui-grid-col-10">
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-6" style="padding-right: 5px;">
+                  <label>Ime kontakta</label>
+                  <input class="form-control" formControlName="kontaktIme" type="text"
+                    placeholder="Ime kontaktne osebe">
+                </div>
+                <div class="ui-grid-col-6" style="padding-left: 5px;">
+                  <label>Priimek kontakta</label>
+                  <input class="form-control" formControlName="kontaktPriimek" type="text"
+                    placeholder="Priimek kontaktne osebe">
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                  <label>Telefon kontakta</label>
+                  <input class="form-control" formControlName="kontaktTelefon" type="text"
+                    placeholder="Telefonska številka kontaktne osebe">
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                  <label>Naslov kontakta</label>
+                  <!-- TODO: dodelaj naslov -->
+                  <input class="form-control" formControlName="kontaktNaslov" type="text"
+                    placeholder="Naslov kontaktne osebe">
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                  <label>Sorodstvena vez</label>
+                  <!-- TODO: pridobi iz backenda -->
+                  <input class="form-control" formControlName="kontaktSorodstvo" type="text"
+                  placeholder="Sorodstvena vez s kontaktno osebo">
+                </div>
+              </div>
+              </div>
+        </div>
+        <div class="ui-grid-row pull-right">
+          <div class="ui-grid-col-10" style="margin-right: 5px;">
+            <small style="vertical-align:middle;" *ngIf="regForm.invalid && regForm.touched" class="text-danger">Prosimo, preverite označena polja.</small>
+            <small *ngIf="regForm.untouched" class="text-warning">Prosimo izpolnite vsa polja.</small>
+          </div>
+          <div class="ui-grid-col-4">
+            <button class="btn btn-success" type="submit" [disabled]="!regForm.valid">Registriraj</button>
+          </div>
+        </div>
+        </form>
+      </div>
 
-    <small *ngIf="regForm.controls.zavarovanje.errors && !regForm.controls.zavarovanje.untouched" class="text-danger">Polje je obvezno in številka zavarovanja lahko vsebuje le številke</small>
-    <br/>
+      <p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad">
+          Registracija je bila uspešna. Na email naslov smo vam poslali povezavo za aktivacijo uporabniškega računa.
+        </div>
 
-    <div class="col-sm-8">
-      <input class="form-control" formControlName="ulica" type="text" placeholder="Ulica">
+        <p-footer>
+          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziPregled=false" label="Zapri"></button>
+          </div>
+        </p-footer>
+      </p-dialog>
+
+      <p-dialog header="Napaka!" [(visible)]="prikaziNapako" modal="modal" responsive="true">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad">
+          Email je že v uporabi. Ste pozabili geslo?
+        </div>
+
+        <p-footer>
+          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziNapako=false" label="Zapri"></button>
+          </div>
+        </p-footer>
+      </p-dialog>
+
     </div>
-    <div class="col-sm-1">
-      <input class="form-control" formControlName="hisnast" type="text" placeholder="Hišna št.">
-    </div><div class="col-sm-3">
-      <input class="form-control" formControlName="kraj" type="text" placeholder="Pošta">
-    </div>
+  </div>
 
-    <label>Šifra okoliša: </label>
-    <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
-      <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
-        {{ sifra.naziv }}
-      </option>
-    </select>
-    <br/>
 
-    <input class="form-control" formControlName="tel" type="text" placeholder="Telefonska številka" required
-    pattern="^\d*$">
-    <small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno in telefonska številka lahko vsebuje le številke.</small>
-    <br/>
-
-    <input class="form-control" formControlName="email" type="text" placeholder="Email" required
-    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
-    <small *ngIf="regForm.controls.email.errors && !regForm.controls.email.untouched" class="text-danger">Polje je obvezno in email mora slediti formatu <i>email@email.si</i></small>
-    <br/>
-
-    <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="^((?=.*\d)(?=.*[a-zA-Z]).{8,})">
-    <small *ngIf="(regForm.controls.geslo1.errors && regForm.controls.geslo1.errors.pattern) || (regForm.controls.geslo1.errors && !regForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko.</small>
-    <br/>
-
-    <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false">
-    <small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
-
-    <button class="form-control" (click)="dodajKontakt()" *ngIf="!prikaziKontakt">Dodajte kontaktno osebo</button><button class="form-control" (click)="odstraniKontakt()" *ngIf="prikaziKontakt">Odstranite kontaktno osebo</button>
-
-    <br/>
-
-    <div *ngIf="prikaziKontakt">
-      <input class="form-control" formControlName="kontaktIme" type="text" placeholder="Ime kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktPriimek" type="text" placeholder="Priimek kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktTelefon" type="text" placeholder="Telefonska številka kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktNaslov" type="text" placeholder="Naslov kontaktne osebe"><br/>
-      <input class="form-control" formControlName="kontaktSorodstvo" type="text" placeholder="Sorodstvena vez s kontaktno osebo"><br/>
-    </div>
-
-    <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
-    <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosimo, preverite označena polja.</small>
-
-  </form>
 </div>
-
-<p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
-  <div class="ui-grid ui-grid-responsive ui-grid-pad">
-    Registracija je bila uspešna. Na email naslov smo vam poslali povezavo za aktivacijo uporabniškega računa.
-  </div>
-
-  <p-footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziPregled=false" label="Zapri"></button>
-    </div>
-  </p-footer>
-</p-dialog>
-
-<p-dialog header="Napaka!" [(visible)]="prikaziNapako" modal="modal" responsive="true">
-  <div class="ui-grid ui-grid-responsive ui-grid-pad">
-    Email je že v uporabi. Ste pozabili geslo?
-  </div>
-
-  <p-footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziNapako=false" label="Zapri"></button>
-    </div>
-  </p-footer>
-</p-dialog>

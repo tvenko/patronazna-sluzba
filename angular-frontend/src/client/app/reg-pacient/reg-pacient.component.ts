@@ -15,8 +15,9 @@ export class RegPacientComponent {
   public date: Date;
   public minDate: Date;
   public si: any;
-  public prikaziKontakt : boolean;
+  public prikaziKontakt : boolean = false;
 
+  public poste: any;
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
   public prikaziPregled: boolean;
@@ -26,6 +27,7 @@ export class RegPacientComponent {
 
 ngOnInit() {
   this.dobiSifre();
+  this.dobiPoste();
   this.prikaziPregled = false;
   this.prikaziKontakt = false;
   this.regForm = this.fb.group({
@@ -38,8 +40,8 @@ ngOnInit() {
     sifreOkolisa: ['', Validators.required],
     tel: ['', Validators.required],
     email: ['', Validators.required],
-    datumRojstva: [''],
-    spol: ['', Validators.required],
+    datumRojstva: ['', Validators.required],
+    spol: ['false', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
     kontaktIme: [''],
@@ -97,13 +99,6 @@ ngOnInit() {
       )
   }
 
-  dodajKontakt() {
-    this.prikaziKontakt = true;
-  }
-  odstraniKontakt() {
-    this.prikaziKontakt = false;
-  }
-
   dobiSifre() {
     this.problemPridobivanja = false;
     this.pacientService.getSifreOkolisa()
@@ -115,6 +110,19 @@ ngOnInit() {
         this.problemPridobivanja = true;
       }
     );
+  }
+
+  dobiPoste() {
+    this.problemPridobivanja = false;
+    this.pacientService.getPoste()
+      .subscribe(
+        response => {
+          this.poste = respose;
+        },
+        error => {
+          this.problemPridobivanja = true;
+        }
+      )
   }
 
 }
