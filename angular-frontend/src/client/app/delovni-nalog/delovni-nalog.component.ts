@@ -30,9 +30,9 @@ export class DelovniNalogComponent implements OnInit {
           error => {
             // Pokazi obvestilo
           }
-        )
+        );
     } else {
-      console.log("Ni izvajalca v local storage");
+      console.log('Ni izvajalca v local storage');
     }
 
   }

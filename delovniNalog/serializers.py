@@ -56,7 +56,6 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                 datum += datetime.timedelta(days=2)
 
     def create(self, validated_data):
-        # TODO preveri z JWT tokenom ali je zdravnik, ne samo preko polja v body (!) to je lazje preverit z request.user??
         if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS" or validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "zdravnik"):
             if (validated_data['sifra_zdravnika'].vrsta_delavca.naziv == "vodja PS"):
                 if (validated_data['vrsta_obiska'].opis == "kontrola zdravstvenega stanja" or
@@ -90,9 +89,10 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
 
             #priredi MS delovnemu nalogu
             okolis_pacient = validated_data.pop('id_pacienta')[0].sifra_okolisa
-            if(Delavec.objects.get(sifra_okolisa = okolis_pacient)):
+            if(okolis_pacient and Delavec.objects.get(sifra_okolisa = okolis_pacient)):
                 sestra = Delavec.objects.get(sifra_okolisa = okolis_pacient)
                 delovniNalog.patronazna_sestra = sestra.uporabnik
+                delovniNalog.save()
 
             # (Popravljeno) doda material ce je bil poslan
             if('delovninalogmaterial_set' in validated_data.keys()):
