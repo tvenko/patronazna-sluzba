@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
  
 import { AuthenticationService } from '../shared/services/avtentikacija/authentication.service';
  
 @Component({
     moduleId: module.id,
-    templateUrl: 'prijava.component.html'
+    templateUrl: 'prijava.component.html',
+		styleUrls: ['prijava.component.css']
 })
  
 export class PrijavaComponent implements OnInit {
     model: any = {};
     loading = false;
     error = '';
- 
+  	@ViewChild('register') registerLink: any;
+
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService) { }
@@ -33,6 +35,7 @@ prijava() {
 										let imeUporabnika = JSON.parse(localStorage.getItem('currentUser')).username;
 
 										// Admin TODO (izboljsaj varnost?)
+										// MS TODO
 										if (imeUporabnika === 'admin@gmail.com') {
 											this.router.navigate(['/']);
 										}	else if (tipUporabnika === 'pacient') {

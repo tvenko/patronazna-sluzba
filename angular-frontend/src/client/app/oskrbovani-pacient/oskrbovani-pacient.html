@@ -1,45 +1,70 @@
-<sd-navbar-pacient></sd-navbar-pacient>
-  <div class="form-group">
-<form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
-<p></p>
 
-    <input class="form-control" formControlName="ime" type="text" placeholder="Ime oskrbovanca">
-    <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno</small>
-    <br/>
-    <input class="form-control" formControlName="priimek" type="text" placeholder="Priimek oskrbovanca">
-    <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno</small>
-    <br/>
-
-    <p-calendar  formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" [showIcon]="true" placeholder="Datum rojstva oskrbovanca" [maxDate]=minDate></p-calendar>
-    <small *ngIf="regForm.controls.datumRojstva.errors && !regForm.controls.datumRojstva.untouched" class="text-danger">Polje je obvezno</small>
-    <br/><br/>
-
-    <label>Spol: </label>
-    <p-radioButton name="spol" label="Ženski" value="false" formControlName="spol"></p-radioButton>
-    <p-radioButton class="left-margin" name="spol" label="Moški" value="true" formControlName="spol"></p-radioButton>
-    <br/><br/>
-
-    <input class="form-control" formControlName="zavarovanje" type="text" placeholder="Številka zavarovanja oskrbovanca" required
-      pattern="^\d*$">
-
-    <small *ngIf="regForm.controls.zavarovanje.errors && !regForm.controls.zavarovanje.untouched" class="text-danger">Polje je obvezno in številka zavarovanja lahko vsebuje le številke.</small>
-    <br/>
-
-  <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
-  <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosimo, preverite označena polja.</small>
-
-
-</form>
+<div class="app-body">
+  <div class="sidebar">
+    <sd-navbar-pacient></sd-navbar-pacient>
   </div>
-
-  <p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
+  <main class="main">
     <div class="ui-grid ui-grid-responsive ui-grid-pad">
-      Registracija oskrbovanega pacienta je bila uspešna.
-    </div>
-
-    <p-footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziPregled=false" label="Zapri"></button>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-6">
+          <h2>Dodajanje oskrbovane osebe</h2>
+        </div>
       </div>
-    </p-footer>
-  </p-dialog>
+      <div class="ui-grid-row os-form-body">
+        <div class="ui-grid-col-8">
+          <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
+            <div class="form-group ui-grid-row" [ngClass]="{'has-error':!regForm.controls.ime.valid && !regForm.controls.ime.untouched}">
+              <div class="ui-grid-col-8">
+                <label>Ime oskrbovanca</label>
+                <input class="form-control" formControlName="ime" placeholder="Vnesite ime" type="text">
+                <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Vnesite ime oskrbovanca</small>
+              </div>
+            </div>
+            <div class="form-group ui-grid-row" [ngClass]="{'has-error':!regForm.controls.priimek.valid && !regForm.controls.priimek.untouched}">
+              <div class="ui-grid-col-8">
+                <label>Priimek oskrbovanca</label>
+                <input class="form-control" formControlName="priimek" placeholder="Vnesite priimek" type="text">
+                <small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Vnesite priimek oskrbovanca</small>
+              </div>
+            </div>
+            <div class="form-group ui-grid-row" [ngClass]="{'has-error':!regForm.controls.datumRojstva.valid && !regForm.controls.datumRojstva.untouched}">
+              <div class="ui-grid-col-8">
+                <label>Datum rojstva oskrbovanca</label>
+                <p-calendar class="ui-fluid os-calendar" formControlName="datumRojstva" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1900:2017"  placeholder="Izbreite datum" [maxDate]=minDate
+                inputStyleClass="form-control"></p-calendar>
+                <small *ngIf="!regForm.controls.datumRojstva.untouched && !regForm.controls.datumRojstva.valid" class="text-danger">Vnesite datum rojstva</small>
+              </div>
+            </div>
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-8">
+                <label style="display: block;">Spol</label>
+                <p-radioButton name="spol" label="Ženski" value="false" placeholder="Vnesite številko kartice" formControlName="spol"></p-radioButton>
+                <p-radioButton class="left-margin" name="spol" label="Moški" value="true" formControlName="spol"></p-radioButton>
+              </div>
+            </div>
+            <div class="ui-grid-row" [ngClass]="{'has-error':!regForm.controls.zavarovanje.valid && !regForm.controls.zavarovanje.untouched}">
+              <div class="ui-grid-col-8">
+                <label>Številka zdravstvene kartice</label>
+                <input class="form-control" formControlName="zavarovanje" type="text" required pattern="^\d*$">
+                <small *ngIf="!regForm.controls.zavarovanje.untouched &&
+                !regForm.controls.zavarovanje.valid" class="text-danger">Številka kartice je obvezna in mora vsebovati 9 števk.</small>
+              </div>
+            </div>
+
+            <div class="ui-grid-row os-last-row">
+              <div class="ui-grid-col-8">
+                <button class="btn btn-primary btn-sm pull-right" type="submit" [disabled]="!regForm.valid || loading === true">Registriraj</button>
+                <small *ngIf="!regForm.valid && regForm.touched" class="text-danger pull-right">Obrazec ni veljaven, preverite polja</small>
+                <small *ngIf="regForm.untouched" class="text-danger pull-right">Izpolnite vsa polja</small>
+                <small *ngIf="uspesno === true" class="text-success pull-right">Uspešno ste dodali novega pacienta</small>
+                <small *ngIf="uspesno === false" class="text-warning pull-right">Prišlo je do napake pri registraciji</small>
+                <img src="assets/gif/spin-wheel.gif" *ngIf="loading === true" style="width: 30px;" class="pull-right" alt="Loading" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

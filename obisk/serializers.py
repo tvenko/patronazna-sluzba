@@ -13,7 +13,6 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 class ObiskSerializer(serializers.ModelSerializer):
 
     pacient = serializers.PrimaryKeyRelatedField(source='delovni_nalog.id_pacienta', many=True, read_only=True)
-    ime_pacienta = serializers.CharField(source=pacient.id_pacienta)
 
     class Meta:
         model = Obisk

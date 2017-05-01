@@ -1,5 +1,33 @@
-<nav>
-  <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">ODJAVA</a>
-  <a [routerLink]="['/pacient/profil']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">OSEBNI PODATKI</a>
-  <a [routerLink]="['/oskrbovani-pacient']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">REGISTRACIJA OSKRBOVANCA</a>
+<nav class="sidebar-nav">
+  <ul class="nav">
+    <i class="fa fa-user-circle-o fa-3x ps-align-center" aria-hidden="true"></i>
+    <li class="nav-title ps-small-margin-bottom">
+      Prijavljeni ste kot pacient:
+    </li>
+    <li class="nav-item ps-nav-item ps-small-margin-bottom ">
+      {{ pacient.priimek }}, {{ pacient.ime }}
+    </li>
+    <li class="nav-title ps-small-margin-bottom">
+      Zadnja prijava:
+    </li>
+    <li class="nav-item ps-nav-item ps-small-margin-bottom">
+      {{ pacient.datum }}
+    </li>
+    <li class="nav-title">
+      Seznam strani
+    </li>
+    <li class="nav-item">
+      <a [routerLink]="['/pacient/profil']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><i class="fa fa-id-card"></i> Osebni podatki</a>
+    </li>
+
+    <li class="nav-item">
+      <a [routerLink]="['/oskrbovani-pacient']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"> <i class="fa fa-user-plus" aria-hidden="true"></i> Registracija oskrbovanca</a>
+    </li>
+
+    <li class="nav-item">
+      <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']"
+      [routerLinkActiveOptions]="{exact:true}">
+      <i class="fa fa-lock" aria-hidden="true"></i> Odjava</a>
+    </li>
+  </ul>
 </nav>

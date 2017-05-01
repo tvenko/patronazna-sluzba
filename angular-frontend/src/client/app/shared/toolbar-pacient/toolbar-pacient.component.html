@@ -1,0 +1,15 @@
+<h1>Patronažna služba</h1>
+<ul class="nav navbar-nav pull-right">
+  <li class="nav-item nav-dropdown ps-dropdown-right">
+    <a class="nav-link dropdown-toggle nav-link ps-a" data-toggle="dropdown" href="#"
+        role="button" aria-haspopup="true" aria-expanded="false">
+      <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
+      <span class="d-md-down-none">{{ pacient.ime }}</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']"
+      [routerLinkActiveOptions]="{exact:true}" class="dropdown-item">
+      <i class="fa fa-lock" aria-hidden="true"></i>Odjava</a>
+    </div>
+  </li>
+</ul>

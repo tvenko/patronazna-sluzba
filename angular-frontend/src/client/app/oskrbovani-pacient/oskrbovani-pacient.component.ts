@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { Pacient } from './pacient';
@@ -10,9 +10,11 @@ import { PacientService } from '../shared/services/index';
   templateUrl: 'oskrbovani-pacient.html',
   styleUrls: ['oskrbovani-pacient.component.css']
 })
-export class OskrbovaniPacientComponent {
+export class OskrbovaniPacientComponent implements OnInit{
   public regForm: FormGroup;
   public si: any;
+  public uspesno: any;
+  public loading: any;
 
   public trenutniPacient: any;
   public prikaziPregled: boolean;
@@ -27,14 +29,15 @@ export class OskrbovaniPacientComponent {
 
 ngOnInit() {
   this.prikaziPregled = false;
+  this.loading = false;
   this.trenutniPacient = JSON.parse(localStorage.getItem('podatkiPacienta')).stevilkaPacienta;
   this.dobiSifre();
   this.regForm = this.fb.group({
-    zavarovanje: ['', Validators.required],
+    zavarovanje: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
-    datumRojstva: [''],
-    spol: ['', Validators.required],
+    datumRojstva: ['', Validators.required],
+    spol: ['false', Validators.required],
   });
 
   this.si = {
@@ -61,6 +64,7 @@ ngOnInit() {
     return y+"-"+m+"-"+d;
   }
   registriraj(podatki: any) {
+    this.loading = true;
     this.prikaziPregled = true;
     this.pacient = new Pacient(podatki.ime, podatki.priimek, parseInt(podatki.zavarovanje), this.vString(podatki.datumRojstva), podatki.spol, this.trenutniPacient);
 
@@ -68,12 +72,15 @@ ngOnInit() {
     this.pacientService.ustvariVezanega(this.pacient)
       .subscribe(
         response => {
-          console.log(response);
+          this.uspesno = true;
+          this.loading = false;
         },
         error => {
+          this.uspesno = false;
+          this.loading = false;
         }
       )
-      this.regForm.reset();
+
   }
 
 

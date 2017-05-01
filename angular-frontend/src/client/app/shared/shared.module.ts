@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ToolbarPacientComponent } from './toolbar-pacient/toolbar-pacient.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NameListService } from './name-list/name-list.service';
 import { PacientService, DelovniNalogService, AuthenticationService, DelavecService } from './services/index';
@@ -20,10 +21,10 @@ import { ObiskiService } from './services/obiski/obiski.service';
 @NgModule({
   imports: [CommonModule, RouterModule],
   declarations: [ToolbarComponent, NavbarComponent, NavbarPacientComponent,
-    NavbarVodjaZdravnikComponent, NavbarZunajComponent, NavbarSestraComponent],
+    NavbarVodjaZdravnikComponent, NavbarZunajComponent, NavbarSestraComponent, ToolbarPacientComponent],
   exports: [ToolbarComponent, NavbarComponent,
     CommonModule, FormsModule, RouterModule, NavbarPacientComponent,
-    NavbarVodjaZdravnikComponent, NavbarZunajComponent, NavbarSestraComponent]
+    NavbarVodjaZdravnikComponent, NavbarZunajComponent, NavbarSestraComponent, ToolbarPacientComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

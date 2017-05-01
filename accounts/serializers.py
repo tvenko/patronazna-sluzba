@@ -61,7 +61,7 @@ class PosodobiDatumUporabnikaSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Uporabnik
 		fields = ('last_login',)
-		
+
 	def update(self, uporabnik, validated_data):
 		uporabnik.last_login = validated_data.get('last_login', uporabnik.last_login)
 		uporabnik.save()
@@ -252,3 +252,9 @@ class KadrovkaDelavcSerializer(serializers.ModelSerializer):
     class Meta:
         model = KadrovskaDelavec
         fields = ('id', 'ime', 'priimek')
+
+class PostaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Posta
+        fields = ('stevilka', 'kraj')

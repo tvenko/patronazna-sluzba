@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4b7af8c-86b8-4438-a0f1-f52200191ea7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/package.json" afterPath="$PROJECT_DIR$/angular-frontend/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/app.module.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/guards/auth.guard.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/guards/auth.guard.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/guards/kreiranjeNaloga.guard.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/guards/kreiranjeNaloga.guard.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/prijava/prijava.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/prijava/prijava.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/avtentikacija/authentication.service.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/avtentikacija/authentication.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/delovni-nalog/delovni-nalog.service.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/delovni-nalog/delovni-nalog.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/index.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/index.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/shared.module.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/shared.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delovniNalog/models.py" afterPath="$PROJECT_DIR$/delovniNalog/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/models.py" afterPath="$PROJECT_DIR$/obisk/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/serializers.py" afterPath="$PROJECT_DIR$/obisk/serializers.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -67,8 +55,8 @@
       <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/obisk/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="308">
+              <caret line="14" column="111" lean-forward="false" selection-start-line="14" selection-start-column="111" selection-end-line="14" selection-end-column="111" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -896,8 +884,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/obisk/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="308">
+          <caret line="14" column="111" lean-forward="false" selection-start-line="14" selection-start-column="111" selection-end-line="14" selection-end-column="111" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

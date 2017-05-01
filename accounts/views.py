@@ -78,3 +78,8 @@ class SifraOkolisaViewSet(viewsets.ModelViewSet):
 class KadrovskaDelavecViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = KadrovskaDelavec.objects.all()
     serializer_class = KadrovkaDelavcSerializer
+
+class PostaViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Posta.objects.all()
+    serializer_class = PostaSerializer
+    pagination_class = None
