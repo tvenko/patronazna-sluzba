@@ -22,7 +22,7 @@ export class DelovniNalogComponent implements OnInit {
     let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
     if (sifra_zdravnika) {
       sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
-      this.delovniNalogService.getByZdravnik(sifra_zdravnika)
+      this.delovniNalogService.getByDelavec(sifra_zdravnika)
         .subscribe(
           response => {
             this.delovniNalogi = response.results;

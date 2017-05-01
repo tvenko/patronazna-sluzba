@@ -10,6 +10,8 @@ import { PacientService, DelovniNalogService, AuthenticationService, DelavecServ
 import { NavbarPacientComponent } from './navbar-pacient/navbar-pacient.component';
 import { NavbarVodjaZdravnikComponent } from './navbar-vodja-zdravnik/navbar-vodja-zdravnik.component';
 import { NavbarZunajComponent } from './navbar-zunaj/navbar-zunaj.component';
+import { NavbarSestraComponent } from './navbar-sestra/navbar-sestra.component';
+import { ObiskiService } from './services/obiski/obiski.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -18,16 +20,16 @@ import { NavbarZunajComponent } from './navbar-zunaj/navbar-zunaj.component';
 @NgModule({
   imports: [CommonModule, RouterModule],
   declarations: [ToolbarComponent, NavbarComponent, NavbarPacientComponent,
-    NavbarVodjaZdravnikComponent, NavbarZunajComponent],
+    NavbarVodjaZdravnikComponent, NavbarZunajComponent, NavbarSestraComponent],
   exports: [ToolbarComponent, NavbarComponent,
     CommonModule, FormsModule, RouterModule, NavbarPacientComponent,
-    NavbarVodjaZdravnikComponent, NavbarZunajComponent]
+    NavbarVodjaZdravnikComponent, NavbarZunajComponent, NavbarSestraComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [NameListService, PacientService, DelovniNalogService, DelavecService, AuthenticationService]
+      providers: [NameListService, PacientService, DelovniNalogService, DelavecService, AuthenticationService, ObiskiService]
     };
   }
 }
