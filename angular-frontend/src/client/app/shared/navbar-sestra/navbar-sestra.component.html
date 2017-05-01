@@ -1,4 +1,19 @@
-<nav>
-  <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">ODJAVA</a>
-  <a [routerLink]="['/obiski']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">OBISKI</a>
+<nav class="sidebar-nav">
+  <ul class="nav">
+    <li class="nav-item">
+      <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">ODJAVA</a>
+    </li>
+    <li class="nav-title">
+      Seznam strani
+    </li>
+    <li class="nav-item">
+      <a [routerLink]="['/obiski']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">PREGLED OBISKOV</a>
+    </li>
+
+    <li class="nav-item">
+      <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']"
+         [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-lock" aria-hidden="true"></i> Odjava</a>
+    </li>
+  </ul>
 </nav>

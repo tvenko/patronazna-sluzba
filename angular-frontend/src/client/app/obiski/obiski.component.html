@@ -1,33 +1,53 @@
-<sd-navbar-sestra></sd-navbar-sestra>
-<div class="ui-grid ui-grid-responsive ui-grid-pad">
-  <div class="ui-grid-row">
-    <div class="ui-grid-col-4">
-      <h2>Vsi vaši obiski</h2>
-    </div>
+
+<div class="app-body">
+  <div class="sidebar">
+
+    <sd-navbar-sestra></sd-navbar-sestra>
   </div>
-  <div class="ui-grid-row" *ngFor="let obisk of obiski">
-    <div class="ui-grid-col-8">
+  <main class="main">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad">
       <div class="ui-grid-row">
-        <div class="ui-grid-col-6">
-          <h3>Obisk: {{ obisk.id }}</h3>
+        <div class="ui-grid-col-4">
+          <h2>Vsi vaši obiski</h2>
+        </div>
+      </div>
+      <!-- Body od vseh osebnih podatkov -->
+      <div class="ui-grid-row" *ngFor="let obisk of obiski">
+        <div class="ui-grid-col-8">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-6">
+              <h3>Obisk: {{ obisk.id }}</h3>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-5">
+              Predviden datum obiska:
+            </div>
+            <div class="ui-grid-col-6">
+              {{ obisk.predvideni_datum | date }}
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-5">
+              Id pacienta:
+            </div>
+            <div class="ui-grid-col-6">
+              {{ obisk.pacient }}
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-5">
+              Potreben material:
+            </div>
+            <span hidden="true">show = {{ obisk.material }}</span>
+            <div class="ui-grid-col-6" *ngIf="show!=''">
+              {{ obisk.material }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="ui-grid-row">
-      <div class="ui-grid-col-3">
-        Datum prvega obiska:
-      </div>
-      <div class="ui-grid-col-6">
-        {{ obisk.predvideni_datum | date }}
-      </div>
-    </div>
-    <div class="ui-grid-row">
-      <div class="ui-grid-col-3">
-        Pacient:
-      </div>
-      <div class="ui-grid-col-6">
-        {{ obisk.pacient }}
-      </div>
-    </div>
-  </div>
+  </main>
 </div>
