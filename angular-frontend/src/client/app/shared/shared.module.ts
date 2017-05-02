@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NameListService } from './name-list/name-list.service';
-import { PacientService, DelovniNalogService, AuthenticationService, DelavecService } from './services/index';
+import { PacientService, DelovniNalogService, AuthenticationService, DelavecService, PotrditevRegistracijeService } from './services/index';
 import { NavbarPacientComponent } from './navbar-pacient/navbar-pacient.component';
 import { NavbarVodjaZdravnikComponent } from './navbar-vodja-zdravnik/navbar-vodja-zdravnik.component';
 import { NavbarZunajComponent } from './navbar-zunaj/navbar-zunaj.component';
@@ -27,7 +27,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [NameListService, PacientService, DelovniNalogService, DelavecService, AuthenticationService]
+      providers: [NameListService, PacientService, DelovniNalogService, DelavecService, AuthenticationService, PotrditevRegistracijeService]
     };
   }
 }

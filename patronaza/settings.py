@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'corsheaders',
-	'simple_email_confirmation',
+	#'simple_email_confirmation',
 
     #our apps
     'accounts',
@@ -176,3 +176,9 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.handler.jwt_response_payload_handler',
 }
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'patronazamail@gmail.com'
+EMAIL_HOST_PASSWORD = 'patronaza'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

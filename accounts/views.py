@@ -78,3 +78,7 @@ class SifraOkolisaViewSet(viewsets.ModelViewSet):
 class KadrovskaDelavecViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = KadrovskaDelavec.objects.all()
     serializer_class = KadrovkaDelavcSerializer
+	
+class PotrditevRegistracijeViewSet(viewsets.ModelViewSet):
+    queryset = Pacient.objects.all()
+    serializer_class = PotrditevRegistracijeSerializer

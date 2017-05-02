@@ -26,13 +26,14 @@ import { KreiranjeNalogaGuard } from './guards/kreiranjeNaloga.guard';
 import { PregledNalogovGuard } from './guards/pregledNalogov.guard';
 import { RegistracijaDelavcaGuard } from './guards/registracijaDelavca.guard';
 import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.guard';
+import { PotrditevRegistracijeModule } from './potrditev-registracije/potrditev-registracije.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
 	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-	DostopModule,],
+	DostopModule, PotrditevRegistracijeModule,],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
