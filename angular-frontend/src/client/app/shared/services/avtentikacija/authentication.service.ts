@@ -27,12 +27,6 @@ export class AuthenticationService {
 					let token = response.json() && response.json().token;
 					if (token) {
 
-<<<<<<< HEAD
-					
-=======
-						console.log(response.json());
->>>>>>> 0c69495439a9bbe9031bcabde6cc7452e0fe9e75
-
 						//določi id uporabnika
 						this.id = JSON.stringify(response.json().uporabnik.id);
 
