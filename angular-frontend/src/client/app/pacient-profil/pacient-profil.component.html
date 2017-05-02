@@ -79,14 +79,14 @@
         </div>
       </div>
       <div class="ui-grid-row vezancek" *ngFor="let vezancek of this.pacient.vezaniPacienti">
-        <div class="ui-grid-col-8">
+        <div class="ui-grid-col-12">
           <!-- Ime in priimek -->
           <div class="ui-grid-row">
             <div class="ui-grid-col-2 ps-profile-label ps-height-25">
               Ime in priimek
             </div>
             <div class="ui-grid-col-6">
-              {{ vezancek.ime }} {{ vezancek.priimek }}
+              {{ vezancek.ime }} {{ vezancek.priimek }} 
             </div>
           </div>
 
@@ -106,19 +106,20 @@
               Številka kartice
             </div>
             <div class="ui-grid-col-6">
-              {{ vezancek}}
+              {{ vezancek.st_kartice }}
             </div>
           </div>
 
-          <!-- sorodstveno razmerje -->
+          <!-- spol -->
           <div class="ui-grid-row">
             <div class="ui-grid-col-2 ps-profile-label ps-height-25">
-              Razmerje
+              Spol
             </div>
             <div class="ui-grid-col-6">
-              {{ vezancek.razmerje }}
+              {{ vezancek.spol }}
             </div>
           </div>
+
         </div>
       </div>
     </div>

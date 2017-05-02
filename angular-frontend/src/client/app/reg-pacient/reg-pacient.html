@@ -78,10 +78,11 @@
             <div class="ui-grid-col-12"
               [ngClass]="{ 'has-error': regForm.controls.kraj.invalid && regForm.controls.kraj.touched }">
               <label>Pošta</label>
-              <!-- TODO autocomplete -->
-              <input class="form-control" formControlName="kraj" type="text" placeholder="Pošta">
-              <!--<p-autoComplete [(ngModel)]="text" [suggestions]="poste" (completeMethod)="search($event)"
-                [ngModelOptions]="{standalone: true}"></p-autoComplete>-->
+              <select class="form-control" formControlName="kraj" *ngIf="poste" >
+                <option *ngFor="let posta of poste" [ngValue]="posta.kraj">
+                  {{ posta.stevilka }} - {{ posta.kraj }}
+                </option>
+              </select>
               <small *ngIf="regForm.controls.hisnast.touched && regForm.controls.hisnast.invalid" class="text-danger">
                 Vnesite pošto.
               </small>
@@ -190,26 +191,24 @@
               </div>
               </div>
         </div>
-        <div class="ui-grid-row pull-right">
-          <div class="ui-grid-col-10" style="margin-right: 5px;">
-            <small style="vertical-align:middle;" *ngIf="regForm.invalid && regForm.touched" class="text-danger">Prosimo, preverite označena polja.</small>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-8 text-right" style="margin-right: 5px;">
+            <small *ngIf="regForm.invalid && regForm.touched" class="text-danger">Prosimo, preverite označena polja.</small>
             <small *ngIf="regForm.untouched" class="text-warning">Prosimo izpolnite vsa polja.</small>
           </div>
-          <div class="ui-grid-col-4">
+          <div class="ui-grid-col-4 text-right">
             <button class="btn btn-success" type="submit" [disabled]="!regForm.valid">Registriraj</button>
           </div>
         </div>
         </form>
       </div>
-
       <p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
         <div class="ui-grid ui-grid-responsive ui-grid-pad">
           Registracija je bila uspešna. Na email naslov smo vam poslali povezavo za aktivacijo uporabniškega računa.
         </div>
-
         <p-footer>
           <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziPregled=false" label="Zapri"></button>
+            <button type="button" pButton class="ui-button-success" (click)="redirect()" label="Na prijavo"></button>
           </div>
         </p-footer>
       </p-dialog>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PacientService } from '../shared/services/index';
 
 /**
 * This class represents the lazy loaded DelovniNalogComponent.
@@ -13,17 +14,34 @@ export class PacientProfilComponent implements OnInit {
   public pacient: any;
   public uporabnik: any;
 
+  constructor(public pacientService: PacientService) {}
+
   ngOnInit() {
     // on init
     this.pacient = JSON.parse(localStorage.getItem('podatkiPacienta'));
     if (!this.pacient) {
       this.pacient = {};
-      this.pacient.ime = "David";
-      this.pacient.priimek = "Rubin";
-
     }
 	  this.uporabnik = JSON.parse(localStorage.getItem('currentUser'));
     if (!this.uporabnik)
       this.uporabnik = {};
+
+    if (this.pacient) {
+      this.pacientService.getVezancke(this.pacient.stevilkaPacienta)
+        .subscribe(
+          response => {
+            this.pacient.vezaniPacienti = response.results;
+            for (let vezancek of this.pacient.vezaniPacienti) {
+              if (vezancek.spol)
+                vezancek.spol = 'moški';
+              else
+                vezancek.spol = 'ženski';
+            }
+          },
+          error => {
+
+          }
+        );
+    }
   }
 }
