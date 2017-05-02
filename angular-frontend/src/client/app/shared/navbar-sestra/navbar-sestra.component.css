@@ -1,0 +1,16 @@
+:host {}
+
+nav a {
+  color: #8f8f8f;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+nav a.router-link-active {
+  color: #5fc241;
+}
+
+nav a:hover {
+  background-color: rgba(95, 194, 65, 0.33);
+}

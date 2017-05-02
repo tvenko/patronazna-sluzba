@@ -26,8 +26,8 @@ class Obisk(models.Model):
     in tuje kljuce za delovni nalog in patronazno sestro, ter lahko vsebuje tudi tuj kljuc za nadomestno patronazno sestro.
     """
 
-    predvideni_datum = models.DateField()
-    dejanski_datum = models.DateField(null=True, blank=True)
+    predvideni_datum = models.DateTimeField()
+    dejanski_datum = models.DateTimeField(null=True, blank=True)
     je_opravljen = models.BooleanField(default=False)
     je_obvezen_datum = models.BooleanField(default=False)
     delovni_nalog = models.ForeignKey(DelovniNalog, on_delete=models.SET_NULL, null=True, related_name='obisk')

@@ -22,12 +22,10 @@ export class PrijavaComponent implements OnInit {
     ngOnInit() {
         // resetiraj status prijave
         this.authenticationService.odjava()
-			.subscribe(result => {
-			});
-    }
-
+          .subscribe(result => {});
+}
  
-	prijava() {
+prijava() {
         this.loading = true;
         this.authenticationService.prijava(this.model.username, this.model.password)
             .subscribe(result => {
@@ -39,12 +37,14 @@ export class PrijavaComponent implements OnInit {
 										// Admin TODO (izboljsaj varnost?)
 										// MS TODO
 										if (imeUporabnika === 'admin@gmail.com') {
-											this.router.navigate(['/'])
+											this.router.navigate(['/']);
 										}	else if (tipUporabnika === 'pacient') {
                     	this.router.navigate(['/pacient/profil']);
 										} else if (tipUporabnika === 'zdravnik' || tipUporabnika === 'vodja PS') {
 											this.router.navigate(['/nalogi']);
-										} else {
+										} else if (tipUporabnika === 'patronažna sestra') {
+										  this.router.navigate(['/obiski']);
+                    } else {
 											this.router.navigate(['/']);
 										}
                 } else {
@@ -52,6 +52,6 @@ export class PrijavaComponent implements OnInit {
                     this.error = 'Uporabniško ime in/ali geslo je nepravilno.';
                     this.loading = false;
                 }
-            });
+            });
     }
 }

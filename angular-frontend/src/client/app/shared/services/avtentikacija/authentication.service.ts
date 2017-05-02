@@ -7,14 +7,14 @@ import { Config } from '../../config/env.config';
 @Injectable()
 export class AuthenticationService {
     public token: string;
-	public datumStr: string;
-	public id: string;
+    public datumStr: string;
+    public id: string;
 
     constructor(private http: Http) {
         // set token if saved in local storage
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
-		this.id = "";
+        this.id = '';
     }
 
     prijava(username: string, password: string): Observable<boolean> {
@@ -27,7 +27,11 @@ export class AuthenticationService {
 					let token = response.json() && response.json().token;
 					if (token) {
 
+<<<<<<< HEAD
 					
+=======
+						console.log(response.json());
+>>>>>>> 0c69495439a9bbe9031bcabde6cc7452e0fe9e75
 
 						//določi id uporabnika
 						this.id = JSON.stringify(response.json().uporabnik.id);

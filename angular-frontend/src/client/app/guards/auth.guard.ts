@@ -9,9 +9,9 @@ export class AuthGuard implements CanActivate {
     canActivate() {
         if (localStorage.getItem('currentUser')) {
             // uporabnik je prijavljen
-			//console.log(JSON.parse(localStorage.getItem('currentUser')));
-			//console.log(JSON.parse(localStorage.getItem('podatkiPacienta')));
-			return true;
+            //console.log(JSON.parse(localStorage.getItem('currentUser')));
+            //console.log(JSON.parse(localStorage.getItem('podatkiPacienta')));
+            return true;
         }
  
         // uporabnik ni prijavljen

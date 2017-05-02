@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Delavec, Pacient, Uporabnik
+from accounts.models import Delavec, Pacient, Uporabnik, VezaniPacient
 from django.utils import timezone
 
 class VrstaObiska(models.Model):
@@ -59,7 +59,8 @@ class DelovniNalog(models.Model):
     """
 
     sifra_zdravnika = models.ForeignKey(Delavec, on_delete=models.SET_NULL, null=True)
-    id_pacienta = models.ManyToManyField(Pacient, blank=True)
+    id_pacienta = models.ForeignKey(Pacient, on_delete=models.SET_NULL, null=True, blank=True)
+    vezani_pacienti = models.ManyToManyField(VezaniPacient, blank=True)
     sifra_zdravila = models.ManyToManyField(Zdravilo, blank=True)
     id_materiala = models.ManyToManyField(Material, blank=True, through='DelovniNalogMaterial')
     sifra_bolezni = models.ForeignKey(Bolezen, on_delete=models.SET_NULL, null=True, blank=True)
