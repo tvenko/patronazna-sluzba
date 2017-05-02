@@ -1,8 +1,15 @@
 from rest_framework import serializers
 from .models import *
 from accounts.models import Uporabnik, Delavec, Pacient
-from accounts.serializers import PacientGetSerializer
-from rest_framework.exceptions import ParseError
+from accounts.serializers import PacientObiskSerializer
+import delovniNalog.models
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = delovniNalog.models.Material
+        fields = ('opis', )
 
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
@@ -13,9 +20,8 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
 class ObiskSerializer(serializers.ModelSerializer):
 
-    #pacient = serializers.PrimaryKeyRelatedField(source='delovni_nalog.id_pacienta', many=True, read_only=True)
-    pacient = PacientGetSerializer(source='delovni_nalog.id_pacienta', many=True)
-    material = serializers.PrimaryKeyRelatedField(source='delovni_nalog.id_materiala', many=True, read_only=True)
+    pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta', many=True)
+    material = MaterialSerializer(source='delovni_nalog.id_materiala', many=True)
 
     class Meta:
         model = Obisk

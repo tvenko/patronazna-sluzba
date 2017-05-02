@@ -224,6 +224,20 @@ class PacientPostSerializer(serializers.ModelSerializer):
             VezaniPacientSerializer.create(VezaniPacientSerializer, data)
         return pacient
 
+class PacientObiskSerializer(serializers.ModelSerializer):
+
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    telefon = serializers.CharField(source='uporabnik.tel')
+    stevilkaPacienta = serializers.IntegerField(source='st_kartice')
+    kraj = serializers.CharField(source='posta.kraj')
+    #kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
+    hisnaStevilka = serializers.CharField(source='hisna_stevilka')
+
+    class Meta:
+        model = Pacient
+        fields = ('ime', 'priimek', 'telefon', 'stevilkaPacienta', 'kraj', 'hisnaStevilka', 'ulica')
+
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """

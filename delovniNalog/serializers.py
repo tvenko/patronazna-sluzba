@@ -1,11 +1,9 @@
-from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from rest_framework.exceptions import NotAuthenticated, ParseError
-from datetime import date
 import datetime
 
 from delovniNalog.models import *
-from obisk.serializers import ObiskSerializer
+import obisk.serializers
 
 class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
     '''Serializira material delovnega naloga'''
@@ -25,7 +23,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
 
         fields = ('id', 'datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
                   'casovno_obdobje', 'sifra_zdravnika', 'id_pacienta', 'sifra_zdravila',
-                   'vrsta_obiska', 'patronazna_sestra', 'material', 'datum_izdaje')
+                   'vrsta_obiska', 'patronazna_sestra', 'material', 'datum_izdaje', 'vezani_pacienti')
 
     #funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan koncen datum
     def kreirajObiskObdobje(self, stObiskov, zacetniDatum, koncniDatum, patronaznaSestra, delovniNalog, jeObvezen = False):
@@ -35,7 +33,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
         for i in range(0, stObiskov):
             data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
                     'delovni_nalog': delovniNalog}
-            ObiskSerializer.create(self, data)
+            obisk.serializers.ObiskSerializer.create(self, data)
             datum += datetime.timedelta(days=interval)
             if(datum.weekday() == 6):
                 datum += datetime.timedelta(days=1)
@@ -48,7 +46,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
         for i in range(0, stObiskov):
             data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
                     'delovni_nalog': delovniNalog}
-            ObiskSerializer.create(self, data)
+            obisk.serializers.ObiskSerializer.create(self, data)
             datum += datetime.timedelta(days=interval)
             if (datum.weekday() == 6):
                 datum += datetime.timedelta(days=1)
@@ -69,7 +67,8 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                     datum_prvega_obiska=validated_data['datum_prvega_obiska'],
                     je_obvezen_datum=validated_data['je_obvezen_datum'],
                     stevilo_obiskov=validated_data['stevilo_obiskov'],
-                    casovni_interval=validated_data['casovni_interval']
+                    casovni_interval=validated_data['casovni_interval'],
+                    id_pacienta=validated_data['id_pacienta']
                 )
             elif ('casovno_obdobje' in validated_data.keys()):
                 delovniNalog = DelovniNalog(
@@ -78,20 +77,26 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                     datum_prvega_obiska=validated_data['datum_prvega_obiska'],
                     je_obvezen_datum=validated_data['je_obvezen_datum'],
                     stevilo_obiskov=validated_data['stevilo_obiskov'],
-                    casovno_obdobje=validated_data['casovno_obdobje']
+                    casovno_obdobje=validated_data['casovno_obdobje'],
+                    id_pacienta=validated_data['id_pacienta']
                 )
             else:
                 return ParseError()
             delovniNalog.save()
-            delovniNalog.id_pacienta = validated_data['id_pacienta']
+            #delovniNalog.id_pacienta = validated_data['id_pacienta']
             if ('sifra_zdravila' in validated_data.keys()):
                 delovniNalog.sifra_zdravila = validated_data['sifra_zdravila']
 
             #priredi MS delovnemu nalogu
-            okolis_pacient = validated_data.pop('id_pacienta')[0].sifra_okolisa
+            okolis_pacient = validated_data.pop('id_pacienta').sifra_okolisa
             if(okolis_pacient and Delavec.objects.get(sifra_okolisa = okolis_pacient)):
                 sestra = Delavec.objects.get(sifra_okolisa = okolis_pacient)
                 delovniNalog.patronazna_sestra = sestra.uporabnik
+                delovniNalog.save()
+
+            # dodajanje vezanih pacientov
+            if ('vezani_pacienti' in validated_data.keys()):
+                delovniNalog.vezani_pacienti = validated_data['vezani_pacienti']
                 delovniNalog.save()
 
             # (Popravljeno) doda material ce je bil poslan

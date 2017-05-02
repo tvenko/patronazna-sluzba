@@ -27,23 +27,47 @@
               {{ obisk.predvideni_datum | date }}
             </div>
           </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-5">
-              Id pacienta:
+          <div *ngFor="let pacient of obisk.pacient">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-5">
+                Pacient:
+              </div>
+              <div class="ui-grid-col-6">
+                {{ pacient.ime }} {{ pacient.priimek }}
+              </div>
             </div>
-            <div class="ui-grid-col-6">
-              {{ obisk.pacient }}
+
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-5">
+                Številka zavarovanja pacienta:
+              </div>
+              <div class="ui-grid-col-6">
+                {{ obisk.pacient[0].stevilkaPacienta }}
+              </div>
+            </div>
+
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-5">
+                Naslov pacienta:
+              </div>
+              <div class="ui-grid-col-6">
+                {{ pacient.ulica }} {{ pacient.hisnaStevilka }}, {{ pacient.kraj }}
+              </div>
             </div>
           </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-5">
-              Potreben material:
-            </div>
-            <span hidden="true">show = {{ obisk.material }}</span>
-            <div class="ui-grid-col-6" *ngIf="show!=''">
-              {{ obisk.material }}
+          <div *ngFor="let material of obisk.material">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-5">
+                Potreben material:
+              </div>
+              <div class="ui-grid-col-6">
+                {{ material.opis }}
+              </div>
+              <!--
+              <div class="ui-grid-col-6" *ngIf="!material.opis">
+                Za ta obisk ne potrebujete materiala
+              </div>
+              -->
             </div>
           </div>
         </div>
