@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
  
 import { AuthenticationService } from '../shared/services/avtentikacija/authentication.service';
  
 @Component({
     moduleId: module.id,
-    templateUrl: 'prijava.component.html'
+    templateUrl: 'prijava.component.html',
+		styleUrls: ['prijava.component.css']
 })
  
 export class PrijavaComponent implements OnInit {
     model: any = {};
     loading = false;
     error = '';
- 
+  	@ViewChild('register') registerLink: any;
+
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService) { }
@@ -20,11 +22,10 @@ export class PrijavaComponent implements OnInit {
     ngOnInit() {
         // resetiraj status prijave
         this.authenticationService.odjava()
-			.subscribe(result => {
-			});
-    }
+          .subscribe(result => {});
+}
  
-	prijava() {
+prijava() {
         this.loading = true;
         this.authenticationService.prijava(this.model.username, this.model.password)
             .subscribe(result => {
@@ -34,13 +35,16 @@ export class PrijavaComponent implements OnInit {
 										let imeUporabnika = JSON.parse(localStorage.getItem('currentUser')).username;
 
 										// Admin TODO (izboljsaj varnost?)
+										// MS TODO
 										if (imeUporabnika === 'admin@gmail.com') {
-											this.router.navigate(['/'])
+											this.router.navigate(['/']);
 										}	else if (tipUporabnika === 'pacient') {
                     	this.router.navigate(['/pacient/profil']);
 										} else if (tipUporabnika === 'zdravnik' || tipUporabnika === 'vodja PS') {
 											this.router.navigate(['/nalogi']);
-										} else {
+										} else if (tipUporabnika === 'patronažna sestra') {
+										  this.router.navigate(['/obiski']);
+                    } else {
 											this.router.navigate(['/']);
 										}
                 } else {
@@ -48,6 +52,6 @@ export class PrijavaComponent implements OnInit {
                     this.error = 'Uporabniško ime in/ali geslo je nepravilno.';
                     this.loading = false;
                 }
-            });
+            });
     }
 }

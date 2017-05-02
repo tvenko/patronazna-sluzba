@@ -5,7 +5,7 @@ import { RegPacientComponent } from './reg-pacient.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'reg-pacient', component: RegPacientComponent }
+      { path: 'registracija', component: RegPacientComponent }
     ])
   ],
   exports: [RouterModule]

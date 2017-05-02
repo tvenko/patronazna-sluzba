@@ -63,7 +63,7 @@ class PosodobiDatumUporabnikaSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Uporabnik
 		fields = ('last_login',)
-		
+
 	def update(self, uporabnik, validated_data):
 		uporabnik.last_login = validated_data.get('last_login', uporabnik.last_login)
 		uporabnik.save()
@@ -233,6 +233,20 @@ class PacientPostSerializer(serializers.ModelSerializer):
         sporocilo.send()
         return pacient
 
+class PacientObiskSerializer(serializers.ModelSerializer):
+
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    telefon = serializers.CharField(source='uporabnik.tel')
+    stevilkaPacienta = serializers.IntegerField(source='st_kartice')
+    kraj = serializers.CharField(source='posta.kraj')
+    #kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
+    hisnaStevilka = serializers.CharField(source='hisna_stevilka')
+
+    class Meta:
+        model = Pacient
+        fields = ('ime', 'priimek', 'telefon', 'stevilkaPacienta', 'kraj', 'hisnaStevilka', 'ulica')
+
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
@@ -274,3 +288,9 @@ class PotrditevRegistracijeSerializer(serializers.ModelSerializer):
 		pacient.je_aktiviran = validated_data.get('je_aktiviran', pacient.je_aktiviran)
 		pacient.save()
 		return pacient
+
+class PostaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Posta
+        fields = ('stevilka', 'kraj')

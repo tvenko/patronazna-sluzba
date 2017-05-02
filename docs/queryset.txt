@@ -1,0 +1,97 @@
+-------------------------
+QUERYSET ZA DELOVNI NALOG
+-------------------------
+
+user -> OBVEZNO, vrne delovne naloge za delavca (MS samo njene naloge, ...)
+	sprejme: osebna_sifra delavca
+
+dat -> 	vrne delovne naloge ustvarjene na tisti dan
+	sprejme: LLLL-MM-DD
+
+zac_dat -> vrne delovne naloge ustvarjene od tistega dneva naprej (exluzivno)
+	   sprejme: LLLL-MM-DD
+
+konc_dat -> vrne delovne naloge ustvarjene do tega dneva (inkluzivno)
+	    sprejme: LLLL-MM-DD
+
+vo -> 	vrne delovne naloge glede na vrsto obiska
+	sprejme: id vrste obiska
+
+izd ->	vrne delovne naloge glede na izdajatelja delovnega naloga
+	sprejme: osebna_sifra delavca
+
+pac ->	vrne delovne naloge glede na pacienta v delovnem nalogu
+	sprejme: st_kartice pacienta
+
+ms ->	vrne delovne naloge, ki so dodeljeni doloceni patronazni sestri
+	sprejme: osebna_sifra delavec
+
+nms ->	vrne delovne naloge, ki so dodeljeni nadomestni patronazni sestri
+	sprejme: osebna_sifra delavec
+
+PRIMERI UPORABE:
+---------------
+
+vrne vse delovne naloge, ki so bili ustvarjeni od 12.4.2017(ni vkljucen) in je vrsta obiska z id=1:
+	http://fruity-routy.ddns.net:3030/api/v1/dn/delovninalogi/?user=56722&zac_dat=2017-04-12&vo=1
+
+vrne vse delovne naloge, katerih pripadajoci obiski imajo nastavljeno nadomestno patronazno sestro z osebno sifro 12345:
+	http://localhost:8000/api/v1/dn/delovninalogi/?user=56722&nms=12345
+
+------------------
+QUERYSET ZA OBSIKE
+------------------
+
+user -> OBVEZNO, vrne delovne naloge za delavca (MS samo njene naloge, ...) 
+	sprejme: osebna_sifra delavca
+	*pri MS vrne tako njene obiske, na katere je prvotno napisana in tiste, ki nadomesca
+
+pdat -> vrne obiske, ki imajo predvideni datum na izbrani datum
+	sprejme: LLLL-MM-DD
+
+pzac_dat -> vrne obiske, ki imajo predvidene datume od izbranega datuma naprej (exluzivno)
+	    sprejme: LLLL-MM-DD
+
+pkonc_dat -> vrne obiske, ki imajo predvidene datume do izbranega datuma (inkluzivno)
+	     sprejme: LLLL-MM-DD
+
+ddat -> vrne obiske, ki imajo dejanski datum na izbrani datum
+	sprejme: LLLL-MM-DD
+
+dzac_dat -> vrne obiske, ki imajo dejanske datume od izbranega datuma naprej (exluzivno)
+	    sprejme: LLLL-MM-DD
+
+dkonc_dat -> vrne obiske, ki imajo dejanske datume do izbranega datuma (inkluzivno)
+	     sprejme: LLLL-MM-DD
+
+vo -> 	vrne obiske glede na vrsto obiska
+	sprejme: id vrste obiska
+
+izd ->	vrne obiske glede na izdajatelja delovnega naloga, kateremu obisk pripada
+	sprejme: osebna_sifra delavca
+
+pac ->	vrne obiske glede na pacienta
+	sprejme: st_kartice pacienta
+
+ms ->	vrne obiske, ki so dodeljeni doloceni patronazni sestri
+	sprejme: osebna_sifra delavec
+
+nms ->	vrne obiske, ki so dodeljeni nadomestni patronazni sestri
+	sprejme: osebna_sifra delavec
+
+opr ->	vrne obiske, ki so ze/se niso opravljeni
+	sprejme: True/False (obvezno z veliko zacetnico)
+
+PRIMERI UPORABE:
+---------------
+
+vrne vse obiske, kjer je patronazna sestra, ki ima osebno sifro 999888777:
+	http://localhost:8000/api/v1/obiski/obiski/?user=56722&ms=999888777
+
+vrne vse obiske, kjer ima izdajatelj delovnega naloga kateremu obisk pripada
+osebno sifro 45678 in obisk se ni opravljen:
+	http://localhost:8000/api/v1/obiski/obiski/?user=56722&izd=45678&opr=False
+
+vrne vse obiske med 9.4.2017(ni vkljucen) in 26.5.2017(je vkljucen) in kjer je vrsta obiska z id = 2:
+	http://localhost:8000/api/v1/obiski/obiski/?user=56722&zac_dat=2017-04-09&konc_dat=2017-05-26&vo=2
+

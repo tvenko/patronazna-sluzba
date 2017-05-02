@@ -7,11 +7,10 @@ export class KreiranjeNalogaGuard implements CanActivate {
     constructor(private router: Router) { }
  
     canActivate() {
-		
-		var uporabnik = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika;
-        if (uporabnik == "zdravnik" || uporabnik == "vodja PS") {
-            
-			return true;
+
+		    var uporabnik = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika;
+        if (uporabnik === 'zdravnik' || uporabnik === 'vodja PS') {  
+          return true;
         }
  
         this.router.navigate(['/ni-dostopa']);

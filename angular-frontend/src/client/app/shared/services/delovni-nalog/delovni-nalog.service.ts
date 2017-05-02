@@ -59,8 +59,8 @@ export class DelovniNalogService {
                     .catch(this.handleError);
    }
 
-   getByZdravnik(zdravnik: any): Observable<any> {
-     return this.http.get(Config.API + 'dn/delovninalogi?sifra_zdravnika=' + zdravnik)
+   getByDelavec(zdravnik: any): Observable<any> {
+     return this.http.get(Config.API + 'dn/delovninalogi?user=' + zdravnik)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
    }

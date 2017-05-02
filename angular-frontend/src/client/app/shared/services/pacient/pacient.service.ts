@@ -56,6 +56,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  getPoste(): Observable<any> {
+    return this.http.get(Config.API + 'racuni/poste/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   /**
     * Handle HTTP error
     */

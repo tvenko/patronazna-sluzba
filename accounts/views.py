@@ -82,3 +82,8 @@ class KadrovskaDelavecViewSet(viewsets.ReadOnlyModelViewSet):
 class PotrditevRegistracijeViewSet(viewsets.ModelViewSet):
     queryset = Pacient.objects.all()
     serializer_class = PotrditevRegistracijeSerializer
+
+class PostaViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Posta.objects.all()
+    serializer_class = PostaSerializer
+    pagination_class = None

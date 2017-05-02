@@ -1,6 +1,6 @@
 :host {
   display: block;
-  padding: 0 16px;
+
 }
 
 label {
@@ -23,8 +23,19 @@ div.ui-grid-row {
 
 div.vezancek {
   margin-bottom: 15px;
+  padding: 0 0 0 10px;
 }
 
 div.pacient {
   margin-bottom: 35px;
+}
+
+h2 {
+  margin-bottom: 0;
+  display: inline;
+}
+
+hr {
+  width: 700px;
+  border-top: 1px solid #8c8b8b;
 }

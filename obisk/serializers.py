@@ -1,7 +1,15 @@
 from rest_framework import serializers
 from .models import *
-from accounts.models import Uporabnik, Delavec
-from rest_framework.exceptions import ParseError
+from accounts.models import Uporabnik, Delavec, Pacient
+from accounts.serializers import PacientObiskSerializer
+import delovniNalog.models
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = delovniNalog.models.Material
+        fields = ('opis', )
 
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
@@ -12,24 +20,23 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
 class ObiskSerializer(serializers.ModelSerializer):
 
+    pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta', many=True)
+    material = MaterialSerializer(source='delovni_nalog.id_materiala', many=True)
+
     class Meta:
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
-                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen')
+                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)
         obisk.save()
-        print(obisk)
         return obisk
 
 class ObiskUpdateSerializer(serializers.ModelSerializer):
 
     patronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='patronazna_sestra')
-    dejanskiDatum = serializers.DateField(required=False, source='dejanski_datum')
-    # TODO dodaj se update za meritev in njeno vrednost
-    #idMeritve = serializers.PrimaryKeyRelatedField(read_only=True, required=False, source='Meritev.id')
-    #vrednostMeritve = serializers.CharField(required=False, source='MeritveNaObisku.vrednost')
+    dejanskiDatum = serializers.DateTimeField(required=False, source='dejanski_datum')
     meritev = MeritveNaObiskuSerializer(source='meritevnaobisku_set', many=True,  required=False)
     nadomestnaPatronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='nadomestna_patronazna_sestra')
     jeOpravljen = serializers.BooleanField(required=False, source='je_opravljen')
