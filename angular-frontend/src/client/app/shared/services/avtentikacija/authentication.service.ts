@@ -20,21 +20,21 @@ export class AuthenticationService {
     prijava(username: string, password: string): Observable<boolean> {
       var headers = new Headers();
       headers.append('Content-Type', 'application/json');
-	  
+
         return this.http.post(Config.API + 'token/auth/', JSON.stringify({ email: username, password: password }), {headers: headers})
             .map(
 				(response : Response) => {
 					let token = response.json() && response.json().token;
 					if (token) {
-						
-						console.log(response.json());
-						
+
+					
+
 						//določi id uporabnika
 						this.id = JSON.stringify(response.json().uporabnik.id);
-						
+
 						//določi trenutni datum za shranjevanje v bazo
 						var trenutniDatum = new Date();
-						
+
 						//spremeni datum v pravilen format za shranjevanje v bazo
 						var day = trenutniDatum.getDate() + "";
 						if (day.length === 1)
@@ -46,16 +46,16 @@ export class AuthenticationService {
 						milisekundeTemp = milisekundeTemp * 60 / 100;
 						var milisekunde = milisekundeTemp + "";
 						milisekunde = milisekunde.substring(0,2);
-						
+
 						this.datumStr = trenutniDatum.getFullYear() + "-" + month + "-" + day + " " + trenutniDatum.getHours() + ":" + trenutniDatum.getMinutes() + ":" + milisekunde;
-						
+
 						//ali je uporabnik admin?
 						var admin = JSON.stringify(response.json().uporabnik.je_admin);
-						
+
 						//pridobi datum zadnje prijave
 						var datumObj = response.json().uporabnik.last_login;
 						var dateAgain = "";
-						
+
 						if (datumObj !== null) {
 							//spremeni datum v slovenski format
 							var ura = datumObj.substring(11,13);
@@ -66,7 +66,7 @@ export class AuthenticationService {
 						else {
 							dateAgain = "Prva prijava";
 						}
-						
+
 						// določi tip uporabnika in nastavi podatke pacienta
 						var tipUporabnika = "";
 						if (response.json().pacient) {
@@ -95,21 +95,21 @@ export class AuthenticationService {
     }
 
     odjava(): Observable<boolean> {
-		
+
 		var headers = new Headers();
 		headers.append('Authorization', 'JWT ' + this.token);
 		headers.append('Content-Type', 'application/json');
-		
+
 		// počisti token in podatke uporabnika iz lokalnega pomnilnika
 		this.token = null;
 		localStorage.removeItem('currentUser');
 		if (localStorage.getItem('podatkiPacienta')) {
 			localStorage.removeItem('podatkiPacienta');
 		}
-		
+
 		//pošlji datum prijave
 		if (this.id.length !== 0) {
-			
+
 			return this.http.patch(Config.API + 'racuni/uporabniki/' + this.id + '/', JSON.stringify({ last_login: this.datumStr }), {headers: headers})
 				.map(
 					(response : Response) => {
@@ -119,7 +119,7 @@ export class AuthenticationService {
 				.catch(this.handleError);
 		}
 		else {
-			return Observable.of(true);	
+			return Observable.of(true);
 		}
     }
 

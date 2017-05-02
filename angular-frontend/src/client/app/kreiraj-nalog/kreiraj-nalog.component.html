@@ -185,42 +185,108 @@
             <div class="panel-body">
               <div class="ui-grid ui-grid-responsive ui-grid-pad">
                 <div class="ui-grid-row">
-                  <div class="ui-grid-col-12 form-group" [ngClass]="{'has-error':!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched}">
-                    <label>Številka zavarovane osebe</label>
-                    <input class="form-control" type="text" formControlName="stevilkaPacienta" required/>
-                    <button type="button" class="btn btn-primary btn-xs" (click)="myForm.controls.stevilkaPacienta.valid && pridobiPodatke()">Pridobi podatke</button>
-                    <small *ngIf="!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched" class="text-danger">
-                      Številka pacienta je obvezna in mora vsebovati 9 števk.
-                    </small>
+                  <div class="ui-grid-col-6 form-group" >
+                    <label>Pacient</label>
+                    <!--<input class="form-control" type="text" formControlName="stevilkaPacienta" required/>-->
+                    <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+                    [suggestions]="najdeniPacienti" field="naziv" (completeMethod)="search($event)" (onSelect)="elementIzbran($event)" autoHighlight="true"
+                    required></p-autoComplete>
+
+                    <!--[ngClass]="{'has-error':!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched}"
+                    <button type="button" class="btn btn-primary btn-xs" (click)="myForm.controls.stevilkaPacienta.valid && pridobiPodatke()">Pridobi podatke</button>-->
+                    <!--<small *ngIf="!myForm.controls.stevilkaPacienta.valid && !myForm.controls.stevilkaPacienta.untouched" class="text-danger">
+                      Vnesite vsaj 3 znake imena, priimka ali številke kartice pacienta in ga izberite iz seznama.
+                    </small>-->
+                  </div>
+                  <div class="ui-grid-col-6" *ngIf="pacient != ''">
+
+
+                    <!-- datum rojstva -->
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-3 ps-profile-label ps-height-25">
+                        Rojen
+                      </div>
+                      <div class="ui-grid-col-9 ps-height-25">
+                        {{ pacient?.datumRojstva | date }}
+                      </div>
+                    </div>
+
+                    <!-- stevilka kartice -->
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-3 ps-profile-label ps-height-25">
+                        Kartica
+                      </div>
+                      <div class="ui-grid-col-9 ps-height-25">
+                        {{ pacient?.stevilkaPacienta }}
+                      </div>
+                    </div>
+
+                    <!-- Naslov -->
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-3 ps-profile-label ps-height-25">
+                        Naslov
+                      </div>
+                      <div class="ui-grid-col-9 ps-height-25">
+                        {{ pacient?.ulica }} {{ pacient?.hisnaStevilka }}, {{pacient?.posta}} {{pacient?.kraj}}
+                      </div>
+                    </div>
+
+                    <!-- Eposta -->
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-3 ps-profile-label ps-height-25">
+                        E-pošta
+                      </div>
+                      <div class="ui-grid-col-9 ps-height-25">
+                        {{ pacient?.eposta }}
+                      </div>
+                    </div>
+
+                    <!-- Telefonska stevilka -->
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-3 ps-profile-label ps-height-25">
+                        Telefon
+                      </div>
+                      <div class="ui-grid-col-9 ps-height-25">
+                        {{ pacient?.telefon }}
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-12" *ngIf="myForm.controls.vrstaObiska.value?.vezani_pacienti">
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-6">
+                        <h3>Vezani pacienti</h3>
+                      </div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-12">
+                        <small *ngIf="vezanciPacienta.length < 1" class="text-warning">Ta pacient nima vezanih pacientov.</small>
+                        <ul *ngIf="vezanciPacienta.length > 0">
+                          <li *ngFor="let vezancek of vezanciPacienta">
+                            <div class="ui-grid-row">
+                              <p-checkbox name="vezani" [(ngModel)]="izbraniVezanci" [ngModelOptions]="{standalone: true}"
+                              value="{{vezancek.st_kartice}}"></p-checkbox>
+                              <div class="prikaz-vezancka">
+                                <h4>{{vezancek.ime}} {{vezancek.priimek}}</h4>
+                                <i class="fa fa-id-card-o" aria-hidden="true"></i> {{vezancek.st_kartice}}
+                                <br/>
+                                <i class="fa fa-birthday-cake" aria-hidden="true"></i> {{vezancek.datum_rojstva | date}}
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="ui-grid-row">
                   <!-- TODO Napaka za izpad baze? -->
                   <div *ngIf="problemPridobivanja" class="ui-grid-col-12 alert alert-warning" role="alert">
                     <strong>Joj!</strong> Prišlo je do napake pri pridobivanju podatkov. Je številka pacienta pravilna?
-                  </div>
-                </div>
-                <div class="ui-grid-row">
-                  <!-- TODO Izpisi ce je vec pacientov -->
-                  <div class="ui-grid-col-8" *ngIf="!neveljavnaStevilka && neveljavnaStevilka != undefined && !problemPridobivanja && pacient">
-                    Datum rojstva: {{ pacient.datumRojstva }} <br>
-                    Priimek: {{ pacient.priimek }} <br>
-                    Ime: {{ pacient.ime }} <br>
-                    Ulica, hišna številka: {{ pacient.ulica }}, {{pacient.hisnaStevilka}} <br>
-                    Poštna številka: {{ pacient.posta }} <br>
-                    Kraj: {{ pacient.kraj }} <br>
-                    Telefonska: {{ pacient.telefon }} <br>
-                    E-pošta: {{ pacient.eposta }} <br>
-                    ID kontaktne osebe: {{ pacient.kontaktnaOseba }} <br>
-                    <!-- Prikazi le ce se je backend odzval? (bi bilo bolje hardkodirano?) -->
-                    <div *ngIf="myForm.controls.vrstaObiska.value?.vezani_pacienti">
-                      Vezani pacienti:
-                      <ul>
-                        <li *ngFor="let otrok of pacient.vezaniPacienti">
-                          {{ otrok.ime }} {{ otrok.priimek }} ({{ otrok.stevilkaPacienta }})
-                        </li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -313,7 +379,7 @@
     <div class="container">
       <div class="row">
         <div class="col-4 pull-right">
-          <button pButton type="button" class="ui-button-danger md-margin" label="Počisti" (click)="myForm.reset()"></button>
+          <button pButton type="button" class="ui-button-danger md-margin" label="Počisti" (click)="reset()"></button>
         </div>
         <div class="col-4 pull-right">
           <small *ngIf="!myForm.valid" class="text-danger">
@@ -353,7 +419,7 @@
           <div class="ui-grid-col-6">
             Številka pacienta:
           </div>
-          <div class="ui-grid-col-6">{{ myForm.controls.stevilkaPacienta.value }}
+          <div class="ui-grid-col-6">{{ pacient.stevilkaPacienta }}
           </div>
         </div>
         <div class="ui-grid-row" *ngIf="!problemPridobivanja && pacient">
@@ -426,8 +492,8 @@
           </div>
           <div class="ui-grid-col-6">
             <ul>
-              <li *ngFor="let material of myForm.controls.materiali.controls">
-                {{ material.controls.material.value.opis }}: {{ material.controls.kolicina.value }}
+              <li *ngFor="let material of myForm.controls.materiali?.controls">
+                {{ material.controls.material?.value.opis }}: {{ material.controls?.kolicina.value }}
               </li>
             </ul>
           </div>
@@ -438,8 +504,8 @@
           </div>
           <div class="ui-grid-col-6">
             <ul>
-              <li *ngFor="let zdravilo of myForm.controls.zdravila.controls">
-                {{ zdravilo.controls.zdravilo.value.naziv }}
+              <li *ngFor="let zdravilo of myForm.controls.zdravila?.controls">
+                {{ zdravilo.controls.zdravilo?.value?.naziv }}
               </li>
             </ul>
           </div>

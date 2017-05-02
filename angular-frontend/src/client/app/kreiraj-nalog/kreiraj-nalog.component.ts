@@ -30,6 +30,11 @@ export class KreirajNalogComponent implements OnInit {
   public sporociloStreznika: boolean;
   public napakaStreznika: boolean;
   public zdravnik: any;
+  public najdeniPacienti: any;
+  //public prikazNajdenih: any[] = [];
+  public stevilkaKartice: any;
+  public vezanciPacienta: any = [];
+  public izbraniVezanci: any = [];
 
   constructor(private pacientInfoService: PacientService,
     private delovniNalogService: DelovniNalogService,
@@ -59,7 +64,7 @@ export class KreirajNalogComponent implements OnInit {
         steviloObiskov: ['', [Validators.required, Validators.pattern(/^([1-9]|10)$/)]],
         obvezen: ['false', [Validators.required]],
         vrstaObiska: ['', Validators.required],
-        stevilkaPacienta: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+        //stevilkaPacienta: ['', [Validators.required, Validators.pattern(/[a-zčćšđžA-Z]+\s[A-Za-zčćšđž]+\s\(\d+\)/)]],
       });
 
       // Lokalizacija za izbiro datuma
@@ -89,6 +94,47 @@ export class KreirajNalogComponent implements OnInit {
     }
 
     /**
+    * Iskanje za autocomplete pri stevilki pacienta
+    */
+    search(event: any) {
+
+       this.pacientInfoService.query(event.query)
+        .subscribe(
+          response => {
+            this.najdeniPacienti = response.results;
+            //this.prikazNajdenih = [];
+            for (let najden of this.najdeniPacienti) {
+              najden.naziv = najden.ime + ' ' + najden.priimek + ' ('+ najden.stevilkaPacienta +')';
+              /*this.prikazNajdenih.push(najden.ime + ' ' + najden.priimek + ' (' + najden.stevilkaPacienta + ')'
+              + ' ' + najden.ulica + ' ' + najden.hisnaStevilka + ', ' + najden.kraj);*/
+            }
+
+          },
+          error => {
+            console.log('Napaka pri iskanju pacienta');
+          }
+        )
+   }
+
+
+   /**
+   * Event, ki se sprozi ko izberes iz autocomplete seznama
+   */
+   elementIzbran(event: any) {
+     this.pacient = event;
+     this.pacientInfoService.getVezancke(event.stevilkaPacienta)
+        .subscribe(
+          response => {
+            this.vezanciPacienta = response.results;
+          },
+          error => {
+            console.log("Napaka pri pridobivanju vezanih pacientov");
+          }
+        )
+   }
+
+
+    /**
      * Pregled naloga preden je poslan (moznost preklica)
      */
     pregled() {
@@ -110,11 +156,14 @@ export class KreirajNalogComponent implements OnInit {
       let novNalog = <any>{};
       // TODO Preberi iz seje
       novNalog.sifra_zdravnika = this.zdravnik.osebna_sifra;
-      novNalog.id_pacienta = <any>[];
-      novNalog.id_pacienta[0] = parseInt(ctrl.stevilkaPacienta.value);
+      novNalog.id_pacienta = parseInt(this.pacient.stevilkaPacienta);;
+      novNalog.vezani_pacienti = <any>[];
       if (ctrl.vrstaObiska.value.vezani_pacienti) {
-        // TODO dodaj vezane pacienti pri obisku otrocnice
+        for (let vezancek of this.izbraniVezanci) {
+          novNalog.vezani_pacienti.push(parseInt(vezancek));
+        }
       }
+
       novNalog.datum_prvega_obiska = ctrl.prviDatum.value;
       novNalog.vrsta_obiska = ctrl.vrstaObiska.value.id;
       novNalog.stevilo_obiskov = ctrl.steviloObiskov.value;
@@ -155,14 +204,17 @@ export class KreirajNalogComponent implements OnInit {
       else
         novNalog.je_obvezen_datum = false;
 
-      //console.log(JSON.stringify(novNalog));
+      console.log(JSON.stringify(novNalog));
+      console.log(novNalog);
       this.delovniNalogService.ustvari(novNalog)
         .subscribe(
           response => {
+
             this.sporociloStreznika = true;
             this.napakaStreznika = false;
           },
           error => {
+            console.log(error);
             this.sporociloStreznika = false;
             this.napakaStreznika = true;
           }
@@ -296,11 +348,11 @@ export class KreirajNalogComponent implements OnInit {
       this.problemPridobivanja = false;
       this.pacient = '';
 
-      if (!this.myForm.controls.stevilkaPacienta.value) {
+      if (!this.pacient.stevilkaPacienta) {
         this.neveljavnaStevilka = true;
       } else {
         this.neveljavnaStevilka = false;
-        this.pacientInfoService.get(this.myForm.controls.stevilkaPacienta.value)
+        this.pacientInfoService.get(this.pacient.stevilkaPacienta)
         .subscribe(
           response => {
             this.pacient = response;
@@ -336,6 +388,11 @@ export class KreirajNalogComponent implements OnInit {
           this.problemPridobivanja = true;
         }
       );
+    }
+
+    reset() {
+      this.myForm.reset();
+
     }
 
     /**

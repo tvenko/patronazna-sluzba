@@ -67,7 +67,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                 delovniNalog = DelovniNalog(
                     sifra_zdravnika=validated_data['sifra_zdravnika'],
                     vrsta_obiska=validated_data['vrsta_obiska'],
-                    datum_prvega_obiska=validated_data['datum_prvega_obiska'],
+                    datum_prvega_obiska='2017-05-17',#validated_data['datum_prvega_obiska'],
                     je_obvezen_datum=validated_data['je_obvezen_datum'],
                     stevilo_obiskov=validated_data['stevilo_obiskov'],
                     casovni_interval=validated_data['casovni_interval']
@@ -108,6 +108,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                 #delovniNalog.id_materiala = material.objects.get(id)
 
             #Kreira zapise o Obisku v bazo
+
             if ('casovno_obdobje' in validated_data.keys()):
                 self.kreirajObiskObdobje(validated_data['stevilo_obiskov'], validated_data['datum_prvega_obiska'],
                                            validated_data['casovno_obdobje'], delovniNalog.patronazna_sestra,
@@ -118,7 +119,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                                           delovniNalog, validated_data['je_obvezen_datum'])
             else:
                 print('se ni')
-
+                
             return delovniNalog
         else:
             return NotAuthenticated(detail='Niste prijavljeni kot zdravnik', code=401)

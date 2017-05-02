@@ -15,3 +15,10 @@ label {
   background-color: #f0ad4e;
   border-color: #f0ad4e;
 }
+
+.prikaz-vezancka {
+  margin: 0 0 10px 5px;
+  border: 1px solid #ccc;
+  border-top: 3px solid #d0e9c6;
+  padding: 8px;
+}
