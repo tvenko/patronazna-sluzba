@@ -33,13 +33,12 @@ prijava() {
                     // prijava uspešna, pojdi na domačo stran
 										let tipUporabnika = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika;
 										let imeUporabnika = JSON.parse(localStorage.getItem('currentUser')).username;
-
 										// Admin TODO (izboljsaj varnost?)
 										// MS TODO
 										if (imeUporabnika === 'admin@gmail.com') {
 											this.router.navigate(['/']);
 										}	else if (tipUporabnika === 'pacient') {
-                    	this.router.navigate(['/pacient/profil']);
+											this.router.navigate(['/pacient/profil']);
 										} else if (tipUporabnika === 'zdravnik' || tipUporabnika === 'vodja PS') {
 											this.router.navigate(['/nalogi']);
 										} else if (tipUporabnika === 'patronažna sestra') {
@@ -49,7 +48,7 @@ prijava() {
 										}
                 } else {
                     // prijava neuspešna
-                    this.error = 'Uporabniško ime in/ali geslo je nepravilno.';
+                    this.error = localStorage.getItem('loginError');
                     this.loading = false;
                 }
             });

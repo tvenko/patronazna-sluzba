@@ -20,72 +20,82 @@ export class AuthenticationService {
     prijava(username: string, password: string): Observable<boolean> {
       var headers = new Headers();
       headers.append('Content-Type', 'application/json');
-
+		
         return this.http.post(Config.API + 'token/auth/', JSON.stringify({ email: username, password: password }), {headers: headers})
             .map(
 				(response : Response) => {
-					let token = response.json() && response.json().token;
-					if (token) {
+					
+					if (response.json().pacient && response.json().pacient[0].je_aktiviran == false) {
 
-						//določi id uporabnika
-						this.id = JSON.stringify(response.json().uporabnik.id);
-
-						//določi trenutni datum za shranjevanje v bazo
-						var trenutniDatum = new Date();
-
-						//spremeni datum v pravilen format za shranjevanje v bazo
-						var day = trenutniDatum.getDate() + "";
-						if (day.length === 1)
-							day = "0" + trenutniDatum.getDate();
-						var month = (trenutniDatum.getMonth() + 1) + "";
-						if (month.length === 1)
-							month = "0" + (trenutniDatum.getMonth() + 1);
-						var milisekundeTemp = trenutniDatum.getMilliseconds();
-						milisekundeTemp = milisekundeTemp * 60 / 100;
-						var milisekunde = milisekundeTemp + "";
-						milisekunde = milisekunde.substring(0,2);
-
-						this.datumStr = trenutniDatum.getFullYear() + "-" + month + "-" + day + " " + trenutniDatum.getHours() + ":" + trenutniDatum.getMinutes() + ":" + milisekunde;
-
-						//ali je uporabnik admin?
-						var admin = JSON.stringify(response.json().uporabnik.je_admin);
-
-						//pridobi datum zadnje prijave
-						var datumObj = response.json().uporabnik.last_login;
-						var dateAgain = "";
-
-						if (datumObj !== null) {
-							//spremeni datum v slovenski format
-							var ura = datumObj.substring(11,13);
-							//zelo grd način prilagajanja časovnega pasa
-							//ura = (parseInt(ura) + 2) + "";
-							dateAgain = datumObj.substring(8,10) + "-" + datumObj.substring(5,7) + "-" + datumObj.substring(0,4) + " " + ura + datumObj.substring(13,19);
-						}
-						else {
-							dateAgain = "Prva prijava";
-						}
-
-						// določi tip uporabnika in nastavi podatke pacienta
-						var tipUporabnika = "";
-						if (response.json().pacient) {
-							tipUporabnika = "pacient";
-							localStorage.setItem('podatkiPacienta', JSON.stringify(response.json().pacient[0]));
-						}
-						else if (response.json().delavec) {
-							tipUporabnika = response.json().delavec[0].naziv_delavca;
-							localStorage.setItem('podatkiIzvajalca', JSON.stringify(response.json().delavec[0]));
-						}
-
-						// določi token
-						this.token = token;
-						// shrani uporabniško ime, jwt token in tip uporabika lokalno
-						localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika, admin: admin, datum: dateAgain }));
-						// vrni true za uspešno prijavo
-						return true;
+						localStorage.setItem('loginError', "Račun ni aktiviran.");
+						return false;
 					}
 					else {
-						//če se zgornji if ne sproži, gre v spodnji catch, do else sploh ne pride (je pa prisoten da ne teži prevajalnik)
-						return false;
+						let token = response.json() && response.json().token;
+						if (token) {
+							
+							//določi id uporabnika
+							this.id = JSON.stringify(response.json().uporabnik.id);
+
+							//določi trenutni datum za shranjevanje v bazo
+							var trenutniDatum = new Date();
+
+							//spremeni datum v pravilen format za shranjevanje v bazo
+							var day = trenutniDatum.getDate() + "";
+							if (day.length === 1)
+								day = "0" + trenutniDatum.getDate();
+							var month = (trenutniDatum.getMonth() + 1) + "";
+							if (month.length === 1)
+								month = "0" + (trenutniDatum.getMonth() + 1);
+							var milisekundeTemp = trenutniDatum.getMilliseconds();
+							milisekundeTemp = milisekundeTemp * 60 / 100;
+							var milisekunde = milisekundeTemp + "";
+							milisekunde = milisekunde.substring(0,2);
+
+							this.datumStr = trenutniDatum.getFullYear() + "-" + month + "-" + day + " " + trenutniDatum.getHours() + ":" + trenutniDatum.getMinutes() + ":" + milisekunde;
+
+							//ali je uporabnik admin?
+							var admin = JSON.stringify(response.json().uporabnik.je_admin);
+
+							//pridobi datum zadnje prijave
+							var datumObj = response.json().uporabnik.last_login;
+							var dateAgain = "";
+
+							if (datumObj !== null) {
+								//spremeni datum v slovenski format
+								var ura = datumObj.substring(11,13);
+								//zelo grd način prilagajanja časovnega pasa
+								//ura = (parseInt(ura) + 2) + "";
+								dateAgain = datumObj.substring(8,10) + "-" + datumObj.substring(5,7) + "-" + datumObj.substring(0,4) + " " + ura + datumObj.substring(13,19);
+							}
+							else {
+								dateAgain = "Prva prijava";
+							}
+
+							// določi tip uporabnika in nastavi podatke pacienta
+							var tipUporabnika = "";
+							if (response.json().pacient) {
+								tipUporabnika = "pacient";
+								localStorage.setItem('podatkiPacienta', JSON.stringify(response.json().pacient[0]));
+								
+							}
+							else if (response.json().delavec) {
+								tipUporabnika = response.json().delavec[0].naziv_delavca;
+								localStorage.setItem('podatkiIzvajalca', JSON.stringify(response.json().delavec[0]));
+							}
+
+							// določi token
+							this.token = token;
+							// shrani uporabniško ime, jwt token in tip uporabika lokalno
+							localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika, admin: admin, datum: dateAgain }));
+							// vrni true za uspešno prijavo
+							return true;
+						}
+						else {
+							//če se zgornji if ne sproži, gre v spodnji catch, do else sploh ne pride (je pa prisoten da ne teži prevajalnik)
+							localStorage.setItem('loginError', "Uporabniško ime / geslo je nepravilno.");
+							return false;
+						}
 					}
 				}
 			)
@@ -103,6 +113,9 @@ export class AuthenticationService {
 		localStorage.removeItem('currentUser');
 		if (localStorage.getItem('podatkiPacienta')) {
 			localStorage.removeItem('podatkiPacienta');
+		}
+		if (localStorage.getItem('loginError')) {
+			localStorage.removeItem('loginError');
 		}
 
 		//pošlji datum prijave
@@ -125,6 +138,7 @@ export class AuthenticationService {
 		let errMsg = (error.message) ? error.message :
 		  error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 		console.error(errMsg);
+		localStorage.setItem('loginError', "Uporabniško ime / geslo je nepravilno.");
 		return Observable.of(false);
 	}
 }

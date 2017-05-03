@@ -166,7 +166,7 @@ class PacientGetSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
                   'ulica', 'hisnaStevilka', 'posta', 'kraj', 'datumRojstva',
-                  'kontaktnaOseba', 'vezaniPacienti')
+                  'kontaktnaOseba', 'vezaniPacienti', 'je_aktiviran')
 
 class PacientPostSerializer(serializers.ModelSerializer):
     """
@@ -283,8 +283,6 @@ class PotrditevRegistracijeSerializer(serializers.ModelSerializer):
 		fields = ('je_aktiviran','st_kartice')
 		
 	def update(self, pacient, validated_data):
-		#st_kartice = validated_data.get('st_kartice', st_kartice)
-		#pacient = Pacient.object.get(id = validated_data.pop('st_kartice')['st_kartice'])
 		pacient.je_aktiviran = validated_data.get('je_aktiviran', pacient.je_aktiviran)
 		pacient.save()
 		return pacient
