@@ -55,5 +55,18 @@
 
       </form>
     </div>
+
+    <p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+        Registracija delavca je bila uspešna.
+      </div>
+    </p-dialog>
+
+    <p-dialog header="Napaka!" [(visible)]="prikaziNapako" modal="modal" responsive="true">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+        Pri registraciji je prišlo do napake! Prosim, preverite podatke.
+      </div>
+    </p-dialog>
+
   </main>
 </div>

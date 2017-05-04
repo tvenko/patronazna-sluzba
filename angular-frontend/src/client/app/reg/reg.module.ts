@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RegComponent } from './reg.component';
 import { RegRoutingModule } from './reg-routing.module';
 import { EqualValidator } from './validacija';
+import { DialogModule} from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -16,8 +17,9 @@ import { EqualValidator } from './validacija';
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-	RegRoutingModule,
-  SharedModule.forRoot()
+	  RegRoutingModule,
+    SharedModule.forRoot(),
+    DialogModule
   ],
   exports: [RegComponent]
 })
