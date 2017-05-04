@@ -7,7 +7,6 @@ from django.db.models import Q
 class ObiskViewSet(viewsets.ModelViewSet):
     def filtriraj(self):
         if (self.delavec.vrsta_delavca.naziv == "patronažna sestra"):
-            print(self.delavec.uporabnik)
             queryset = Obisk.objects.filter(Q(patronazna_sestra=self.delavec.uporabnik) | Q(nadomestna_patronazna_sestra=self.delavec.uporabnik)).order_by('predvideni_datum')
         elif (self.delavec.vrsta_delavca.naziv == "zdravnik"):
             dn = DelovniNalog.objects.filter(sifra_zdravnika=self.delavec)

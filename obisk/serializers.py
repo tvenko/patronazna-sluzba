@@ -17,16 +17,16 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
         model = MeritveNaObisku
         fields = '__all__'
 
-
 class ObiskSerializer(serializers.ModelSerializer):
 
-    pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta', many=True)
+    pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta')
     material = MaterialSerializer(source='delovni_nalog.id_materiala', many=True)
+    vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
 
     class Meta:
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
-                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material')
+                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiska')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)

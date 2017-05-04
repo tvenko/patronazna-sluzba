@@ -8,6 +8,7 @@ import { ObiskiService } from '../shared/services/index';
   styleUrls: ['obiski.component.css'],
 })
 export class ObiskiComponent implements OnInit {
+  today: Date = new Date();
   public obiski: any;
 
   constructor(private ObiskiService: ObiskiService) {}
@@ -33,6 +34,14 @@ export class ObiskiComponent implements OnInit {
     } else {
       console.log('Ni izvajalca v local storage');
     }
+  }
 
+  isToday(datum: Date) {
+    var obisk: Date = new Date(datum);
+
+    if (obisk.toDateString() === this.today.toDateString()) {
+      return true;
+    }
+    return false;
   }
 }

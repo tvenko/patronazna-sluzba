@@ -1,4 +1,3 @@
-
 <div class="app-body">
   <div class="sidebar">
 
@@ -8,68 +7,64 @@
     <div class="ui-grid ui-grid-responsive ui-grid-pad">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <h2>Vsi vaši obiski</h2>
+          <h2>Vaši planirani obiski za današnji dan</h2>
         </div>
       </div>
-      <!-- Body od vseh osebnih podatkov -->
-      <div class="ui-grid-row" *ngFor="let obisk of obiski">
+      <div>
         <div class="ui-grid-col-8">
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-6">
-              <h3>Obisk: {{ obisk.id }}</h3>
-            </div>
-          </div>
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-5">
-              Predviden datum obiska:
-            </div>
-            <div class="ui-grid-col-6">
-              {{ obisk.predvideni_datum | date }}
-            </div>
-          </div>
-          <div *ngFor="let pacient of obisk.pacient">
-            <div class="ui-grid-row">
-              <div class="ui-grid-col-5">
-                Pacient:
+          <p-accordion [multiple]="true" class="ui-grid-row" *ngFor="let obisk of obiski">
+            <p-accordionTab header="{{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}"
+                            *ngIf="isToday(obisk.dejanski_datum)">
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>Vrsta obiska:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.vrstaObiska }}
+                </div>
               </div>
-              <div class="ui-grid-col-6">
-                {{ pacient.ime }} {{ pacient.priimek }}
-              </div>
-            </div>
 
-            <div class="ui-grid-row">
-              <div class="ui-grid-col-5">
-                Številka zavarovanja pacienta:
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>Pacient:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}
+                </div>
               </div>
-              <div class="ui-grid-col-6">
-                {{ obisk.pacient[0].stevilkaPacienta }}
-              </div>
-            </div>
 
-            <div class="ui-grid-row">
-              <div class="ui-grid-col-5">
-                Naslov pacienta:
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>Številka zdravstvene kartice:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.pacient.stevilkaPacienta}}
+                </div>
               </div>
-              <div class="ui-grid-col-6">
-                {{ pacient.ulica }} {{ pacient.hisnaStevilka }}, {{ pacient.kraj }}
+
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>Naslov pacienta:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.pacient.ulica }} {{ obisk.pacient.hisnaStevilka }}, {{ obisk.pacient.kraj }}
+                </div>
               </div>
-            </div>
-          </div>
-          <div *ngFor="let material of obisk.material">
-            <div class="ui-grid-row">
-              <div class="ui-grid-col-5">
-                Potreben material:
+
+              <div *ngIf="obisk.material[0]">
+                <div class="ui-grid-row" >
+                  <div class="ui-grid-col-4">
+                    <strong>Potreben material:</strong>
+                  </div>
+                  <div *ngFor="let material of obisk.material">
+                    {{ material.opis }}, &nbsp;
+                  </div>
+                </div>
               </div>
-              <div class="ui-grid-col-6">
-                {{ material.opis }}
-              </div>
-              <!--
-              <div class="ui-grid-col-6" *ngIf="!material.opis">
-                Za ta obisk ne potrebujete materiala
-              </div>
-              -->
-            </div>
-          </div>
+            </p-accordionTab>
+            <button class="btn btn-success" *ngIf="isToday(obisk.dejanski_datum)">Obisk opravljen</button>
+            <button class="btn btn-danger" *ngIf="isToday(obisk.dejanski_datum)">Prestavi obisk</button>
+          </p-accordion>
         </div>
       </div>
     </div>
