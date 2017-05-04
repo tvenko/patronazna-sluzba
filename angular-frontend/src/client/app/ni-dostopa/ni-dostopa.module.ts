@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { SharedModule } from '../shared/shared.module';
 
 import { DostopComponent } from './ni-dostopa.component';
 import { DostopRoutingModule } from './ni-dostopa-routing.module';
@@ -12,7 +13,8 @@ import { DostopRoutingModule } from './ni-dostopa-routing.module';
   imports: [
     BrowserModule,
     HttpModule,
-	DostopRoutingModule
+	DostopRoutingModule,
+  SharedModule.forRoot()
   ],
   exports: [DostopComponent]
 })

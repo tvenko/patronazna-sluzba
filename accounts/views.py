@@ -4,6 +4,7 @@ from accounts.permissions import IsAdminOrReadAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 
 from accounts.serializers import *
 
@@ -37,10 +38,20 @@ class DelavciViewSet(viewsets.ModelViewSet):
         return queryset
 
 class VezaniPacientiViewSet(viewsets.ModelViewSet):
-    queryset = VezaniPacient.objects.all()
     serializer_class = VezaniPacientSerializer
 
+    def get_queryset(self):
+        """
+        Vrne vse vezane paciente za dolocenega uporabnika
+        """
+        queryset = VezaniPacient.objects.all()
+        skrbnik = self.request.query_params.get('skrbnik', None)
+        if skrbnik is not None:
+            queryset = VezaniPacient.objects.filter(pacient_skrbnik=skrbnik);
+        return queryset
+
 class PacientiViewSet(viewsets.ModelViewSet):
+
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return PacientPostSerializer
@@ -51,9 +62,28 @@ class PacientiViewSet(viewsets.ModelViewSet):
         Vrne pacienta, ce je v URL napisan id uporabnika
         """
         queryset = Pacient.objects.all()
-        uporabnik = self.request.query_params.get('uporabnik', None)
-        if uporabnik is not None:
-            queryset = Pacient.objects.filter(uporabnik_id=uporabnik)
+        pacient = self.request.query_params.get('uporabnik', None)
+        query = self.request.query_params.get('q', None)
+        if pacient is not None:
+            queryset = Pacient.objects.filter(uporabnik_id=pacient)
+        # Query po poljih: ime, priimek, st_kartice, neznam drugace kot da
+        # napisem kombinacije po katerih lahko pride?
+        if query is not None:
+            if len(query.split()) > 1:
+                query = query.split()
+                queryset = Pacient.objects.filter(
+                    Q(uporabnik__ime__icontains=query) |
+                    Q(uporabnik__priimek__icontains=query) |
+                    Q(uporabnik__ime__icontains=query[0]) & Q(uporabnik__priimek__icontains=query[1]) |
+                    Q(uporabnik__priimek__icontains=query[0]) & Q(uporabnik__ime__icontains=query[1]) |
+                    Q(st_kartice__icontains=query)
+                )
+            else:
+                queryset = Pacient.objects.filter(
+                    Q(uporabnik__ime__icontains=query) |
+                    Q(uporabnik__priimek__icontains=query) |
+                    Q(st_kartice__icontains=query)
+                )
         return queryset
 
 
@@ -78,6 +108,10 @@ class SifraOkolisaViewSet(viewsets.ModelViewSet):
 class KadrovskaDelavecViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = KadrovskaDelavec.objects.all()
     serializer_class = KadrovkaDelavcSerializer
+	
+class PotrditevRegistracijeViewSet(viewsets.ModelViewSet):
+    queryset = Pacient.objects.all()
+    serializer_class = PotrditevRegistracijeSerializer
 
 class PostaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Posta.objects.all()

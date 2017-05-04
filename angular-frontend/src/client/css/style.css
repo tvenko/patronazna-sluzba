@@ -1628,12 +1628,6 @@ select.form-control:focus::-ms-value {
     padding-right: 0;
     padding-left: 0; }
 
-.form-control-sm, .input-group-sm > .form-control,
-.input-group-sm > .input-group-addon,
-.input-group-sm > .input-group-btn > .btn {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.5; }
 
 select.form-control-sm:not([size]):not([multiple]), .input-group-sm > select.form-control:not([size]):not([multiple]),
 .input-group-sm > select.input-group-addon:not([size]):not([multiple]),
@@ -1811,27 +1805,6 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
     .form-inline .has-feedback .form-control-feedback {
       top: 0; } }
 
-.btn {
-  display: inline-block;
-  font-weight: normal;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25;
-  transition: all 0.2s ease-in-out; }
-  .btn:focus, .btn:hover {
-    text-decoration: none; }
-  .btn:focus, .btn.focus {
-    outline: 0;
-    box-shadow: 0 0 0 2px rgba(32, 168, 216, 0.25); }
-  .btn.disabled, .btn:disabled {
-    opacity: .65; }
-  .btn:active, .btn.active {
-    background-image: none; }
 
 a.btn.disabled,
 fieldset[disabled] a.btn {
@@ -2101,10 +2074,7 @@ fieldset[disabled] a.btn {
   font-size: 1.25rem;
   line-height: 1.5; }
 
-.btn-sm, .btn-group-sm > .btn {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.5; }
+
 
 .btn-block {
   display: block;

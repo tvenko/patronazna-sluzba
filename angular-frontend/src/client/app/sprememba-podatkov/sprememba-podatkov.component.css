@@ -1,5 +1,6 @@
 :host {
   display: block;
+
 }
 
 label {
@@ -16,9 +17,25 @@ label {
   border-color: #f0ad4e;
 }
 
-.prikaz-vezancka {
-  margin: 0 0 10px 5px;
-  border: 1px solid #ccc;
-  border-top: 3px solid #d0e9c6;
-  padding: 8px;
+div.ui-grid-row {
+  margin-bottom: 4px;
+}
+
+div.vezancek {
+  margin-bottom: 15px;
+  padding: 0 0 0 10px;
+}
+
+div.pacient {
+  margin-bottom: 35px;
+}
+
+h2 {
+  margin-bottom: 0;
+  display: inline;
+}
+
+hr {
+  width: 700px;
+  border-top: 1px solid #8c8b8b;
 }

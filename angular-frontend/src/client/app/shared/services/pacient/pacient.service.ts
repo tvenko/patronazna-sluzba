@@ -47,6 +47,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  getVezancke(skrbnik: any): Observable<any> {
+    return this.http.get(Config.API + 'racuni/vezanipacienti?skrbnik=' + skrbnik)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   /**
    * Vrne sifre okolisa
    */
@@ -58,6 +64,18 @@ export class PacientService {
 
   getPoste(): Observable<any> {
     return this.http.get(Config.API + 'racuni/poste/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
+  putGeslo(id: string, gesla: any): Observable<any> {
+    return this.http.put(Config.API + 'racuni/uporabniki/' + id + '/', gesla)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
+  query(query: string): Observable<any> {
+    return this.http.get(Config.API + 'racuni/pacienti?q=' + query)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }

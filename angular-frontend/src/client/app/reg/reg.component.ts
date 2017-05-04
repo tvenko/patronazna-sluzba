@@ -16,6 +16,8 @@ export class RegComponent {
   public nazivUstanove: any;
   public sifreOkolisa: any;
   public problemPridobivanja: boolean;
+  public prikaziPregled: boolean;
+  public prikaziNapako: boolean;
 
   constructor(private fb: FormBuilder, private delavecService: DelavecService,) {
     this.vrstaDelavca=["zdravnik", "vodja PS", "patronažna sestra", "delavec ZD"];
@@ -32,6 +34,8 @@ export class RegComponent {
   }
 
 ngOnInit() {
+  this.prikaziPregled = false;
+  this.prikaziNapako = false;
   this.dobiSifre();
   //this.dobiVrste();
   this.regForm = this.fb.group({
@@ -64,8 +68,10 @@ ngOnInit() {
       .subscribe(
         response => {
           console.log(response);
+          this.prikaziPregled = true;
         },
         error => {
+          this.prikaziNapako = true;
         }
       )
   }

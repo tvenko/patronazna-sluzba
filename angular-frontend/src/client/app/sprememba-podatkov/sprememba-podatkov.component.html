@@ -73,55 +73,47 @@
         </div>
       </div>
 
-      <div class="ui-grid-row" *ngIf="this.pacient.vezaniPacienti">
+      <!-- Sprememba osebnih podatkov -->
+      <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <h3>Podatki vaših vezanih pacientov</h3>
+          <h3>Spremenite podatke</h3>
         </div>
       </div>
-      <div class="ui-grid-row vezancek" *ngFor="let vezancek of this.pacient.vezaniPacienti">
-        <div class="ui-grid-col-12">
-          <!-- Ime in priimek -->
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-2 ps-profile-label ps-height-25">
-              Ime in priimek
-            </div>
-            <div class="ui-grid-col-6">
-              {{ vezancek.ime }} {{ vezancek.priimek }} 
-            </div>
-          </div>
 
-          <!-- datum rojstva -->
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-2 ps-profile-label ps-height-25">
-              Rojen
-            </div>
-            <div class="ui-grid-col-6">
-              {{ vezancek.datum_rojstva | date }}
-            </div>
-          </div>
+        <!-- todo za nardit je cekirat ce je geslo pravilno --->
+        <form [formGroup]="sForm" (ngSubmit)="spremeni(sForm.value)">
+          <input class="form-control" formControlName="trenutno" type="password" placeholder="Trenutno geslo" ><small [hidden]="(sForm.controls.trenutno.touched)" class="text-danger">Polja ne morete pustiti praznega!</small><br/>
 
-          <!-- stevilka kartice -->
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-2 ps-profile-label ps-height-25">
-              Številka kartice
-            </div>
-            <div class="ui-grid-col-6">
-              {{ vezancek.st_kartice }}
-            </div>
-          </div>
+          <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})"><small *ngIf="(sForm.controls.geslo1.errors && sForm.controls.geslo1.errors.pattern) || (sForm.controls.geslo1.errors && !sForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko</small>
+          <br/>
+          <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><small [hidden]="sForm.controls.geslo2.valid || (sForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
 
-          <!-- spol -->
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-2 ps-profile-label ps-height-25">
-              Spol
-            </div>
-            <div class="ui-grid-col-6">
-              {{ vezancek.spol }}
-            </div>
-          </div>
-
-        </div>
-      </div>
+          <button class="form-control" type="submit" [disabled]="!sForm.valid">Shrani</button>
+        </form>
     </div>
+
+    <p-dialog header="Uspeh!" [(visible)]="prikaziPregled" modal="modal" responsive="true">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+        Sprememba gesla je bila uspešna.
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button type="button" pButton class="ui-button-success" (click)="prikaziPregled=false" label="Zapri"></button>
+        </div>
+      </p-footer>
+    </p-dialog>
+
+    <p-dialog header="Napaka!" [(visible)]="prikaziNapako" modal="modal" responsive="true">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+        Trenutno geslo ni pravilno!
+      </div>
+
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button type="button" pButton icon="fa-close" class="ui-button-warning" (click)="prikaziNapako=false" label="Zapri"></button>
+        </div>
+      </p-footer>
+    </p-dialog>
+
   </main>
 </div>

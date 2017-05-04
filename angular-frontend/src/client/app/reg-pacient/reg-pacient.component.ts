@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import {Router} from '@angular/router';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-
 import { Pacient } from './pacient';
 import { PacientService } from '../shared/services/index';
 
@@ -16,6 +16,7 @@ export class RegPacientComponent {
   public minDate: Date;
   public si: any;
   public prikaziKontakt : boolean = false;
+  public uspesnoRegistriran: boolean = false;
 
   public poste: any;
   public sifreOkolisa: any;
@@ -23,7 +24,9 @@ export class RegPacientComponent {
   public prikaziPregled: boolean;
   public prikaziNapako: boolean;
 
-  constructor(private fb: FormBuilder, private pacientService: PacientService) {}
+  constructor(private fb: FormBuilder,
+              private pacientService: PacientService,
+              private router: Router) {}
 
 ngOnInit() {
   this.dobiSifre();
@@ -63,6 +66,7 @@ ngOnInit() {
   let bdate = new Date();
   //bdate.setFullYear(bdate.getFullYear() - 18);
   this.minDate = new Date(bdate);
+
 }
 
   pacient: Pacient;
@@ -77,6 +81,7 @@ ngOnInit() {
 
 
   registriraj(podatki: any) {
+    this.uspesnoRegistriran = false;
     // this.regForm.reset();
     // dodaj da dela samo ko je registrcija ok
     if (!this.prikaziKontakt) {
@@ -85,15 +90,18 @@ ngOnInit() {
       this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
     }
 
-    console.log(JSON.stringify(this.pacient));
+    //console.log(this.pacient);
 
     this.pacientService.ustvari(this.pacient)
       .subscribe(
         response => {
-          console.log(response);
+          //console.log(response);
+          this.uspesnoRegistriran = true;
+          this.prikaziPregled = true;
         },
         error => {
           // filtriraj glede na razlicne napake
+          this.uspesnoRegistriran = false;
           this.prikaziNapako = true;
         }
       )
@@ -123,6 +131,10 @@ ngOnInit() {
           this.problemPridobivanja = true;
         }
       )
+  }
+
+  redirect() {
+    this.router.navigateByUrl('/prijava');
   }
 
 }

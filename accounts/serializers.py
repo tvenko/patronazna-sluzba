@@ -2,6 +2,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse
 from rest_framework import serializers
 from accounts.models import *
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 class KontaktnaOsebaSerializer(serializers.ModelSerializer):
 
@@ -164,7 +166,7 @@ class PacientGetSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
                   'ulica', 'hisnaStevilka', 'posta', 'kraj', 'datumRojstva',
-                  'kontaktnaOseba', 'vezaniPacienti')
+                  'kontaktnaOseba', 'vezaniPacienti', 'je_aktiviran')
 
 class PacientPostSerializer(serializers.ModelSerializer):
     """
@@ -222,6 +224,13 @@ class PacientPostSerializer(serializers.ModelSerializer):
         if (jeVezanPacient):
             data['pacient_skrbnik'] = pacient
             VezaniPacientSerializer.create(VezaniPacientSerializer, data)
+        prejemnik = uporabnik.email
+        zadeva = 'Potrditev registracije'
+        posiljatelj = 'patronazamail@gmail.com'
+        htmlVsebina = '<h3>Pozdravljeni!</h3><br><p>S klikom na povezavo potrdite registracijo vašega računa na strani Patronažna služba: <a href="http://fruity-routy.ddns.net/potrditev-registracije;id=' + str(pacient.st_kartice) + '">povezava</a></p>'
+        sporocilo = EmailMessage(zadeva, htmlVsebina, posiljatelj, [prejemnik])
+        sporocilo.content_subtype = "html"
+        sporocilo.send()
         return pacient
 
 class PacientObiskSerializer(serializers.ModelSerializer):
@@ -266,6 +275,17 @@ class KadrovkaDelavcSerializer(serializers.ModelSerializer):
     class Meta:
         model = KadrovskaDelavec
         fields = ('id', 'ime', 'priimek')
+		
+class PotrditevRegistracijeSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Pacient
+		fields = ('je_aktiviran','st_kartice')
+		
+	def update(self, pacient, validated_data):
+		pacient.je_aktiviran = validated_data.get('je_aktiviran', pacient.je_aktiviran)
+		pacient.save()
+		return pacient
 
 class PostaSerializer(serializers.ModelSerializer):
 
