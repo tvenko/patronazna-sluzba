@@ -68,6 +68,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  putGeslo(id: string, gesla: any): Observable<any> {
+    return this.http.put(Config.API + 'racuni/uporabniki/' + id + '/', gesla)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   query(query: string): Observable<any> {
     return this.http.get(Config.API + 'racuni/pacienti?q=' + query)
                     .map((res: Response) => res.json())

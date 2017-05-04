@@ -20,11 +20,11 @@ export class AuthenticationService {
     prijava(username: string, password: string): Observable<boolean> {
       var headers = new Headers();
       headers.append('Content-Type', 'application/json');
-		
+
         return this.http.post(Config.API + 'token/auth/', JSON.stringify({ email: username, password: password }), {headers: headers})
             .map(
 				(response : Response) => {
-					
+
 					if (response.json().pacient && response.json().pacient[0].je_aktiviran == false) {
 
 						localStorage.setItem('loginError', "Račun ni aktiviran.");
@@ -33,7 +33,7 @@ export class AuthenticationService {
 					else {
 						let token = response.json() && response.json().token;
 						if (token) {
-							
+
 							//določi id uporabnika
 							this.id = JSON.stringify(response.json().uporabnik.id);
 
@@ -57,6 +57,9 @@ export class AuthenticationService {
 							//ali je uporabnik admin?
 							var admin = JSON.stringify(response.json().uporabnik.je_admin);
 
+              //id uporabnika
+							var uId = JSON.stringify(response.json().uporabnik.id);
+
 							//pridobi datum zadnje prijave
 							var datumObj = response.json().uporabnik.last_login;
 							var dateAgain = "";
@@ -77,7 +80,7 @@ export class AuthenticationService {
 							if (response.json().pacient) {
 								tipUporabnika = "pacient";
 								localStorage.setItem('podatkiPacienta', JSON.stringify(response.json().pacient[0]));
-								
+
 							}
 							else if (response.json().delavec) {
 								tipUporabnika = response.json().delavec[0].naziv_delavca;
@@ -87,7 +90,7 @@ export class AuthenticationService {
 							// določi token
 							this.token = token;
 							// shrani uporabniško ime, jwt token in tip uporabika lokalno
-							localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika, admin: admin, datum: dateAgain }));
+							localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token, tipUporabnika: tipUporabnika, admin: admin, datum: dateAgain, id:  uId}));
 							// vrni true za uspešno prijavo
 							return true;
 						}
