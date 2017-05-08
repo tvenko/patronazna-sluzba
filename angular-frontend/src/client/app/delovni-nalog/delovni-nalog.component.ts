@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DelovniNalogService } from '../shared/services/index';
 import { PacientService } from '../shared/services/index';
 import { DelavecService } from '../shared/services/index';
+
 /**
  * This class represents the lazy loaded DelovniNalogComponent.
  */
@@ -13,7 +14,8 @@ import { DelavecService } from '../shared/services/index';
 })
 export class DelovniNalogComponent implements OnInit {
   public delovniNalogi: any;
-  public imena: any;
+  public najdeniPacienti: any;
+  public najdeneSestre: any;
 
   constructor(private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService) {}
 
@@ -21,13 +23,34 @@ export class DelovniNalogComponent implements OnInit {
     this.pridobiNaloge();
   }
 
-  public getName = function(id: any) {
-    this.pacientService.get(id).subscribe(
-      (response: any) => {
-        //this.imena[dn].ime = response.ime+" "+response.priimek;
-        //this.delovniNalogi[dn].ime_pacienta = response.ime+" "+response.priimek;
-        console.log(response.ime+" "+response.priimek);
-      });
+searchPacient(event: any) {
+     this.pacientService.query(event.query)
+      .subscribe(
+        response => {
+          this.najdeniPacienti = response.results;
+          for (let najden of this.najdeniPacienti) {
+            najden.naziv = najden.ime + ' ' + najden.priimek + ' ('+ najden.stevilkaPacienta +')';
+          }
+        },
+        error => {
+          console.log('Napaka pri iskanju pacienta');
+        }
+      )
+ }
+
+ searchSestra(event: any) {
+      this.delavecService.query(event.query)
+       .subscribe(
+         response => {
+           this.najdeneSestre = response.results;
+           for (let najdena of this.najdeneSestre) {
+             najdena.naziv = najdena.ime + ' ' + najdena.priimek;
+           }
+         },
+         error => {
+           console.log('Napaka pri iskanju pacienta');
+         }
+       )
   }
 
   getImenaPacientov(dn: any) {

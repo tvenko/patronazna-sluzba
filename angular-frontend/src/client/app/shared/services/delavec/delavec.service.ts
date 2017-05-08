@@ -45,6 +45,12 @@ export class DelavecService {
                     .catch(this.handleError);
   }
 
+  query(query: string): Observable<any> {
+    return this.http.get(Config.API + 'racuni/delavci?q=' + query)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   /**
    * Vrne sifre okolisa
    */

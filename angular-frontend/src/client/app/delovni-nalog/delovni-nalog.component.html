@@ -13,8 +13,21 @@
       </div>
       <!-- Body od vseh osebnih podatkov -->
 
-      za popravit - ime sestre, vrsta obiska<br/>
+      za popravit - slovenski datum<br/>
       filtriranje<br/>
+
+      <!--- forma za filtriranje --->
+        <label>Pacient</label>
+        <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+        [suggestions]="najdeniPacienti" field="naziv" (completeMethod)="searchPacient($event)" (onSelect)="elementIzbran($event)" autoHighlight="true"
+        required></p-autoComplete>
+
+        <label>Sestra</label>
+        <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+        [suggestions]="najdeneSestre" field="naziv" (completeMethod)="searchSestra($event)" (onSelect)="elementIzbran($event)" autoHighlight="true"
+        required></p-autoComplete>
+
+      <!--- prikaz delovnih nalogov --->
       <table class="table table-striped table-responsive">
       	<thead>
       		<tr>
