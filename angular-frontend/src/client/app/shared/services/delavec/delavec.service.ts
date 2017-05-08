@@ -22,6 +22,12 @@ export class DelavecService {
 
   }
 
+  get(delavec: string): Observable<string[]> {
+    return this.http.get(Config.API + 'racuni/uporabniki/' + delavec + '/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   ustvari(delavec: any): Observable<string[]> {
     return this.http.post(Config.API + 'racuni/delavci/',  delavec)
                     .map((res: Response) => res.json())
