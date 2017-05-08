@@ -20,9 +20,11 @@ export class RegPacientComponent {
 
   public poste: any;
   public sifreOkolisa: any;
+  public sorodstvenaRazmerja: any;
   public problemPridobivanja: boolean;
   public prikaziPregled: boolean;
   public prikaziNapako: boolean;
+  public loading: any;
 
   constructor(private fb: FormBuilder,
               private pacientService: PacientService,
@@ -31,10 +33,12 @@ export class RegPacientComponent {
 ngOnInit() {
   this.dobiSifre();
   this.dobiPoste();
+  this.dobiSorodstvenaRazmerja();
   this.prikaziPregled = false;
   this.prikaziKontakt = false;
+  this.loading = false;
   this.regForm = this.fb.group({
-    zavarovanje: ['', Validators.required],
+    zavarovanje: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
     ulica: ['', Validators.required],
@@ -47,12 +51,16 @@ ngOnInit() {
     spol: ['false', Validators.required],
     geslo1: ['', Validators.required],
     geslo2: ['', Validators.required],
-    kontaktIme: [''],
-    kontaktPriimek: [''],
-    kontaktTelefon: [''],
-    kontaktSorodstvo: [''],
-    kontaktNaslov: ['']
-  });
+    kontaktnaOseba: this.fb.group({
+      ime: [''],
+      priimek: [''],
+      tel: [''],
+      sorodstveno_razmerje: [''],
+      ulica: [''],
+      hisna_stevilka: [''],
+      posta: ['']
+    }),
+});
 
   this.si = {
           firstDayOfWeek: 0,
@@ -82,15 +90,22 @@ ngOnInit() {
 
   registriraj(podatki: any) {
     this.uspesnoRegistriran = false;
+    this.loading = true;
     // this.regForm.reset();
     // dodaj da dela samo ko je registrcija ok
     if (!this.prikaziKontakt) {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id);
-    } else {
-      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1, podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast, podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id, podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov, podatki.kontaktSorodstvo);
-    }
 
-    //console.log(this.pacient);
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1,
+        podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast,
+        podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id);
+    } else {
+
+      this.pacient = new Pacient(podatki.ime, podatki.priimek, podatki.email, podatki.geslo1,
+        podatki.tel, parseInt(podatki.zavarovanje), podatki.ulica, podatki.hisnast,
+        podatki.kraj, this.vString(podatki.datumRojstva), podatki.spol, podatki.sifreOkolisa.id,
+        /*podatki.kontaktIme, podatki.kontaktPriimek, podatki.kontaktTelefon, podatki.kontaktNaslov,
+        podatki.kontaktSorodstvo,*/ podatki.kontaktnaOseba);
+    }
 
     this.pacientService.ustvari(this.pacient)
       .subscribe(
@@ -98,11 +113,13 @@ ngOnInit() {
           //console.log(response);
           this.uspesnoRegistriran = true;
           this.prikaziPregled = true;
+          this.loading = false;
         },
         error => {
           // filtriraj glede na razlicne napake
           this.uspesnoRegistriran = false;
           this.prikaziNapako = true;
+          this.loading = false;
         }
       )
   }
@@ -135,6 +152,53 @@ ngOnInit() {
 
   redirect() {
     this.router.navigateByUrl('/prijava');
+  }
+
+  dobiSorodstvenaRazmerja() {
+      this.pacientService.getSorodnike()
+        .subscribe(
+          response => {
+            this.sorodstvenaRazmerja = response;
+          },
+          error => {
+            console.log("Ni mi uspelo pridobiti sorodstvenih razmerij.")
+          }
+        )
+  }
+
+  preveriKontaktnoOsebo(checked: any) {
+    const kontaktCtrl =  (<any>this.regForm).controls.kontaktnaOseba;
+    if (checked) {
+      kontaktCtrl.controls.ime.setValidators(Validators.required);
+      kontaktCtrl.controls.priimek.setValidators(Validators.required);
+      kontaktCtrl.controls.tel.setValidators(Validators.required);
+      kontaktCtrl.controls.ulica.setValidators(Validators.required);
+      kontaktCtrl.controls.hisna_stevilka.setValidators(Validators.required);
+      kontaktCtrl.controls.posta.setValidators(Validators.required);
+      kontaktCtrl.controls.sorodstveno_razmerje.setValidators(Validators.required);
+      kontaktCtrl.controls.ime.updateValueAndValidity();
+      kontaktCtrl.controls.priimek.updateValueAndValidity();
+      kontaktCtrl.controls.tel.updateValueAndValidity();
+      kontaktCtrl.controls.ulica.updateValueAndValidity();
+      kontaktCtrl.controls.hisna_stevilka.updateValueAndValidity();
+      kontaktCtrl.controls.posta.updateValueAndValidity();
+      kontaktCtrl.controls.sorodstveno_razmerje.updateValueAndValidity();
+    } else {
+      kontaktCtrl.controls.ime.setValidators(null);
+      kontaktCtrl.controls.priimek.setValidators(null);
+      kontaktCtrl.controls.tel.setValidators(null);
+      kontaktCtrl.controls.ulica.setValidators(null);
+      kontaktCtrl.controls.hisna_stevilka.setValidators(null);
+      kontaktCtrl.controls.posta.setValidators(null);
+      kontaktCtrl.controls.sorodstveno_razmerje.setValidators(null);
+      kontaktCtrl.controls.ime.updateValueAndValidity();
+      kontaktCtrl.controls.priimek.updateValueAndValidity();
+      kontaktCtrl.controls.tel.updateValueAndValidity();
+      kontaktCtrl.controls.ulica.updateValueAndValidity();
+      kontaktCtrl.controls.hisna_stevilka.updateValueAndValidity();
+      kontaktCtrl.controls.posta.updateValueAndValidity();
+      kontaktCtrl.controls.sorodstveno_razmerje.updateValueAndValidity();
+    }
   }
 
 }

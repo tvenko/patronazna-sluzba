@@ -76,20 +76,57 @@
       <!-- Sprememba osebnih podatkov -->
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <h3>Spremenite podatke</h3>
+          <h3>Sprememba gesla</h3>
         </div>
+
+
       </div>
 
-        <!-- todo za nardit je cekirat ce je geslo pravilno --->
-        <form [formGroup]="sForm" (ngSubmit)="spremeni(sForm.value)">
-          <input class="form-control" formControlName="trenutno" type="password" placeholder="Trenutno geslo" ><small [hidden]="(sForm.controls.trenutno.touched)" class="text-danger">Polja ne morete pustiti praznega!</small><br/>
-
-          <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})"><small *ngIf="(sForm.controls.geslo1.errors && sForm.controls.geslo1.errors.pattern) || (sForm.controls.geslo1.errors && !sForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko</small>
-          <br/>
-          <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><small [hidden]="sForm.controls.geslo2.valid || (sForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
-
-          <button class="form-control" type="submit" [disabled]="!sForm.valid">Shrani</button>
-        </form>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-6">
+          <form [formGroup]="sForm" (ngSubmit)="spremeni(sForm.value)">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-12">
+                <label>Trenutno geslo</label>
+                <input class="form-control" formControlName="trenutno" type="password"
+                  placeholder="Trenutno geslo" >
+                <small [hidden]="sForm.controls.trenutno.touched"
+                  class="text-danger">
+                  Za spremembo gesla morate vnesti trenutno geslo.
+                </small>
+              </div>
+            </div>
+            <div class="ui-grid-row" class="form-group" [ngClass]="{'has-error': sForm.controls.geslo1.invalid && sForm.controls.geslo1.touched}">
+              <div class="ui-grid-col-12">
+                <label>Novo geslo</label>
+                <input class="form-control" formControlName="geslo1" type="password"
+                  placeholder="Geslo" required validateEqual="geslo2" reverse="true"
+                  pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})">
+                <small *ngIf="(sForm.controls.geslo1.errors && sForm.controls.geslo1.errors.pattern)
+                   || (sForm.controls.geslo1.errors && !sForm.controls.geslo1.untouched)" class="text-danger">
+                   Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko.
+                 </small>
+              </div>
+            </div>
+            <div class="ui-grid-row" class="form-group" [ngClass]="{'has-error': sForm.controls.geslo2.invalid && sForm.controls.geslo2.touched}">
+              <div class="ui-grid-col-12">
+                <label>Ponovite novo geslo</label>
+                <input class="form-control" formControlName="geslo2" type="password"
+                  placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false">
+                <small [hidden]="sForm.controls.geslo2.valid || (sForm.controls.geslo2.untouched)"
+                  class="text-danger">
+                  Gesli se ne ujemata.
+                </small>
+              </div>
+            </div>
+            <div class="ui-grid-row pull-right ps-margin-top">
+              <div class="ui-grid-col-6">
+                <button class="btn btn-primary" type="submit" [disabled]="!sForm.valid">Shrani</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <p-dialog header="Uspeh!" [(visible)]="prikaziPregled" modal="modal" responsive="true">

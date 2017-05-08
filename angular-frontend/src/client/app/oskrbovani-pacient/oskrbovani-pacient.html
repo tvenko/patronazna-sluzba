@@ -51,14 +51,31 @@
                 !regForm.controls.zavarovanje.valid" class="text-danger">Številka kartice je obvezna in mora vsebovati 9 števk.</small>
               </div>
             </div>
-
-            <div class="ui-grid-row os-last-row">
+            <div class="ui-grid-row " class="form-group" [ngClass]="{'has-error': regForm.controls.sorodstvo.touched
+            && regForm.controls.sorodstvo.invalid}">
               <div class="ui-grid-col-8">
-                <button class="btn btn-primary btn-sm pull-right" type="submit" [disabled]="!regForm.valid || loading === true">Registriraj</button>
+                <label>Sorodstvena vez</label>
+                <!--<input class="form-control" formControlName="kontaktSorodstvo" type="text"
+                placeholder="Sorodstvena vez s kontaktno osebo">-->
+                <select class="form-control" formControlName="sorodstvo">
+                  <option *ngFor="let razmerje of sorodstvenaRazmerja" [ngValue]="razmerje.id">
+                    {{razmerje.naziv}}
+                  </option>
+                </select>
+                <small *ngIf="regForm.controls.sorodstvo.touched &&
+                regForm.controls.sorodstvo.invalid" class="text-danger">
+                  Podatek o sorodstvenem razmerju je obvezen.
+                </small>
+              </div>
+            </div>
+
+            <div class="ui-grid-row os-last-row ">
+              <div class="ui-grid-col-8  ps-margin-top">
+                <button class="btn btn-primary ps-margin-left pull-right" type="submit" [disabled]="!regForm.valid || loading === true">Registriraj</button>
                 <small *ngIf="!regForm.valid && regForm.touched" class="text-danger pull-right">Obrazec ni veljaven, preverite polja</small>
                 <small *ngIf="regForm.untouched" class="text-danger pull-right">Izpolnite vsa polja</small>
-                <small *ngIf="uspesno === true" class="text-success pull-right">Uspešno ste dodali novega pacienta</small>
-                <small *ngIf="uspesno === false" class="text-warning pull-right">Prišlo je do napake pri registraciji</small>
+                <small *ngIf="uspesno === true && loading === false" class="text-success pull-right">Uspešno ste dodali novega pacienta</small>
+                <small *ngIf="uspesno === false && loading === false" class="text-warning pull-right">Prišlo je do napake pri registraciji</small>
                 <img src="assets/gif/spin-wheel.gif" *ngIf="loading === true" style="width: 30px;" class="pull-right" alt="Loading" />
               </div>
             </div>

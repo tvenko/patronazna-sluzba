@@ -108,7 +108,7 @@ class SifraOkolisaViewSet(viewsets.ModelViewSet):
 class KadrovskaDelavecViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = KadrovskaDelavec.objects.all()
     serializer_class = KadrovkaDelavcSerializer
-	
+
 class PotrditevRegistracijeViewSet(viewsets.ModelViewSet):
     queryset = Pacient.objects.all()
     serializer_class = PotrditevRegistracijeSerializer
@@ -116,4 +116,9 @@ class PotrditevRegistracijeViewSet(viewsets.ModelViewSet):
 class PostaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Posta.objects.all()
     serializer_class = PostaSerializer
+    pagination_class = None
+
+class SorodstvenoRazmerjeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = SorodstvenoRazmerje.objects.all()
+    serializer_class = SorodstvenoRazmerjeSerializer
     pagination_class = None

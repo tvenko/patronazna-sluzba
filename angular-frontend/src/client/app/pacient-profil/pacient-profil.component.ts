@@ -31,6 +31,7 @@ export class PacientProfilComponent implements OnInit {
         .subscribe(
           response => {
             this.pacient.vezaniPacienti = response.results;
+            //console.log(response.results);
             for (let vezancek of this.pacient.vezaniPacienti) {
               if (vezancek.spol)
                 vezancek.spol = 'moški';

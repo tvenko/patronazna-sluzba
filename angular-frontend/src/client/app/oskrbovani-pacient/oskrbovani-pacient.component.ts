@@ -20,6 +20,7 @@ export class OskrbovaniPacientComponent implements OnInit{
   public prikaziPregled: boolean;
 
   public sifreOkolisa: any;
+  public sorodstvenaRazmerja: any;
   public problemPridobivanja: boolean;
 
   public date: Date;
@@ -32,12 +33,14 @@ ngOnInit() {
   this.loading = false;
   this.trenutniPacient = JSON.parse(localStorage.getItem('podatkiPacienta')).stevilkaPacienta;
   this.dobiSifre();
+  this.dobiSorodstvenaRazmerja();
   this.regForm = this.fb.group({
     zavarovanje: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
     datumRojstva: ['', Validators.required],
     spol: ['false', Validators.required],
+    sorodstvo: ['', Validators.required]
   });
 
   this.si = {
@@ -66,7 +69,7 @@ ngOnInit() {
   registriraj(podatki: any) {
     this.loading = true;
     this.prikaziPregled = true;
-    this.pacient = new Pacient(podatki.ime, podatki.priimek, parseInt(podatki.zavarovanje), this.vString(podatki.datumRojstva), podatki.spol, this.trenutniPacient);
+    this.pacient = new Pacient(podatki.ime, podatki.priimek, parseInt(podatki.zavarovanje), this.vString(podatki.datumRojstva), podatki.spol, this.trenutniPacient, podatki.sorodstvo);
 
 
     this.pacientService.ustvariVezanega(this.pacient)
@@ -97,4 +100,15 @@ ngOnInit() {
     );
   }
 
+  dobiSorodstvenaRazmerja() {
+    this.pacientService.getSorodnike()
+      .subscribe(
+        response => {
+          this.sorodstvenaRazmerja = response;
+        },
+        error => {
+          console.log("Prislo je do problema pridobivanja sorodstvenaRazmerja")
+        }
+      )
+  }
 }

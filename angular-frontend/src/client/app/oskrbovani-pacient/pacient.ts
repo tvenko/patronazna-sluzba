@@ -8,7 +8,8 @@ export class Pacient {
     public datum_rojstva: string,
     public spol: boolean,
 
-    public pacient_skrbnik: string
+    public pacient_skrbnik: string,
+    public sorodstveno_razmerje: any,
 
     ) { }
 }

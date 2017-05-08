@@ -19,12 +19,12 @@ export class Pacient {
 
     public sifra_okolisa: string,
 
-    public kontaktIme?: string,
+    /*public kontaktIme?: string,
     public kontaktPriimek?: string,
     public kontaktTelefon?: string,
     public kontaktNaslov?: string,
     public kontaktSorodstvo?: string,
-
+    */public kontaktnaOseba?: any,
     // kontaktna oseba
     // pacienti za katere skrbi
     public osrkbovanci?: Pacient[],

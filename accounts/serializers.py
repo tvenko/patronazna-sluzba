@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 
 class KontaktnaOsebaSerializer(serializers.ModelSerializer):
 
-    sorodstveno_razmerje = serializers.PrimaryKeyRelatedField(read_only=True)
+    sorodstveno_razmerje = serializers.PrimaryKeyRelatedField(queryset=SorodstvenoRazmerje.objects.all())
 
     class Meta:
 
@@ -138,7 +138,7 @@ class VezaniPacientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VezaniPacient
-        fields = ('st_kartice', 'ime', 'priimek', 'spol', 'datum_rojstva', 'pacient_skrbnik')
+        fields = ('st_kartice', 'ime', 'priimek', 'spol', 'datum_rojstva', 'pacient_skrbnik', 'sorodstveno_razmerje')
 
     def create(self, validated_data):
         vezaniPacient = VezaniPacient(**validated_data)
@@ -189,11 +189,7 @@ class PacientPostSerializer(serializers.ModelSerializer):
     datumRojstva = serializers.DateField(source='datum_rojstva')
     posta = serializers.PrimaryKeyRelatedField(read_only=True)
     kraj = serializers.CharField(source='posta.kraj')
-    kontaktnaOseba = serializers.PrimaryKeyRelatedField(read_only=True, source='kontaktna_oseba')
-    kontaktIme = serializers.CharField(source='kontaktna_oseba.ime', required=False)
-    kontaktPriimek = serializers.CharField(source='kontaktna_oseba.priimek', required=False)
-    kontaktTelefon = serializers.CharField(source='kontaktna_oseba.tel', required=False)
-    kontaktSorodstvo = serializers.CharField(source='kontaktna_oseba.sorodstveno_razmerje', required=False)
+    kontaktnaOseba = KontaktnaOsebaSerializer(source='kontaktna_oseba', required=False)
     hisnaStevilka = serializers.CharField(source='hisna_stevilka')
 
 
@@ -201,12 +197,10 @@ class PacientPostSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('uporabnik', 'ime', 'priimek', 'eposta', 'password', 'telefon', 'stevilkaPacienta',
                     'ulica', 'hisnaStevilka', 'posta', 'kraj',  'datumRojstva', 'spol',
-                    'kontaktnaOseba', 'sifra_okolisa', 'kontaktIme', 'kontaktPriimek',
-                  'kontaktTelefon', 'kontaktSorodstvo', 'otrokIme', 'otrokPriimek', 'otrokSpol',
+                    'kontaktnaOseba', 'sifra_okolisa', 'otrokIme', 'otrokPriimek', 'otrokSpol',
                   'otrokStKartice', 'otrokDatumRojstva', 'vezani_pacienti',)
 
     def create(self, validated_data):
-        print('data: ', validated_data)
         jeVezanPacient = False
         uporabnik_data = validated_data.pop('uporabnik', None)
         uporabnik = UporabnikSerializer.create(UporabnikSerializer, uporabnik_data)
@@ -275,13 +269,13 @@ class KadrovkaDelavcSerializer(serializers.ModelSerializer):
     class Meta:
         model = KadrovskaDelavec
         fields = ('id', 'ime', 'priimek')
-		
+
 class PotrditevRegistracijeSerializer(serializers.ModelSerializer):
-	
+
 	class Meta:
 		model = Pacient
 		fields = ('je_aktiviran','st_kartice')
-		
+
 	def update(self, pacient, validated_data):
 		pacient.je_aktiviran = validated_data.get('je_aktiviran', pacient.je_aktiviran)
 		pacient.save()
@@ -292,3 +286,10 @@ class PostaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posta
         fields = ('stevilka', 'kraj')
+
+
+class SorodstvenoRazmerjeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SorodstvenoRazmerje
+        fields =('id', 'naziv')

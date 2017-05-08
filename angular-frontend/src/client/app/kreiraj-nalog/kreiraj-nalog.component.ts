@@ -122,10 +122,15 @@ export class KreirajNalogComponent implements OnInit {
    */
    elementIzbran(event: any) {
      this.pacient = event;
+     this.vezanciPacienta = [];
      this.pacientInfoService.getVezancke(event.stevilkaPacienta)
         .subscribe(
           response => {
-            this.vezanciPacienta = response.results;
+            //this.vezanciPacienta = response.results;
+            for (let otrok of response.results) {
+              if (otrok.sorodstveno_razmerje == 19)
+                this.vezanciPacienta.push(otrok);
+            }
           },
           error => {
             console.log("Napaka pri pridobivanju vezanih pacientov");
@@ -142,7 +147,7 @@ export class KreirajNalogComponent implements OnInit {
       if (!this.pacient || this.problemPridobivanja) {
           this.pridobiPodatke();
       }
-
+      //console.log(this.izbraniVezanci);
       this.pokaziPregled = true;
     }
 
@@ -204,8 +209,8 @@ export class KreirajNalogComponent implements OnInit {
       else
         novNalog.je_obvezen_datum = false;
 
-      console.log(JSON.stringify(novNalog));
-      console.log(novNalog);
+      //console.log(JSON.stringify(novNalog));
+      //console.log(novNalog);
       this.delovniNalogService.ustvari(novNalog)
         .subscribe(
           response => {
