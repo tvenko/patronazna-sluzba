@@ -28,8 +28,8 @@ export class ObiskiService {
       .catch(this.handleError);
   }
 
-  getByDelavec(delavec: any): Observable<any> {
-    return this.http.get(Config.API + 'obiski/obiski?user=' + delavec)
+  getByDelavec(delavec: any, stran: number): Observable<any> {
+    return this.http.get(Config.API + 'obiski/obiski?user=' + delavec + '&page=' + stran)
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }

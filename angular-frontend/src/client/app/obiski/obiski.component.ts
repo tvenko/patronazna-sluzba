@@ -10,8 +10,9 @@ import { ObiskiService } from '../shared/services/index';
 export class ObiskiComponent implements OnInit {
   today: Date = new Date();
   public obiski: any;
+  stObiskov: number;
   stStrani: number;
-  izbranDatum: Date;
+  trenutnaStran: number = 1;
 
   constructor(private ObiskiService: ObiskiService) {}
 
@@ -24,11 +25,12 @@ export class ObiskiComponent implements OnInit {
     if (user) {
       console.log(user);
       user = JSON.parse(user).osebna_sifra;
-      this.ObiskiService.getByDelavec(user)
+      this.ObiskiService.getByDelavec(user, this.trenutnaStran)
         .subscribe(
           response => {
             this.obiski = response.results;
-            this.stStrani = Math.floor(response.count/10);
+            this.stObiskov = response.count;
+            this.stStrani = Math.floor(this.stObiskov/10)+1;
           },
           error => {
             // Pokazi obvestilo
@@ -66,6 +68,18 @@ export class ObiskiComponent implements OnInit {
     let data = <any>{};
     data.dejanskiDatum = d;
     this.ObiskiService.updateDejanskiDatum(id, data).subscribe();
+    this.pridobiObiske();
+  }
+
+  onNextPage() {
+    if(this.trenutnaStran < this.stStrani)
+      this.trenutnaStran++;
+    this.pridobiObiske();
+  }
+
+  onPreviousPage() {
+    if(this.trenutnaStran > 1)
+      this.trenutnaStran--;
     this.pridobiObiske();
   }
 }

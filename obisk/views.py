@@ -96,6 +96,16 @@ class ObiskViewSet(viewsets.ModelViewSet):
             return ObiskUpdateSerializer
         return ObiskSerializer
 
+class ObiskiPlaniraniViewSet(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = ObiskSerializer
+    queryset = Obisk.objects.filter(~Q(dejanski_datum = None) | Q(Q(je_obvezen_datum = True) & Q(je_opravljen = False)))
+
+class ObiskiPrihajajociViewSet(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = ObiskSerializer
+    queryset = Obisk.objects.filter(Q(dejanski_datum = None) & Q(je_obvezen_datum = False) & Q(je_opravljen = False))
+
 class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Meritev.objects.all()
     serializer_class = MeritevSeializer
