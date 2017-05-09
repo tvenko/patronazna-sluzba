@@ -34,6 +34,18 @@ export class ObiskiService {
       .catch(this.handleError);
   }
 
+  getPlanirani(delavec: any, stran: number) {
+    return this.http.get(Config.API + 'obiski/planirani?user=' + delavec + '&page=' + stran)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+  getPrihajajoci(delavec: any, stran: number) {
+    return this.http.get(Config.API + 'obiski/prihajajoci?user=' + delavec + '&page=' + stran)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   updateStatus(id: number, data: any) {
     return this.http.put(Config.API + 'obiski/obiski/' + id + '/', data)
       .map((res: Response) => res.json)

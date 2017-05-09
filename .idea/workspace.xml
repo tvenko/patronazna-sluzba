@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4b7af8c-86b8-4438-a0f1-f52200191ea7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/urls.py" afterPath="$PROJECT_DIR$/obisk/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/obiski/obiski.service.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/obiski/obiski.service.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/views.py" afterPath="$PROJECT_DIR$/obisk/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +29,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/obisk/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
-              <caret line="127" column="23" lean-forward="false" selection-start-line="127" selection-start-column="23" selection-end-line="127" selection-end-column="23" />
+            <state relative-caret-position="2948">
+              <caret line="134" column="44" lean-forward="true" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -789,8 +791,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/obisk/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="127" column="23" lean-forward="false" selection-start-line="127" selection-start-column="23" selection-end-line="127" selection-end-column="23" />
+        <state relative-caret-position="2948">
+          <caret line="134" column="44" lean-forward="true" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
