@@ -27,6 +27,7 @@ export class PrijavaComponent implements OnInit {
  
 prijava() {
         this.loading = true;
+				this.error = ''
         this.authenticationService.prijava(this.model.username, this.model.password)
             .subscribe(result => {
                 if (result === true) {

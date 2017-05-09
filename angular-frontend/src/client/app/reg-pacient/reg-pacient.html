@@ -50,7 +50,7 @@
               <input class="form-control" formControlName="zavarovanje" type="text"
               placeholder="Številka zavarovanja" required pattern="^\d*$">
               <small *ngIf="regForm.controls.zavarovanje.errors && !regForm.controls.zavarovanje.untouched"
-              class="text-danger">Vnesite veljavno številko zdravstvenega zavarovanja.</small>
+              class="text-danger">Vnesite 9 mestno številko zdravstvenega zavarovanja.</small>
             </div>
           </div>
 
@@ -83,7 +83,7 @@
                   {{ posta.stevilka }} - {{ posta.kraj }}
                 </option>
               </select>
-              <small *ngIf="regForm.controls.hisnast.touched && regForm.controls.hisnast.invalid" class="text-danger">
+              <small *ngIf="regForm.controls.kraj.touched && regForm.controls.kraj.invalid" class="text-danger">
                 Vnesite pošto.
               </small>
             </div>
@@ -147,46 +147,106 @@
 
               </label>
               <p-checkbox name="groupname" binary="true" [(ngModel)]="prikaziKontakt"
-                [ngModelOptions]="{standalone: true}"></p-checkbox>
+                [ngModelOptions]="{standalone: true}" (onChange)="preveriKontaktnoOsebo($event)"></p-checkbox>
             </div>
           </div>
 
-          <div *ngIf="prikaziKontakt" class="ui-grid-row form-group">
+          <div *ngIf="prikaziKontakt" class="ui-grid-row form-group" formGroupName="kontaktnaOseba">
             <div class="ui-grid-col-1"></div>
             <div class="ui-grid-col-10">
               <div class="ui-grid-row">
-                <div class="ui-grid-col-6" style="padding-right: 5px;">
+                <div class="ui-grid-col-6" style="padding-right: 5px;" [ngClass]="{'has-error': regForm.controls.kontaktnaOseba.controls.ime.touched
+                && regForm.controls.kontaktnaOseba.controls.ime.invalid}">
                   <label>Ime kontakta</label>
-                  <input class="form-control" formControlName="kontaktIme" type="text"
-                    placeholder="Ime kontaktne osebe">
+                  <input class="form-control" formControlName="ime" type="text"
+                  placeholder="Ime kontaktne osebe">
+                  <small *ngIf="regForm.controls.kontaktnaOseba.controls.ime.touched
+                  && regForm.controls.kontaktnaOseba.controls.ime.invalid" class="text-danger">
+                    Vnesite ime kontakta.
+                  </small>
                 </div>
-                <div class="ui-grid-col-6" style="padding-left: 5px;">
+                <div class="ui-grid-col-6" style="padding-left: 5px;" [ngClass]="{'has-error': regForm.controls.kontaktnaOseba.controls.priimek.touched
+                && regForm.controls.kontaktnaOseba.controls.priimek.invalid}">
                   <label>Priimek kontakta</label>
-                  <input class="form-control" formControlName="kontaktPriimek" type="text"
-                    placeholder="Priimek kontaktne osebe">
+                  <input class="form-control" formControlName="priimek" type="text"
+                  placeholder="Priimek kontaktne osebe">
+                  <small *ngIf="regForm.controls.kontaktnaOseba.controls.priimek.touched
+                  && regForm.controls.kontaktnaOseba.controls.priimek.invalid" class="text-danger">
+                    Vnesite priimek kontakta.
+                  </small>
                 </div>
               </div>
-              <div class="ui-grid-row">
+              <div class="ui-grid-row" [ngClass]="{'has-error': regForm.controls.kontaktnaOseba.controls.tel.touched
+              && regForm.controls.kontaktnaOseba.controls.tel.invalid}">
                 <div class="ui-grid-col-12">
                   <label>Telefon kontakta</label>
-                  <input class="form-control" formControlName="kontaktTelefon" type="text"
-                    placeholder="Telefonska številka kontaktne osebe">
+                  <input class="form-control" formControlName="tel" type="text"
+                  placeholder="Telefonska številka kontaktne osebe">
+                  <small *ngIf="regForm.controls.kontaktnaOseba.controls.tel.touched
+                  && regForm.controls.kontaktnaOseba.controls.tel.invalid" class="text-danger">
+                    Vnesite telefonsko kontakta.
+                  </small>
                 </div>
               </div>
               <div class="ui-grid-row">
                 <div class="ui-grid-col-12">
-                  <label>Naslov kontakta</label>
-                  <!-- TODO: dodelaj naslov -->
-                  <input class="form-control" formControlName="kontaktNaslov" type="text"
-                    placeholder="Naslov kontaktne osebe">
+                  <div class='ui-grid-row'>
+                  <div class="ui-grid-col-7"
+                    [ngClass]="{ 'has-error': regForm.controls.kontaktnaOseba.controls.ulica.touched
+                    && regForm.controls.kontaktnaOseba.controls.ulica.invalid }">
+                    <label>Ulica</label>
+                    <input class="form-control" formControlName="ulica" type="text" placeholder="Ulica">
+                    <small *ngIf="regForm.controls.kontaktnaOseba.controls.ulica.touched
+                    && regForm.controls.kontaktnaOseba.controls.ulica.invalid" class="text-danger">
+                      Vnesite ulico vašega kontakta.
+                    </small>
+                  </div>
+                  <div class="ui-grid-col-1">
+                  </div>
+                  <div class="ui-grid-col-4"
+                    [ngClass]="{ 'has-error': regForm.controls.kontaktnaOseba.controls.hisna_stevilka.touched
+                    && regForm.controls.kontaktnaOseba.controls.hisna_stevilka.invalid }">
+                    <label>Hišna števlika</label>
+                    <input class="form-control" formControlName="hisna_stevilka" type="text" placeholder="Hišna št.">
+                    <small *ngIf="regForm.controls.kontaktnaOseba.controls.hisna_stevilka.touched
+                    && regForm.controls.kontaktnaOseba.controls.hisna_stevilka.invalid" class="text-danger">
+                      Vnesite hišno številko kontakta.
+                    </small>
+                  </div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-12"
+                    [ngClass]="{ 'has-error': regForm.controls.kontaktnaOseba.controls.posta.touched
+                    && regForm.controls.kontaktnaOseba.controls.posta.invalid }">
+                    <label>Pošta</label>
+                    <select class="form-control" formControlName="posta" *ngIf="poste" >
+                      <option *ngFor="let posta of poste" [ngValue]="posta.stevilka">
+                        {{ posta.stevilka }} - {{ posta.kraj }}
+                      </option>
+                    </select>
+                    <small *ngIf="regForm.controls.kontaktnaOseba.controls.posta.touched
+                    && regForm.controls.kontaktnaOseba.controls.posta.invalid" class="text-danger">
+                      Izberite pošto kontakta.
+                    </small>
+                  </div>
+                </div>
                 </div>
               </div>
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-12">
+              <div class="ui-grid-row ps-margin-top">
+                <div class="ui-grid-col-12" [ngClass]="{'has-error': regForm.controls.kontaktnaOseba.controls.sorodstveno_razmerje.touched
+                && regForm.controls.kontaktnaOseba.controls.sorodstveno_razmerje.invalid}">
                   <label>Sorodstvena vez</label>
-                  <!-- TODO: pridobi iz backenda -->
-                  <input class="form-control" formControlName="kontaktSorodstvo" type="text"
-                  placeholder="Sorodstvena vez s kontaktno osebo">
+                  <!--<input class="form-control" formControlName="kontaktSorodstvo" type="text"
+                  placeholder="Sorodstvena vez s kontaktno osebo">-->
+                  <select class="form-control" formControlName="sorodstveno_razmerje">
+                    <option *ngFor="let razmerje of sorodstvenaRazmerja" [ngValue]="razmerje.id">
+                      {{razmerje.naziv}}
+                    </option>
+                  </select>
+                  <small *ngIf="regForm.controls.kontaktnaOseba.controls.sorodstveno_razmerje.touched
+                  && regForm.controls.kontaktnaOseba.controls.sorodstveno_razmerje.invalid" class="text-danger">
+                    Izberite sorodstveno razmerje.
+                  </small>
                 </div>
               </div>
               </div>
@@ -197,6 +257,7 @@
             <small *ngIf="regForm.untouched" class="text-warning">Prosimo izpolnite vsa polja.</small>
           </div>
           <div class="ui-grid-col-4 text-right">
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
             <button class="btn btn-success" type="submit" [disabled]="!regForm.valid">Registriraj</button>
           </div>
         </div>

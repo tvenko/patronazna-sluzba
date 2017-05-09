@@ -22,6 +22,12 @@ export class DelavecService {
 
   }
 
+  get(delavec: string): Observable<string[]> {
+    return this.http.get(Config.API + 'racuni/uporabniki/' + delavec + '/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   ustvari(delavec: any): Observable<string[]> {
     return this.http.post(Config.API + 'racuni/delavci/',  delavec)
                     .map((res: Response) => res.json())
@@ -36,6 +42,12 @@ export class DelavecService {
     return this.http.get(Config.API + 'racuni/vrstedelavcev/')
                     .map((res: Response) => res.json())
     //              .do(data => console.log('server data:', data))  // debug
+                    .catch(this.handleError);
+  }
+
+  query(query: string): Observable<any> {
+    return this.http.get(Config.API + 'racuni/delavci?q=' + query)
+                    .map((res: Response) => res.json())
                     .catch(this.handleError);
   }
 

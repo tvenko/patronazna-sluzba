@@ -39,6 +39,13 @@ export class DelovniNalogService {
                     .catch(this.handleError);
   }
 
+  getVrsteObiskovById(id: any): Observable<string[]> {
+    return this.http.get(Config.API + 'dn/vrsteobiskov/'+id+'/')
+                    .map((res: Response) => res.json())
+    //              .do(data => console.log('server data:', data))  // debug
+                    .catch(this.handleError);
+  }
+
   /**
    * Vrne vsa zdravila v bazi
    * @return {string} seznam zdravil

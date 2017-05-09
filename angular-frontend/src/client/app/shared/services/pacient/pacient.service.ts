@@ -68,6 +68,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  getSorodnike(): Observable<any> {
+    return this.http.get(Config.API + 'racuni/sorodniki/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   putGeslo(id: string, gesla: any): Observable<any> {
     return this.http.put(Config.API + 'racuni/uporabniki/' + id + '/', gesla)
                     .map((res: Response) => res.json())

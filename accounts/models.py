@@ -201,8 +201,7 @@ class VezaniPacient(models.Model):
     datum_rojstva = models.DateField()
     spol = models.BooleanField() #0 zenska, 1 moski
     pacient_skrbnik = models.ForeignKey(Pacient, related_name='vezani_pacienti')
-    sorodstveno_razmerje = models.ForeignKey(SorodstvenoRazmerje, on_delete=models.SET_NULL, null=True)
-
+    sorodstveno_razmerje = models.ForeignKey(SorodstvenoRazmerje, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.ime+" "+self.priimek

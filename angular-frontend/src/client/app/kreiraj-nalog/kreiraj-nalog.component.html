@@ -310,8 +310,10 @@
                 <div class="ui-grid-row">
                   <div class="ui-grid-col-12" [ngClass]="{'has-error':!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched}">
                     <label>Datum prvega obiska</label> <br>
-                    <p-calendar class="ui-fluid" formControlName="prviDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDate" [disabledDays]="[0,6]" [readonlyInput]="true" required></p-calendar><br>
-                    <small *ngIf="!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched" class="text-danger">
+                    <p-calendar class="ui-fluid" formControlName="prviDatum" dateFormat="dd.mm.yy"
+                    [locale]="si" [minDate]="minDate" [disabledDays]="[0,6]"
+                    required inputStyleClass="form-control"></p-calendar><br>
+                    <small *ngIf="!myForm.controls.prviDatum.valid && !myForm.controls.prviDatum.untouched" class="text-danger" >
                       Datum ni veljaven
                     </small>
                   </div>
@@ -362,7 +364,7 @@
                 <div class="ui-grid-row">
                   <div class="ui-grid-col-12" formGroupName="obdobjeObiskov" *ngIf="myForm.controls.obdobjeObiskov.controls.type.value === 'zadnjiDan'" [ngClass]="{'has-error':!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouche}">
                     <label>Datum zadnjega obiska</label><br>
-                    <p-calendar class="ui-fluid" formControlName="koncniDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar><br>
+                    <p-calendar inputStyleClass="form-control" class="ui-fluid" formControlName="koncniDatum" dateFormat="dd.mm.yy" [locale]="si" [minDate]="minDateKoncen" [disabledDays]="[0,6]"></p-calendar><br>
                     <small *ngIf="!myForm.controls.obdobjeObiskov.controls.koncniDatum.valid && !myForm.controls.obdobjeObiskov.controls.koncniDatum.untouched" class="text-danger">
                       Izberite datum zadnjega obiska
                     </small>
@@ -436,8 +438,8 @@
           </div>
           <div class="ui-grid-col-6" >
             <ul>
-              <li *ngFor="let otrok of pacient.vezaniPacienti">
-                {{ otrok.priimek }}, {{ otrok.ime }} ({{ otrok.stevilkaPacienta }})
+              <li *ngFor="let otrok of izbraniVezanci">
+                {{ otrok }},
               </li>
             </ul>
           </div>
@@ -450,7 +452,8 @@
             Je obisk obvezen?:
           </div>
           <div class="ui-grid-col-6">
-            {{ myForm.controls.obvezen.value }}
+            <span *ngIf="myForm.controls.obvezen.value === 'false'">Ne</span>
+            <span *ngIf="myForm.controls.obvezen.value === 'true'">Da</span>
           </div>
         </div>
         <div class="ui-grid-row">

@@ -138,7 +138,7 @@ class VezaniPacientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VezaniPacient
-        fields = ('st_kartice', 'ime', 'priimek', 'spol', 'datum_rojstva', 'pacient_skrbnik')
+        fields = ('st_kartice', 'ime', 'priimek', 'spol', 'datum_rojstva', 'pacient_skrbnik', 'sorodstveno_razmerje')
 
     def create(self, validated_data):
         vezaniPacient = VezaniPacient(**validated_data)
@@ -189,7 +189,7 @@ class PacientPostSerializer(serializers.ModelSerializer):
     datumRojstva = serializers.DateField(source='datum_rojstva')
     posta = serializers.PrimaryKeyRelatedField(read_only=True)
     kraj = serializers.CharField(source='posta.kraj')
-    kontaktnaOseba = KontaktnaOsebaSerializer(source='kontaktna_oseba')
+    kontaktnaOseba = KontaktnaOsebaSerializer(source='kontaktna_oseba', required=False)
     hisnaStevilka = serializers.CharField(source='hisna_stevilka')
 
 
@@ -269,13 +269,13 @@ class KadrovkaDelavcSerializer(serializers.ModelSerializer):
     class Meta:
         model = KadrovskaDelavec
         fields = ('id', 'ime', 'priimek')
-		
+
 class PotrditevRegistracijeSerializer(serializers.ModelSerializer):
-	
+
 	class Meta:
 		model = Pacient
 		fields = ('je_aktiviran','st_kartice')
-		
+
 	def update(self, pacient, validated_data):
 		pacient.je_aktiviran = validated_data.get('je_aktiviran', pacient.je_aktiviran)
 		pacient.save()
@@ -286,3 +286,10 @@ class PostaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posta
         fields = ('stevilka', 'kraj')
+
+
+class SorodstvenoRazmerjeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SorodstvenoRazmerje
+        fields =('id', 'naziv')
