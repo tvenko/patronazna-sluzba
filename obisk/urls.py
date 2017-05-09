@@ -5,8 +5,8 @@ from obisk import views
 
 router = routers.DefaultRouter()
 router.register(r'obiski', views.ObiskViewSet, base_name='obisk')
-router.register(r'planirani', views.ObiskiPlaniraniViewSet)
-router.register(r'prihajajoci', views.ObiskiPrihajajociViewSet)
+router.register(r'planirani', views.ObiskiPlaniraniViewSet, base_name='obisk-planirani')
+router.register(r'prihajajoci', views.ObiskiPrihajajociViewSet, base_name='obisk-prihajajoci')
 router.register(r'meritve', views.MeritevViewSet, base_name='meritev')
 router.register(r'meritvenaobisku', views.MeritveNaObiskuViewSet, base_name='meritevnaobisku')
 

@@ -99,12 +99,33 @@ class ObiskViewSet(viewsets.ModelViewSet):
 class ObiskiPlaniraniViewSet(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = ObiskSerializer
-    queryset = Obisk.objects.filter(~Q(dejanski_datum = None) | Q(Q(je_obvezen_datum = True) & Q(je_opravljen = False)))
+    def get_queryset(self):
+        queryset = Obisk.objects.all();
+        self.sifra_delavca = self.request.query_params.get('user')
+        if (self.sifra_delavca):
+            self.delavec = Delavec.objects.get(osebna_sifra = self.sifra_delavca)
+            if (self.delavec):
+                queryset = Obisk.objects.filter(
+                    (Q(patronazna_sestra=self.delavec.uporabnik) | Q(nadomestna_patronazna_sestra=self.delavec.uporabnik))
+                     & (~Q(dejanski_datum = None) | Q(Q(je_obvezen_datum = True) & Q(je_opravljen = False))))\
+                    .order_by('predvideni_datum')
+        return queryset
+
 
 class ObiskiPrihajajociViewSet(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = ObiskSerializer
-    queryset = Obisk.objects.filter(Q(dejanski_datum = None) & Q(je_obvezen_datum = False) & Q(je_opravljen = False))
+    def get_queryset(self):
+        queryset = Obisk.objects.all();
+        self.sifra_delavca = self.request.query_params.get('user')
+        if (self.sifra_delavca):
+            self.delavec = Delavec.objects.get(osebna_sifra = self.sifra_delavca)
+            if (self.delavec):
+                queryset = Obisk.objects.filter(
+                    (Q(patronazna_sestra=self.delavec.uporabnik) | Q(nadomestna_patronazna_sestra=self.delavec.uporabnik))
+                     & (Q(dejanski_datum = None) & Q(je_obvezen_datum = False) & Q(je_opravljen = False)))\
+                    .order_by('predvideni_datum')
+        return queryset
 
 class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Meritev.objects.all()
