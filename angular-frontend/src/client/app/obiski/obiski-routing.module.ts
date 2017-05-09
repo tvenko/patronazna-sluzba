@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ObiskiComponent } from './obiski.component';
 import { AuthGuard } from '../guards/auth.guard';
-import { PregledNalogovGuard } from '../guards/pregledNalogov.guard';
 
 @NgModule({
   imports: [

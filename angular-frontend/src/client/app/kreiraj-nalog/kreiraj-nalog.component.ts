@@ -113,7 +113,7 @@ export class KreirajNalogComponent implements OnInit {
           error => {
             console.log('Napaka pri iskanju pacienta');
           }
-        )
+        );
    }
 
 
@@ -128,9 +128,9 @@ export class KreirajNalogComponent implements OnInit {
             this.vezanciPacienta = response.results;
           },
           error => {
-            console.log("Napaka pri pridobivanju vezanih pacientov");
+            console.log('Napaka pri pridobivanju vezanih pacientov');
           }
-        )
+        );
    }
 
 
@@ -176,7 +176,7 @@ export class KreirajNalogComponent implements OnInit {
       }
 
       // Ce je potreba dodaj material (odvzem krvi)
-      if (ctrl.vrstaObiska.value.id == 5) {
+      if (ctrl.vrstaObiska.value.id === 5) {
         novNalog.material = <any>[];
         for(var i=0; i<ctrl.materiali.controls.length; i++) {
           novNalog.material[i] = <any>{};
@@ -188,7 +188,7 @@ export class KreirajNalogComponent implements OnInit {
       }
 
       // Ce je potreba po zdravilih dopisi zdravila (pri aplikaciji injekcij)
-      if (ctrl.vrstaObiska.value.id == 4) {
+      if (ctrl.vrstaObiska.value.id === 4) {
         novNalog.sifra_zdravila = <any>[];
         for (var i=0; i<ctrl.zdravila.controls.length; i++) {
           novNalog.sifra_zdravila[i] = ctrl.zdravila.controls[i].controls.zdravilo

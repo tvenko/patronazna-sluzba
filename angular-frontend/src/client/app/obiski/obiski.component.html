@@ -5,16 +5,15 @@
   </div>
   <main class="main">
     <div class="ui-grid ui-grid-responsive ui-grid-pad">
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4">
-          <h2>Vaši planirani obiski za današnji dan</h2>
-        </div>
-      </div>
       <div>
         <div class="ui-grid-col-8">
+          <h2>Vaši planirani obiski za današnji dan</h2>
           <p-accordion [multiple]="true" class="ui-grid-row" *ngFor="let obisk of obiski">
-            <p-accordionTab header="{{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}"
-                            *ngIf="isToday(obisk.dejanski_datum)">
+            <p-accordionTab *ngIf="jePredviden(obisk.dejanski_datum, obisk.predvideni_datum, obisk.je_obvezen_datum, obisk.je_opravljen)">
+              <p-header>
+                {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}
+                <button class="btn btn-success" style="margin-left: 40px;" (click)="onOpravljenObisk(obisk.id)">Opravljen</button>
+              </p-header>
               <div class="ui-grid-row">
                 <div class="ui-grid-col-4">
                   <strong>Vrsta obiska:</strong>
@@ -62,9 +61,74 @@
                 </div>
               </div>
             </p-accordionTab>
-            <button class="btn btn-success" *ngIf="isToday(obisk.dejanski_datum)">Obisk opravljen</button>
-            <button class="btn btn-danger" *ngIf="isToday(obisk.dejanski_datum)">Prestavi obisk</button>
           </p-accordion>
+          <hr>
+          <div>
+            <h2>Prihajajoči obiski</h2>
+            <p-accordion [multiple]="true" class="ui-grid-row" *ngFor="let obisk of obiski">
+              <p-accordionTab *ngIf="jePonujen(obisk.dejanski_datum, obisk.je_obvezen_datum)">
+                <p-header>
+                  {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}
+                </p-header>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4">
+                    <strong>Vrsta obiska:</strong>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    {{ obisk.vrstaObiska }}
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4">
+                    <strong>Pacient:</strong>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4">
+                    <strong>Številka zdravstvene kartice:</strong>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    {{ obisk.pacient.stevilkaPacienta}}
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4">
+                    <strong>Naslov pacienta:</strong>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    {{ obisk.pacient.ulica }} {{ obisk.pacient.hisnaStevilka }}, {{ obisk.pacient.kraj }}
+                  </div>
+                </div>
+
+                <div *ngIf="obisk.material[0]">
+                  <div class="ui-grid-row" >
+                    <div class="ui-grid-col-4">
+                      <strong>Potreben material:</strong>
+                    </div>
+                    <div *ngFor="let material of obisk.material">
+                      {{ material.opis }}, &nbsp;
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                Izberite datum obiska:
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-5">
+                    <p-calendar #date [showIcon]="true" [placeholder]="'izberi datum'"></p-calendar>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    <button class="btn btn-success" (click)="onIzberiDatum(obisk.id, date.inputFieldValue)">Potrdi</button>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
         </div>
       </div>
     </div>

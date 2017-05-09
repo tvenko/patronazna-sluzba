@@ -34,8 +34,8 @@ import { SpremembaPodatkovModule } from './sprememba-podatkov/sprememba-podatkov
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
-	PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-	DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule],
+    PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
+    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
