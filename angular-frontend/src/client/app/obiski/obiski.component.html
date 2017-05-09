@@ -81,6 +81,15 @@
 
                 <div class="ui-grid-row">
                   <div class="ui-grid-col-4">
+                    <strong>Predviden datum:</strong>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    {{ obisk.predvideni_datum | date}}
+                  </div>
+                </div>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4">
                     <strong>Pacient:</strong>
                   </div>
                   <div class="ui-grid-col-6">
@@ -120,7 +129,7 @@
                 Izberite datum obiska:
                 <div class="ui-grid-row">
                   <div class="ui-grid-col-5">
-                    <p-calendar #date [showIcon]="true" [placeholder]="'izberi datum'"></p-calendar>
+                    <p-calendar #date [showIcon]="true" [placeholder]="'izberi datum'" [disabledDays]="[0,6]" [minDate]="today"></p-calendar>
                   </div>
                   <div class="ui-grid-col-6">
                     <button class="btn btn-success" (click)="onIzberiDatum(obisk.id, date.inputFieldValue)">Potrdi</button>
