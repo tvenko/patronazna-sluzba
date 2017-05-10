@@ -39,6 +39,7 @@ export class DelovniNalogService {
                     .catch(this.handleError);
   }
 
+
   getVrsteObiskovById(id: any): Observable<string[]> {
     return this.http.get(Config.API + 'dn/vrsteobiskov/'+id+'/')
                     .map((res: Response) => res.json())
@@ -70,6 +71,12 @@ export class DelovniNalogService {
      return this.http.get(Config.API + 'dn/delovninalogi?user=' + zdravnik)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
+   }
+
+   filterDN(query: string): Observable<any> {
+     return this.http.get(Config.API + 'dn/delovninalogi' + query)
+                     .map((res: Response) => res.json())
+                     .catch(this.handleError);
    }
 
   /**
