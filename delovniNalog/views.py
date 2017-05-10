@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, permissions
 from delovniNalog.serializers import *
 from django.utils import timezone
 from obisk.models import Obisk
+from itertools import chain
+from rest_framework.response import Response
+
 
 class VrstaObiskaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = VrstaObiska.objects.all()
@@ -22,6 +25,12 @@ class ZdravilaViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DelovniNalogViewSet(viewsets.ModelViewSet):
     serializer_class = DelovniNalogSerializer
+
+    def retrieve(self, request, pk=None):
+        queryset = DelovniNalog.objects.all()
+        delovni_nalog = get_object_or_404(queryset, pk=pk)
+        serializer = DelovniNalogDetailsSerializer(delovni_nalog, context={'request': request})
+        return Response(serializer.data)
 
     def filtriraj(self):
         if (self.delavec.vrsta_delavca.naziv == "patronažna sestra"):
@@ -77,7 +86,7 @@ class DelovniNalogViewSet(viewsets.ModelViewSet):
         self.pacient = self.request.query_params.get('pac')
         self.sestra = self.request.query_params.get('ms')
         self.nadomestna_sestra = self.request.query_params.get('nms')
-
+        queryset = DelovniNalog.objects.all()
         if (self.sifra_delavca):
             self.delavec = Delavec.objects.get(osebna_sifra = self.sifra_delavca)
             if (self.delavec):
