@@ -15,6 +15,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 })
 export class DelovniNalogComponent implements OnInit {
   public delovniNalogi: any;
+  public podrobniNalog: any;
 
   public najdeniPacienti: any;
   public najdeneSestre: any;
@@ -31,11 +32,14 @@ export class DelovniNalogComponent implements OnInit {
   public izbranaSestraNad: any;
   public izbranIzdajatelj: any;
 
+  public prikaziPodrobnosti: boolean;
+
   constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService) {}
 
   ngOnInit() {
     this.pridobiNaloge();
     this.dobiVrsteObiskov();
+    this.prikaziPodrobnosti = false;
     this.filterForm = this.fb.group({
       datumOd: [''],
       datumDo: [''],
@@ -54,22 +58,24 @@ export class DelovniNalogComponent implements OnInit {
             monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
             monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
     };
+
+    this.podrobniNalog = {};
   }
 
-searchPacient(event: any) {
-     this.pacientService.query(event.query)
-      .subscribe(
-        response => {
-          this.najdeniPacienti = response.results;
-          for (let najden of this.najdeniPacienti) {
-            najden.naziv = najden.ime + ' ' + najden.priimek + ' ('+ najden.stevilkaPacienta +')';
-          }
-        },
-        error => {
-          console.log('Napaka pri iskanju pacienta');
+  searchPacient(event: any) {
+   this.pacientService.query(event.query)
+    .subscribe(
+      response => {
+        this.najdeniPacienti = response.results;
+        for (let najden of this.najdeniPacienti) {
+          najden.naziv = najden.ime + ' ' + najden.priimek + ' ('+ najden.stevilkaPacienta +')';
         }
-      )
- }
+      },
+      error => {
+        console.log('Napaka pri iskanju pacienta');
+      }
+    )
+  }
 
  dobiVrsteObiskov() {
    this.problemPridobivanja = false;
@@ -139,12 +145,12 @@ searchPacient(event: any) {
     return this.query;
   }
 
-  resetValues() {
+  resetValues(e: any) {
     this.izbranPacient = null;
     this.izbranaSestra = null;
     this.izbranaSestraNad = null;
     this.izbranIzdajatelj = null;
-    console.log("test");
+    console.log(e);
   }
 
   getImenaPacientov(dn: any) {
@@ -209,6 +215,13 @@ searchPacient(event: any) {
 
   }
 
+  test(nalog: any) {
+    this.podrobniNalog = nalog;
+    this.prikaziPodrobnosti = true;
+  }
+
+
+
   pridobiNaloge() {
     let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
     if (sifra_zdravnika) {
@@ -216,12 +229,14 @@ searchPacient(event: any) {
       this.delovniNalogService.getByDelavec(sifra_zdravnika)
         .subscribe(
           response => {
+            console.log(response.count);
             this.delovniNalogi = response.results;
             if (this.delovniNalogi.length > 0) {
               this.getImenaPacientov(0);
               this.getImenaSester(0);
               this.getImenaObiskov(0);
               this.getImenaZdravnikov(0);
+              this.podrobniNalog = this.delovniNalogi[0];
             }
           },
           error => {

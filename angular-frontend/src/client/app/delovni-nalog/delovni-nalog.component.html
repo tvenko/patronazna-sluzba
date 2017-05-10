@@ -1,4 +1,3 @@
-
 <div class="app-body">
   <div class="sidebar">
 
@@ -13,11 +12,11 @@
       </div>
       <!-- Body od vseh osebnih podatkov -->
 
-      manjka: filtriranje po datumu<br/>
-      za nastavit: clear filter ?<br/>
+      za nastavit: clear filter <br/>
       problem: query samo po izdajateljih/sestrah<br/>
 
       <!--- forma za filtriranje --->
+      <div class="ui-grid-col-4">
       <form [formGroup]="filterForm" (ngSubmit)="filtrirajNaloge(filterForm.value)" >
       <div class="form-group">
         <p-calendar formControlName="datumOd" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" placeholder="Izdan od" [maxDate]=minDate inputStyleClass="form-control" class="ui-fluid"></p-calendar>
@@ -57,6 +56,7 @@
       <button type="submit" class="btn btn-success">Filtriraj</button>
       <button type="reset" class="btn btn-danger">Pobriši</button>
     </form>
+  </div>
 
       <!--- prikaz delovnih nalogov --->
       <table class="table table-striped table-responsive">
@@ -73,7 +73,7 @@
       	</thead>
       	<tbody>
       		<tr *ngFor="let nalog of delovniNalogi">
-            <td>{{ nalog.id }}</td>
+            <td class="nalogId {{nalog.id}}" (click)="test(nalog)">{{ nalog.id }}</td>
             <td>{{ nalog.izdajatelj }}</td>
             <td>{{ nalog.ime_obiska }}</td>
       			<td>{{ nalog.ime_pacienta }}</td>
@@ -84,76 +84,21 @@
       	</tbody>
       </table>
 
-
-      <!---
-      <div class="ui-grid-row" *ngFor="let nalog of delovniNalogi">
-        --->
-
-      <!---
-      <div class="ui-grid-row" *ngFor="let nalog of delovniNalogi">
-        <div class="ui-grid-col-8">
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-6">
-              <h3>Nalog: {{ nalog.id }}</h3>
-            </div>
-          </div>
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
-              Datum prvega obiska:
-            </div>
-            <div class="ui-grid-col-6">
-              {{ nalog.datum_prvega_obiska | date }}
-            </div>
-          </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
-              Ali je datum obvezen:
-            </div>
-            <div class="ui-grid-col-6">
-              {{ nalog.je_obvezen_datum }}
-            </div>
-          </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
-              Število obiskov:
-            </div>
-            <div class="ui-grid-col-6">
-              {{ nalog.stevilo_obiskov }}
-            </div>
-          </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
-              Časovni interval:
-            </div>
-            <div class="ui-grid-col-6">
-              {{ nalog.casovni_interval }}
-            </div>
-          </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
-              Časovno obdobje
-            </div>
-            <div class="ui-grid-col-6">
-              {{ nalog.casovno_obdobje }}
-            </div>
-          </div>
-
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
-              Številka pacienta:
-            </div>
-            <div class="ui-grid-col-6">
-              {{ nalog.id_pacienta }}
-            </div>
-          </div>
-
+      <p-dialog header="Podrobnosti naloga" [(visible)]="prikaziPodrobnosti" modal="modal" responsive="true">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad">
+          Izdajatelj: {{ podrobniNalog.izdajatelj }}<br />
+          Vrsta obiska: {{ podrobniNalog.ime_obiska }}<br />
+          Pacient: {{ podrobniNalog.ime_pacienta }}<br />
+          Patronažna sestra: {{ podrobniNalog.ime_sestre }}<br />
+          Nadomestna sestra: {{ podrobniNalog.ime_sestre }}<br />
+          Datum izdaje: {{ podrobniNalog.datum_izdaje | date:'dd. MM. yyyy' }}<br />
+          Material: {{ podrobniNalog.material }}<br />
+          Časovno obdobje: {{ podrobniNalog.casovno_obdobje }}<br />
+          Časovno interval: {{ podrobniNalog.casovni_interval}}<br />
+          Je obvezen datum: {{ podrobniNalog.je_obvezen_datum}}<br />
         </div>
-      </div>
-      --->
+      </p-dialog>
+
     </div>
   </main>
 </div>
