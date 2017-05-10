@@ -16,7 +16,7 @@ class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
 
 class DelovniNalogSerializer(serializers.ModelSerializer):
 
-    material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True, required=False) #read_only=True
+    material = DelovniNalogMaterialSerializer(source='delovninalogmaterial_set', many=True, required=False)
 
     class Meta:
         model = DelovniNalog

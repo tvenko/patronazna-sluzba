@@ -8,8 +8,17 @@
       <div>
         <div class="ui-grid-col-8">
           <h2>Vaši planirani obiski za današnji dan</h2>
+          izberite dan plana
+          <div ui-grid-col-6>
+            <p-calendar
+              [(ngModel)]="danPlana"
+              [showIcon]="true"
+              [disabledDays]="[0,6]"
+              [minDate]="today"
+            ></p-calendar>
+          </div>
           <p-accordion [multiple]="true" class="ui-grid-row" *ngFor="let obisk of planiraniObiski">
-            <p-accordionTab *ngIf="jePredviden(obisk.dejanski_datum)">
+            <p-accordionTab *ngIf="jePredviden(obisk.dejanski_datum, obisk.predvideni_datum, obisk.je_obvezen_datum)">
               <p-header>
                 {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}
                 <button class="btn btn-success" style="margin-left: 40px;" (click)="onOpravljenObisk(obisk.id)">Opravljen</button>
@@ -29,6 +38,33 @@
                 </div>
                 <div class="ui-grid-col-6">
                   {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}
+                </div>
+              </div>
+
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>ID:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.id }}
+                </div>
+              </div>
+
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>Predvideni datum:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.predvideni_datum | date }}
+                </div>
+              </div>
+
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-4">
+                  <strong>Dejanski datum:</strong>
+                </div>
+                <div class="ui-grid-col-6">
+                  {{ obisk.dejanski_datum | date }}
                 </div>
               </div>
 
@@ -70,6 +106,16 @@
                 <p-header>
                   {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}
                 </p-header>
+
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4">
+                    <strong>ID:</strong>
+                  </div>
+                  <div class="ui-grid-col-6">
+                    {{ obisk.id }}
+                  </div>
+                </div>
+
                 <div class="ui-grid-row">
                   <div class="ui-grid-col-4">
                     <strong>Vrsta obiska:</strong>
@@ -129,20 +175,20 @@
                 Izberite datum obiska:
                 <div class="ui-grid-row">
                   <div class="ui-grid-col-5">
-                    <p-calendar #date [showIcon]="true" [placeholder]="'izberi datum'" [disabledDays]="[0,6]" [minDate]="today"></p-calendar>
+                    <p-calendar #dateObisk [showIcon]="true" [placeholder]="'izberi datum'" [disabledDays]="[0,6]" [minDate]="today"></p-calendar>
                   </div>
                   <div class="ui-grid-col-6">
-                    <button class="btn btn-success" (click)="onIzberiDatum(obisk.id, date.inputFieldValue)">Potrdi</button>
+                    <button class="btn btn-success" (click)="onIzberiDatum(obisk.id, dateObisk.inputFieldValue)">Potrdi</button>
                   </div>
                 </div>
               </p-accordionTab>
             </p-accordion>
-            <div class="ui-grid-col-6" *ngIf="stStraniPrihajajoci>1">
-              <span *ngIf="trenutnaStranPrihajajoci>1">
-                <button class="btn" (click)="onPreviousPage('prihajajoci')">back</button>
+            <div class="ui-grid-col-6" *ngIf="stStrani>1">
+              <span *ngIf="trenutnaStran>1">
+                <button class="btn" (click)="onPreviousPage()">back</button>
               </span>
-              <span *ngIf="trenutnaStranPrihajajoci < stStraniPrihajajoci">
-                <button class="btn" (click)="onNextPage('prihajajoci')">next</button>
+              <span *ngIf="trenutnaStranPrihajajoci < stStrani">
+                <button class="btn" (click)="onNextPage()">next</button>
               </span>
             </div>
           </div>

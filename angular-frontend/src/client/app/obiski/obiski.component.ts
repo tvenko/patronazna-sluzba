@@ -9,14 +9,14 @@ import { ObiskiService } from '../shared/services/index';
 })
 export class ObiskiComponent implements OnInit {
   today: Date = new Date();
+  danPlana: Date = new Date;
+
   public planiraniObiski: any;
+
   public prihajajociObiski: any;
-  stObiskovPlanirani: number;
-  stStraniPlanirani: number;
-  trenutnaStranPlanirani: number = 1;
-  stObiskovPrihajajoci: number;
-  stStraniPrihajajoci: number;
-  trenutnaStranPrihajajoci: number = 1;
+  stObiskov: number;
+  stStrani: number;
+  trenutnaStran: number = 1;
 
   constructor(private ObiskiService: ObiskiService) {}
 
@@ -28,20 +28,18 @@ export class ObiskiComponent implements OnInit {
     let user = localStorage.getItem('podatkiIzvajalca');
     if (user) {
       user = JSON.parse(user).osebna_sifra;
-      this.ObiskiService.getPlanirani(user, this.trenutnaStranPlanirani)
+      this.ObiskiService.getPlanirani(user)
         .subscribe(
           response => {
-            this.planiraniObiski = response.results;
-            this.stObiskovPlanirani = response.count;
-            this.stStraniPlanirani = Math.floor(this.stObiskovPlanirani/10)+1;
+            this.planiraniObiski = response;
           }
         );
-      this.ObiskiService.getPrihajajoci(user, this.trenutnaStranPrihajajoci)
+      this.ObiskiService.getPrihajajoci(user, this.trenutnaStran)
         .subscribe(
           response => {
             this.prihajajociObiski = response.results;
-            this.stObiskovPrihajajoci = response.count;
-            this.stStraniPrihajajoci = Math.floor(this.stObiskovPrihajajoci/10)+1;
+            this.stObiskov = response.count;
+            this.stStrani = Math.floor(this.stObiskov/10)+1;
           }
         );
     } else {
@@ -49,46 +47,41 @@ export class ObiskiComponent implements OnInit {
     }
   }
 
-  jePredviden(dejanskiDatum: Date) {
+  jePredviden(dejanskiDatum: Date, predvideniDatum: Date, obvezen: Boolean) {
     var dejanski: Date = new Date(dejanskiDatum);
-    if (dejanski.toDateString() === this.today.toDateString())
+    var predvideni: Date = new Date(predvideniDatum);
+    if (dejanski.toDateString() === this.danPlana.toDateString() ||
+        predvideni.toDateString() === this.danPlana.toDateString() && obvezen) {
       return true;
+    }
     return false;
   }
 
   onOpravljenObisk(id: number) {
     const data = {'jeOpravljen': true};
-    this.ObiskiService.updateStatus(id, data).subscribe();
-    this.pridobiObiske();
+    this.ObiskiService.updateStatus(id, data).subscribe(
+      response => {this.pridobiObiske();}
+    );
   }
 
   onIzberiDatum(id: number, datum: Date) {
     var d: Date = new Date(datum);
     let data = <any>{};
     data.dejanskiDatum = d;
-    this.ObiskiService.updateDejanskiDatum(id, data).subscribe();
+    this.ObiskiService.updateDejanskiDatum(id, data).subscribe(
+      response => {this.pridobiObiske();}
+    );
+  }
+
+  onNextPage() {
+    if (this.trenutnaStran < this.stStrani)
+        this.trenutnaStran++;
     this.pridobiObiske();
   }
 
-  onNextPage(vrsta: string) {
-    if(vrsta === 'prihajajoci') {
-      if (this.trenutnaStranPrihajajoci < this.stStraniPrihajajoci)
-        this.trenutnaStranPrihajajoci++;
-    } else {
-      if (this.trenutnaStranPlanirani < this.stStraniPlanirani)
-        this.trenutnaStranPlanirani++;
-    }
-    this.pridobiObiske();
-  }
-
-  onPreviousPage(vrsta: string) {
-    if(vrsta === 'prihajajoci') {
-      if (this.trenutnaStranPrihajajoci >1)
-        this.trenutnaStranPrihajajoci--;
-    } else {
-      if (this.trenutnaStranPlanirani >1)
-        this.trenutnaStranPlanirani--;
-    }
+  onPreviousPage() {
+    if (this.trenutnaStran >1)
+      this.trenutnaStran--;
     this.pridobiObiske();
   }
 }

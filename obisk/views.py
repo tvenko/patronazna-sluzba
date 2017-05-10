@@ -98,6 +98,7 @@ class ObiskViewSet(viewsets.ModelViewSet):
 
 class ObiskiPlaniraniViewSet(viewsets.ReadOnlyModelViewSet):
 
+    pagination_class = None;
     serializer_class = ObiskSerializer
     def get_queryset(self):
         queryset = Obisk.objects.all();

@@ -17,6 +17,12 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
         model = MeritveNaObisku
         fields = '__all__'
 
+class ObiskDnSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Obisk
+        fields = ('id', 'je_opravljen')
+
 class ObiskSerializer(serializers.ModelSerializer):
 
     pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta')
