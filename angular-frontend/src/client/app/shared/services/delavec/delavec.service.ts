@@ -28,6 +28,12 @@ export class DelavecService {
                     .catch(this.handleError);
   }
 
+  getBySifraUsluzbenca(delavec: string): Observable<string[]> {
+    return this.http.get(Config.API + 'racuni/delavci/' + delavec + '/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   ustvari(delavec: any): Observable<string[]> {
     return this.http.post(Config.API + 'racuni/delavci/',  delavec)
                     .map((res: Response) => res.json())
@@ -46,6 +52,12 @@ export class DelavecService {
   }
 
   query(query: string): Observable<any> {
+    return this.http.get(Config.API + 'racuni/delavci?q=' + query)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
+  querySestre(query: string): Observable<any> {
     return this.http.get(Config.API + 'racuni/delavci?q=' + query)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);

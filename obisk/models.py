@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Uporabnik
+from accounts.models import Uporabnik, VezaniPacient
 from delovniNalog.models import DelovniNalog, VrstaObiska
 
 class Meritev(models.Model):

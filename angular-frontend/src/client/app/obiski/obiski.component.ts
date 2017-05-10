@@ -11,6 +11,7 @@ export class ObiskiComponent implements OnInit {
   today: Date = new Date();
   danPlana: Date = new Date;
 
+  public vezaniPacienti: any[];
   public planiraniObiski: any;
 
   public prihajajociObiski: any;
@@ -44,6 +45,21 @@ export class ObiskiComponent implements OnInit {
         );
     } else {
       console.log('Ni izvajalca v local storage');
+    }
+  }
+
+  test(event: any) {
+    console.log(event);
+  }
+
+  pridobiVezanegaPacienta(ids: any) {
+    this.vezaniPacienti = [];
+    for (let id of ids) {
+      this.ObiskiService.getVezaniPacienti(id).subscribe(
+        response => {
+          this.vezaniPacienti.push(response);
+        }
+      );
     }
   }
 
