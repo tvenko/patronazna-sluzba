@@ -241,6 +241,16 @@ class PacientObiskSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('ime', 'priimek', 'telefon', 'stevilkaPacienta', 'kraj', 'hisnaStevilka', 'ulica')
 
+class DelavecObiskSerializer(serializers.ModelSerializer):
+
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
+
+    class Meta:
+        model = Delavec
+        fields = ('ime', 'priimek', 'osebna_sifra', 'naziv_delavca')
+
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
