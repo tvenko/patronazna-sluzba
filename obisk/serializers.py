@@ -92,3 +92,10 @@ class MeritevSeializer(serializers.ModelSerializer):
     class Meta:
         model = Meritev
         fields = '__all__'
+
+class ObiskDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Obisk
+        fields = ('predvideni_datum', 'dejanski_datum', 'je_opravljen', 'je_obvezen_datum',
+        'nadomestna_patronazna_sestra', 'id_meritev')

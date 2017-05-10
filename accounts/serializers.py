@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 
 class KontaktnaOsebaSerializer(serializers.ModelSerializer):
 
-    sorodstveno_razmerje = serializers.PrimaryKeyRelatedField(queryset=SorodstvenoRazmerje.objects.all())
+    sorodstveno_razmerje = serializers.CharField(source='sorodstveno_razmerje.naziv')
 
     class Meta:
 
@@ -293,3 +293,32 @@ class SorodstvenoRazmerjeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SorodstvenoRazmerje
         fields =('id', 'naziv')
+
+class PacientDetailsSerializer(serializers.ModelSerializer):
+
+    kontaktna_oseba = KontaktnaOsebaSerializer()
+
+    class Meta:
+        model = Pacient
+        exclude = ('je_aktiviran',)
+
+class ZdravnikSerializer(serializers.ModelSerializer):
+
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    email = serializers.EmailField(source='uporabnik.email')
+    tel = serializers.CharField(source='uporabnik.tel')
+    naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
+    naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
+    naziv_okolisa = serializers.CharField(source='sifra_okolisa.naziv')
+
+    class Meta:
+        model = Delavec
+        fields = ('ime', 'priimek', 'email', 'tel', 'naziv_okolisa', 'naziv_ustanove',
+        'naziv_delavca',)
+
+class PatronaznaSestraSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Uporabnik
+        fields = ('ime', 'priimek', 'email', 'tel',)

@@ -4,6 +4,8 @@ import datetime
 
 from delovniNalog.models import *
 import obisk.serializers
+import accounts.serializers
+
 
 class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
     '''Serializira material delovnega naloga'''
@@ -124,7 +126,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                                           delovniNalog, validated_data['je_obvezen_datum'])
             else:
                 print('se ni')
-                
+
             return delovniNalog
         else:
             return NotAuthenticated(detail='Niste prijavljeni kot zdravnik', code=401)
@@ -153,3 +155,29 @@ class ZdraviloSerializer(serializers.ModelSerializer):
     class Meta:
         model = Zdravilo
         fields = ('sifra', 'naziv', 'opis')
+
+
+class DelovniNalogMaterialDetaiksSerializer(serializers.ModelSerializer):
+    '''Serializira material delovnega naloga za prikaz podrobnosti'''
+    naziv = serializers.CharField(source='id_materiala.opis')
+
+    class Meta:
+        model = DelovniNalogMaterial
+        fields = ('naziv', 'kolicina',)
+
+
+class DelovniNalogDetailsSerializer(serializers.ModelSerializer):
+
+    obiski = obisk.serializers.ObiskDetailsSerializer(source='obisk', many=True)
+    patronazna_sestra = accounts.serializers.PatronaznaSestraSerializer()
+    zdravnik = accounts.serializers.ZdravnikSerializer(source='sifra_zdravnika')
+    pacient = accounts.serializers.PacientDetailsSerializer(source='id_pacienta')
+    vrsta_obiska = serializers.CharField(source='vrsta_obiska.opis')
+    material = DelovniNalogMaterialDetaiksSerializer(source='delovninalogmaterial_set', many=True);
+
+    class Meta:
+        model = DelovniNalog
+        fields = ('datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
+        'casovno_obdobje', 'zdravnik', 'vrsta_obiska', 'patronazna_sestra',
+        'datum_izdaje', 'material',
+        'vezani_pacienti', 'obiski', 'pacient',)
