@@ -297,10 +297,16 @@ class SorodstvenoRazmerjeSerializer(serializers.ModelSerializer):
 class PacientDetailsSerializer(serializers.ModelSerializer):
 
     kontaktna_oseba = KontaktnaOsebaSerializer()
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    email = serializers.EmailField(source='uporabnik.email')
+    tel = serializers.CharField(source='uporabnik.tel')
+    okolis = serializers.CharField(source='sifra_okolisa.naziv')
+    kraj = serializers.CharField(source='posta.kraj')
 
     class Meta:
         model = Pacient
-        exclude = ('je_aktiviran',)
+        exclude = ('je_aktiviran', 'sifra_okolisa', 'uporabnik')
 
 class ZdravnikSerializer(serializers.ModelSerializer):
 
