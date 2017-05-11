@@ -41,7 +41,7 @@ class DelavciViewSet(viewsets.ModelViewSet):
             queryset = Delavec.objects.filter(vrsta_delavca=vrstaDelavca)
         zdravniki = self.request.query_params.get('q1', None)
         if zdravniki is not None:
-            queryset = Delavec.objects.filter(Q(delavci__vrsta_delavca_id=1) &
+            queryset = Delavec.objects.filter(Q(uporabnik__vrsta_delavca_id=1) &
                 (Q(uporabnik__ime__icontains=zdravniki) |
                 Q(uporabnik__priimek__icontains=zdravniki))
             )
