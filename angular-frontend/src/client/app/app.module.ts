@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
@@ -42,6 +42,9 @@ import { PodrobnostiNalogModule } from './podrobnosti-nalog/podrobnosti-nalog.mo
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   },
+    {
+    provide: LOCALE_ID,
+    useValue: 'sl-SI' },
   AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard,
   RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
   bootstrap: [AppComponent]

@@ -75,6 +75,12 @@ export class DelovniNalogService {
                     .catch(this.handleError);
    }
 
+   getMaterialById(id: any): Observable<any[]> {
+     return this.http.get(Config.API + 'dn/material/'+id+'/')
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+   }
+
    getByDelavec(zdravnik: any): Observable<any> {
      return this.http.get(Config.API + 'dn/delovninalogi?user=' + zdravnik)
                     .map((res: Response) => res.json())

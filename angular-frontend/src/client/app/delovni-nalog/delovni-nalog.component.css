@@ -10,3 +10,22 @@ ul {
   list-style-type: none;
   padding: 0 0 0 8px;
 }
+
+.nalogId {
+  color: green;
+}
+
+.nalogId:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-group {
+  padding: 5px;
+}
+
+.affix {
+    top:50px;
+    right:0;
+    position:fixed;
+}
