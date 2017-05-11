@@ -34,6 +34,9 @@ export class DelovniNalogComponent implements OnInit {
 
   public prikaziPodrobnosti: boolean;
 
+  public stStrani: any;
+  public trenutnaStran: number;
+
   constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService) {}
 
   ngOnInit() {
@@ -61,6 +64,10 @@ export class DelovniNalogComponent implements OnInit {
             monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
     };
 
+    this.trenutnaStran = 1;
+    let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
+    sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
+    this.query = '?user=' + sifra_zdravnika + '&page=1';
     this.podrobniNalog = {};
   }
 
@@ -158,11 +165,33 @@ export class DelovniNalogComponent implements OnInit {
     if (this.izbranaSestraNad) this.query += '&nms=' + this.izbranaSestraNad.osebna_sifra;
     // vrsta obiska
     if (podatki.vrstaObiska) this.query += '&vo=' + podatki.vrstaObiska.id;
+    // stran
+    this.query += '&page=1';
 
     // zapisi query v console
-    // console.log(this.query);
+    console.log(this.query);
 
     return this.query;
+  }
+
+  onNextPage() {
+    if (this.trenutnaStran < this.stStrani) this.trenutnaStran++;
+    this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
+    console.log(this.query);
+    this.filtrirajNaloge();
+  }
+
+  onPreviousPage() {
+    if (this.trenutnaStran >1) this.trenutnaStran--;
+    this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
+    console.log(this.query);
+    this.filtrirajNaloge();
+  }
+
+  filtrirajSubmit(podatki: any) {
+    this.prikaziPodrobnosti = false;
+    this.query = this.buildQuery(podatki);
+    this.filtrirajNaloge();
   }
 
   resetValues() {
@@ -223,10 +252,8 @@ export class DelovniNalogComponent implements OnInit {
       });
   }
 
-  filtrirajNaloge(podatki: any) {
-    this.prikaziPodrobnosti = false;
-    var filterQuery = this.buildQuery(podatki);
-    this.delovniNalogService.filterDN(filterQuery)
+  filtrirajNaloge() {
+    this.delovniNalogService.filterDN(this.query)
       .subscribe(
         response => {
           this.delovniNalogi = response.results;
@@ -265,6 +292,7 @@ export class DelovniNalogComponent implements OnInit {
               this.getImenaObiskov(0);
               this.getImenaZdravnikov(0);
               this.podrobniNalog = this.delovniNalogi[0];
+              this.stStrani = Math.floor(response.count/10)+1;
             }
           },
           error => {
