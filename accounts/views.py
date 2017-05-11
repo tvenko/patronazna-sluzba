@@ -47,14 +47,12 @@ class DelavciViewSet(viewsets.ModelViewSet):
                     Q(uporabnik__ime__icontains=query) |
                     Q(uporabnik__priimek__icontains=query) |
                     Q(uporabnik__ime__icontains=query[0]) & Q(uporabnik__priimek__icontains=query[1]) |
-                    Q(uporabnik__priimek__icontains=query[0]) & Q(uporabnik__ime__icontains=query[1]) |
-                    Q(osebna_sifra__icontains=query)
+                    Q(uporabnik__priimek__icontains=query[0]) & Q(uporabnik__ime__icontains=query[1])
                 )
             else:
                 queryset = Delavec.objects.filter(
                     Q(uporabnik__ime__icontains=query) |
-                    Q(uporabnik__priimek__icontains=query) |
-                    Q(osebna_sifra__icontains=query)
+                    Q(uporabnik__priimek__icontains=query)
                 )
         zdravniki = self.request.query_params.get('q1', None)
         if zdravniki is not None:
@@ -64,14 +62,12 @@ class DelavciViewSet(viewsets.ModelViewSet):
                     Q(uporabnik__ime__icontains=zdravniki) |
                     Q(uporabnik__priimek__icontains=zdravniki) |
                     Q(uporabnik__ime__icontains=zdravniki[0]) & Q(uporabnik__priimek__icontains=zdravniki[1]) |
-                    Q(uporabnik__priimek__icontains=zdravniki[0]) & Q(uporabnik__ime__icontains=zdravniki[1]) |
-                    Q(osebna_sifra__icontains=zdravniki)
+                    Q(uporabnik__priimek__icontains=zdravniki[0]) & Q(uporabnik__ime__icontains=zdravniki[1])
                 )
             else:
                 queryset = Delavec.objects.filter(
                     Q(uporabnik__ime__icontains=zdravniki) |
-                    Q(uporabnik__priimek__icontains=zdravniki) |
-                    Q(osebna_sifra__icontains=zdravniki)
+                    Q(uporabnik__priimek__icontains=zdravniki)
                 )
         sestre = self.request.query_params.get('q2', None)
         if sestre is not None:
@@ -81,14 +77,12 @@ class DelavciViewSet(viewsets.ModelViewSet):
                     Q(uporabnik__ime__icontains=sestre) |
                     Q(uporabnik__priimek__icontains=sestre) |
                     Q(uporabnik__ime__icontains=sestre[0]) & Q(uporabnik__priimek__icontains=sestre[1]) |
-                    Q(uporabnik__priimek__icontains=sestre[0]) & Q(uporabnik__ime__icontains=sestre[1]) |
-                    Q(osebna_sifra__icontains=sestre)
+                    Q(uporabnik__priimek__icontains=sestre[0]) & Q(uporabnik__ime__icontains=sestre[1])
                 )
             else:
                 queryset = Delavec.objects.filter(
                     Q(uporabnik__ime__icontains=sestre) |
-                    Q(uporabnik__priimek__icontains=sestre) |
-                    Q(osebna_sifra__icontains=sestre)
+                    Q(uporabnik__priimek__icontains=sestre)
                 )
         return queryset
 
