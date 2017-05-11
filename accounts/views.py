@@ -48,8 +48,8 @@ class DelavciViewSet(viewsets.ModelViewSet):
         sestre = self.request.query_params.get('q2', None)
         if sestre is not None:
             queryset = Delavec.objects.filter(Q(vrsta_delavca=3) &
-                Q(uporabnik__ime__icontains=sestre) |
-                Q(uporabnik__priimek__icontains=sestre)
+                (Q(uporabnik__ime__icontains=sestre) |
+                Q(uporabnik__priimek__icontains=sestre))
             )
         return queryset
 

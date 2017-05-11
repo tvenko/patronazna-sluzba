@@ -6,13 +6,13 @@
   <main class="main">
     <div class="ui-grid ui-grid-responsive ui-grid-pad">
       <div class="ui-grid-row">
-        <div class="ui-grid-col-4">
+        <div class="ui-grid-col-12">
           <h2>Vaši delovni nalogi</h2>
         </div>
+        <div class="pull-right"><button class="btn btn-success" (click)="displayFilter();">Filtri</button></div>
       </div>
       <!-- Body od vseh osebnih podatkov -->
 
-      <button class="btn btn-success" (click)="displayFilter();">Filtri</button>
 
       <!--- prikaz delovnih nalogov --->
       <table class="table table-striped table-responsive">
@@ -37,7 +37,7 @@
       			<td>{{ nalog.ime_pacienta }}</td>
       			<td>{{ nalog.ime_sestre }}</td>
       			<td>{{ nalog.ime_sestre }}</td>
-      			<td>{{ nalog.datum_izdaje | date:'dd. MM. yyyy' }}</td>
+      			<td>{{ nalog.datum_izdaje | date:'dd MM. yyyy' }}</td>
             <td><a href="/nalogi/{{ nalog.id }}">podrobnosti </a></td>
       		</tr>
       	</tbody>

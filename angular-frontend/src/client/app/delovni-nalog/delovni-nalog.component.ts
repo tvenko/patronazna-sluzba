@@ -34,9 +34,6 @@ export class DelovniNalogComponent implements OnInit {
 
   public prikaziPodrobnosti: boolean;
 
-  public vsiZdravniki: any;
-  public vseSestre: any;
-
   constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService) {}
 
   ngOnInit() {
@@ -63,16 +60,6 @@ export class DelovniNalogComponent implements OnInit {
             monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
             monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
     };
-
-    this.delavecService.queryZdravniki("mil").subscribe(
-         (response: any) => {
-           console.log(response.results);
-         },
-         (error: any) => {
-           console.log('Napaka pri iskanju delavcev');
-         }
-       );
-    this.vseSestre = {};
 
     this.podrobniNalog = {};
   }
