@@ -262,6 +262,7 @@ export class DelovniNalogComponent implements OnInit {
             this.getImenaSester(0);
             this.getImenaObiskov(0);
             this.getImenaZdravnikov(0);
+            this.stStrani = Math.floor(response.count/10)+1;
           }
         },
         error => {
