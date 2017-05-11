@@ -109,7 +109,7 @@
       <div class="form-group">
         <label>Izdajatelj</label>
         <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
-        [suggestions]="najdeneSestre" field="naziv" (completeMethod)="searchSestra($event)" (onSelect)="izdajateljIzbran($event)" autoHighlight="true"></p-autoComplete>
+        [suggestions]="najdeniZdravniki" field="naziv" (completeMethod)="searchIzdajatelj($event)" (onSelect)="izdajateljIzbran($event)" autoHighlight="true"></p-autoComplete>
       </div>
       <div class="form-group">
         <label>Pacient</label>
