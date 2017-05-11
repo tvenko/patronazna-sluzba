@@ -35,6 +35,9 @@ export class DelovniNalogComponent implements OnInit {
 
   public prikaziPodrobnosti: boolean;
 
+  public queryNext: any;
+  public queryPrev: any;
+
   public stStrani: any;
   public trenutnaStran: number;
 
@@ -259,6 +262,9 @@ export class DelovniNalogComponent implements OnInit {
       .subscribe(
         response => {
           this.delovniNalogi = response.results;
+          this.queryNext = response.next;
+          this.queryPrev = response.previous;
+          console.log(this.queryNext + ' ' + this.queryPrev);
           if (this.delovniNalogi.length > 0) {
             this.getImenaPacientov(0);
             this.getImenaSester(0);
@@ -289,6 +295,9 @@ export class DelovniNalogComponent implements OnInit {
           response => {
             // console.log(response.count);
             this.delovniNalogi = response.results;
+            this.queryNext = response.next;
+            this.queryPrev = response.previous;
+            console.log(this.queryNext + ' ' + this.queryPrev);
             if (this.delovniNalogi.length > 0) {
               this.getImenaPacientov(0);
               this.getImenaSester(0);
@@ -305,8 +314,6 @@ export class DelovniNalogComponent implements OnInit {
     } else {
       console.log('Ni izvajalca v local storage');
     }
-
-
   }
 
   redirect(idNaloga: any) {

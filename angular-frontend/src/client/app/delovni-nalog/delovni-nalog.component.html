@@ -43,11 +43,11 @@
       	</tbody>
       </table>
 
-      <div class="ui-grid-col-12 text-center" *ngIf="stStrani>1" style="margin-top: 30px;">
-        <span *ngIf="trenutnaStran>1">
+      <div class="ui-grid-col-12 text-center" *ngIf="queryNext || queryPrev" style="margin-top: 30px;">
+        <span *ngIf="queryPrev">
           <button class="btn" (click)="onPreviousPage()">Nazaj</button>
         </span>
-        <span *ngIf="trenutnaStran < stStrani">
+        <span *ngIf="queryNext">
           <button class="btn" (click)="onNextPage()">Naprej</button>
         </span>
       </div>
