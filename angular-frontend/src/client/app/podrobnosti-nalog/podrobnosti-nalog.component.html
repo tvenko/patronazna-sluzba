@@ -1,0 +1,153 @@
+
+<div class="app-body">
+  <div class="sidebar">
+    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika != 'patronažna sestra'"></sd-navbar-vodja-zdravnik>
+    <sd-navbar-sestra *ngIf="tipUporabnika === 'patronažna sestra'"></sd-navbar-sestra>
+  </div>
+  <main class="main">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+      <div class="ui-grid-row">
+
+        <div class="ps-nazaj" (click)="nazajNaPregled()">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          <span>Nazaj</span>
+        </div>
+        <div class="ui-grid-col-6">
+          <h2 class="ps-naslov">{{ delovniNalog?.vrsta_obiska }}</h2>
+        </div>
+      </div>
+      <span class="text-danger" *ngIf="errorNalaganja">
+        Prišlo je do težave pri pridobivanju podrobnosti delovnega
+      </span>
+      <div class="ui-grid-row podrobnosti-container" *ngIf="delovniNalog && errorNalaganja === ''">
+        <div class="ui-grid-col-8">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12 vrsta-obiska">
+
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <!-- podatki zdravnika  -->
+            <div class="ui-grid-col-5 level-1">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki o izdajatelju naloga</h5>
+                </div>
+              </div>
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      <small>{{delovniNalog.naziv_delavca}}</small> {{delovniNalog.zdravnik.ime}} {{delovniNalog.zdravnik.priimek}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{delovniNalog.zdravnik.email}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{delovniNalog.zdravnik.tel}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-grid-col-1">
+            </div>
+            <!-- podatki medicinske sestre -->
+            <div class="ui-grid-col-5 level-1">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki o medicinski sestri</h5>
+                </div>
+              </div>
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{delovniNalog.patronazna_sestra.ime}} {{delovniNalog.patronazna_sestra.priimek}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{delovniNalog.patronazna_sestra.email}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{delovniNalog.patronazna_sestra.tel}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-11 level-1">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki pacienta</h5>
+                </div>
+              </div>
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                      <i class="fa fa-id-card-o margin-right" aria-hidden="true"></i>{{delovniNalog.pacient.ime}} {{delovniNalog.pacient.priimek}}
+                    </div>
+                    <div class="ui-grid-col-1"></div>
+                    <div class="ui-grid-col-6">
+                      <i class="fa fa-home margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.ulica}} {{delovniNalog.pacient.hisna_stevilka}},
+                      {{delovniNalog.pacient.posta}} {{delovniNalog.pacient.kraj}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                      <i class="fa fa-envelope-o margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.email}}
+                    </div>
+                    <div class="ui-grid-col-1"></div>
+                    <div class="ui-grid-col-6">
+                      <i class="fa fa-phone margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.tel}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row"></div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                      <i class="fa fa-venus-mars margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.spol}}
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
