@@ -38,10 +38,19 @@
       			<td>{{ nalog.ime_sestre }}</td>
       			<td>{{ nalog.ime_sestre }}</td>
       			<td>{{ nalog.datum_izdaje | date:'dd MM. yyyy' }}</td>
-            <td><a href="/nalogi/{{ nalog.id }}">podrobnosti </a></td>
+            <td><span class="podrobnosti-link" (click)="redirect(nalog.id)">podrobnosti </span></td>
       		</tr>
       	</tbody>
       </table>
+
+      <div class="ui-grid-col-12 text-center" *ngIf="queryNext || queryPrev" style="margin-top: 30px;">
+        <span *ngIf="queryPrev">
+          <button class="btn" (click)="onPreviousPage()">Nazaj</button>
+        </span>
+        <span *ngIf="queryNext">
+          <button class="btn" (click)="onNextPage()">Naprej</button>
+        </span>
+      </div>
 
       <!---
       <p-dialog header="Podrobnosti naloga {{ podrobniNalog.id }}" [(visible)]="prikaziPodrobnosti" modal="modal" responsive="true">
@@ -87,7 +96,7 @@
       <p-dialog header="Filtri" [(visible)]="prikaziPodrobnosti" modal="modal" responsive="true">
         <!--- forma za filtriranje --->
         <div>
-        <form [formGroup]="filterForm" (ngSubmit)="filtrirajNaloge(filterForm.value)">
+        <form [formGroup]="filterForm" (ngSubmit)="filtrirajSubmit(filterForm.value)">
         <div class="form-group">
           <p-calendar formControlName="datumOd" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" placeholder="Izdan od" [maxDate]=minDate inputStyleClass="form-control" class="ui-fluid"></p-calendar>
         </div>
