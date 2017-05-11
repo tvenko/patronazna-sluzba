@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DelovniNalogService } from '../shared/services/index';
 import { PacientService } from '../shared/services/index';
 import { DelavecService } from '../shared/services/index';
@@ -34,7 +35,8 @@ export class DelovniNalogComponent implements OnInit {
 
   public prikaziPodrobnosti: boolean;
 
-  constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService) {}
+  constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService,
+              private router: Router) {}
 
   ngOnInit() {
     // dobi zdravnike
@@ -276,6 +278,10 @@ export class DelovniNalogComponent implements OnInit {
     }
 
 
+  }
+
+  redirect(idNaloga: any) {
+    this.router.navigateByUrl('/nalogi/' + idNaloga);
   }
 
 }

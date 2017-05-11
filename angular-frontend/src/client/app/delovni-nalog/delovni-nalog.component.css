@@ -29,3 +29,13 @@ ul {
     right:0;
     position:fixed;
 }
+
+.podrobnosti-link {
+  cursor: pointer;
+  color: #2880d2;
+}
+
+.podrobnosti-link:focus, .podrobnosti-link:hover {
+  color: #23527c;
+  text-decoration: underline;
+}
