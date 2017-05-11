@@ -191,6 +191,7 @@ export class DelovniNalogComponent implements OnInit {
   filtrirajSubmit(podatki: any) {
     this.prikaziPodrobnosti = false;
     this.query = this.buildQuery(podatki);
+    this.trenutnaStran = 1;
     this.filtrirajNaloge();
   }
 
