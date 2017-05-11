@@ -35,6 +35,12 @@ class DelavciViewSet(viewsets.ModelViewSet):
         uporabnik = self.request.query_params.get('uporabnik', None)
         if uporabnik is not None:
             queryset = Delavec.objects.filter(uporabnik_id=uporabnik)
+        vrstaDelavca = self.request.query_params.get('vd', None)
+        if vrstaDelavca is not None:
+            queryset = Delavec.objects.filter(vrsta_delavca=vrstaDelavca)
+        query = self.request.query_params.get('q', None)
+        if query is not None:
+            queryset = Delavec.objects.filter(Q(uporabnik__ime__icontains=query))
         return queryset
 
 class VezaniPacientiViewSet(viewsets.ModelViewSet):
