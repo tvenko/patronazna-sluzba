@@ -64,7 +64,6 @@ export class DelavecService {
   }
 
   queryZdravniki(query: string): Observable<any> {
-    console.log(Config.API + 'racuni/delavci?q1=' + query + '&vd=1');
     return this.http.get(Config.API + 'racuni/delavci?q1=' + query + '&vd=1')
                     .map((res: Response) => res.json())
                     .catch(this.handleError);

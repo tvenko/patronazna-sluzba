@@ -183,7 +183,6 @@ export class DelovniNalogComponent implements OnInit {
     this.izbranaSestra = null;
     this.izbranaSestraNad = null;
     this.izbranIzdajatelj = null;
-    console.log("success");
   }
 
   getImenaPacientov(dn: any) {

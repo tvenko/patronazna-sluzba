@@ -11,10 +11,7 @@
         </div>
       </div>
       <!-- Body od vseh osebnih podatkov -->
-      <div class="form-group">
-		  <label for="states">Search for US States</label>
-			<input name="states" id="states" type="text" placeholder="enter a state" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
-		</div>
+
       <button class="btn btn-success" (click)="displayFilter();">Filtri</button>
 
       <!--- prikaz delovnih nalogov --->
