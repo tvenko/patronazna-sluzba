@@ -13,22 +13,26 @@
           <span>Nazaj</span>
         </div>
         <div class="ui-grid-col-6">
-          <h2 class="ps-naslov">{{ delovniNalog?.vrsta_obiska }}</h2>
+          <h2 class="ps-naslov">Podrobnosti naloga <i>{{idNaloga}}</i></h2>
         </div>
       </div>
-      <span class="text-danger" *ngIf="errorNalaganja">
-        Prišlo je do težave pri pridobivanju podrobnosti delovnega
-      </span>
+      <div class="error-container">
+        <span class="text-danger" *ngIf="errorNalaganja?.status == 404">
+          Naloga ni bilo mogoče najti.
+        </span>
+        <span class="text-danger" *ngIf="errorNalaganja.status == 500">
+          Prišlo je do napake na strežniku, poskusite znova kasneje.
+        </span>
+        <span class="text-danger" *ngIf="errorNalaganja.status == 403">
+          Nimate dovoljenja za ogled tega naloga.
+        </span>
+      </div>
       <div class="ui-grid-row podrobnosti-container" *ngIf="delovniNalog && errorNalaganja === ''">
         <div class="ui-grid-col-8">
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-12 vrsta-obiska">
 
-            </div>
-          </div>
           <div class="ui-grid-row">
             <!-- podatki zdravnika  -->
-            <div class="ui-grid-col-5 level-1">
+            <div class="ui-grid-col-5 level-1 margin-bottom-md">
               <div class="ui-grid-row podrobnosti-header">
                 <div class="ui-grid-col-12">
                   <h5>Podatki o izdajatelju naloga</h5>
@@ -41,7 +45,7 @@
                       <i class="fa fa-id-card-o" aria-hidden="true"></i>
                     </div>
                     <div class="ui-grid-col-11">
-                      <small>{{delovniNalog.naziv_delavca}}</small> {{delovniNalog.zdravnik.ime}} {{delovniNalog.zdravnik.priimek}}
+                      <small>{{delovniNalog.zdravnik.naziv_delavca}}</small> {{delovniNalog.zdravnik.ime}} {{delovniNalog.zdravnik.priimek}}
                     </div>
                   </div>
                   <div class="ui-grid-row">
@@ -66,7 +70,7 @@
             <div class="ui-grid-col-1">
             </div>
             <!-- podatki medicinske sestre -->
-            <div class="ui-grid-col-5 level-1">
+            <div class="ui-grid-col-5 level-1 margin-bottom-md">
               <div class="ui-grid-row podrobnosti-header">
                 <div class="ui-grid-col-12">
                   <h5>Podatki o medicinski sestri</h5>
@@ -102,8 +106,10 @@
               </div>
             </div>
           </div>
+
+          <!-- podatki pacienta -->
           <div class="ui-grid-row">
-            <div class="ui-grid-col-11 level-1">
+            <div class="ui-grid-col-11 level-1 margin-bottom-md">
               <div class="ui-grid-row podrobnosti-header">
                 <div class="ui-grid-col-12">
                   <h5>Podatki pacienta</h5>
@@ -113,7 +119,8 @@
                 <div class="ui-grid-col-12">
                   <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
-                      <i class="fa fa-id-card-o margin-right" aria-hidden="true"></i>{{delovniNalog.pacient.ime}} {{delovniNalog.pacient.priimek}}
+                      <i class="fa fa-id-card-o margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.ime}} {{delovniNalog.pacient.priimek}}
                     </div>
                     <div class="ui-grid-col-1"></div>
                     <div class="ui-grid-col-6">
@@ -133,16 +140,262 @@
                       {{delovniNalog.pacient.tel}}
                     </div>
                   </div>
-                  <div class="ui-grid-row"></div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-12">
+
+                    </div>
+                  </div>
                   <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
                       <i class="fa fa-venus-mars margin-right" aria-hidden="true"></i>
                       {{delovniNalog.pacient.spol}}
                     </div>
+                    <div class="ui-grid-col-1"></div>
+                    <div class="ui-grid-col-6">
+                      <i class="fa fa-birthday-cake margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.datum_rojstva | date}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                      <i class="fa fa-map-marker margin-right" aria-hidden="true"></i>
 
+                      {{delovniNalog.pacient.okolis}}
+                    </div>
+                    <div class="ui-grid-col-1">
+
+                    </div>
+                    <div class="ui-grid-col-6">
+                      <i class="fa fa-id-card margin-right" aria-hidden="true"></i>
+                      {{delovniNalog.pacient.st_kartice}}
+                    </div>
+                  </div>
+
+                  <div class="ui-grid-row margin-top" *ngIf="delovniNalog.pacient?.kontaktna_oseba">
+                    <div class="ui-grid-col-12">
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                          <h5>Podatki kontaktne osebe</h5>
+                        </div>
+                      </div>
+                      <div class="ui-grid-row padding-left-sm">
+                        <div class="ui-grid-col-5">
+                          <i class="fa fa-id-card-o margin-right" aria-hidden="true"></i>
+                          <small>{{delovniNalog.pacient.kontaktna_oseba.sorodstveno_razmerje}}</small>
+                          {{delovniNalog.pacient.kontaktna_oseba.ime}} {{delovniNalog.pacient.kontaktna_oseba.priimek}}
+                        </div>
+                        <div class="ui-grid-col-6">
+                          <i class="fa fa-home margin-right" aria-hidden="true"></i>
+                          {{delovniNalog.pacient.kontaktna_oseba.ulica}} {{delovniNalog.pacient.kontaktna_oseba.hisna_stevilka}},
+                          {{delovniNalog.pacient.kontaktna_oseba.posta}} {{delovniNalog.pacient.kontaktna_oseba.kraj}}
+                        </div>
+                      </div>
+                      <div class="ui-grid-row padding-left-sm">
+                        <div class="ui-grid-col-4">
+                          <i class="fa fa-phone margin-right" aria-hidden="true"></i>
+                          {{delovniNalog.pacient.tel}}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
+              </div>
+            </div>
+          </div>
+
+          <!-- podatki delovnega naloga -->
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-11 level-1 margin-bottom-md">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki delovnega naloga</h5>
+                </div>
+              </div>
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+
+                  <div class="ui-grid-col-6">
+                    <small>Vrsta obiska:</small>
+                    {{delovniNalog.vrsta_obiska}}
+                  </div>
+                  <div class="ui-grid-col-6">
+                    <small>Datum izdaje:</small>
+                    {{delovniNalog.datum_izdaje | date}}
+                  </div>
+                  <div class="ui-grid-col-6">
+                    <small>Predviden prvi obisk:</small>
+                    {{delovniNalog.datum_prvega_obiska | date}}
+                  </div>
+                  <div class="ui-grid-col-6">
+                    <small>So datumi obvezni?</small>
+                    {{delovniNalog.je_obvezen_datum}}
+                  </div>
+                  <div class="ui-grid-col-6">
+                    <small>Število obiskov:</small>
+                    {{delovniNalog.stevilo_obiskov}}
+                  </div>
+                  <div class="ui-grid-col-6" *ngIf="delovniNalog.casovniInterval">
+                    <small>Časovni interval</small>
+                    {{delovniNalog.casovni_interval}} <small>dni</small>
+                  </div>
+                  <div class="ui-grid-col-6" *ngIf="delovniNalog.casovno_obdobje">
+                    <small>Datum zadnjega obiska</small>
+                    {{delovniNalog.casovno_obdobje | date}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- if vezani pacienti -->
+          <div class="ui-grid-row" *ngIf="delovniNalog.vezani_pacienti.length > 0">
+            <div class="ui-grid-col-11 level-1 margin-bottom-sm">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki vezanih otrok</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- podatki pacientov -->
+          <div class="ui-grid-row margin-bottom-md" *ngIf="delovniNalog.vezani_pacienti.length > 0">
+            <div class="ui-grid-col-12">
+              <div class="ui-grid-col-4 level-2 margin-left-sm-right-md " *ngFor="let otrok of delovniNalog.vezani_pacienti; let i=index">
+                <div class="ui-grid-row podrobnosti-header">
+                  <div class="ui-grid-col-12">
+                    <h5>{{otrok.ime}} {{otrok.priimek}}</h5>
+                  </div>
+                </div>
+                <div class="ui-grid-row obisk-body">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-5">
+                        <small><i class="fa fa-id-card-o margin-right" aria-hidden="true"></i></small>
+                        {{otrok.st_kartice}}
+                      </div>
+                      <div class="ui-grid-col-1">
+
+                      </div>
+                      <div class="ui-grid-col-6">
+                        <small><i class="fa fa-birthday-cake margin-right" aria-hidden="true"></i></small>
+                        {{otrok.datum_rojstva | date}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- if material -->
+          <div class="ui-grid-row margin-bottom-md" *ngIf="delovniNalog.material.length > 0">
+            <div class="ui-grid-col-6 level-1">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Material potreben pri obiskah</h5>
+                </div>
+              </div>
+
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12" *ngFor="let material of delovniNalog.material; let i=index;">
+                  <small>{{material.kolicina}}x</small> {{material.naziv}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- podatki zdravil -->
+          <div class="ui-grid-row margin-bottom-md" *ngIf="delovniNalog.zdravila.length > 0">
+            <div class="ui-grid-col-11 level-1">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Zdravila potrebna pri obiskah</h5>
+                </div>
+              </div>
+
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid-row" *ngFor="let zdravilo of delovniNalog.zdravila; let i=index;">
+                    <div class="ui-grid-col-12">
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                          <small>{{zdravilo.sifra}}</small> {{zdravilo.naziv}}
+                        </div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-1">
+                        </div>
+                        <div class="ui-grid-col-10">
+                          <small>
+                            <i class="fa fa-question-circle-o" aria-hidden="true"></i>
+                            {{zdravilo.opis}}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- header obiskov -->
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-11 level-1 margin-bottom-sm">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki obiskov</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- podatki obiskov -->
+          <div class="ui-grid-row" >
+            <div class="ui-grid-col-12">
+              <div class="ui-grid-col-4 level-2 margin-left-sm-right-md " *ngFor="let obisk of delovniNalog.obiski; let i=index">
+                <div class="ui-grid-row podrobnosti-header">
+                  <div class="ui-grid-col-12">
+                    <h5>Obisk {{i+1}}</h5>
+                  </div>
+                </div>
+                <div class="ui-grid-row obisk-body">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-4">
+                        <small>Predivden datum:</small>
+                      </div>
+                      <div class="ui-grid-col-8">
+                        {{obisk.predvideni_datum | date}}
+                      </div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="obisk.dejanski_datum">
+                      <div class="ui-grid-col-4">
+                        <small>Dejanski datum:</small>
+                      </div>
+                      <div class="ui-grid-col-8">
+                        {{obisk.dejanski_datum | date}}
+                      </div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-4">
+                        <small>Je že opravljen?</small>
+                      </div>
+                      <div class="ui-grid-col-8">
+                        {{obisk.je_opravljen}}
+                      </div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="obisk.nadomestna_patronazna_sestra">
+                      <div class="ui-grid-col-4">
+                        <small>Nadomestna sestra:</small>
+                      </div>
+                      <div class="ui-grid-col-8">
+                        {{obisk.nadomestna_patronazna_sestra}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
