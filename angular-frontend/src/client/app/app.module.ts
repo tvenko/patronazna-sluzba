@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
@@ -29,18 +29,22 @@ import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.g
 import { PotrditevRegistracijeModule } from './potrditev-registracije/potrditev-registracije.module';
 import { ObiskiModule } from './obiski/obiski.module';
 import { SpremembaPodatkovModule } from './sprememba-podatkov/sprememba-podatkov.module';
+import { PodrobnostiNalogModule } from './podrobnosti-nalog/podrobnosti-nalog.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule],
+    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   },
+    {
+    provide: LOCALE_ID,
+    useValue: 'sl-SI' },
   AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard,
   RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
   bootstrap: [AppComponent]

@@ -241,6 +241,16 @@ class PacientObiskSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('ime', 'priimek', 'telefon', 'stevilkaPacienta', 'kraj', 'hisnaStevilka', 'ulica')
 
+class DelavecObiskSerializer(serializers.ModelSerializer):
+
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
+
+    class Meta:
+        model = Delavec
+        fields = ('ime', 'priimek', 'osebna_sifra', 'naziv_delavca')
+
 
 class VrstaDelavcaSerializer(serializers.ModelSerializer):
     """
@@ -297,10 +307,16 @@ class SorodstvenoRazmerjeSerializer(serializers.ModelSerializer):
 class PacientDetailsSerializer(serializers.ModelSerializer):
 
     kontaktna_oseba = KontaktnaOsebaSerializer()
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    email = serializers.EmailField(source='uporabnik.email')
+    tel = serializers.CharField(source='uporabnik.tel')
+    okolis = serializers.CharField(source='sifra_okolisa.naziv')
+    kraj = serializers.CharField(source='posta.kraj')
 
     class Meta:
         model = Pacient
-        exclude = ('je_aktiviran',)
+        exclude = ('je_aktiviran', 'sifra_okolisa', 'uporabnik')
 
 class ZdravnikSerializer(serializers.ModelSerializer):
 

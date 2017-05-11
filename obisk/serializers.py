@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import *
 from accounts.models import Uporabnik, Delavec, Pacient
-from accounts.serializers import PacientObiskSerializer
+from accounts.serializers import PacientObiskSerializer, DelavecObiskSerializer, VezaniPacientSerializer
 import delovniNalog.models
+import accounts.models
 
 
 class MaterialSerializer(serializers.ModelSerializer):
@@ -28,11 +29,14 @@ class ObiskSerializer(serializers.ModelSerializer):
     pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta')
     material = MaterialSerializer(source='delovni_nalog.id_materiala', many=True)
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
+    zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
+    vezani_pacienti = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vezani_pacienti', many=True, read_only=True)
 
     class Meta:
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
-                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiska')
+                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiska',
+                  'zdravnik', 'vezani_pacienti')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)
