@@ -63,7 +63,7 @@ export class DelovniNalogComponent implements OnInit {
             monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
             monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
     };
-
+/*
     this.delavecService.getByVrstaDelavca(1).subscribe(
          (response: any) => {
            console.log(response);
@@ -71,7 +71,7 @@ export class DelovniNalogComponent implements OnInit {
          (error: any) => {
            console.log('Napaka pri iskanju delavcev');
          }
-       );
+       );*/
     this.vseSestre = {};
 
     this.podrobniNalog = {};
