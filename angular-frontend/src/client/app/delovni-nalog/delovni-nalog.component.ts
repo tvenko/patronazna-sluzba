@@ -62,21 +62,6 @@ export class DelovniNalogComponent implements OnInit {
     this.podrobniNalog = {};
   }
 
-  searchPacient(event: any) {
-   this.pacientService.query(event.query)
-    .subscribe(
-      response => {
-        this.najdeniPacienti = response.results;
-        for (let najden of this.najdeniPacienti) {
-          najden.naziv = najden.ime + ' ' + najden.priimek + ' ('+ najden.stevilkaPacienta +')';
-        }
-      },
-      error => {
-        console.log('Napaka pri iskanju pacienta');
-      }
-    )
-  }
-
  dobiVrsteObiskov() {
    this.problemPridobivanja = false;
    this.delovniNalogService.getVrsteObiskov()
@@ -105,6 +90,21 @@ export class DelovniNalogComponent implements OnInit {
  sestraNadIzbrana(event: any) { this.izbranaSestraNad = event; }
  izdajateljIzbran(event: any) { this.izbranIzdajatelj = event; }
 
+ searchPacient(event: any) {
+  this.pacientService.query(event.query)
+   .subscribe(
+     response => {
+       this.najdeniPacienti = response.results;
+       for (let najden of this.najdeniPacienti) {
+         najden.naziv = najden.ime + ' ' + najden.priimek + ' ('+ najden.stevilkaPacienta +')';
+       }
+     },
+     error => {
+       console.log('Napaka pri iskanju pacienta');
+     }
+   )
+ }
+
   searchSestra(event: any) {
     this.delavecService.query(event.query).subscribe(
          response => {
@@ -117,6 +117,24 @@ export class DelovniNalogComponent implements OnInit {
            console.log('Napaka pri iskanju sestre');
          }
        )
+  }
+
+  searchIzdajatelj(event: any) {
+    this.delavecService.query(event.query).subscribe(
+         response => {
+           this.najdeneSestre = response.results;
+           for (let najdena of this.najdeneSestre) {
+             najdena.naziv = najdena.ime + ' ' + najdena.priimek;
+           }
+         },
+         error => {
+           console.log('Napaka pri iskanju sestre');
+         }
+       )
+  }
+
+  displayFilter() {
+    this.prikaziPodrobnosti = true;
   }
 
   buildQuery(podatki: any) {
@@ -145,12 +163,12 @@ export class DelovniNalogComponent implements OnInit {
     return this.query;
   }
 
-  resetValues(e: any) {
+  resetValues() {
     this.izbranPacient = null;
     this.izbranaSestra = null;
     this.izbranaSestraNad = null;
     this.izbranIzdajatelj = null;
-    console.log(e);
+    console.log("success");
   }
 
   getImenaPacientov(dn: any) {
@@ -193,10 +211,20 @@ export class DelovniNalogComponent implements OnInit {
       });
   }
 
+  getImenaMaterialov(nalog: any, dn: any) {
+    if (!(nalog.material.length>0)) return;
+    this.delovniNalogService.getMaterialById(nalog.material[dn].id_materiala).subscribe(
+      (response: any) => {
+        this.podrobniNalog.material[dn].ime_materiala = (response.opis);
+        dn++;
+        if (dn == this.podrobniNalog.material.length) return;
+        this.getImenaMaterialov(nalog, dn);
+      });
+  }
+
   filtrirajNaloge(podatki: any) {
-
+    this.prikaziPodrobnosti = false;
     var filterQuery = this.buildQuery(podatki);
-
     this.delovniNalogService.filterDN(filterQuery)
       .subscribe(
         response => {
@@ -217,10 +245,9 @@ export class DelovniNalogComponent implements OnInit {
 
   test(nalog: any) {
     this.podrobniNalog = nalog;
+    this.getImenaMaterialov(this.podrobniNalog, 0);
     this.prikaziPodrobnosti = true;
   }
-
-
 
   pridobiNaloge() {
     let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
@@ -229,7 +256,7 @@ export class DelovniNalogComponent implements OnInit {
       this.delovniNalogService.getByDelavec(sifra_zdravnika)
         .subscribe(
           response => {
-            console.log(response.count);
+            // console.log(response.count);
             this.delovniNalogi = response.results;
             if (this.delovniNalogi.length > 0) {
               this.getImenaPacientov(0);

@@ -33,8 +33,24 @@ class DelavciViewSet(viewsets.ModelViewSet):
         """
         queryset = Delavec.objects.all()
         uporabnik = self.request.query_params.get('uporabnik', None)
+        query = self.request.query_params.get('q', None)
         if uporabnik is not None:
             queryset = Delavec.objects.filter(uporabnik_id=uporabnik)
+        # Query po poljih: ime, priimek, sifra delavca
+        if query is not None:
+            if len(query.split()) > 1:
+              query = query.split()
+              queryset = Delavec.objects.filter(
+                  Q(uporabnik__ime__icontains=query) |
+                  Q(uporabnik__priimek__icontains=query) |
+                  Q(uporabnik__ime__icontains=query[0]) & Q(uporabnik__priimek__icontains=query[1]) |
+                  Q(uporabnik__priimek__icontains=query[0]) & Q(uporabnik__ime__icontains=query[1])
+              )
+          else:
+              queryset = Delavec.objects.filter(
+                  Q(uporabnik__ime__icontains=query) |
+                  Q(uporabnik__priimek__icontains=query)
+              )
         return queryset
 
 class VezaniPacientiViewSet(viewsets.ModelViewSet):
