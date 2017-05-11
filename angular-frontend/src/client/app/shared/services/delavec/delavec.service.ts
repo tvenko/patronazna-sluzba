@@ -58,7 +58,7 @@ export class DelavecService {
   }
 
   query(query: string): Observable<any> {
-    return this.http.get(Config.API + 'racuni/delavci?q=' + query)
+    return this.http.get(Config.API + 'racuni/delavci?q0=' + query)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }

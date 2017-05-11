@@ -39,7 +39,7 @@ class DelavciViewSet(viewsets.ModelViewSet):
         vrstaDelavca = self.request.query_params.get('vd', None)
         if vrstaDelavca is not None:
             queryset = Delavec.objects.filter(vrsta_delavca=vrstaDelavca)
-        query = self.request.query_params.get('q', None)
+        query = self.request.query_params.get('q0', None)
         if query is not None:
             if len(query.split()) > 1:
                 query = query.split()
