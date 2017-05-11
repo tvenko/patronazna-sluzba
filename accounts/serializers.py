@@ -8,12 +8,13 @@ from django.core.mail import EmailMessage
 class KontaktnaOsebaSerializer(serializers.ModelSerializer):
 
     sorodstveno_razmerje = serializers.CharField(source='sorodstveno_razmerje.naziv')
+    kraj = serializers.CharField(source='posta.kraj')
 
     class Meta:
 
         model = KontaktnaOseba
         fields = ('ime', 'priimek', 'tel', 'sorodstveno_razmerje', 'ulica',
-        'hisna_stevilka', 'posta')
+        'hisna_stevilka', 'posta', 'kraj')
 
     def create(self, validated_data):
         kontaktnaOseba = KontaktnaOseba(**validated_data)

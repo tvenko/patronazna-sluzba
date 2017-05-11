@@ -38,7 +38,7 @@
       			<td>{{ nalog.ime_sestre }}</td>
       			<td>{{ nalog.ime_sestre }}</td>
       			<td>{{ nalog.datum_izdaje | date:'dd MM. yyyy' }}</td>
-            <td><a href="/nalogi/{{ nalog.id }}">podrobnosti </a></td>
+            <td><span class="podrobnosti-link" (click)="redirect(nalog.id)">podrobnosti </span></td>
       		</tr>
       	</tbody>
       </table>
