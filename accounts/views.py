@@ -35,12 +35,61 @@ class DelavciViewSet(viewsets.ModelViewSet):
         uporabnik = self.request.query_params.get('uporabnik', None)
         if uporabnik is not None:
             queryset = Delavec.objects.filter(uporabnik_id=uporabnik)
+        # dobi vrsto delavca ?vd=
         vrstaDelavca = self.request.query_params.get('vd', None)
         if vrstaDelavca is not None:
             queryset = Delavec.objects.filter(vrsta_delavca=vrstaDelavca)
         query = self.request.query_params.get('q', None)
         if query is not None:
-            queryset = Delavec.objects.filter(Q(uporabnik__ime__icontains=query))
+            if len(query.split()) > 1:
+                query = query.split()
+                queryset = Delavec.objects.filter(
+                    Q(uporabnik__ime__icontains=query) |
+                    Q(uporabnik__priimek__icontains=query) |
+                    Q(uporabnik__ime__icontains=query[0]) & Q(uporabnik__priimek__icontains=query[1]) |
+                    Q(uporabnik__priimek__icontains=query[0]) & Q(uporabnik__ime__icontains=query[1]) |
+                    Q(osebna_sifra__icontains=query)
+                )
+            else:
+                queryset = Delavec.objects.filter(
+                    Q(uporabnik__ime__icontains=query) |
+                    Q(uporabnik__priimek__icontains=query) |
+                    Q(osebna_sifra__icontains=query)
+                )
+        zdravniki = self.request.query_params.get('q1', None)
+        if zdravniki is not None:
+            if len(zdravniki.split()) > 1:
+                zdravniki = zdravniki.split()
+                queryset = Delavec.objects.filter(
+                    Q(uporabnik__ime__icontains=zdravniki) |
+                    Q(uporabnik__priimek__icontains=zdravniki) |
+                    Q(uporabnik__ime__icontains=zdravniki[0]) & Q(uporabnik__priimek__icontains=zdravniki[1]) |
+                    Q(uporabnik__priimek__icontains=zdravniki[0]) & Q(uporabnik__ime__icontains=zdravniki[1]) |
+                    Q(osebna_sifra__icontains=zdravniki)
+                )
+            else:
+                queryset = Delavec.objects.filter(
+                    Q(uporabnik__ime__icontains=zdravniki) |
+                    Q(uporabnik__priimek__icontains=zdravniki) |
+                    Q(osebna_sifra__icontains=zdravniki)
+                )
+        sestre = self.request.query_params.get('q2', None)
+        if sestre is not None:
+            if len(sestre.split()) > 1:
+                sestre = sestre.split()
+                queryset = Delavec.objects.filter(
+                    Q(uporabnik__ime__icontains=sestre) |
+                    Q(uporabnik__priimek__icontains=sestre) |
+                    Q(uporabnik__ime__icontains=sestre[0]) & Q(uporabnik__priimek__icontains=sestre[1]) |
+                    Q(uporabnik__priimek__icontains=sestre[0]) & Q(uporabnik__ime__icontains=sestre[1]) |
+                    Q(osebna_sifra__icontains=sestre)
+                )
+            else:
+                queryset = Delavec.objects.filter(
+                    Q(uporabnik__ime__icontains=sestre) |
+                    Q(uporabnik__priimek__icontains=sestre) |
+                    Q(osebna_sifra__icontains=sestre)
+                )
         return queryset
 
 class VezaniPacientiViewSet(viewsets.ModelViewSet):

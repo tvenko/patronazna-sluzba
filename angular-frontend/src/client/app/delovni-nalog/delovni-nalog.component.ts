@@ -64,7 +64,15 @@ export class DelovniNalogComponent implements OnInit {
             monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
     };
 
-
+    this.delavecService.getByVrstaDelavca(1).subscribe(
+         (response: any) => {
+           console.log(response);
+         },
+         (error: any) => {
+           console.log('Napaka pri iskanju delavcev');
+         }
+       );
+    this.vseSestre = {};
 
     this.podrobniNalog = {};
   }
@@ -113,7 +121,7 @@ export class DelovniNalogComponent implements OnInit {
  }
 
   searchSestra(event: any) {
-    this.delavecService.query(event.query).subscribe(
+    this.delavecService.querySestre(event.query).subscribe(
          response => {
            this.najdeneSestre = response.results;
            for (let najdena of this.najdeneSestre) {
@@ -127,7 +135,7 @@ export class DelovniNalogComponent implements OnInit {
   }
 
   searchIzdajatelj(event: any) {
-    this.delavecService.query(event.query).subscribe(
+    this.delavecService.queryZdravniki(event.query).subscribe(
          response => {
            this.najdeneSestre = response.results;
            for (let najdena of this.najdeneSestre) {
