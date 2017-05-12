@@ -111,7 +111,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
 
     ),
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
