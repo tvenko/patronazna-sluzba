@@ -15,6 +15,9 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
   styleUrls: ['delovni-nalog.component.css'],
 })
 export class DelovniNalogComponent implements OnInit {
+
+  public tipUporabnikaSestra: boolean = false;
+
   public delovniNalogi: any;
   public podrobniNalog: any;
 
@@ -44,6 +47,9 @@ export class DelovniNalogComponent implements OnInit {
   constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService,  private router: Router) {}
 
   ngOnInit() {
+    //pridobi prijavljenega uporabnika
+    this.tipUporabnikaSestra = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'patronažna sestra';
+
     // dobi zdravnike
     // dobi sestre
     this.pridobiNaloge();
@@ -61,11 +67,11 @@ export class DelovniNalogComponent implements OnInit {
 
     this.si = {
             firstDayOfWeek: 0,
-            dayNames: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
-            dayNamesShort: ["Ned", "Pon", "Tor", "Sre", "Čet", "Pet", "Sob"],
-            dayNamesMin: ["Ne","Po","To","Sr","Če","Pe","So"],
-            monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
-            monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
+            dayNames: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
+            dayNamesShort: ['Ned', 'Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob'],
+            dayNamesMin: ['Ne','Po','To','Sr','Če','Pe','So'],
+            monthNames: [ 'Januar','Februar','Marec','April','Maj','Junij','Julij','Avgust','September','Oktober','November','December' ],
+            monthNamesShort: [ 'Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun','Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec' ]
     };
 
     this.trenutnaStran = 1;
@@ -115,7 +121,7 @@ export class DelovniNalogComponent implements OnInit {
      error => {
        console.log('Napaka pri iskanju pacienta');
      }
-   )
+   );
  }
 
   searchSestra(event: any) {
@@ -129,7 +135,7 @@ export class DelovniNalogComponent implements OnInit {
          error => {
            console.log('Napaka pri iskanju sestre');
          }
-       )
+       );
   }
 
   searchIzdajatelj(event: any) {
@@ -143,7 +149,7 @@ export class DelovniNalogComponent implements OnInit {
          error => {
            console.log('Napaka pri iskanju sestre');
          }
-       )
+       );
   }
 
   displayFilter() {
@@ -209,7 +215,7 @@ export class DelovniNalogComponent implements OnInit {
   getImenaPacientov(dn: any) {
     this.pacientService.get(this.delovniNalogi[dn].id_pacienta).subscribe(
       (response: any) => {
-        this.delovniNalogi[dn].ime_pacienta = (response.ime+" "+response.priimek);
+        this.delovniNalogi[dn].ime_pacienta = (response.ime+' '+response.priimek);
         dn++;
         if (dn == this.delovniNalogi.length) return;
         this.getImenaPacientov(dn);
@@ -219,7 +225,7 @@ export class DelovniNalogComponent implements OnInit {
   getImenaSester(dn: any) {
     this.delavecService.get(this.delovniNalogi[dn].patronazna_sestra).subscribe(
       (response: any) => {
-        this.delovniNalogi[dn].ime_sestre = (response.ime+" "+response.priimek);
+        this.delovniNalogi[dn].ime_sestre = (response.ime+' '+response.priimek);
         dn++;
         if (dn == this.delovniNalogi.length) return;
         this.getImenaSester(dn);
@@ -229,7 +235,7 @@ export class DelovniNalogComponent implements OnInit {
   getImenaZdravnikov(dn: any) {
     this.delavecService.getBySifraUsluzbenca(this.delovniNalogi[dn].sifra_zdravnika).subscribe(
       (response: any) => {
-        this.delovniNalogi[dn].izdajatelj = (response.ime+" "+response.priimek);
+        this.delovniNalogi[dn].izdajatelj = (response.ime+' '+response.priimek);
         dn++;
         if (dn == this.delovniNalogi.length) return;
         this.getImenaZdravnikov(dn);

@@ -19,8 +19,4 @@ export class NavbarVodjaZdravnikComponent implements OnInit {
       this.uporabnik.priimek = podrobnosti.priimek;
     }
   }
-
-
-
-
 }

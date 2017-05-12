@@ -1,7 +1,12 @@
 <div class="app-body">
   <div class="sidebar">
 
-    <sd-navbar-vodja-zdravnik></sd-navbar-vodja-zdravnik>
+    <div *ngIf="tipUporabnikaSestra">
+      <sd-navbar-sestra></sd-navbar-sestra>
+    </div>
+    <div *ngIf="!tipUporabnikaSestra">
+      <sd-navbar-vodja-zdravnik></sd-navbar-vodja-zdravnik>
+    </div>
   </div>
   <main class="main">
     <div class="ui-grid ui-grid-responsive ui-grid-pad">
