@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4b7af8c-86b8-4438-a0f1-f52200191ea7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-sestra/navbar-sestra.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-sestra/navbar-sestra.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-sestra/navbar-sestra.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-sestra/navbar-sestra.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-vodja-zdravnik/navbar-vodja-zdravnik.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-vodja-zdravnik/navbar-vodja-zdravnik.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-vodja-zdravnik/navbar-vodja-zdravnik.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/navbar-vodja-zdravnik/navbar-vodja-zdravnik.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/models.py" afterPath="$PROJECT_DIR$/obisk/models.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/obisk/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="38" column="27" lean-forward="false" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
+            <state relative-caret-position="396">
+              <caret line="18" column="48" lean-forward="false" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -59,7 +56,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/patronaza/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
@@ -154,8 +151,8 @@
         <option value="$PROJECT_DIR$/accounts/serializers.py" />
         <option value="$PROJECT_DIR$/delovniNalog/models.py" />
         <option value="$PROJECT_DIR$/obisk/serializers.py" />
-        <option value="$PROJECT_DIR$/obisk/models.py" />
         <option value="$PROJECT_DIR$/patronaza/settings.py" />
+        <option value="$PROJECT_DIR$/obisk/models.py" />
       </list>
     </option>
   </component>
@@ -216,6 +213,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="patronaza" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="patronazna-sluzba" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="patronazna-sluzba" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="obisk" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -671,16 +682,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/obisk/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="38" column="27" lean-forward="false" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/delovniNalog/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="670">
@@ -702,6 +703,16 @@
         <state relative-caret-position="450">
           <caret line="111" column="6" lean-forward="false" selection-start-line="111" selection-start-column="6" selection-end-line="111" selection-end-column="6" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/obisk/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="48" lean-forward="false" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
