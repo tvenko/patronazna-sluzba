@@ -173,11 +173,12 @@ class DelovniNalogDetailsSerializer(serializers.ModelSerializer):
     zdravnik = accounts.serializers.ZdravnikSerializer(source='sifra_zdravnika')
     pacient = accounts.serializers.PacientDetailsSerializer(source='id_pacienta')
     vrsta_obiska = serializers.CharField(source='vrsta_obiska.opis')
-    material = DelovniNalogMaterialDetaiksSerializer(source='delovninalogmaterial_set', many=True);
+    material = DelovniNalogMaterialDetaiksSerializer(source='delovninalogmaterial_set', many=True)
+    zdravila = ZdraviloSerializer(source='sifra_zdravila', many=True, read_only=True)
+    vezani_pacienti = accounts.serializers.VezaniPacientSerializer(many=True, read_only=True)
 
     class Meta:
         model = DelovniNalog
         fields = ('datum_prvega_obiska', 'je_obvezen_datum', 'stevilo_obiskov', 'casovni_interval',
-        'casovno_obdobje', 'zdravnik', 'vrsta_obiska', 'patronazna_sestra',
-        'datum_izdaje', 'material',
-        'vezani_pacienti', 'obiski', 'pacient',)
+        'casovno_obdobje', 'zdravnik', 'vrsta_obiska', 'patronazna_sestra', 'datum_izdaje',
+         'material', 'zdravila', 'vezani_pacienti', 'obiski', 'pacient',)

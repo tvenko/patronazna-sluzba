@@ -15,18 +15,29 @@ export class AuthenticationService {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
         this.id = '';
+		localStorage.setItem('stLogin', "0");
+		localStorage.setItem('loginTime', "0");
     }
 
     prijava(username: string, password: string): Observable<boolean> {
       var headers = new Headers();
       headers.append('Content-Type', 'application/json');
-
+		
         return this.http.post(Config.API + 'token/auth/', JSON.stringify({ email: username, password: password }), {headers: headers})
             .map(
 				(response : Response) => {
-
+					
+					var time = new Date().getTime();
+					var loginTime = parseInt(localStorage.getItem('loginTime'));
+					var timeLeft = ((15 * 1000) - (time - loginTime)) / 1000;
+					
+					if (timeLeft > 0) {
+						var timeLeftInt = Math.ceil(timeLeft);
+						localStorage.setItem('loginError', "Prijava blokirana za " + timeLeftInt.toString() + " sekund.");
+						return false;
+					}
+					
 					if (response.json().pacient && response.json().pacient[0].je_aktiviran == false) {
-
 						localStorage.setItem('loginError', "Račun ni aktiviran.");
 						return false;
 					}
@@ -120,7 +131,8 @@ export class AuthenticationService {
 		if (localStorage.getItem('loginError')) {
 			localStorage.removeItem('loginError');
 		}
-
+		localStorage.setItem('loginTime', "0");
+		localStorage.setItem('stLogin', "0");
 		//pošlji datum prijave
 		if (this.id.length !== 0) {
 
@@ -140,8 +152,28 @@ export class AuthenticationService {
 	private handleError (error: any) {
 		let errMsg = (error.message) ? error.message :
 		  error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-		console.error(errMsg);
-		localStorage.setItem('loginError', "Uporabniško ime / geslo je nepravilno.");
+		
+		var stLogin = parseInt(JSON.parse(localStorage.getItem('stLogin')));
+		stLogin++;
+		localStorage.setItem('stLogin', stLogin.toString());
+		var time = new Date().getTime();
+		var loginTime = parseInt(localStorage.getItem('loginTime'));
+		var timeLeft = ((15 * 1000) - (time - loginTime)) / 1000;
+		if (timeLeft > 0) {
+			var timeLeftInt = Math.ceil(timeLeft);
+			localStorage.setItem('loginError', "Prijava blokirana za " + timeLeftInt.toString() + " sekund.");
+		}
+		else {
+			if (stLogin > 3) {
+				localStorage.setItem('stLogin', "1");
+			}
+			localStorage.setItem('loginError', "Uporabniško ime / geslo je nepravilno.");
+		}
+		if (stLogin == 3) {
+			var time = new Date().getTime();
+			localStorage.setItem('loginTime', time.toString());
+		}
+		
 		return Observable.of(false);
 	}
 }

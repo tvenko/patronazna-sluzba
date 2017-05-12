@@ -21,7 +21,6 @@ from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 
-
 from accounts.views import index
 
 # TODO, napisat svoj get_schema z posebnimi dovoljenji?
