@@ -1,10 +1,18 @@
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, permissions
 from accounts.permissions import IsAdminOrReadAuthenticated
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.permissions import IsAuthenticated
+from django.utils import timezone
+from dateutil.parser import parse
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from obisk.models import *
+from obisk.serializers import *
+import json
 
 from accounts.serializers import *
 
@@ -138,3 +146,106 @@ class SorodstvenoRazmerjeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SorodstvenoRazmerje.objects.all()
     serializer_class = SorodstvenoRazmerjeSerializer
     pagination_class = None
+
+class NadomestnaSestraViewSet(viewsets.GenericViewSet):
+    serializer_class = ObiskSerializer
+
+    @detail_route(methods=['patch'])
+    def nadomesti(self, request, *args, **kwargs):
+        # Preveri da so vsi podatki za dodeljevanje nadomescanja podani
+        pk = kwargs.pop('pk', None)
+        context = {"request": request,}
+        danes = timezone.now();
+        pretekli_datum = False;
+        pretekli_polja = {};
+        podatki_manjkajo = False
+        manjkajoci = {}
+        naroben_format_datuma = False
+        format_problemi = {}
+        zacetek_nadomescanja = ''
+        konec_nadomescanja = ''
+        nadomestna_sestra = ''
+        nadomestna_sestra_delavec = ''
+        if 'nadomestna_patronazna_sestra' not in request.data.keys():
+            podatki_manjkajo = True
+            manjkajoci['nadomestna_patronazna_sestra'] = 'Podatek o nadomestni sestri manjka'
+        else:
+            # Poskusi dobiti uporabnika
+            try:
+                nadomestna_sestra = Uporabnik.objects.get(pk=request.data['nadomestna_patronazna_sestra'])
+            except Uporabnik.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND, data=dict(message='Ne najdem uporabnika, ki bi moral nadomeščati'))
+            try:
+                nadomestna_sestra_delavec = PatronaznaSestraSerializer(nadomestna_sestra, context=context)
+                if nadomestna_sestra_delavec.data['naziv_delavca'] != "patronažna sestra":
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Podan delavec ni patronažna sestra in zato ne more nadomeščati'))
+            except Delavec.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND, data=dict(message='Ne najdem delavca, ki bi moral nadomeščati'))
+        if 'zacetek_nadomescanja' not in request.data.keys():
+            podatki_manjkajo = True
+            manjkajoci['zacetek_nadomescanja'] = 'Podatek o začetnem datumu nadomeščanja manjka'
+        else:
+            try:
+                zacetek_nadomescanja = parse(request.data['zacetek_nadomescanja']).replace(hour=0, minute=0, second=0)
+                if danes.date() > zacetek_nadomescanja.date():
+                    pretekli_datum = True;
+                    pretekli_polja['zacetek_nadomescanja'] = 'Datum začetka nadomeščanja ne more biti v preteklosti'
+            except ValueError:
+                naroben_format_datuma = True
+                format_problemi['zacetek_nadomescanja'] = "Začetek nadomeščanja nima veljavne oblike datuma"
+        if 'konec_nadomescanja' not in request.data.keys():
+            podatki_manjkajo = True
+            manjkajoci['konec_nadomescanja'] = 'Podatek o končnem datumu nadomeščanja manjka'
+        else:
+            try:
+                konec_nadomescanja = parse(request.data['konec_nadomescanja']).replace(hour=0, minute=0, second=0)
+                if danes.date() > konec_nadomescanja.date():
+                    pretekli_datum = True
+                    pretekli_polja['konec_nadomescanja'] = 'Datum konca nadomeščanja ne more biti v preteklosti'
+            except ValueError:
+                naroben_format_datuma = True
+                format_problemi['konec_nadomescanja'] = "Konec nadomeščanja nima veljavne oblike datuma"
+        # Ce je manjkal kaksen podatek, obvesti odjemalca
+        if podatki_manjkajo:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=manjkajoci)
+        # Obvesti odjemalca, ce ni bil datum pravilnega formata
+        if naroben_format_datuma:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=format_problemi)
+        # Obvesti odjemalca o datumih v preteklosti
+        if pretekli_datum:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=pretekli_polja)
+        # Preveri, da je koncni datum vecji ali enak zacetnemu
+        if konec_nadomescanja.date() < zacetek_nadomescanja.date():
+            sporocilo = dict(message='Končni datum mora biti večji ali enak začetnemu')
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=sporocilo)
+
+        try:
+            sestra = Uporabnik.objects.get(pk=pk)
+        except Uporabnik.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND, data=dict(message='Ne najdem uporabnika, ki je odsoten'))
+        try:
+            sestra_delavec = PatronaznaSestraSerializer(sestra, context=context)
+            if sestra_delavec.data['naziv_delavca'] != 'patronažna sestra':
+                return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Uporabnik, ki naj bi bil odsoten, ni patronažna sestra'))
+            # Vedno bosta podana zacetek in konec odsotnosti (!)
+            if nadomestna_sestra_delavec.data['zacetek_odsotnosti'] is not None:
+                nadomestna_sestra_zacetek_ods = parse(nadomestna_sestra_delavec.data['zacetek_odsotnosti']).date()
+                nadomestna_sestra_konec_ods = parse(nadomestna_sestra_delavec.data['konec_odsotnosti']).date()
+                # Zacetek nadomescanja je vsebovan v intervalu odsotnosti
+                if zacetek_nadomescanja.date() >= nadomestna_sestra_zacetek_ods and zacetek_nadomescanja.date() <= nadomestna_sestra_konec_ods:
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Nadomeščanje se začne, ko je nadomestna sestra že odsotna'))
+                # Nadomescanje se dogaja, ko je sestra cel cas odsotna
+                if konec_nadomescanja.date() >= nadomestna_sestra_zacetek_ods and konec_nadomescanja.date() <= nadomestna_sestra_konec_ods:
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Nadomeščanje se konča, ko je nadomestna sestra še odsotna'))
+                # Odsotnost sestre je v celoti vsebovano v casu nadomescanja
+                if nadomestna_sestra_zacetek_ods >= zacetek_nadomescanja.date() and nadomestna_sestra_konec_ods <= konec_nadomescanja.date():
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Nadomestna sestra je odsotna v obdobju nadomeščanja'))
+        except Delavec.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND, data=dict(message='Ne najdem delavca, ki je odsoten'))
+        # Preveri obiske, ki so prvotno bili dodeljeni sestri
+        obiski = Obisk.objects.filter(patronazna_sestra=sestra, predvideni_datum__range=[zacetek_nadomescanja, konec_nadomescanja]).update(nadomestna_patronazna_sestra=nadomestna_sestra)
+        #obiski_serializer = ObiskSerializer(obiski, many=True, context=context)
+        # Popravi obiske, pri katerih je nadomestna sestra naša prvotna sestra
+        obiski_nadomesca = Obisk.objects.filter(nadomestna_patronazna_sestra=sestra, predvideni_datum__range=[zacetek_nadomescanja, konec_nadomescanja]).update(nadomestna_patronazna_sestra=nadomestna_sestra)
+        body = dict(nadomestni=obiski_nadomesca, obiski=obiski, message='Nadomestna sestra je bila dodana')
+        return Response(status=status.HTTP_200_OK, data=body)

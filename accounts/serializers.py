@@ -335,7 +335,12 @@ class ZdravnikSerializer(serializers.ModelSerializer):
         'naziv_delavca',)
 
 class PatronaznaSestraSerializer(serializers.ModelSerializer):
+    delavec = serializers.StringRelatedField()
+    zacetek_odsotnosti = serializers.CharField(source='delavec.zacetek_odsotnosti')
+    konec_odsotnosti = serializers.CharField(source='delavec.konec_odsotnosti')
+    osebna_sifra = serializers.CharField(source='delavec.osebna_sifra')
+    naziv_delavca = serializers.CharField(source='delavec.vrsta_delavca')
 
     class Meta:
         model = Uporabnik
-        fields = ('ime', 'priimek', 'email', 'tel',)
+        exclude = ('delavec', 'password', 'je_admin')
