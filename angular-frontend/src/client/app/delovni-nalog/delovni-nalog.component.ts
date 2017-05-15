@@ -15,6 +15,9 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
   styleUrls: ['delovni-nalog.component.css'],
 })
 export class DelovniNalogComponent implements OnInit {
+
+  public tipUporabnikaSestra: boolean = false;
+
   public delovniNalogi: any;
   public podrobniNalog: any;
 
@@ -35,10 +38,18 @@ export class DelovniNalogComponent implements OnInit {
 
   public prikaziPodrobnosti: boolean;
 
-  constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService,
-              private router: Router) {}
+  public queryNext: any;
+  public queryPrev: any;
+
+  public stStrani: any;
+  public trenutnaStran: number;
+
+  constructor(private fb: FormBuilder, private delovniNalogService: DelovniNalogService, public pacientService: PacientService, public delavecService: DelavecService,  private router: Router) {}
 
   ngOnInit() {
+    //pridobi prijavljenega uporabnika
+    this.tipUporabnikaSestra = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'patronažna sestra';
+
     // dobi zdravnike
     // dobi sestre
     this.pridobiNaloge();
@@ -56,13 +67,17 @@ export class DelovniNalogComponent implements OnInit {
 
     this.si = {
             firstDayOfWeek: 0,
-            dayNames: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
-            dayNamesShort: ["Ned", "Pon", "Tor", "Sre", "Čet", "Pet", "Sob"],
-            dayNamesMin: ["Ne","Po","To","Sr","Če","Pe","So"],
-            monthNames: [ "Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December" ],
-            monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun","Jul", "Avg", "Sep", "Okt", "Nov", "Dec" ]
+            dayNames: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
+            dayNamesShort: ['Ned', 'Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob'],
+            dayNamesMin: ['Ne','Po','To','Sr','Če','Pe','So'],
+            monthNames: [ 'Januar','Februar','Marec','April','Maj','Junij','Julij','Avgust','September','Oktober','November','December' ],
+            monthNamesShort: [ 'Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun','Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec' ]
     };
 
+    this.trenutnaStran = 1;
+    let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
+    sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
+    this.query = '?user=' + sifra_zdravnika + '&page=1';
     this.podrobniNalog = {};
   }
 
@@ -106,7 +121,7 @@ export class DelovniNalogComponent implements OnInit {
      error => {
        console.log('Napaka pri iskanju pacienta');
      }
-   )
+   );
  }
 
   searchSestra(event: any) {
@@ -120,7 +135,7 @@ export class DelovniNalogComponent implements OnInit {
          error => {
            console.log('Napaka pri iskanju sestre');
          }
-       )
+       );
   }
 
   searchIzdajatelj(event: any) {
@@ -134,7 +149,7 @@ export class DelovniNalogComponent implements OnInit {
          error => {
            console.log('Napaka pri iskanju sestre');
          }
-       )
+       );
   }
 
   displayFilter() {
@@ -160,11 +175,34 @@ export class DelovniNalogComponent implements OnInit {
     if (this.izbranaSestraNad) this.query += '&nms=' + this.izbranaSestraNad.osebna_sifra;
     // vrsta obiska
     if (podatki.vrstaObiska) this.query += '&vo=' + podatki.vrstaObiska.id;
+    // stran
+    this.query += '&page=1';
 
     // zapisi query v console
-    // console.log(this.query);
+    console.log(this.query);
 
     return this.query;
+  }
+
+  onNextPage() {
+    if (this.trenutnaStran < this.stStrani) this.trenutnaStran++;
+    this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
+    console.log(this.query);
+    this.filtrirajNaloge();
+  }
+
+  onPreviousPage() {
+    if (this.trenutnaStran >1) this.trenutnaStran--;
+    this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
+    console.log(this.query);
+    this.filtrirajNaloge();
+  }
+
+  filtrirajSubmit(podatki: any) {
+    this.prikaziPodrobnosti = false;
+    this.query = this.buildQuery(podatki);
+    this.trenutnaStran = 1;
+    this.filtrirajNaloge();
   }
 
   resetValues() {
@@ -177,7 +215,7 @@ export class DelovniNalogComponent implements OnInit {
   getImenaPacientov(dn: any) {
     this.pacientService.get(this.delovniNalogi[dn].id_pacienta).subscribe(
       (response: any) => {
-        this.delovniNalogi[dn].ime_pacienta = (response.ime+" "+response.priimek);
+        this.delovniNalogi[dn].ime_pacienta = (response.ime+' '+response.priimek);
         dn++;
         if (dn == this.delovniNalogi.length) return;
         this.getImenaPacientov(dn);
@@ -187,7 +225,7 @@ export class DelovniNalogComponent implements OnInit {
   getImenaSester(dn: any) {
     this.delavecService.get(this.delovniNalogi[dn].patronazna_sestra).subscribe(
       (response: any) => {
-        this.delovniNalogi[dn].ime_sestre = (response.ime+" "+response.priimek);
+        this.delovniNalogi[dn].ime_sestre = (response.ime+' '+response.priimek);
         dn++;
         if (dn == this.delovniNalogi.length) return;
         this.getImenaSester(dn);
@@ -197,7 +235,7 @@ export class DelovniNalogComponent implements OnInit {
   getImenaZdravnikov(dn: any) {
     this.delavecService.getBySifraUsluzbenca(this.delovniNalogi[dn].sifra_zdravnika).subscribe(
       (response: any) => {
-        this.delovniNalogi[dn].izdajatelj = (response.ime+" "+response.priimek);
+        this.delovniNalogi[dn].izdajatelj = (response.ime+' '+response.priimek);
         dn++;
         if (dn == this.delovniNalogi.length) return;
         this.getImenaZdravnikov(dn);
@@ -225,18 +263,20 @@ export class DelovniNalogComponent implements OnInit {
       });
   }
 
-  filtrirajNaloge(podatki: any) {
-    this.prikaziPodrobnosti = false;
-    var filterQuery = this.buildQuery(podatki);
-    this.delovniNalogService.filterDN(filterQuery)
+  filtrirajNaloge() {
+    this.delovniNalogService.filterDN(this.query)
       .subscribe(
         response => {
           this.delovniNalogi = response.results;
+          this.queryNext = response.next;
+          this.queryPrev = response.previous;
+          console.log(this.queryNext + ' ' + this.queryPrev);
           if (this.delovniNalogi.length > 0) {
             this.getImenaPacientov(0);
             this.getImenaSester(0);
             this.getImenaObiskov(0);
             this.getImenaZdravnikov(0);
+            this.stStrani = Math.floor(response.count/10)+1;
           }
         },
         error => {
@@ -261,12 +301,16 @@ export class DelovniNalogComponent implements OnInit {
           response => {
             // console.log(response.count);
             this.delovniNalogi = response.results;
+            this.queryNext = response.next;
+            this.queryPrev = response.previous;
+            console.log(this.queryNext + ' ' + this.queryPrev);
             if (this.delovniNalogi.length > 0) {
               this.getImenaPacientov(0);
               this.getImenaSester(0);
               this.getImenaObiskov(0);
               this.getImenaZdravnikov(0);
               this.podrobniNalog = this.delovniNalogi[0];
+              this.stStrani = Math.floor(response.count/10)+1;
             }
           },
           error => {
@@ -276,8 +320,6 @@ export class DelovniNalogComponent implements OnInit {
     } else {
       console.log('Ni izvajalca v local storage');
     }
-
-
   }
 
   redirect(idNaloga: any) {
