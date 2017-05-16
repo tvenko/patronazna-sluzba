@@ -4,7 +4,8 @@ from accounts.models import Uporabnik, Delavec, Pacient
 from accounts.serializers import PacientObiskSerializer, DelavecObiskSerializer, VezaniPacientSerializer
 import delovniNalog.models
 import accounts.models
-
+from django.utils import timezone
+from dateutil.parser import parse
 
 class MaterialSerializer(serializers.ModelSerializer):
 
@@ -110,3 +111,29 @@ class ObiskDetailsSerializer(serializers.ModelSerializer):
         model = Obisk
         fields = ('predvideni_datum', 'dejanski_datum', 'je_opravljen', 'je_obvezen_datum',
         'nadomestna_patronazna_sestra', 'id_meritev')
+
+class ObiskNadomescajSerializer(serializers.ModelSerializer):
+
+    def update(self, instance, validated_data):
+        print("NOTRI\n\n")
+        print(validated_data)
+        print("\n\n")
+        zacetek_nadomescanja = parse(validated_data['zacetek_nadomescanja'])
+        konec_nadomescanja = parse(validated_data['konec_nadomescanja'])
+        obiski_za_nadomescat = ObiskNadomescajSerializer.objects.filter(nadomestna_patronazna_sestra=validated_data['nadomestna_patronazna_sestra'],)
+
+
+
+    def to_internal_value(self, data):
+        internal_value = super(ObiskNadomescajSerializer, self).to_internal_value(data)
+        zacetek_nadomescanja_raw_value = data.get("zacetek_nadomescanja")
+        konec_nadomescanja_raw_value = data.get("konec_nadomescanja")
+        internal_value.update({
+            "zacetek_nadomescanja": zacetek_nadomescanja_raw_value,
+            "konec_nadomescanja": konec_nadomescanja_raw_value
+        })
+        return internal_value
+
+    class Meta:
+        model = Obisk
+        fields = '__all__'

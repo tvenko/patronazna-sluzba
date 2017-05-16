@@ -155,18 +155,20 @@ class Uporabnik(AbstractBaseUser):
         return self.je_admin
 
 class Delavec(models.Model):
-    """Razred, ki predstavlja zdravtvene delavce
+    """Razred, ki predstavlja zdravstvene delavce
 
     Model Delavec deduje od modela Uporabnik in dodaja osebni stevilki,
     sifri zdravstvene ustanove in tipu delavca(zdravnik, vodja PS, patronazna sestra,usluzbenec).
     """
 
-    uporabnik = models.OneToOneField(Uporabnik, on_delete=models.CASCADE)
+    uporabnik = models.OneToOneField(Uporabnik, on_delete=models.CASCADE, related_name='delavec')
 
     osebna_sifra = models.IntegerField(primary_key=True)
     sifra_ustanove = models.ForeignKey(SifraUstanove, on_delete=models.SET_NULL, null=True)
     vrsta_delavca = models.ForeignKey(VrstaDelavca, on_delete=models.SET_NULL, null=True)
     sifra_okolisa = models.ForeignKey(SifraOkolisa, on_delete=models.SET_NULL, null=True, blank=True)
+    zacetek_odsotnosti = models.DateTimeField(null=True, blank=True)
+    konec_odsotnosti = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):      #izpis na django admin panelu
         return self.uporabnik.ime+" "+self.uporabnik.priimek
