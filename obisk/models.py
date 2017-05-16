@@ -17,6 +17,7 @@ class Meritev(models.Model):
     vrsta_obsika = models.ForeignKey(VrstaObiska, on_delete=models.SET_NULL, null=True)
     je_obvezen = models.BooleanField(default=False)
     enkraten = models.BooleanField(default=False)
+    meritev_novorojencka = models.BooleanField(default=False)
 
     def __str__(self):
         return self.naziv

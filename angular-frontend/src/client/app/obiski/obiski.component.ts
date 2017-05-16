@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ObiskiService } from '../shared/services/index';
+import { Router } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -19,7 +20,7 @@ export class ObiskiComponent implements OnInit {
   stStrani: number;
   trenutnaStran: number = 1;
 
-  constructor(private ObiskiService: ObiskiService) {}
+  constructor(private ObiskiService: ObiskiService, private router: Router) {}
 
   ngOnInit() {
     this.pridobiObiske();
@@ -74,10 +75,11 @@ export class ObiskiComponent implements OnInit {
   }
 
   onOpravljenObisk(id: number) {
-    const data = {'jeOpravljen': true};
-    this.ObiskiService.updateStatus(id, data).subscribe(
-      response => {this.pridobiObiske();}
-    );
+    // const data = {'jeOpravljen': true};
+    // this.ObiskiService.updateStatus(id, data).subscribe(
+    //   response => {this.pridobiObiske();}
+    // );
+    this.router.navigate(['/meritve', 'vnos']);
   }
 
   onIzberiDatum(id: number, datum: Date) {

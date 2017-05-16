@@ -28,6 +28,7 @@ class ObiskSerializer(serializers.ModelSerializer):
 
     pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta')
     material = MaterialSerializer(source='delovni_nalog.id_materiala', many=True)
+    vrstaObiskaId = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska', read_only=True)
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
     vezani_pacienti = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vezani_pacienti', many=True, read_only=True)
@@ -35,8 +36,8 @@ class ObiskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
-                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiska',
-                  'zdravnik', 'vezani_pacienti')
+                  'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiskaId',
+                  'vrstaObiska', 'zdravnik', 'vezani_pacienti')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)

@@ -61,7 +61,7 @@ class ObiskViewSet(viewsets.ModelViewSet):
             queryset = q
         if (self.je_opravljen):
             q = queryset.filter(je_opravljen = self.je_opravljen)
-            queryset = q;
+            queryset = q
         return queryset
 
     def get_queryset(self):
@@ -98,10 +98,10 @@ class ObiskViewSet(viewsets.ModelViewSet):
 
 class ObiskiPlaniraniViewSet(viewsets.ReadOnlyModelViewSet):
 
-    pagination_class = None;
+    pagination_class = None
     serializer_class = ObiskSerializer
     def get_queryset(self):
-        queryset = Obisk.objects.all();
+        queryset = Obisk.objects.all()
         self.sifra_delavca = self.request.query_params.get('user')
         if (self.sifra_delavca):
             self.delavec = Delavec.objects.get(osebna_sifra = self.sifra_delavca)
@@ -117,7 +117,7 @@ class ObiskiPrihajajociViewSet(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = ObiskSerializer
     def get_queryset(self):
-        queryset = Obisk.objects.all();
+        queryset = Obisk.objects.all()
         self.sifra_delavca = self.request.query_params.get('user')
         if (self.sifra_delavca):
             self.delavec = Delavec.objects.get(osebna_sifra = self.sifra_delavca)
@@ -129,7 +129,11 @@ class ObiskiPrihajajociViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset
 
 class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Meritev.objects.all()
+    pagination_class = None
+    def get_queryset(self):
+        vrsta_obiska_id = self.request.query_params.get('vrsta')
+        queryset = Meritev.objects.filter(vrsta_obsika=vrsta_obiska_id)
+        return queryset
     serializer_class = MeritevSeializer
 
 class MeritveNaObiskuViewSet(viewsets.ReadOnlyModelViewSet):

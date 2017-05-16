@@ -1,0 +1,18 @@
+<div class="app-body">
+  <div class="sidebar">
+    <sd-navbar-sestra></sd-navbar-sestra>
+  </div>
+  <main class="main">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+      <div>
+        <div class="ui-grid-col-8">
+          <h2>Meritve za obisk {{ obisk?.id }} tipa {{ obisk?.vrstaObiska }}</h2>
+        </div>
+        <hr>
+        <div *ngFor="let meritev of meritve">
+          <p>{{ meritev?.naziv }}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

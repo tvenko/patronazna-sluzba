@@ -16,11 +16,11 @@
               [minDate]="today"
             ></p-calendar>
           </div>
+
           <p-accordion (onOpen)="pridobiVezanegaPacienta(obisk.vezani_pacienti)" [multiple]="true" class="ui-grid-row" *ngFor="let obisk of planiraniObiski">
             <p-accordionTab *ngIf="jePredviden(obisk.dejanski_datum, obisk.predvideni_datum, obisk.je_obvezen_datum)">
               <p-header>
                 {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}
-                <button class="btn btn-success" style="margin-left: 40px;" (click)="onOpravljenObisk(obisk.id)">Opravljen</button>
               </p-header>
               <div *ngIf="obisk.je_obvezen_datum; else elseBlock">
                 Ta obisk ima obvezen datum
@@ -129,6 +129,8 @@
                   </div>
                 </div>
               </div>
+
+              <button class="btn btn-primary" style="margin-left: 40px;" [routerLink]="['/meritve', 'vnos', obisk.id]">Vnesi meritve</button>
             </p-accordionTab>
           </p-accordion>
           <hr>

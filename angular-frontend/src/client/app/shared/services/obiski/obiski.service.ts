@@ -22,8 +22,8 @@ export class ObiskiService {
 
   }
 
-  get(obisk: any): Observable<string[]> {
-    return this.http.get(Config.API + 'obiski/obiski/',  obisk)
+  getById(id: number) {
+    return this.http.get(Config.API + 'obiski/obiski/' + id)
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }
@@ -48,6 +48,12 @@ export class ObiskiService {
 
   getVezaniPacienti(id: number) {
     return this.http.get(Config.API + 'racuni/vezanipacienti/' + id)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+  getMeritve(idVrsteObiska: number) {
+    return this.http.get(Config.API + 'obiski/meritve?vrsta=' + idVrsteObiska)
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }
