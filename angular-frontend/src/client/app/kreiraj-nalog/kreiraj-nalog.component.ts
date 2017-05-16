@@ -128,7 +128,7 @@ export class KreirajNalogComponent implements OnInit {
           response => {
             //this.vezanciPacienta = response.results;
             for (let otrok of response.results) {
-              if (otrok.sorodstveno_razmerje == 19)
+              if (otrok.sorodstveno_razmerje === 19)
                 this.vezanciPacienta.push(otrok);
             }
           },
@@ -268,7 +268,7 @@ export class KreirajNalogComponent implements OnInit {
     * Ce rabi material vrne true (vrsta obiska)
     */
     aliRabiMaterial() {
-      if (this.myForm.controls.vrstaObiska.value.id == 5)
+      if (this.myForm.controls.vrstaObiska.value.id === 5)
         return true;
       else
         return false;
@@ -278,7 +278,7 @@ export class KreirajNalogComponent implements OnInit {
     * Ce rabi zdravila vrne true (glede na vrsto obiska)
     */
     aliRabiZdravilo() {
-      if (this.myForm.controls.vrstaObiska.value.id == 4)
+      if (this.myForm.controls.vrstaObiska.value.id === 4)
         return true;
       else
         return false;
@@ -306,7 +306,7 @@ export class KreirajNalogComponent implements OnInit {
       var dow = startDate.getDay();
       var daysToAdd = days;
       // If the current day is Sunday add one day
-      if (dow == 0)
+      if (dow === 0)
       daysToAdd++;
       // If the start date plus the additional days falls on or after the closest Saturday calculate weekends
       if (dow + daysToAdd >= 6) {
@@ -318,7 +318,7 @@ export class KreirajNalogComponent implements OnInit {
           //Add two days for each working week by calculating how many weeks are included
           daysToAdd += 2 * Math.floor(remainingWorkDays / 5);
           //Exclude final weekend if remainingWorkDays resolves to an exact number of weeks
-          if (remainingWorkDays % 5 == 0)
+          if (remainingWorkDays % 5 === 0)
           daysToAdd -= 2;
         }
       }
