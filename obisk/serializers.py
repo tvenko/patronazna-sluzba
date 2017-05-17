@@ -19,6 +19,38 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
         model = MeritveNaObisku
         fields = '__all__'
 
+class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
+
+    id_obisk = serializers.PrimaryKeyRelatedField(many=True, queryset=Obisk.objects.all())
+    id_meritve = serializers.PrimaryKeyRelatedField(many=True, queryset=Meritev.objects.all())
+    vrednost = serializers.ListField(child=serializers.CharField(min_length=0))
+
+    class Meta:
+        model = MeritveNaObisku
+        fields = ('id_obisk', 'id_meritve', 'vrednost')
+
+    def create(self, validated_data):
+        vrednosti = []
+        obiski = []
+        meritve = []
+        for e in validated_data['vrednost']:
+            vrednosti.append(e)
+        for e in validated_data['id_obisk']:
+            obiski.append(e)
+        for e in validated_data['id_meritve']:
+            meritve.append(e)
+        print('vrednosti: ', vrednosti, '\n obiski: ', obiski, '\n meritve: ', meritve)
+        list = []
+        for i in range (0, len(meritve)):
+            meritevNaObisku = MeritveNaObisku(
+                id_obisk = obiski[i],
+                id_meritve = meritve[i],
+                vrednost = vrednosti[i]
+            )
+            meritevNaObisku.save()
+            list.append(meritevNaObisku)
+        return validated_data
+
 class ObiskDnSerializer(serializers.ModelSerializer):
 
     class Meta:

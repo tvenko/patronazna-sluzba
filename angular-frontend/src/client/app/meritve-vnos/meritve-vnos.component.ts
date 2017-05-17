@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ObiskiService } from '../shared/services/obiski/obiski.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   moduleId: module.id,
@@ -13,10 +12,9 @@ export class MeritveVnosComponent implements OnInit {
   id: number;
   obisk: any;
   meritve: any[] = [];
-  public meritveForma: FormGroup;
   test: any;
 
-  constructor(private route: ActivatedRoute, private obiskiService: ObiskiService, private _fb: FormBuilder) {}
+  constructor(private route: ActivatedRoute, private obiskiService: ObiskiService) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -30,11 +28,9 @@ export class MeritveVnosComponent implements OnInit {
         );
       }
     );
-    this.meritveForma = this._fb.group(
-      this.test = ['', []]
-    );
   }
 
-  vnosMeritev() {
+  onSubmit(form: ElementRef) {
+    console.log(form);
   }
 }

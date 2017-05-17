@@ -1,0 +1,8 @@
+input.ng-invalid.ng-touched {
+  border: 2px solid red;
+  border-radius: 4px;
+}
+
+input {
+  width: 100%;
+}
