@@ -31,6 +31,24 @@ export class MeritveVnosComponent implements OnInit {
   }
 
   onSubmit(form: ElementRef) {
-    console.log(form);
+    let data = <any>{};
+    data.id_obisk = [];
+    data.id_meritve = [];
+    data.vrednost = [];
+    if (form.valid) {
+      for(let key in form.value) {
+        if(form.value.hasOwnProperty(key) && form.value[key] !== "") {
+          data.id_obisk.push(this.obisk.id);
+          data.id_meritve.push(+key);
+          data.vrednost.push(form.value[key]);
+        }
+      }
+    }
+    console.log(data);
+    this.obiskiService.postMeritve(data).subscribe(
+      response => {
+        console.log(response);
+      }
+    );
   }
 }

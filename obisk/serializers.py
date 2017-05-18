@@ -39,8 +39,7 @@ class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
             obiski.append(e)
         for e in validated_data['id_meritve']:
             meritve.append(e)
-        print('vrednosti: ', vrednosti, '\n obiski: ', obiski, '\n meritve: ', meritve)
-        list = []
+        # print('vrednosti: ', vrednosti, '\n obiski: ', obiski, '\n meritve: ', meritve)
         for i in range (0, len(meritve)):
             meritevNaObisku = MeritveNaObisku(
                 id_obisk = obiski[i],
@@ -48,7 +47,6 @@ class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
                 vrednost = vrednosti[i]
             )
             meritevNaObisku.save()
-            list.append(meritevNaObisku)
         return validated_data
 
 class ObiskDnSerializer(serializers.ModelSerializer):

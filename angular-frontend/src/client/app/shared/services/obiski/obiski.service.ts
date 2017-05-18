@@ -58,6 +58,12 @@ export class ObiskiService {
       .catch(this.handleError);
   }
 
+  postMeritve(data: any) {
+    return this.http.post(Config.API + 'obiski/meritvenaobisku/', data)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   updateStatus(id: number, data: any) {
     return this.http.put(Config.API + 'obiski/obiski/' + id + '/', data)
       .map((res: Response) => res.json)
