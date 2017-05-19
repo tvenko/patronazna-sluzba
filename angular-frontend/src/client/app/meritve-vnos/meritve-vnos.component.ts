@@ -30,7 +30,7 @@ export class MeritveVnosComponent implements OnInit {
     );
   }
 
-  onSubmit(form: ElementRef) {
+  onSubmit(form: any) {
     let data = <any>{};
     data.id_obisk = [];
     data.id_meritve = [];
@@ -44,11 +44,6 @@ export class MeritveVnosComponent implements OnInit {
         }
       }
     }
-    console.log(data);
-    this.obiskiService.postMeritve(data).subscribe(
-      response => {
-        console.log(response);
-      }
-    );
+    this.obiskiService.postMeritve(data).subscribe();
   }
 }
