@@ -42,13 +42,9 @@ import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadome
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-<<<<<<< HEAD
+	   PozabljenoGesloModule, PotrditevGeslaModule,
     DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule,
     PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule],
-=======
-	PozabljenoGesloModule, PotrditevGeslaModule,
-    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule],
->>>>>>> becc886147e064741645d7361f311d523304d6c5
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
