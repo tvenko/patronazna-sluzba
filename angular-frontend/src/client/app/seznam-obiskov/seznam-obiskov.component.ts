@@ -164,13 +164,13 @@ export class SeznamObiskovComponent implements OnInit {
     this.query = '?user=' + sifra_zdravnika;
 
     // p datum od
-    if (podatki.predvideniDatumOd) this.query += '&pzac_dat=' + podatki.predvideniDatumOd.toISOString().substr(0, 10);
+    if (podatki.predvideniDatumOd) this.query += '&zac_pdat=' + podatki.predvideniDatumOd.toISOString().substr(0, 10);
     // p datum do
-    if (podatki.predvideniDatumDo) this.query += '&pkonc_dat=' + podatki.predvideniDatumDo.toISOString().substr(0, 10);
+    if (podatki.predvideniDatumDo) this.query += '&konc_pdat=' + podatki.predvideniDatumDo.toISOString().substr(0, 10);
     // d datum od
-    if (podatki.dejanskiDatumOd) this.query += '&dzac_dat=' + podatki.dejanskiDatumOd.toISOString().substr(0, 10);
+    if (podatki.dejanskiDatumOd) this.query += '&zac_ddat=' + podatki.dejanskiDatumOd.toISOString().substr(0, 10);
     // d datum do
-    if (podatki.dejanskiDatumDo) this.query += '&dkonc_dat=' + podatki.dejanskiDatumDo.toISOString().substr(0, 10);
+    if (podatki.dejanskiDatumDo) this.query += '&konc_ddat=' + podatki.dejanskiDatumDo.toISOString().substr(0, 10);
     // izdajatelj
     if (this.izbranIzdajatelj) this.query += '&izd=' + this.izbranIzdajatelj.osebna_sifra;
     // pacient
@@ -233,13 +233,13 @@ export class SeznamObiskovComponent implements OnInit {
   }
 
   getImenaNadSester(dn: any) {
-    this.delavecService.get(this.delovniNalogi[dn].nadomestna_patronazna_sestra).subscribe(
-      (response: any) => {
-        this.delovniNalogi[dn].ime_nadomestne_sestre = (response.ime+' '+response.priimek);
-        dn++;
-        if (dn == this.delovniNalogi.length) return;
-        this.getImenaSester(dn);
-      });
+      this.delavecService.get(this.delovniNalogi[dn].nadomestna_patronazna_sestra).subscribe(
+        (response: any) => {
+          this.delovniNalogi[dn].ime_nadomestne_sestre = (response.ime+' '+response.priimek);
+          dn++;
+          if (dn == this.delovniNalogi.length) return;
+          this.getImenaNadSester(dn);
+        });
   }
 
   filtrirajNaloge() {
@@ -295,8 +295,8 @@ export class SeznamObiskovComponent implements OnInit {
     }
   }
 
-  redirect(idNaloga: any) {
-    this.router.navigateByUrl('/nalogi/' + idNaloga);
+  redirect(idObiska: any) {
+    this.router.navigateByUrl('/obiski/' + idObiska);
   }
 
 }

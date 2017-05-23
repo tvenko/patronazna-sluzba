@@ -16,7 +16,6 @@
         </div>
         <div class="pull-right"><button class="btn btn-success" (click)="displayFilter();">Filtri</button></div>
       </div>
-      <!-- Body od vseh osebnih podatkov -->
 
 
       <!--- prikaz delovnih nalogov --->
@@ -31,22 +30,26 @@
             <th><strong>NAD. SESTRA</strong></th>
       			<th><strong>PREDVIDENI DATUM</strong></th>
             <th><strong>DEJANSKI DATUM</strong></th>
+            <th><strong>OBVEZEN DATUM?</strong></th>
             <th><strong>OPRAVLJEN?</strong></th>
       			<th></th>
       		</tr>
       	</thead>
       	<tbody>
-      		<tr *ngFor="let nalog of delovniNalogi">
+      		<tr *ngFor="let obisk of delovniNalogi">
             <!--- <td class="nalogId {{nalog.id}}" (click)="test(nalog)">{{ nalog.id }}</td> --->
-            <td>{{ nalog.id }}</td>
-            <td>{{ nalog.zdravnik.ime }} {{ nalog.zdravnik.priimek }}</td>
-            <td>{{ nalog.vrstaObiska }}</td>
-      			<td>{{ nalog.pacient.ime }} {{ nalog.pacient.priimek }}</td>
-      			<td>{{ nalog.ime_sestre }}</td>
-      			<td>{{ nalog.ime_nadomestne_sestre }}</td>
-      			<td>{{ nalog.predvideni_datum | date }}</td>
-            <td>{{ nalog.dejanski_datum | date}}</td>
-            <td>{{ nalog.je_obvezen_datum }}</td>
+            <td><span class="podrobnosti-link" (click)="redirect(obisk.id)">{{ obisk.id }}</span></td>
+            <td>{{ obisk.zdravnik.ime }} {{ obisk.zdravnik.priimek }}</td>
+            <td>{{ obisk.vrstaObiska }}</td>
+      			<td>{{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}</td>
+      			<td>{{ obisk.ime_sestre }}</td>
+      			<td>{{ obisk.ime_nadomestne_sestre }}</td>
+      			<td>{{ obisk.predvideni_datum | date }}</td>
+            <td>{{ obisk.dejanski_datum | date}}</td>
+            <td *ngIf="obisk.je_obvezen_datum"> da</td>
+            <td *ngIf="!(obisk.je_obvezen_datum)"> ne</td>
+            <td *ngIf="obisk.je_opravljen"> da</td>
+            <td *ngIf="!(obisk.je_opravljen)"> ne</td>
       		</tr>
       	</tbody>
       </table>
