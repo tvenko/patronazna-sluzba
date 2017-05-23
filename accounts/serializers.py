@@ -360,7 +360,7 @@ class PozabljenoGesloSerializer(serializers.ModelSerializer):
 		prejemnik = uporabnik.email
 		zadeva = 'Pozabljeno geslo'
 		posiljatelj = 'patronazamail@gmail.com'
-		htmlVsebina = '<h3>Pozdravljeni!</h3><br><p>S klikom na povezavo potrdite novo geslo: <a href="http://localhost:5555/potrditev-gesla;id=' + str(uporabnik.id) + ';geslo=' + str(geslo) + '">povezava</a></p>'
+		htmlVsebina = '<h3>Pozdravljeni!</h3><br><p>S klikom na povezavo potrdite novo geslo: <a href="http://fruity-routy.ddns.net/potrditev-gesla;id=' + str(uporabnik.id) + ';geslo=' + str(geslo) + '">povezava</a></p>'
 		sporocilo = EmailMessage(zadeva, htmlVsebina, posiljatelj, [prejemnik])
 		sporocilo.content_subtype = "html"
 		sporocilo.send()
