@@ -249,3 +249,13 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
         obiski_nadomesca = Obisk.objects.filter(nadomestna_patronazna_sestra=sestra, predvideni_datum__range=[zacetek_nadomescanja, konec_nadomescanja]).update(nadomestna_patronazna_sestra=nadomestna_sestra)
         body = dict(nadomestni=obiski_nadomesca, obiski=obiski, message='Nadomestna sestra je bila dodana')
         return Response(status=status.HTTP_200_OK, data=body)
+
+class PozabljenoGesloViewSet(viewsets.ModelViewSet):
+
+	serializer_class = PozabljenoGesloSerializer
+	queryset = Uporabnik.objects.all()
+		
+class PotrditevGeslaViewSet(viewsets.ModelViewSet):
+
+	serializer_class = PotrditevGeslaSerializer
+	queryset = Uporabnik.objects.all()
