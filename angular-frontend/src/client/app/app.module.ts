@@ -33,14 +33,15 @@ import { PodrobnostiNalogModule } from './podrobnosti-nalog/podrobnosti-nalog.mo
 import { MeritveVnosModule } from './meritve-vnos/meritve-vnos.module';
 import { PozabljenoGesloModule } from './pozabljeno-geslo/pozabljeno-geslo.module';
 import { PotrditevGeslaModule } from './potrditev-gesla/potrditev-gesla.module';
+import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule,
-	PozabljenoGesloModule, PotrditevGeslaModule,],
+	PozabljenoGesloModule, PotrditevGeslaModule,
+    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
