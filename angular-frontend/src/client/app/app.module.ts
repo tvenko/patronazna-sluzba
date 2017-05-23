@@ -32,6 +32,8 @@ import { ObiskiModule } from './obiski/obiski.module';
 import { SpremembaPodatkovModule } from './sprememba-podatkov/sprememba-podatkov.module';
 import { PodrobnostiNalogModule } from './podrobnosti-nalog/podrobnosti-nalog.module';
 import { MeritveVnosModule } from './meritve-vnos/meritve-vnos.module';
+import { PozabljenoGesloModule } from './pozabljeno-geslo/pozabljeno-geslo.module';
+import { PotrditevGeslaModule } from './potrditev-gesla/potrditev-gesla.module';
 import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
 import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
 
@@ -40,8 +42,13 @@ import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadome
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
+<<<<<<< HEAD
     DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule,
     PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule],
+=======
+	PozabljenoGesloModule, PotrditevGeslaModule,
+    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule],
+>>>>>>> becc886147e064741645d7361f311d523304d6c5
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
