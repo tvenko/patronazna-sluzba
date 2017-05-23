@@ -250,7 +250,6 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
         body = dict(nadomestni=obiski_nadomesca, obiski=obiski, message='Nadomestna sestra je bila dodana')
         return Response(status=status.HTTP_200_OK, data=body)
 
-<<<<<<< HEAD
 class PatronazneSestreViewSet(viewsets.ReadOnlyModelViewSet):
     '''Vrne vse Patronazne sestre'''
     serializer_class = ZdravnikSerializer
@@ -261,14 +260,13 @@ class PatronazneSestreViewSet(viewsets.ReadOnlyModelViewSet):
             Q(vrsta_delavca__naziv='patronažna sestra')
         )
         return queryset
-=======
+
 class PozabljenoGesloViewSet(viewsets.ModelViewSet):
 
 	serializer_class = PozabljenoGesloSerializer
 	queryset = Uporabnik.objects.all()
-		
+
 class PotrditevGeslaViewSet(viewsets.ModelViewSet):
 
 	serializer_class = PotrditevGeslaSerializer
 	queryset = Uporabnik.objects.all()
->>>>>>> becc886147e064741645d7361f311d523304d6c5
