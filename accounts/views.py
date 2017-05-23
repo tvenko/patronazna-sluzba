@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics
 from accounts.permissions import IsAdminOrReadAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
@@ -249,3 +249,14 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
         obiski_nadomesca = Obisk.objects.filter(nadomestna_patronazna_sestra=sestra, predvideni_datum__range=[zacetek_nadomescanja, konec_nadomescanja]).update(nadomestna_patronazna_sestra=nadomestna_sestra)
         body = dict(nadomestni=obiski_nadomesca, obiski=obiski, message='Nadomestna sestra je bila dodana')
         return Response(status=status.HTTP_200_OK, data=body)
+
+class PatronazneSestreViewSet(viewsets.ReadOnlyModelViewSet):
+    '''Vrne vse Patronazne sestre'''
+    serializer_class = ZdravnikSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        queryset = Delavec.objects.filter(
+            Q(vrsta_delavca__naziv='patronažna sestra')
+        )
+        return queryset

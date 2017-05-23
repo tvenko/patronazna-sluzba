@@ -19,6 +19,7 @@ router.register(r'potrditevregistracije', views.PotrditevRegistracijeViewSet, ba
 router.register(r'poste', views.PostaViewSet, base_name='poste')
 router.register(r'sorodniki', views.SorodstvenoRazmerjeViewSet, base_name='sorodstvena_razmerja')
 router.register(r'sestra', views.NadomestnaSestraViewSet, base_name='nadomestna_sestra')
+router.register(r'sestre', views.PatronazneSestreViewSet, base_name='patronazne_sestre')
 
 # Vkljucen JWT, je dovolj samo na root url?
 urlpatterns = [

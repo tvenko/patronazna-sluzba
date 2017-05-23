@@ -322,6 +322,7 @@ class PacientDetailsSerializer(serializers.ModelSerializer):
 class ZdravnikSerializer(serializers.ModelSerializer):
 
     ime = serializers.CharField(source='uporabnik.ime')
+    sifra_uporabnika = serializers.CharField(source='uporabnik.id')
     priimek = serializers.CharField(source='uporabnik.priimek')
     email = serializers.EmailField(source='uporabnik.email')
     tel = serializers.CharField(source='uporabnik.tel')
@@ -332,7 +333,7 @@ class ZdravnikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Delavec
         fields = ('ime', 'priimek', 'email', 'tel', 'naziv_okolisa', 'naziv_ustanove',
-        'naziv_delavca',)
+        'naziv_delavca', 'osebna_sifra', 'sifra_uporabnika')
 
 class PatronaznaSestraSerializer(serializers.ModelSerializer):
     delavec = serializers.StringRelatedField()

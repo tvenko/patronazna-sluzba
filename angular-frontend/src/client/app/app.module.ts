@@ -26,19 +26,22 @@ import { KreiranjeNalogaGuard } from './guards/kreiranjeNaloga.guard';
 import { PregledNalogovGuard } from './guards/pregledNalogov.guard';
 import { RegistracijaDelavcaGuard } from './guards/registracijaDelavca.guard';
 import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.guard';
+import { NadomescanjeMSGuard } from './guards/nadomescanje-MS.guard';
 import { PotrditevRegistracijeModule } from './potrditev-registracije/potrditev-registracije.module';
 import { ObiskiModule } from './obiski/obiski.module';
 import { SpremembaPodatkovModule } from './sprememba-podatkov/sprememba-podatkov.module';
 import { PodrobnostiNalogModule } from './podrobnosti-nalog/podrobnosti-nalog.module';
 import { MeritveVnosModule } from './meritve-vnos/meritve-vnos.module';
 import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
+import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule],
+    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule,
+    PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
@@ -48,7 +51,7 @@ import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
     provide: LOCALE_ID,
     useValue: 'sl-SI' },
   AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard,
-  RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
+  RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard, NadomescanjeMSGuard],
   bootstrap: [AppComponent]
 
 })
