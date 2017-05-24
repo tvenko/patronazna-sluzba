@@ -35,7 +35,7 @@ import { PozabljenoGesloModule } from './pozabljeno-geslo/pozabljeno-geslo.modul
 import { PotrditevGeslaModule } from './potrditev-gesla/potrditev-gesla.module';
 import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
 import { PodrobnostiObiskModule } from './podrobnosti-obisk/podrobnosti-obisk.module';
-import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
+import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
