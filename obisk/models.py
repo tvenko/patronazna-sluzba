@@ -18,6 +18,7 @@ class Meritev(models.Model):
     je_obvezen = models.BooleanField(default=False)
     enkraten = models.BooleanField(default=False)
     meritev_novorojencka = models.BooleanField(default=False)
+    tip = models.CharField(max_length=20, default='text')
 
     def __str__(self):
         return self.naziv

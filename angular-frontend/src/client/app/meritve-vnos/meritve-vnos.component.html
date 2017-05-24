@@ -3,43 +3,56 @@
     <sd-navbar-sestra></sd-navbar-sestra>
   </div>
   <main class="main">
-    <p>VNOS MERITEV NA OBISKU {{ obisk?.vrstaObiska }}</p>
+    <h2>Vnos meritev na obisku {{ obisk?.vrstaObiska }}</h2>
+    <hr>
+    <div class="container">
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3>Meritve za pacienta {{ obisk?.pacient.ime }} {{ obisk?.pacient.priimek }}</h3>
+          </div>
+          <div class="panel-body">
 
-      <div class="container">
-        <div class="row justify-content-md-center">
-          <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-            <div *ngFor="let meritev of meritve">
-              <div class="col col-xs-12">
-                <div class="panel panel-success">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">{{ meritev.naziv }}<span *ngIf="meritev.je_obvezen">*</span></h3>
-                  </div>
-                  <div class="panel-body">
-                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
-                      <div class="ui-grid-row">
-                        <div class="input-group">
-                          <input
-                            type="text"
-                            name="{{ meritev.id }}"
-                            ngModel
-                            [required]=meritev.je_obvezen >
-                        </div>
-                        <div>
-                          {{ meritev?.merska_enota}}
-                        </div>
-                      </div>
+              <div *ngFor="let meritev of meritve; let i = index">
+                <div class="form-group" *ngIf="!meritev.meritev_novorojencka">
+                    <label class="form-control-label">{{ meritev?.naziv }}<span *ngIf="meritev.je_obvezen">*</span></label>
+                    <div class="zajem">
+                    <input
+                      class="form-control"
+                      type="number"
+                      name="{{ meritev.id }}"
+                      ngModel
+                      [required]=meritev.je_obvezen>
+                    <span style="margin-left: 20px;">{{ meritev?.merska_enota }}</span>
                     </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div *ngFor="let vezaniPacient of vezaniPacienti">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3>Meritve za pacienta {{ vezaniPacient.ime }} {{ vezaniPacient.priimek }}</h3>
+            </div>
+            <div class="panel-body">
+              <div *ngFor="let meritev of meritve; let i = index">
+                <div class="form-group" *ngIf="meritev.meritev_novorojencka">
+                  <label class="form-control-label">{{ meritev?.naziv }}<span *ngIf="meritev.je_obvezen">*</span></label>
+                  <div class="zajem">
+                    <input class="form-control" type="{{ meritev.tip }}" name="{{ meritev.id }}" ngModel [required]=meritev.je_obvezen>
+                    <span style="margin-left: 20px;">{{ meritev?.merska_enota }}</span>
                   </div>
                 </div>
               </div>
             </div>
-            <button
-              class="btn btn-success"
-              type="submit"
-              [disabled]="!f.valid">Submit</button>
-          </form>
+          </div>
         </div>
-      </div>
-
+        <div *ngIf="poslano">
+          <p *ngIf="uspeh" style="color: green; text-align: center;">Uspešno ste poslali podatke</p>
+          <p *ngIf="!uspeh" style="color: red; text-align: center;">Podatki niso bili uspešno poslani</p>
+        </div>
+        <button class="btn btn-success center-block" type="submit" [disabled]="!f.valid">Pošlji</button>
+      </form>
+    </div>
   </main>
 </div>

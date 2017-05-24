@@ -6,3 +6,7 @@ input.ng-invalid.ng-touched {
 input {
   width: 100%;
 }
+
+.zajem {
+  display: flex;
+}

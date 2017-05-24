@@ -15,9 +15,11 @@ class MaterialSerializer(serializers.ModelSerializer):
 
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
+    naziv_meritve = serializers.CharField(source='id_meritve.naziv')
+
     class Meta:
         model = MeritveNaObisku
-        fields = '__all__'
+        fields = ('id', 'vrednost', 'id_obisk', 'id_meritve', 'naziv_meritve')
 
 class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
 
@@ -49,6 +51,12 @@ class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
             meritevNaObisku.save()
         return validated_data
 
+class MeritevSeializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Meritev
+        fields = '__all__'
+
 class ObiskDnSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -63,12 +71,14 @@ class ObiskSerializer(serializers.ModelSerializer):
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
     vezani_pacienti = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vezani_pacienti', many=True, read_only=True)
+    meritve = MeritveNaObiskuSerializer(source='meritvenaobisku_set', many=True)
+
 
     class Meta:
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
                   'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiskaId',
-                  'vrstaObiska', 'zdravnik', 'vezani_pacienti')
+                  'vrstaObiska', 'zdravnik', 'vezani_pacienti', 'meritve')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)
@@ -128,12 +138,6 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
                     novaMeritev.save()
         obisk.save()
         return obisk
-
-class MeritevSeializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Meritev
-        fields = '__all__'
 
 class ObiskDetailsSerializer(serializers.ModelSerializer):
 
