@@ -322,6 +322,7 @@ class PacientDetailsSerializer(serializers.ModelSerializer):
 class ZdravnikSerializer(serializers.ModelSerializer):
 
     ime = serializers.CharField(source='uporabnik.ime')
+    sifra_uporabnika = serializers.CharField(source='uporabnik.id')
     priimek = serializers.CharField(source='uporabnik.priimek')
     email = serializers.EmailField(source='uporabnik.email')
     tel = serializers.CharField(source='uporabnik.tel')
@@ -332,7 +333,7 @@ class ZdravnikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Delavec
         fields = ('ime', 'priimek', 'email', 'tel', 'naziv_okolisa', 'naziv_ustanove',
-        'naziv_delavca',)
+        'naziv_delavca', 'osebna_sifra', 'sifra_uporabnika')
 
 class PatronaznaSestraSerializer(serializers.ModelSerializer):
     delavec = serializers.StringRelatedField()
@@ -344,3 +345,36 @@ class PatronaznaSestraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Uporabnik
         exclude = ('delavec', 'password', 'je_admin')
+
+class PozabljenoGesloSerializer(serializers.ModelSerializer):
+	
+	#mail in geslo sta poslana kot ime in priimek, da ne teži za že obstoječi email
+	class Meta:
+		model = Uporabnik
+		fields = ('id', 'ime', 'priimek')
+		write_only_fields = ('password', 'id')
+
+	def create(self, validated_data):
+		mail = validated_data.get('ime')
+		geslo = validated_data.get('priimek')
+		uporabnik = Uporabnik.objects.get(email = mail)
+		prejemnik = uporabnik.email
+		zadeva = 'Pozabljeno geslo'
+		posiljatelj = 'patronazamail@gmail.com'
+		htmlVsebina = '<h3>Pozdravljeni!</h3><br><p>S klikom na povezavo potrdite novo geslo: <a href="http://fruity-routy.ddns.net/potrditev-gesla;id=' + str(uporabnik.id) + ';geslo=' + str(geslo) + '">povezava</a></p>'
+		sporocilo = EmailMessage(zadeva, htmlVsebina, posiljatelj, [prejemnik])
+		sporocilo.content_subtype = "html"
+		sporocilo.send()
+		return uporabnik
+
+class PotrditevGeslaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Uporabnik
+        fields = ('id', 'password')
+        write_only_fields = ('password', 'id')
+
+    def update(self, uporabnik, validated_data):
+        uporabnik.set_password(validated_data['password'])
+        uporabnik.save()
+        return uporabnik

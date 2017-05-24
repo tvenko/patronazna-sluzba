@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-6">
+			  <form [formGroup]="sForm" (ngSubmit)="spremeni(sForm.value)" class=" register-block">
+				<div class="ui-grid-row form-group">
+					<div class="ui-grid-col-12"
+					  [ngClass]="{ 'has-error': sForm.controls.email.invalid && sForm.controls.email.touched }">
+					  <label>Epošta</label>
+					  <input class="form-control" formControlName="email" type="text" placeholder="Email" required
+					  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+					  <small *ngIf="sForm.controls.email.errors && !sForm.controls.email.untouched"
+						class="text-danger">Vnesite veljaven epoštni naslov.</small>
+					</div>
+				  </div>
+				<div class="ui-grid-row" class="form-group" [ngClass]="{'has-error': sForm.controls.geslo1.invalid && sForm.controls.geslo1.touched}">
+				  <div class="ui-grid-col-12">
+					<label>Novo geslo</label>
+					<input class="form-control" formControlName="geslo1" type="password"
+					  placeholder="Geslo" required validateEqual="geslo2" reverse="true"
+					  pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})">
+					<small *ngIf="(sForm.controls.geslo1.errors && sForm.controls.geslo1.errors.pattern)
+					   || (sForm.controls.geslo1.errors && !sForm.controls.geslo1.untouched)" class="text-danger">
+					   Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko.
+					 </small>
+				  </div>
+				</div>
+				<div class="ui-grid-row" class="form-group" [ngClass]="{'has-error': sForm.controls.geslo2.invalid && sForm.controls.geslo2.touched}">
+				  <div class="ui-grid-col-12">
+					<label>Ponovite novo geslo</label>
+					<input class="form-control" formControlName="geslo2" type="password"
+					  placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false">
+					<small [hidden]="sForm.controls.geslo2.valid || (sForm.controls.geslo2.untouched)"
+					  class="text-danger">
+					  Gesli se ne ujemata.
+					</small>
+				  </div>
+				</div>
+				<div class="ui-grid-row pull-right ps-margin-top">
+				  <div class="ui-grid-col-6">
+					<button class="btn btn-primary" type="submit" [disabled]="!sForm.valid">Pošlji</button>
+				  </div>
+				</div>
+			  </form>
+			</div>
+			
+			<p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
+				<div class="ui-grid ui-grid-responsive ui-grid-pad">
+				  Na email naslov smo vam poslali povezavo za potrditev novega gesla.
+				</div>
+				<p-footer>
+				  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+					<button type="button" pButton class="ui-button-success" (click)="redirect()" label="Na prijavo"></button>
+				  </div>
+				</p-footer>
+			</p-dialog>
+			<p-dialog header="Napaka!" [(visible)]="prikaziNapako" modal="modal" responsive="true">
+				<div class="ui-grid ui-grid-responsive ui-grid-pad">
+				  Prišlo je do napake!
+				</div>
+			</p-dialog>
+			
+		</div>
+	</div>
+</div>

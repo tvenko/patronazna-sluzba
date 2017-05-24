@@ -29,10 +29,17 @@
         <i class="fa fa-list-alt" aria-hidden="true"></i> Pregled obiskov</a>
     </li>
 
+    <li class="nav-item" *ngIf="uporabnik.tipUporabnika === 'vodja PS'">
+      <a [routerLink]="['/nadomescanja/novo']" [routerLinkActive]="['router-link-active']"
+      [routerLinkActiveOptions]="{exact:true}">
+      <i class="fa fa-handshake-o" aria-hidden="true"></i> Novo nadomeščanje</a>
+    </li>
+
     <li class="nav-item">
       <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']"
       [routerLinkActiveOptions]="{exact:true}">
-      <i class="fa fa-lock" aria-hidden="true"></i> Odjava</a>
+       <i class="fa fa-lock" aria-hidden="true"></i> Odjava</a>
     </li>
+
   </ul>
 </nav>
