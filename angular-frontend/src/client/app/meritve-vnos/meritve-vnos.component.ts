@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ObiskiService } from '../shared/services/obiski/obiski.service';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 
 @Component({
   moduleId: module.id,
@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: 'meritve-vnos.component.html',
   styleUrls: ['meritve-vnos.component.css']
 })
-export class MeritveVnosComponent implements OnInit {
+export class MeritveVnosComponent implements OnInit, AfterViewChecked {
   id: number;
   obisk: any;
   vezaniPacienti: any;
@@ -17,6 +17,9 @@ export class MeritveVnosComponent implements OnInit {
   test: any;
   uspeh: boolean;
   poslano = false;
+
+  myForm: NgForm;
+  @ViewChild('f') currentForm: NgForm;
 
   constructor(private route: ActivatedRoute, private obiskiService: ObiskiService) {}
 
@@ -37,6 +40,46 @@ export class MeritveVnosComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngAfterViewChecked() {
+    this.formChanged();
+  }
+
+  formChanged() {
+    if (this.currentForm === this.myForm) { return; }
+    this.myForm = this.currentForm;
+    if (this.myForm) {
+      this.myForm.valueChanges.subscribe(
+        data => this.onValueChanged(data)
+      );
+    }
+  }
+
+  onValueChanged(data?: any) {
+    if(!this.myForm) { return; }
+    const form = this.myForm.form;
+    for (const key in form.value) {
+      if(form.value.hasOwnProperty(key) && form.value[key] !== '') {
+        for (const meritev of this.meritve) {
+          if (meritev.id === +key && meritev.sp_meja !== null && meritev.zg_meja !== null) {
+            if ( form.value[key] >= meritev.sp_meja && form.value[key] <= meritev.zg_meja ) {
+              form.setValidators([Validators.required, this.validatorTrue.bind(this)]);
+            } else {
+              form.setValidators([Validators.required, this.validatorFalse.bind(this)]);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  validatorFalse(c: FormControl): {[s: string]: boolean;} {
+    return {'wrong': true};
+  }
+
+  validatorTrue(c: FormControl): {[s: string]: boolean;} {
+    return null;
   }
 
   pridobiVezanegaPacienta(id: number) {

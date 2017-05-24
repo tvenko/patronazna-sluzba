@@ -46,7 +46,7 @@ import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadome
     ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule,
     SeznamObiskovModule, PodrobnostiObiskModule, KreirajNadomescanjeModule],
 
-  declarations: [AppComponent, PrijavaComponent,],
+  declarations: [AppComponent, PrijavaComponent],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'

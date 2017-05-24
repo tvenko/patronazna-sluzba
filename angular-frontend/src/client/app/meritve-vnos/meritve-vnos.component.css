@@ -10,3 +10,9 @@ input {
 .zajem {
   display: flex;
 }
+
+.opombe {
+  font-size: small;
+  font-style: italic;
+  color: grey;
+}
