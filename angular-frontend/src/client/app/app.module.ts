@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule, ButtonModule, MessagesModule } from 'primeng/primeng';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
@@ -26,20 +25,27 @@ import { KreiranjeNalogaGuard } from './guards/kreiranjeNaloga.guard';
 import { PregledNalogovGuard } from './guards/pregledNalogov.guard';
 import { RegistracijaDelavcaGuard } from './guards/registracijaDelavca.guard';
 import { RegistracijaOskrbovancaGuard } from './guards/registracijaOskrbovanca.guard';
+import { NadomescanjeMSGuard } from './guards/nadomescanje-MS.guard';
 import { PotrditevRegistracijeModule } from './potrditev-registracije/potrditev-registracije.module';
 import { ObiskiModule } from './obiski/obiski.module';
 import { SpremembaPodatkovModule } from './sprememba-podatkov/sprememba-podatkov.module';
 import { PodrobnostiNalogModule } from './podrobnosti-nalog/podrobnosti-nalog.module';
 import { MeritveVnosModule } from './meritve-vnos/meritve-vnos.module';
+import { PozabljenoGesloModule } from './pozabljeno-geslo/pozabljeno-geslo.module';
+import { PotrditevGeslaModule } from './potrditev-gesla/potrditev-gesla.module';
 import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
 import { PodrobnostiObiskModule } from './podrobnosti-obisk/podrobnosti-obisk.module';
+import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-    DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, PodrobnostiObiskModule],
+    PozabljenoGesloModule, PotrditevGeslaModule, DostopModule, PotrditevRegistracijeModule,
+    ObiskiModule, SpremembaPodatkovModule, PodrobnostiNalogModule, MeritveVnosModule,
+    SeznamObiskovModule, PodrobnostiObiskModule, KreirajNadomescanjeModule],
+
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,
@@ -49,7 +55,7 @@ import { PodrobnostiObiskModule } from './podrobnosti-obisk/podrobnosti-obisk.mo
     provide: LOCALE_ID,
     useValue: 'sl-SI' },
   AuthenticationService, AuthGuard, KreiranjeNalogaGuard, PregledNalogovGuard,
-  RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard],
+  RegistracijaDelavcaGuard, RegistracijaOskrbovancaGuard, NadomescanjeMSGuard],
   bootstrap: [AppComponent]
 
 })
