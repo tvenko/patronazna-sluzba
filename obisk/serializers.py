@@ -77,7 +77,7 @@ class ObiskSerializer(serializers.ModelSerializer):
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
                   'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiskaId',
-                  'vrstaObiska', 'zdravnik', 'vezani_pacienti', 'meritve')
+                  'vrstaObiska', 'zdravnik', 'vezani_pacienti')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)
