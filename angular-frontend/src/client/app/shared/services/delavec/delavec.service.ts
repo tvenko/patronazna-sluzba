@@ -84,6 +84,16 @@ export class DelavecService {
                     .catch(this.handleError);
   }
 
+  getMS(): Observable<any> {
+    return this.http.get(Config.API + 'racuni/sestre/')
+                    .map((res: Response) => res.json());
+  }
+
+  nadomestiMS(sestra: any, body: any): Observable<any> {
+    return this.http.patch(Config.API + 'racuni/sestra/' + sestra + '/nadomesti/', body)
+                    .map((res: Response) => res.json());
+  }
+
   /**
     * Handle HTTP error
     */

@@ -77,6 +77,12 @@ export class ObiskiService {
       .catch (this.handleError);
   }
 
+  filterObisk(query: string): Observable<any> {
+    return this.http.get(Config.API + 'obiski/obiski' + query)
+      .map((res: Response) => res.json())
+      .catch (this.handleError);
+  }
+
   /**
    * Handle HTTP error
    */

@@ -1,0 +1,92 @@
+
+<div class="app-body">
+  <div class="sidebar">
+    <sd-navbar-vodja-zdravnik></sd-navbar-vodja-zdravnik>
+  </div>
+  <main class="main">
+    <form [formGroup]="formaNadomestneSestre"  novalidate (ngSubmit)="poslji(formaNadomestneSestre.value)">
+      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-12">
+            <h2>Določanje nadomestne patronažne sestre</h2>
+          </div>
+        </div>
+        <div class="ui-grid-row container-obrazca ">
+          <div class="ui-grid-col-12">
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-9" [ngClass]="{'has-error': formaNadomestneSestre.controls.patronazna_sestra.invalid
+              && formaNadomestneSestre.controls.patronazna_sestra.touched}">
+                <label>Patronažna sestra <small>(odsotna)</small></label>
+                <select class="form-control" formGroupName="patronazna_sestra" formControlName="patronazna_sestra">
+                  <option *ngFor="let sestra of seznamSester" [ngValue]="sestra">
+                    {{sestra.osebna_sifra}} - {{sestra.ime}} {{sestra.priimek}}
+                  </option>
+                </select>
+                <small class="text-danger" *ngIf="formaNadomestneSestre.controls.patronazna_sestra.invalid
+                && formaNadomestneSestre.controls.patronazna_sestra.touched">
+                  Izberite patronažno sestro, ki bo odsotna
+                </small>
+              </div>
+            </div>
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-9" [ngClass]="{'has-error': formaNadomestneSestre.controls.nadomestna_patronazna_sestra.invalid
+              && formaNadomestneSestre.controls.nadomestna_patronazna_sestra.touched}">
+                <label>Patronažna sestra <small>(nadomeščujoča)</small></label>
+                <select *ngIf="formaNadomestneSestre.controls.patronazna_sestra.valid" class="form-control"
+                formControlName="nadomestna_patronazna_sestra">
+                  <option *ngFor="let sestra of seznamMoznihNadomestnihSester" [ngValue]="sestra">
+                    {{sestra.osebna_sifra}} - {{sestra.ime}} {{sestra.priimek}}
+                  </option>
+                </select>
+                <small class="text-danger" *ngIf="formaNadomestneSestre.controls.nadomestna_patronazna_sestra.invalid
+                && formaNadomestneSestre.controls.nadomestna_patronazna_sestra.touched">
+                  Izberite patronažno sestro, ki bo nadomeščala
+                </small>
+                <p>
+                  <small class="text-warning" *ngIf="formaNadomestneSestre.controls.patronazna_sestra.invalid">
+                     Izberite najprej sestro, ki bo odsotna
+                  </small>
+                </p>
+              </div>
+            </div>
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-4" [ngClass]="{'has-error': formaNadomestneSestre.controls.zacetek_nadomescanja.invalid
+              && formaNadomestneSestre.controls.zacetek_nadomescanja.touched}">
+                <label>Začetek nadomeščanja</label><br>
+                <p-calendar [inputStyle]="{'background-color': '#fff'}" inputStyleClass="form-control" class="ui-fluid" formControlName=zacetek_nadomescanja
+                dateFormat="dd.mm.yy" [locale]="si" [minDate]="today" [readonlyInput]="true"></p-calendar><br>
+                <small *ngIf="formaNadomestneSestre.controls.zacetek_nadomescanja.invalid
+                && formaNadomestneSestre.controls.zacetek_nadomescanja.touched" class="text-danger">
+                  Izberite datum začetka nadomeščanja
+                </small>
+              </div>
+              <div class="ui-grid-col-1">
+
+              </div>
+              <div class="ui-grid-col-4" [ngClass]="{'has-error': formaNadomestneSestre.controls.konec_nadomescanja.invalid
+              && formaNadomestneSestre.controls.konec_nadomescanja.touched}">
+                <label>Konec nadomeščanja</label><br>
+                <p-calendar [inputStyle]="{'background-color': '#fff'}" inputStyleClass="form-control" class="ui-fluid" formControlName=konec_nadomescanja
+                dateFormat="dd.mm.yy" [locale]="si" [minDate]="minimalenDatumKonca"
+                readonlyInput="true"></p-calendar><br>
+                <small *ngIf="formaNadomestneSestre.controls.konec_nadomescanja.invalid
+                && formaNadomestneSestre.controls.konec_nadomescanja.touched" class="text-danger">
+                  Izberite datum konca nadomeščanja
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-9">
+            <button [disabled]="formaNadomestneSestre.invalid || loading" pButton class="pull-right" type="submit" label="Dodaj nadomeščanje"></button>
+            <img *ngIf="loading" class="pull-right kn-margin-right " src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <small class="text-success pull-right server-response" *ngIf="response">{{response}}</small>
+            <small class="text-danger pull-right server-response" *ngIf="error">{{error}}</small>
+
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>

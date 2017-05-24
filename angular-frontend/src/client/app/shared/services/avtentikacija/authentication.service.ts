@@ -15,8 +15,8 @@ export class AuthenticationService {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
         this.id = '';
-		localStorage.setItem('stLogin', "0");
-		localStorage.setItem('loginTime', "0");
+		//localStorage.setItem('stLogin', "0");
+		//localStorage.setItem('loginTime', "0");
     }
 
     prijava(username: string, password: string): Observable<boolean> {
@@ -28,9 +28,12 @@ export class AuthenticationService {
 				(response : Response) => {
 					
 					var time = new Date().getTime();
-					var loginTime = parseInt(localStorage.getItem('loginTime'));
+					var loginTime;
+					if (!localStorage.getItem('loginTime'))
+						loginTime = 0;
+					else
+						loginTime = parseInt(localStorage.getItem('loginTime'));
 					var timeLeft = ((15 * 1000) - (time - loginTime)) / 1000;
-					
 					if (timeLeft > 0) {
 						var timeLeftInt = Math.ceil(timeLeft);
 						localStorage.setItem('loginError', "Prijava blokirana za " + timeLeftInt.toString() + " sekund.");
@@ -153,11 +156,19 @@ export class AuthenticationService {
 		let errMsg = (error.message) ? error.message :
 		  error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 		
-		var stLogin = parseInt(JSON.parse(localStorage.getItem('stLogin')));
+		var stLogin;
+		if (!localStorage.getItem('stLogin'))
+			stLogin = 0;
+		else
+			stLogin = parseInt(JSON.parse(localStorage.getItem('stLogin')));
 		stLogin++;
 		localStorage.setItem('stLogin', stLogin.toString());
 		var time = new Date().getTime();
-		var loginTime = parseInt(localStorage.getItem('loginTime'));
+		var loginTime;
+		if (!localStorage.getItem('loginTime'))
+			loginTime = 0;
+		else
+			loginTime = parseInt(localStorage.getItem('loginTime'));
 		var timeLeft = ((15 * 1000) - (time - loginTime)) / 1000;
 		if (timeLeft > 0) {
 			var timeLeftInt = Math.ceil(timeLeft);
