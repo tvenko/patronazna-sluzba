@@ -63,6 +63,7 @@ class ObiskSerializer(serializers.ModelSerializer):
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
     vezani_pacienti = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vezani_pacienti', many=True, read_only=True)
+    id_meritev = MeritveNaObiskuSerializer(source='meritvenaobisku_set', many=True,  required=False)
 
     class Meta:
         model = Obisk
@@ -79,7 +80,7 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
 
     patronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='patronazna_sestra')
     dejanskiDatum = serializers.DateTimeField(required=False, source='dejanski_datum')
-    meritev = MeritveNaObiskuSerializer(source='meritevnaobisku_set', many=True,  required=False)
+    meritev = MeritveNaObiskuSerializer(source='meritvenaobisku_set', many=True,  required=False)
     nadomestnaPatronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='nadomestna_patronazna_sestra')
     jeOpravljen = serializers.BooleanField(required=False, source='je_opravljen')
 
