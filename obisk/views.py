@@ -108,7 +108,7 @@ class ObiskiPlaniraniViewSet(viewsets.ReadOnlyModelViewSet):
             if (self.delavec):
                 queryset = Obisk.objects.filter(
                     (Q(patronazna_sestra=self.delavec.uporabnik) | Q(nadomestna_patronazna_sestra=self.delavec.uporabnik))
-                     & ((~Q(dejanski_datum = None) | Q(je_obvezen_datum = True)) & Q(je_opravljen = False)))\
+                     & ((~Q(dejanski_datum = None) | Q(je_obvezen_datum = True))))\
                     .order_by('predvideni_datum')
         return queryset
 

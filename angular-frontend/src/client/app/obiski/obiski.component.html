@@ -129,8 +129,12 @@
                   </div>
                 </div>
               </div>
-
-              <button class="btn btn-primary" style="margin-left: 40px;" [routerLink]="['/meritve', 'vnos', obisk.id]">Vnesi meritve</button>
+              <div *ngIf="!obisk.je_opravljen">
+                <button class="btn btn-primary" style="margin-left: 40px;" [routerLink]="['/meritve', 'vnos', obisk.id]">Vnesi meritve</button>
+              </div>
+              <div *ngIf="obisk.je_opravljen">
+                <button class="btn btn-primary" style="margin-left: 40px;" [routerLink]="['/meritve', 'vnos', obisk.id]">Popravi meritve</button>
+              </div>
             </p-accordionTab>
           </p-accordion>
           <hr>

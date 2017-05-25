@@ -12,22 +12,21 @@
             <h3>Meritve za pacienta {{ obisk?.pacient.ime }} {{ obisk?.pacient.priimek }}</h3>
           </div>
           <div class="panel-body">
-
-              <div *ngFor="let meritev of meritve; let i = index">
-                <div class="form-group" *ngIf="!meritev.meritev_novorojencka">
-                    <label class="form-control-label">{{ meritev?.naziv }}<span *ngIf="meritev.je_obvezen">*</span></label>
-                    <div class="zajem">
-                      <input
-                        class="form-control"
-                        type="{{ meritev.tip }}"
-                        name="{{ meritev.id }}"
-                        ngModel
-                        [required]=meritev.je_obvezen>
-                      <span style="margin-left: 20px;">{{ meritev?.merska_enota }}</span>
-                    </div>
-                    <span class="opombe" *ngIf="meritev.sp_meja">Meritev mora zavzemati vrednosti med {{ meritev?.sp_meja }} in {{ meritev?.zg_meja }}</span>
+            <div *ngFor="let meritev of meritve; let i = index">
+              <div class="form-group" *ngIf="!meritev.meritev_novorojencka">
+                <label class="form-control-label">{{ meritev?.naziv }}<span *ngIf="meritev.je_obvezen">*</span></label>
+                <div class="zajem">
+                  <input
+                    class="form-control"
+                    type="{{ meritev.tip }}"
+                    name="{{ meritev.id }}"
+                    [ngModel]="nastaviVrednost(meritev.id)"
+                    [required]="meritev.je_obvezen">
+                  <span style="margin-left: 20px;">{{ meritev?.merska_enota }}</span>
                 </div>
+                <span class="opombe" *ngIf="meritev.sp_meja">Meritev mora zavzemati vrednosti med {{ meritev?.sp_meja }} in {{ meritev?.zg_meja }}</span>
               </div>
+            </div>
           </div>
         </div>
         <div *ngFor="let vezaniPacient of vezaniPacienti">

@@ -91,6 +91,14 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
     );
   }
 
+  nastaviVrednost(id: string) {
+    for (const meritev of this.obisk.id_meritev) {
+      if (meritev.id_meritve === +id) {
+        return meritev.vrednost;
+      }
+    }
+  }
+
   onSubmit(form: NgForm) {
     let data = <any>{};
     data.id_obisk = [];
@@ -109,6 +117,10 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
       response => {
         this.poslano = true;
         this.uspeh = true;
+        const data = {'jeOpravljen': true};
+        this.obiskiService.updateStatus(this.obisk.id, data).subscribe(
+          response => console.log(response)
+        );
       },
       error => {
         this.poslano = true;

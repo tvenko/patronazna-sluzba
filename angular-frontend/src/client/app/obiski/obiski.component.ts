@@ -75,10 +75,6 @@ export class ObiskiComponent implements OnInit {
   }
 
   onOpravljenObisk(id: number) {
-    // const data = {'jeOpravljen': true};
-    // this.ObiskiService.updateStatus(id, data).subscribe(
-    //   response => {this.pridobiObiske();}
-    // );
     this.router.navigate(['/meritve', 'vnos']);
   }
 
