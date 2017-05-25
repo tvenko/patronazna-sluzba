@@ -21,6 +21,12 @@ class MeritveNaObiskuSerializer(serializers.ModelSerializer):
         model = MeritveNaObisku
         fields = ('id', 'vrednost', 'id_obisk', 'id_meritve', 'naziv_meritve')
 
+class MeritveNaObiskuPutSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeritveNaObisku
+        fields = ('vrednost', )
+
 class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
 
     id_obisk = serializers.PrimaryKeyRelatedField(many=True, queryset=Obisk.objects.all())

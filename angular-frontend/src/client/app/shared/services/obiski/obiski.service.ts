@@ -71,8 +71,13 @@ export class ObiskiService {
   }
 
   updateDejanskiDatum(id: number, data: any): Observable<any> {
-    console.log('data: ' + data);
     return this.http.put(Config.API + 'obiski/obiski/' + id + '/', data)
+      .map((res: Response) => res.json)
+      .catch (this.handleError);
+  }
+
+  updateMeritevNaObisku(id: number, data: any) {
+    return this.http.put(Config.API + 'obiski/meritvenaobisku/' + id + '/', data)
       .map((res: Response) => res.json)
       .catch (this.handleError);
   }

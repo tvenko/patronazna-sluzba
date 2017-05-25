@@ -138,7 +138,9 @@ class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
 
 class MeritveNaObiskuViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return MeritveNaObiskuSerializer
-        return MeritveNaObiskuPostSerializer
+        if self.request.method == 'POST':
+            return MeritveNaObiskuPostSerializer
+        elif self.request.method == 'PUT':
+            return MeritveNaObiskuPutSerializer
+        return MeritveNaObiskuSerializer
     queryset = MeritveNaObisku.objects.all()

@@ -105,27 +105,49 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
     data.id_meritve = [];
     data.vrednost = [];
     if (form.valid) {
-      for(let key in form.value) {
-        if(form.value.hasOwnProperty(key) && form.value[key] !== '') {
-          data.id_obisk.push(this.obisk.id);
-          data.id_meritve.push(+key);
-          data.vrednost.push(form.value[key]);
+      for (let key in form.value) {
+        let post = true;
+        if (form.value.hasOwnProperty(key) && form.value[key] !== '') {
+          for (const el of this.obisk.id_meritev) {
+            if (el.id_meritve === +key && el.vrednost !== form.value[key]) {
+              let dat = <any>{};
+              dat.vrednost = form.value[key];
+              this.obiskiService.updateMeritevNaObisku(el.id, dat).subscribe(
+                response => {
+                  this.poslano = true;
+                  this.uspeh = true;
+                },
+                error => {
+                  this.poslano = true;
+                  this.uspeh = false;
+                }
+              );
+              post = false;
+            }
+          }
+          if (post) {
+            data.id_obisk.push(this.obisk.id);
+            data.id_meritve.push(+key);
+            data.vrednost.push(form.value[key]);
+          }
         }
       }
     }
-    this.obiskiService.postMeritve(data).subscribe(
-      response => {
-        this.poslano = true;
-        this.uspeh = true;
-        const data = {'jeOpravljen': true};
-        this.obiskiService.updateStatus(this.obisk.id, data).subscribe(
-          response => console.log(response)
-        );
-      },
-      error => {
-        this.poslano = true;
-        this.uspeh = false;
-      }
-    );
+    if (data.length > 0) {
+      this.obiskiService.postMeritve(data).subscribe(
+        response => {
+          this.poslano = true;
+          this.uspeh = true;
+          const data = {'jeOpravljen': true};
+          this.obiskiService.updateStatus(this.obisk.id, data).subscribe(
+            response => console.log(response)
+          );
+        },
+        error => {
+          this.poslano = true;
+          this.uspeh = false;
+        }
+      );
+    }
   }
 }
