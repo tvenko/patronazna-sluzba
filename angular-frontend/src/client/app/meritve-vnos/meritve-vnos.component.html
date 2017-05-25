@@ -62,7 +62,13 @@
         <button class="btn btn-success center-block" type="submit" [disabled]="!f.valid">Pošlji</button>
       </form>
       <div *ngIf="vceraj">
-        potrjujem datum
+        <p>Ker podatke urejate nakdano, prosim potrdite dejanski datum opravljenega obiska.</p>
+        <p-calendar
+          [(ngModel)]="potrjenDatum"
+          [showIcon]="true"
+          [disabledDays]="[0,6]"
+          [minDate]="yesterday"
+        ></p-calendar>
       </div>
     </div>
     <div *ngIf="!veljavenDatum">

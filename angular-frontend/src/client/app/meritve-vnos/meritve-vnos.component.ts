@@ -24,6 +24,7 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
   yesterday: Date = new Date();
   veljavenDatum: boolean;
   vceraj = false;
+  potrjenDatum: Date;
 
   myForm: NgForm;
   @ViewChild('f') currentForm: NgForm;
@@ -48,14 +49,17 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
         }
         if (!this.obisk.je_prvi) {
           this.obiskiService.getPrviObisk(this.obisk.id).subscribe(
-            response => this.prviObisk = response
+            response => {
+              this.prviObisk = response.results;
+            }
           );
         }
+        this.potrjenDatum = new Date(this.obisk.dejanski_datum);
         var dejanskiDatum = new Date(this.obisk.dejanski_datum);
         if (this.yesterday.toDateString() === dejanskiDatum.toDateString()) {
           this.veljavenDatum = true;
           this.vceraj = true;
-        } else if (this.today.toDateString() === dejanskiDatum.toDateString()) {
+        } else if (dejanskiDatum.getTime() >= this.today.getTime()) {
           this.veljavenDatum = true;
           this.vceraj = false;
         }
@@ -113,8 +117,14 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
   }
 
   nastaviVrednost(id: string, enkratna: boolean) {
-    if (enkratna && !this.obisk.je_prvi) {
-      for (const meritev of this.prviObisk.id_meritev) {
+    let prviObisk = null;
+    if (this.prviObisk) {
+      for (var el of this.prviObisk) {
+        prviObisk = el;
+      }
+    }
+    if (enkratna && prviObisk && !this.obisk.je_prvi) {
+      for (const meritev of prviObisk.id_meritev) {
         if (meritev.id_meritve === +id) {
           return meritev.vrednost;
         }
@@ -138,23 +148,25 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
         let post = true;
         if (form.value.hasOwnProperty(key) && form.value[key] !== '') {
           for (const el of this.obisk.id_meritev) {
-            if (el.id_meritve === +key && el.vrednost !== form.value[key]) {
-              let dat = <any>{};
-              dat.vrednost = form.value[key];
-              this.obiskiService.updateMeritevNaObisku(el.id, dat).subscribe(
-                response => {
-                  this.poslano = true;
-                  this.uspeh = true;
-                },
-                error => {
-                  this.poslano = true;
-                  this.uspeh = false;
-                }
-              );
+            if (el.id_meritve === +key) {
+              if (el.vrednost !== form.value[key]) {
+                let dat = <any>{};
+                dat.vrednost = form.value[key];
+                this.obiskiService.updateMeritevNaObisku(el.id, dat).subscribe(
+                  response => {
+                    this.poslano = true;
+                    this.uspeh = true;
+                  },
+                  error => {
+                    this.poslano = true;
+                    this.uspeh = false;
+                  }
+                );
+              }
               post = false;
             }
           }
-          if (post) {
+          if (post && form.value[key]) {
             console.log('test');
             data.id_obisk.push(this.obisk.id);
             data.id_meritve.push(+key);
@@ -162,6 +174,9 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
           }
         }
       }
+      let datum = <any>{};
+      datum.dejanskiDatum = this.potrjenDatum;
+      this.obiskiService.updateDejanskiDatum(this.obisk.id, datum).subscribe();
     }
     console.log(data);
     if (data) {

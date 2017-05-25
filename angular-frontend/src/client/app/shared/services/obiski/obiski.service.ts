@@ -65,6 +65,7 @@ export class ObiskiService {
   }
 
   postMeritve(data: any) {
+    console.log(data);
     return this.http.post(Config.API + 'obiski/meritvenaobisku/', data)
       .map((res: Response) => res.json())
       .catch(this.handleError);
