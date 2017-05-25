@@ -10,13 +10,20 @@ import { FormControl, NgForm, Validators } from '@angular/forms';
   styleUrls: ['meritve-vnos.component.css']
 })
 export class MeritveVnosComponent implements OnInit, AfterViewChecked {
+
   id: number;
   obisk: any;
+  prviObisk: any;
   vezaniPacienti: any;
   meritve: any[] = [];
   test: any;
   uspeh: boolean;
   poslano = false;
+
+  today: Date = new Date();
+  yesterday: Date = new Date();
+  veljavenDatum: boolean;
+  vceraj = false;
 
   myForm: NgForm;
   @ViewChild('f') currentForm: NgForm;
@@ -24,6 +31,7 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
   constructor(private route: ActivatedRoute, private obiskiService: ObiskiService) {}
 
   ngOnInit() {
+    this.yesterday.setDate(this.yesterday.getDate()-1);
     this.id = this.route.snapshot.params['id'];
     this.obiskiService.getById(this.id).subscribe(
       response => {
@@ -37,6 +45,19 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
           for (let id of response.vezani_pacienti) {
             this.pridobiVezanegaPacienta(id);
           }
+        }
+        if (!this.obisk.je_prvi) {
+          this.obiskiService.getPrviObisk(this.obisk.id).subscribe(
+            response => this.prviObisk = response
+          );
+        }
+        var dejanskiDatum = new Date(this.obisk.dejanski_datum);
+        if (this.yesterday.toDateString() === dejanskiDatum.toDateString()) {
+          this.veljavenDatum = true;
+          this.vceraj = true;
+        } else if (this.today.toDateString() === dejanskiDatum.toDateString()) {
+          this.veljavenDatum = true;
+          this.vceraj = false;
         }
       }
     );
@@ -91,10 +112,18 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  nastaviVrednost(id: string) {
-    for (const meritev of this.obisk.id_meritev) {
-      if (meritev.id_meritve === +id) {
-        return meritev.vrednost;
+  nastaviVrednost(id: string, enkratna: boolean) {
+    if (enkratna && !this.obisk.je_prvi) {
+      for (const meritev of this.prviObisk.id_meritev) {
+        if (meritev.id_meritve === +id) {
+          return meritev.vrednost;
+        }
+      }
+    } else {
+      for (const meritev of this.obisk.id_meritev) {
+        if (meritev.id_meritve === +id) {
+          return meritev.vrednost;
+        }
       }
     }
   }
@@ -126,6 +155,7 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
             }
           }
           if (post) {
+            console.log('test');
             data.id_obisk.push(this.obisk.id);
             data.id_meritve.push(+key);
             data.vrednost.push(form.value[key]);
@@ -133,7 +163,9 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
         }
       }
     }
-    if (data.length > 0) {
+    console.log(data);
+    if (data) {
+      console.log('check');
       this.obiskiService.postMeritve(data).subscribe(
         response => {
           this.poslano = true;

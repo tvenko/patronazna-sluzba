@@ -46,6 +46,12 @@ export class ObiskiService {
       .catch(this.handleError);
   }
 
+  getPrviObisk(id: number) {
+    return this.http.get(Config.API + 'obiski/prvi?id=' + id)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   getVezaniPacienti(id: number) {
     return this.http.get(Config.API + 'racuni/vezanipacienti/' + id)
       .map((res: Response) => res.json())

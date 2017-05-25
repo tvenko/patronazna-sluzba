@@ -5,7 +5,7 @@
   <main class="main">
     <h2>Vnos meritev na obisku {{ obisk?.vrstaObiska }}</h2>
     <hr>
-    <div class="container">
+    <div class="container" *ngIf="veljavenDatum">
       <form (ngSubmit)="onSubmit(f)" #f="ngForm">
         <div class="panel panel-success">
           <div class="panel-heading">
@@ -20,7 +20,8 @@
                     class="form-control"
                     type="{{ meritev.tip }}"
                     name="{{ meritev.id }}"
-                    [ngModel]="nastaviVrednost(meritev.id)"
+                    [disabled]="!obisk.je_prvi && meritev.enkraten"
+                    [ngModel]="nastaviVrednost(meritev.id, meritev.enkraten)"
                     [required]="meritev.je_obvezen">
                   <span style="margin-left: 20px;">{{ meritev?.merska_enota }}</span>
                 </div>
@@ -39,7 +40,13 @@
                 <div class="form-group" *ngIf="meritev.meritev_novorojencka">
                   <label class="form-control-label">{{ meritev?.naziv }}<span *ngIf="meritev.je_obvezen">*</span></label>
                   <div class="zajem">
-                    <input class="form-control" type="{{ meritev.tip }}" name="{{ meritev.id }}" ngModel [required]=meritev.je_obvezen>
+                    <input
+                      class="form-control"
+                      type="{{ meritev.tip }}"
+                      name="{{ meritev.id }}"
+                      [disabled]="!obisk.je_prvi && meritev.enkraten"
+                      [ngModel]="nastaviVrednost(meritev.id, meritev.enkraten)"
+                      [required]=meritev.je_obvezen>
                     <span style="margin-left: 20px;">{{ meritev?.merska_enota }}</span>
                   </div>
                   <span class="opombe" *ngIf="meritev.sp_meja">Meritev mora zavzemati vrednosti med {{ meritev?.sp_meja }} in {{ meritev?.zg_meja }}</span>
@@ -54,6 +61,14 @@
         </div>
         <button class="btn btn-success center-block" type="submit" [disabled]="!f.valid">Pošlji</button>
       </form>
+      <div *ngIf="vceraj">
+        potrjujem datum
+      </div>
+    </div>
+    <div *ngIf="!veljavenDatum">
+      <h3>Meritve za ta obisk ne morete več urejat</h3>
     </div>
   </main>
 </div>
+
+

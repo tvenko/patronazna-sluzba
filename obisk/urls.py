@@ -9,6 +9,7 @@ router.register(r'planirani', views.ObiskiPlaniraniViewSet, base_name='obisk-pla
 router.register(r'prihajajoci', views.ObiskiPrihajajociViewSet, base_name='obisk-prihajajoci')
 router.register(r'meritve', views.MeritevViewSet, base_name='meritev')
 router.register(r'meritvenaobisku', views.MeritveNaObiskuViewSet, base_name='meritevnaobisku')
+router.register(r'prvi', views.ObiskPrviViewSet, base_name='prvi')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
