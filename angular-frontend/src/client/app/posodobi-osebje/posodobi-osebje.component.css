@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+input {
+  width: 250px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0 0 0 8px;
+}
+
+.nalogId {
+  color: green;
+}
+
+.nalogId:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-group {
+  padding: 5px;
+}
+
+.affix {
+    top:50px;
+    right:0;
+    position:fixed;
+}
+
+.podrobnosti-link {
+  cursor: pointer;
+  color: #2880d2;
+}
+
+.podrobnosti-link:focus, .podrobnosti-link:hover {
+  color: #23527c;
+  text-decoration: underline;
+}

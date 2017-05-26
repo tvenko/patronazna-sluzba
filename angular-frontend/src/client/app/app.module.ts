@@ -36,6 +36,8 @@ import { PozabljenoGesloModule } from './pozabljeno-geslo/pozabljeno-geslo.modul
 import { PotrditevGeslaModule } from './potrditev-gesla/potrditev-gesla.module';
 import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
 import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
+import { PosodobiOsebjeModule } from './posodobi-osebje/posodobi-osebje.module'
+import { PosodobiOsebjePodrobnostiModule } from './posodobi-osebje-podrobnosti/posodobi-osebje-podrobnosti.module'
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
@@ -44,7 +46,8 @@ import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadome
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
 	   PozabljenoGesloModule, PotrditevGeslaModule,
     DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule,
-    PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule],
+    PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule,
+	PosodobiOsebjeModule, PosodobiOsebjePodrobnostiModule],
   declarations: [AppComponent, PrijavaComponent,],
   providers: [{
     provide: APP_BASE_HREF,

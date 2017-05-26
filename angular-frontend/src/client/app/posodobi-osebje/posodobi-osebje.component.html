@@ -1,0 +1,153 @@
+<div class="app-body">
+  <div class="sidebar">
+
+    <div *ngIf="tipUporabnikaSestra">
+      <sd-navbar-sestra></sd-navbar-sestra>
+    </div>
+    <div *ngIf="!tipUporabnikaSestra">
+      <sd-navbar-vodja-zdravnik></sd-navbar-vodja-zdravnik>
+    </div>
+  </div>
+  <main class="main">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-12">
+          <h2>Vaši delovni nalogi</h2>
+        </div>
+        <div class="pull-right"><button class="btn btn-success" (click)="displayFilter();">Filtri</button></div>
+      </div>
+      <!-- Body od vseh osebnih podatkov -->
+
+
+      <!--- prikaz delovnih nalogov --->
+      <table class="table table-striped table-responsive">
+      	<thead>
+      		<tr>
+            <th><strong>OSEBNA ŠIFRA</strong></th>
+            <th><strong>IME</strong></th>
+      			<th><strong>PRIIMEK</strong></th>
+            <th><strong>VRSTA DELAVCA</strong></th>
+      			<th></th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		<!--- <tr *ngFor="let nalog of delovniNalogi"> --->
+			<tr *ngFor="let delavec of delavci">
+            <!--- <td class="nalogId {{nalog.id}}" (click)="test(nalog)">{{ nalog.id }}</td> --->
+            <td>{{ delavec.osebna_sifra }}</td>
+            <td>{{ delavec.ime }}</td>
+            <td>{{ delavec.priimek }}</td>
+      		<td>{{ delavec.naziv_delavca }}</td>
+			<!---
+			<td>{{ nalog.id }}</td>
+            <td>{{ nalog.izdajatelj }}</td>
+            <td>{{ nalog.ime_obiska }}</td>
+      		<td>{{ nalog.ime_pacienta }}</td>
+      		<td>{{ nalog.ime_sestre }}</td>
+      		<td>{{ nalog.ime_sestre }}</td>
+      		<td>{{ nalog.datum_izdaje | date }}</td>
+            --->
+			<td><span class="podrobnosti-link" (click)="redirect(delavec.osebna_sifra)">posodobi podatke</span></td>
+
+      		</tr>
+      	</tbody>
+      </table>
+
+      <div class="ui-grid-col-12 text-center" *ngIf="queryNext || queryPrev" style="margin-top: 30px;">
+        <span *ngIf="queryPrev">
+          <button class="btn" (click)="onPreviousPage()">Nazaj</button>
+        </span>
+        <span *ngIf="queryNext">
+          <button class="btn" (click)="onNextPage()">Naprej</button>
+        </span>
+      </div>
+
+      <!---
+      <p-dialog header="Podrobnosti naloga {{ podrobniNalog.id }}" [(visible)]="prikaziPodrobnosti" modal="modal" responsive="true">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad">
+          <table class="table table-responsive">
+          	<tbody>
+          		<tr><td><b>Izdajatelj</b></td>
+          		<td>{{ podrobniNalog.izdajatelj }}</td></tr>
+
+          		<tr><td><b>Vrsta obiska</b></td>
+          		<td>{{ podrobniNalog.ime_obiska }}</td></tr>
+
+          		<tr><td><b>Pacient</b></td>
+          		<td>{{ podrobniNalog.ime_pacienta }}</td></tr>
+
+          		<tr><td><b>Sestra</b></td>
+          		<td>{{ podrobniNalog.ime_sestre }}</td></tr>
+
+          		<tr><td><b>Nadomestna sestra</b></td>
+          		<td>{{ podrobniNalog.ime_sestre }}</td></tr>
+
+          		<tr><td><b>Datum izdaje</b></td>
+          		<td>{{ podrobniNalog.datum_izdaje | date:'dd. MM. yyyy' }}</td></tr>
+
+          		<tr *ngIf="podrobniNalog.material?.length > 0"><td><b>Materiali</b></td>
+          		<td><span *ngFor="let mat of podrobniNalog.material">{{ mat.ime_materiala }} ({{ mat.kolicina }})<br/></span></td></tr>
+
+          		<tr><td><b>Časovno obdobje</b></td>
+          		<td>{{ podrobniNalog.casovno_obdobje }}</td></tr>
+
+          		<tr><td><b>Časovni interval</b></td>
+          		<td>{{ podrobniNalog.casovni_interval }}</td></tr>
+
+          		<tr><td><b>Je obvezen datum</b></td>
+          		<td *ngIf="podrobniNalog.je_obvezen_datum">Ja</td>
+              <td *ngIf="!podrobniNalog.je_obvezen_datum">Ne</td></tr>
+          	</tbody>
+          </table>
+        </div>
+      </p-dialog>
+      --->
+
+      <p-dialog header="Filtri" [(visible)]="prikaziPodrobnosti" modal="modal" responsive="true">
+        <!--- forma za filtriranje --->
+        <div>
+        <form [formGroup]="filterForm" (ngSubmit)="filtrirajSubmit(filterForm.value)">
+        <div class="form-group">
+          <p-calendar formControlName="datumOd" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" placeholder="Izdan od" [maxDate]=minDate inputStyleClass="form-control" class="ui-fluid"></p-calendar>
+        </div>
+        <div class="form-group">
+          <p-calendar formControlName="datumDo" dateFormat="dd.mm.yy" [locale]="si" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2017" placeholder="Izdan do" [maxDate]=minDate inputStyleClass="form-control" class="ui-fluid"></p-calendar>
+        </div>
+      <div class="form-group">
+        <label>Vrsta obiska</label>
+        <select class="form-control" *ngIf="vrsteObiskov" formControlName="vrstaObiska">
+          <option value=""></option>
+          <option *ngFor="let obisk of vrsteObiskov" [ngValue]="obisk">
+            {{ obisk.opis }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Izdajatelj</label>
+        <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+        [suggestions]="najdeniZdravniki" field="naziv" (completeMethod)="searchIzdajatelj($event)" (onSelect)="izdajateljIzbran($event)" autoHighlight="true"></p-autoComplete>
+      </div>
+      <div class="form-group">
+        <label>Pacient</label>
+        <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+        [suggestions]="najdeniPacienti" field="naziv" (completeMethod)="searchPacient($event)" (onSelect)="pacientIzbran($event)" autoHighlight="true"></p-autoComplete>
+      </div>
+      <div class="form-group">
+        <label>Patronažna sestra</label>
+        <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+        [suggestions]="najdeneSestre" field="naziv" (completeMethod)="searchSestra($event)" (onSelect)="sestraIzbrana($event)" autoHighlight="true"></p-autoComplete>
+      </div>
+      <div class="form-group">
+        <label>Nadomestna sestra</label>
+        <p-autoComplete class="ui-fluid" inputStyleClass="form-control" minLength="3" [ngModel]='pacient' [ngModelOptions]="{standalone: true}"
+        [suggestions]="najdeneSestre" field="naziv" (completeMethod)="searchSestra($event)" (onSelect)="sestraNadIzbrana($event)" autoHighlight="true"></p-autoComplete>
+      </div>
+        <div class="form-group"><button type="submit" class="btn btn-success">Filtriraj</button>
+        <button type="reset" class="btn btn-danger" (click)=" resetValues();">Pobriši</button></div>
+      </form>
+  </div>
+      </p-dialog>
+
+    </div>
+  </main>
+</div>
