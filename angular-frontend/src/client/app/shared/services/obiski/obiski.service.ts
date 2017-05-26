@@ -46,6 +46,12 @@ export class ObiskiService {
       .catch(this.handleError);
   }
 
+  getPrviObisk(id: number) {
+    return this.http.get(Config.API + 'obiski/prvi?id=' + id)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   getVezaniPacienti(id: number) {
     return this.http.get(Config.API + 'racuni/vezanipacienti/' + id)
       .map((res: Response) => res.json())
@@ -59,6 +65,7 @@ export class ObiskiService {
   }
 
   postMeritve(data: any) {
+    console.log(data);
     return this.http.post(Config.API + 'obiski/meritvenaobisku/', data)
       .map((res: Response) => res.json())
       .catch(this.handleError);
@@ -71,8 +78,13 @@ export class ObiskiService {
   }
 
   updateDejanskiDatum(id: number, data: any): Observable<any> {
-    console.log('data: ' + data);
     return this.http.put(Config.API + 'obiski/obiski/' + id + '/', data)
+      .map((res: Response) => res.json)
+      .catch (this.handleError);
+  }
+
+  updateMeritevNaObisku(id: number, data: any) {
+    return this.http.put(Config.API + 'obiski/meritvenaobisku/' + id + '/', data)
       .map((res: Response) => res.json)
       .catch (this.handleError);
   }

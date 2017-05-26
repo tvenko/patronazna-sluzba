@@ -10,6 +10,7 @@
     <li class="nav-title">
       Seznam strani
     </li>
+
     <li class="nav-item">
       <a [routerLink]="['/nalogi']" [routerLinkActive]="['router-link-active']"
       [routerLinkActiveOptions]="{exact:true}">
@@ -20,6 +21,12 @@
       <a [routerLink]="['/nalogi/nov']" [routerLinkActive]="['router-link-active']"
         [routerLinkActiveOptions]="{exact:true}">
           <i class="fa fa-file-o" aria-hidden="true"></i> Kreiraj nalog</a>
+    </li>
+	
+	<li class="nav-item">
+      <a [routerLink]="['/seznam-obiskov']" [routerLinkActive]="['router-link-active']"
+         [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-list-alt" aria-hidden="true"></i> Pregled obiskov</a>
     </li>
 
     <li class="nav-item" *ngIf="uporabnik.tipUporabnika === 'vodja PS'">

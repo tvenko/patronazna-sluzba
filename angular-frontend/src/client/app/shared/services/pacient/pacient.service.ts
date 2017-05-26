@@ -53,6 +53,10 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  getVezancka(id: number): Observable<any> {
+    return this.http.get(Config.API + 'racuni/vezanipacienti/' + id +'/').map((res: Response) => res.json()).catch(this.handleError);
+  }
+
   /**
    * Vrne sifre okolisa
    */

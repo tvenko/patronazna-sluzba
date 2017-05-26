@@ -15,9 +15,17 @@ class MaterialSerializer(serializers.ModelSerializer):
 
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
+    naziv_meritve = serializers.CharField(source='id_meritve.naziv')
+
     class Meta:
         model = MeritveNaObisku
-        fields = '__all__'
+        fields = ('id', 'vrednost', 'id_obisk', 'id_meritve', 'naziv_meritve')
+
+class MeritveNaObiskuPutSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeritveNaObisku
+        fields = ('vrednost', )
 
 class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
 
@@ -49,6 +57,12 @@ class MeritveNaObiskuPostSerializer(serializers.ModelSerializer):
             meritevNaObisku.save()
         return validated_data
 
+class MeritevSeializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Meritev
+        fields = '__all__'
+
 class ObiskDnSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -63,12 +77,13 @@ class ObiskSerializer(serializers.ModelSerializer):
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
     vezani_pacienti = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vezani_pacienti', many=True, read_only=True)
+    id_meritev = MeritveNaObiskuSerializer(source='meritvenaobisku_set', many=True,  required=False)
 
     class Meta:
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
                   'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiskaId',
-                  'vrstaObiska', 'zdravnik', 'vezani_pacienti')
+                  'vrstaObiska', 'zdravnik', 'vezani_pacienti', 'je_prvi')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)
@@ -79,7 +94,7 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
 
     patronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='patronazna_sestra')
     dejanskiDatum = serializers.DateTimeField(required=False, source='dejanski_datum')
-    meritev = MeritveNaObiskuSerializer(source='meritevnaobisku_set', many=True,  required=False)
+    meritev = MeritveNaObiskuSerializer(source='meritvenaobisku_set', many=True,  required=False)
     nadomestnaPatronaznaSestra = serializers.PrimaryKeyRelatedField(queryset=Uporabnik.objects.all(), required=False, source='nadomestna_patronazna_sestra')
     jeOpravljen = serializers.BooleanField(required=False, source='je_opravljen')
 
@@ -128,12 +143,6 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
                     novaMeritev.save()
         obisk.save()
         return obisk
-
-class MeritevSeializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Meritev
-        fields = '__all__'
 
 class ObiskDetailsSerializer(serializers.ModelSerializer):
 

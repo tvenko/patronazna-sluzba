@@ -74,5 +74,6 @@ export class PodrobnostiNalogComponent implements OnInit {
     // Preusmeri nazaj na pregled nalogov
     nazajNaPregled() {
       this.router.navigateByUrl('/nalogi');
+      // window.history.back();
     }
 }

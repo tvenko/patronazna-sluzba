@@ -18,6 +18,7 @@ class Meritev(models.Model):
     je_obvezen = models.BooleanField(default=False)
     enkraten = models.BooleanField(default=False)
     meritev_novorojencka = models.BooleanField(default=False)
+    tip = models.CharField(max_length=20, default='text')
 
     def __str__(self):
         return self.naziv
@@ -37,6 +38,7 @@ class Obisk(models.Model):
     patronazna_sestra = models.ForeignKey(Uporabnik, on_delete=models.SET_NULL, null=True, related_name='%(class)s_patronazna_sestra')
     nadomestna_patronazna_sestra = models.ForeignKey(Uporabnik, on_delete=models.SET_NULL, null=True, blank=True, related_name='%(class)s_nadomestna_patronazna_sestra')
     id_meritev = models.ManyToManyField(Meritev, blank=True, through='MeritveNaObisku')
+    je_prvi = models.BooleanField(default=False);
 
     def __str__(self):
         return str(self.id)

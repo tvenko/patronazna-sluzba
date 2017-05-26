@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule, ButtonModule, MessagesModule } from 'primeng/primeng';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
@@ -38,17 +37,18 @@ import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
 import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
 import { PosodobiOsebjeModule } from './posodobi-osebje/posodobi-osebje.module'
 import { PosodobiOsebjePodrobnostiModule } from './posodobi-osebje-podrobnosti/posodobi-osebje-podrobnosti.module'
+import { PodrobnostiObiskModule } from './podrobnosti-obisk/podrobnosti-obisk.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, AppRoutingModule, HomeModule, SharedModule.forRoot(),
     DelovniNalogModule, KreirajNalogModule, ReactiveFormsModule, FormsModule, CalendarModule, ButtonModule,
     MessagesModule, BrowserAnimationsModule, RegModule, RegPacientModule,
     PrijavaRoutingModule, OskrbovaniPacientModule, PacientProfilModule,
-	   PozabljenoGesloModule, PotrditevGeslaModule,
+	PozabljenoGesloModule, PotrditevGeslaModule,
     DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule,
     PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule,
-	PosodobiOsebjeModule, PosodobiOsebjePodrobnostiModule],
-  declarations: [AppComponent, PrijavaComponent,],
+	PosodobiOsebjeModule, PosodobiOsebjePodrobnostiModule, PodrobnostiObiskModule],
+  declarations: [AppComponent, PrijavaComponent],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'

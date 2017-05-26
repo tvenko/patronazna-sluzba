@@ -6,3 +6,13 @@ input.ng-invalid.ng-touched {
 input {
   width: 100%;
 }
+
+.zajem {
+  display: flex;
+}
+
+.opombe {
+  font-size: small;
+  font-style: italic;
+  color: grey;
+}

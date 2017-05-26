@@ -1,0 +1,275 @@
+<div class="app-body">
+  <div class="sidebar">
+    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika != 'patronažna sestra'"></sd-navbar-vodja-zdravnik>
+    <sd-navbar-sestra *ngIf="tipUporabnika === 'patronažna sestra'"></sd-navbar-sestra>
+  </div>
+
+<main class="main">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+      <div class="ui-grid-row">
+        <div class="ps-nazaj" (click)="nazajNaPregled()">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          <span>Nazaj</span>
+        </div>
+        <div class="ui-grid-col-6">
+          <h2 class="ps-naslov">Podrobnosti obiska <i>{{idObiska}}</i></h2>
+        </div>
+      </div>
+
+      <div class="error-container">
+        <span class="text-danger" *ngIf="errorNalaganja?.status == 404">
+          Obiska ni bilo mogoče najti.
+        </span>
+        <span class="text-danger" *ngIf="errorNalaganja.status == 500">
+          Prišlo je do napake na strežniku, poskusite znova kasneje.
+        </span>
+        <span class="text-danger" *ngIf="errorNalaganja.status == 403">
+          Nimate dovoljenja za ogled tega Obiska.
+        </span>
+      </div>
+
+      <div class="ui-grid-row podrobnosti-container" *ngIf="obisk && errorNalaganja === ''">
+        <div class="ui-grid-col-8">
+          <div class="ui-grid-row">
+            <!-- podatki zdravnika  -->
+            <div class="ui-grid-col-5 level-1 margin-bottom-md">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki o izdajatelju naloga</h5>
+                </div>
+              </div>
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      <small>{{obisk.zdravnik.naziv_delavca}}</small> {{obisk.zdravnik.ime}} {{obisk.zdravnik.priimek}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{obisk.zdravnik.email}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{obisk.zdravnik.tel}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-grid-col-1"></div>
+
+            <!-- podatki medicinske sestre -->
+            <div class="ui-grid-col-5 level-1 margin-bottom-md">
+              <div class="ui-grid-row podrobnosti-header">
+                <div class="ui-grid-col-12">
+                  <h5>Podatki o medicinski sestri</h5>
+                </div>
+              </div>
+              <div class="ui-grid-row podrobnosti-body">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{obisk.patronazna_sestra.ime}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{obisk.patronazna_sestra.email}}
+                    </div>
+                  </div>
+                  <div class="ui-grid-row">
+                    <div class="ui-grid-col-1 margin-right">
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="ui-grid-col-11">
+                      {{obisk.patronazna_sestra.tel}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <!-- podatki pacienta -->
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-11 level-1 margin-bottom-md">
+                <div class="ui-grid-row podrobnosti-header">
+                  <div class="ui-grid-col-12">
+                    <h5>Podatki pacienta</h5>
+                  </div>
+                </div>
+                <div class="ui-grid-row podrobnosti-body">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-4">
+                        <i class="fa fa-id-card-o margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.ime}} {{obisk.pacient.priimek}}
+                      </div>
+                      <div class="ui-grid-col-1"></div>
+                      <div class="ui-grid-col-6">
+                        <i class="fa fa-home margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.ulica}} {{obisk.pacient.hisnaStevilka}},
+                        {{obisk.pacient.posta}} {{obisk.pacient.kraj}}
+                      </div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-4">
+                        <i class="fa fa-envelope-o margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.email}}
+                      </div>
+                      <div class="ui-grid-col-1"></div>
+                      <div class="ui-grid-col-6">
+                        <i class="fa fa-phone margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.telefon}}
+                      </div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-12">
+
+                      </div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-4">
+                        <i class="fa fa-venus-mars margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.spol}}
+                      </div>
+                      <div class="ui-grid-col-1"></div>
+                      <div class="ui-grid-col-6">
+                        <i class="fa fa-birthday-cake margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.rojstni_dan | date}}
+                      </div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-4">
+                        <i class="fa fa-map-marker margin-right" aria-hidden="true"></i>
+
+                        {{obisk.pacient.okolis}}
+                      </div>
+                      <div class="ui-grid-col-1">
+
+                      </div>
+                      <div class="ui-grid-col-6">
+                        <i class="fa fa-id-card margin-right" aria-hidden="true"></i>
+                        {{obisk.pacient.stevilkaPacienta}}
+                      </div>
+                    </div>
+
+                    <div *ngFor="let vezan of obisk.vezani_pacienti">
+                      <div class="ui-grid-row margin-top">
+                        <div class="ui-grid-col-12">
+                          <h5>Vezani pacient</h5>
+                        </div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                          <i class="fa fa-id-card-o margin-right" aria-hidden="true"></i>
+                          {{vezan.ime}}
+                        </div>
+                        <div class="ui-grid-col-1"></div>
+                        <div class="ui-grid-col-6">
+                          <i class="fa fa-birthday-cake margin-right" aria-hidden="true"></i>
+                          {{vezan.datum_rojstva | date}}
+                        </div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                          <i class="fa fa-venus-mars margin-right" aria-hidden="true"></i>
+                          {{vezan.spol}}
+                        </div>
+                        <div class="ui-grid-col-1"></div>
+                        <div class="ui-grid-col-6"><i class="fa fa-id-card margin-right" aria-hidden="true"></i>
+                        {{vezan.id}}</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--- podatki obiska --->
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-11 level-1 margin-bottom-md">
+                <div class="ui-grid-row podrobnosti-header">
+                  <div class="ui-grid-col-12">
+                    <h5>Podatki obiska</h5>
+                  </div>
+                </div>
+
+                <div class="ui-grid-row podrobnosti-body">
+                  <div class="ui-grid-col-12">
+
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-6"><small>Delovni nalog: </small> {{ obisk.delovni_nalog }}</div>
+                        <div class="ui-grid-col-6"><small>Vrsta obiska: </small>
+                        {{obisk.vrstaObiska}}</div>
+                      </div>
+
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-6"><small>Predvideni datum: </small> {{ obisk.predvideni_datum | date }}</div>
+                      <div class="ui-grid-col-6"><small>Dejanski datum: </small> {{ obisk.dejanski_datum | date }}</div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-6" *ngIf="obisk.je_obvezen_datum">
+                      <small>Obvezen datum: </small> da</div>
+                      <div class="ui-grid-col-6" *ngIf="!obisk.je_obvezen_datum"><small>Obvezen datum: </small> ne</div>
+
+                      <div class="ui-grid-col-6" *ngIf="obisk.je_opravljen"><small>Je opravljen: </small> da</div>
+                      <div class="ui-grid-col-6" *ngIf="!obisk.je_opravljen"><small>Je opravljen: </small> ne</div>
+                    </div>
+
+                    <div class="ui-grid-row margin-top">
+                      <div class="ui-grid-col-12">
+                        <h5>Material</h5>
+                      </div>
+                    </div>
+
+                    <div class="ui-grid-row" *ngFor="let material of obisk.material"><div class="ui-grid-col-12">{{ material.opis }}</div></div>
+                    <div class="ui-grid-row" *ngIf="obisk.material.length == 0"><div class="ui-grid-col-12">Za obisk ni potrebnih materialov</div></div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--- meritve --->
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-11 level-1 margin-bottom-md">
+                <div class="ui-grid-row podrobnosti-header">
+                  <div class="ui-grid-col-12">
+                    <h5>Meritve</h5>
+                  </div>
+                </div>
+
+                <div class="ui-grid-row podrobnosti-body">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid-row" *ngIf="obisk.id_meritev.length == 0">Na obisku ni bilo opravljenih meritev</div>
+                    <div class="ui-grid-row" *ngFor="let meritev of obisk.id_meritev"><div class="ui-grid-col-12"><small>{{meritev.id_meritve}}:</small> {{ meritev.vrednost }}<div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            </div>
+
+          </div>
+
+</div>

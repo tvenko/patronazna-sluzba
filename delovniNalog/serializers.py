@@ -33,7 +33,11 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
         interval = int(stDni.days/stObiskov)
         datum = zacetniDatum
         for i in range(0, stObiskov):
-            data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
+            if (i == 0):
+                data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
+                        'delovni_nalog': delovniNalog, 'je_prvi': True}
+            else:
+                data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
                     'delovni_nalog': delovniNalog}
             obisk.serializers.ObiskSerializer.create(self, data)
             datum += datetime.timedelta(days=interval)
@@ -46,7 +50,11 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
     def kreirajObiskInterval(self, stObiskov, zacetniDatum, interval, patronaznaSestra, delovniNalog, jeObvezen = False):
         datum = zacetniDatum
         for i in range(0, stObiskov):
-            data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
+            if (i == 0):
+                data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
+                        'delovni_nalog': delovniNalog, 'je_prvi': True}
+            else:
+                data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
                     'delovni_nalog': delovniNalog}
             obisk.serializers.ObiskSerializer.create(self, data)
             datum += datetime.timedelta(days=interval)

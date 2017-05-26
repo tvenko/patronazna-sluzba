@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ObiskiComponent implements OnInit {
   today: Date = new Date();
+  yesterday: Date = new Date();
   danPlana: Date = new Date;
 
   public vezaniPacienti: any[];
@@ -23,6 +24,7 @@ export class ObiskiComponent implements OnInit {
   constructor(private ObiskiService: ObiskiService, private router: Router) {}
 
   ngOnInit() {
+    this.yesterday.setDate(this.yesterday.getDate()-1);
     this.pridobiObiske();
   }
 
@@ -75,10 +77,6 @@ export class ObiskiComponent implements OnInit {
   }
 
   onOpravljenObisk(id: number) {
-    // const data = {'jeOpravljen': true};
-    // this.ObiskiService.updateStatus(id, data).subscribe(
-    //   response => {this.pridobiObiske();}
-    // );
     this.router.navigate(['/meritve', 'vnos']);
   }
 

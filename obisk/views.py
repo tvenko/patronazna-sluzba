@@ -108,7 +108,7 @@ class ObiskiPlaniraniViewSet(viewsets.ReadOnlyModelViewSet):
             if (self.delavec):
                 queryset = Obisk.objects.filter(
                     (Q(patronazna_sestra=self.delavec.uporabnik) | Q(nadomestna_patronazna_sestra=self.delavec.uporabnik))
-                     & ((~Q(dejanski_datum = None) | Q(je_obvezen_datum = True)) & Q(je_opravljen = False)))\
+                     & ((~Q(dejanski_datum = None) | Q(je_obvezen_datum = True))))\
                     .order_by('predvideni_datum')
         return queryset
 
@@ -128,6 +128,17 @@ class ObiskiPrihajajociViewSet(viewsets.ReadOnlyModelViewSet):
                     .order_by('predvideni_datum')
         return queryset
 
+class ObiskPrviViewSet(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = ObiskSerializer
+    def get_queryset(self):
+        id_obisk = self.request.query_params.get('id')
+        if (id_obisk):
+            obisk = Obisk.objects.get(id = id_obisk)
+            dn = obisk.delovni_nalog
+            queryset = Obisk.objects.filter(Q(delovni_nalog = dn) & Q(je_prvi = True))
+            return queryset
+
 class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
     def get_queryset(self):
@@ -138,7 +149,9 @@ class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
 
 class MeritveNaObiskuViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return MeritveNaObiskuSerializer
-        return MeritveNaObiskuPostSerializer
+        if self.request.method == 'POST':
+            return MeritveNaObiskuPostSerializer
+        elif self.request.method == 'PUT':
+            return MeritveNaObiskuPutSerializer
+        return MeritveNaObiskuSerializer
     queryset = MeritveNaObisku.objects.all()
