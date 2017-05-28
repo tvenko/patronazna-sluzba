@@ -21,7 +21,7 @@ export class DelavecService {
   constructor(private http: Http) {
 
   }
-  
+
   getDelavce(): Observable<any> {
 	return this.http.get(Config.API + 'racuni/delavci/')
                     .map((res: Response) => res.json())
@@ -70,7 +70,7 @@ export class DelavecService {
   }
 
   queryZdravniki(query: string): Observable<any> {
-    return this.http.get(Config.API + 'racuni/delavci?q1=' + query + '&vd=1')
+    return this.http.get(Config.API + 'racuni/delavci?q1=' + query)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }

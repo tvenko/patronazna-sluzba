@@ -91,16 +91,16 @@ export class SeznamObiskovComponent implements OnInit {
    this.delovniNalogService.getVrsteObiskov()
    .subscribe(
      response => {
-       if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
-         this.vrsteObiskov = [];
-         var that = this;
-         (response as any).results.forEach(function(entry:any) {
-           if (entry.id < 4)
-             that.vrsteObiskov.push(entry);
-         });
-       } else {
+      //  if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
+      //    this.vrsteObiskov = [];
+      //    var that = this;
+      //    (response as any).results.forEach(function(entry:any) {
+      //      if (entry.id < 4)
+      //        that.vrsteObiskov.push(entry);
+      //    });
+      //  } else {
          this.vrsteObiskov = (response as any).results;
-       }
+      //  }
 
      },
      error => {
@@ -162,6 +162,16 @@ export class SeznamObiskovComponent implements OnInit {
     let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
     sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
     this.query = '?user=' + sifra_zdravnika;
+
+    // var offset = (24*60*60*1000);
+    //podatki.predvideniDatumDo = new Date (podatki.predvideniDatumDo.getTime()+offset);
+    //console.log(podatki.predvideniDatumDo);
+    //podatki.dejanskiDatumDo = new Date (podatki.dejanskiDatumDo.getTime()+offset);
+
+    // console.log(podatki.predvideniDatumOd);
+    // console.log(podatki.predvideniDatumDo);
+    // console.log(podatki.dejanskiDatumOd);
+    // console.log(podatki.dejanskiDatumDo);
 
     // p datum od
     if (podatki.predvideniDatumOd) this.query += '&zac_pdat=' + podatki.predvideniDatumOd.toISOString().substr(0, 10);
