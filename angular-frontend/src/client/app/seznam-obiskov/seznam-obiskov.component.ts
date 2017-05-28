@@ -149,7 +149,7 @@ export class SeznamObiskovComponent implements OnInit {
            }
          },
          error => {
-           console.log('Napaka pri iskanju sestre');
+           console.log('Napaka pri iskanju izdajalca');
          }
        );
   }
@@ -163,10 +163,8 @@ export class SeznamObiskovComponent implements OnInit {
     sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
     this.query = '?user=' + sifra_zdravnika;
 
-    // var offset = (24*60*60*1000);
-    //podatki.predvideniDatumDo = new Date (podatki.predvideniDatumDo.getTime()+offset);
-    //console.log(podatki.predvideniDatumDo);
-    //podatki.dejanskiDatumDo = new Date (podatki.dejanskiDatumDo.getTime()+offset);
+    var offset = (24*60*60*1000);
+    podatki.dejanskiDatumOd = new Date (podatki.dejanskiDatumOd.getTime()-offset);
 
     // console.log(podatki.predvideniDatumOd);
     // console.log(podatki.predvideniDatumDo);
@@ -199,7 +197,7 @@ export class SeznamObiskovComponent implements OnInit {
     this.query += '&page=1';
 
     // zapisi query v console
-    console.log(this.query);
+    //console.log(this.query);
 
     return this.query;
   }
@@ -207,14 +205,14 @@ export class SeznamObiskovComponent implements OnInit {
   onNextPage() {
     if (this.trenutnaStran < this.stStrani) this.trenutnaStran++;
     this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
-    console.log(this.query);
+    //console.log(this.query);
     this.filtrirajNaloge();
   }
 
   onPreviousPage() {
     if (this.trenutnaStran >1) this.trenutnaStran--;
     this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
-    console.log(this.query);
+    //console.log(this.query);
     this.filtrirajNaloge();
   }
 
@@ -256,7 +254,7 @@ export class SeznamObiskovComponent implements OnInit {
     this.obiskiService.filterObisk(this.query)
       .subscribe(
         response => {
-          console.log(response);
+          //console.log(response);
           this.delovniNalogi = response.results;
           this.queryNext = response.next;
           this.queryPrev = response.previous;
@@ -289,7 +287,7 @@ export class SeznamObiskovComponent implements OnInit {
             this.delovniNalogi = response.results;
             this.queryNext = response.next;
             this.queryPrev = response.previous;
-            console.log(this.queryNext + ' ' + this.queryPrev);
+            //console.log(this.queryNext + ' ' + this.queryPrev);
             if (this.delovniNalogi.length > 0) {
               this.getImenaSester(0);
               this.getImenaNadSester(0);

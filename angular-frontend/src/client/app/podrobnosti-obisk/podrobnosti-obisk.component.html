@@ -262,7 +262,7 @@
                 <div class="ui-grid-row podrobnosti-body">
                   <div class="ui-grid-col-12">
                     <div class="ui-grid-row" *ngIf="obisk.id_meritev.length == 0">Na obisku ni bilo opravljenih meritev</div>
-                    <div class="ui-grid-row" *ngFor="let meritev of obisk.id_meritev"><div class="ui-grid-col-12"><small>{{meritev.id_meritve}}:</small> {{ meritev.vrednost }}<div></div>
+                    <div class="ui-grid-row" *ngFor="let meritev of obisk.id_meritev"><div class="ui-grid-col-12"><small>{{meritev.naziv_meritve}}:</small> {{ meritev.vrednost }}<div></div>
                   </div>
                 </div>
               </div>

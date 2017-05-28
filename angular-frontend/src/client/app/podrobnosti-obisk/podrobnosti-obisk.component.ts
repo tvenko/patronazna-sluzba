@@ -39,7 +39,7 @@ export class PodrobnostiObiskComponent implements OnInit {
       this.obiskService.getById(id).subscribe(
         response => {
           this.obisk = response;
-          console.log(this.obisk);
+          //console.log(this.obisk);
           this.getImenaSester();
           this.getPodatkiZdravnika();
           this.getPodatkiPacienta();
@@ -85,7 +85,7 @@ export class PodrobnostiObiskComponent implements OnInit {
     getPodatkiPacienta() {
       this.pacientService.get(this.obisk.pacient.stevilkaPacienta).subscribe(
         (response: any) => {
-          console.log(response);
+          //console.log(response);
           this.obisk.pacient.email = (response.eposta);
           //this.obisk.pacient.spol = response.spol ? "moški" : "ženska";
           this.obisk.pacient.rojstni_dan = response.datumRojstva;
@@ -102,7 +102,7 @@ export class PodrobnostiObiskComponent implements OnInit {
           this.obisk.vezani_pacienti[dn].datum_rojstva = response.datum_rojstva;
           this.obisk.vezani_pacienti[dn].razmerje = response.sorodstveno_razmerje;
           this.obisk.vezani_pacienti[dn].id = response.st_kartice;
-          console.log(this.obisk.vezani_pacienti[dn]);
+          //console.log(this.obisk.vezani_pacienti[dn]);
           dn++;
           this.getPodatkiVezanca(dn);
         });

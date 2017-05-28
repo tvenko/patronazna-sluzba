@@ -16,6 +16,7 @@
               [minDate]="yesterday"
             ></p-calendar>
           </div>
+          <button type="button" class="btn btn-success" (click)="getDanasnjeObiske();">Potrebni materiali</button>
 
           <p-accordion (onOpen)="pridobiVezanegaPacienta(obisk.vezani_pacienti)" [multiple]="true" class="ui-grid-row" *ngFor="let obisk of planiraniObiski">
             <p-accordionTab *ngIf="jePredviden(obisk.dejanski_datum, obisk.predvideni_datum, obisk.je_obvezen_datum)">
@@ -265,5 +266,10 @@
         </div>
       </div>
     </div>
+
+    <p-dialog header="Potrebni material za dan {{ danPlana | date }}" [(visible)]="prikaziMaterial" modal="modal" responsive="true">
+       {{ danasnjiMaterial | material }}
+    </p-dialog>
+
   </main>
 </div>

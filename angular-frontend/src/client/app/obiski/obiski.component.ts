@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ObiskiService } from '../shared/services/index';
+import { MaterialPipe } from '../shared/pipes/material.pipe';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class ObiskiComponent implements OnInit {
   today: Date = new Date();
   yesterday: Date = new Date();
-  danPlana: Date = new Date;
+  public danPlana: Date = new Date;
 
   public vezaniPacienti: any[];
   public planiraniObiski: any;
@@ -20,6 +21,10 @@ export class ObiskiComponent implements OnInit {
   stObiskov: number;
   stStrani: number;
   trenutnaStran: number = 1;
+
+  danasnjiObiski: any = {};
+  public danasnjiMaterial: any = {};
+  public prikaziMaterial: boolean;
 
   constructor(private ObiskiService: ObiskiService, private router: Router) {}
 
@@ -36,6 +41,7 @@ export class ObiskiComponent implements OnInit {
         .subscribe(
           response => {
             this.planiraniObiski = response;
+            //console.log(response);
           }
         );
       this.ObiskiService.getPrihajajoci(user, this.trenutnaStran)
@@ -49,6 +55,56 @@ export class ObiskiComponent implements OnInit {
     } else {
       console.log('Ni izvajalca v local storage');
     }
+  }
+
+  getDanasnjeObiske () {
+    let user = localStorage.getItem('podatkiIzvajalca');
+    user = JSON.parse(user).osebna_sifra;
+    var offset = (24*60*60*1000);
+    var od = new Date (this.danPlana.getTime()-offset);
+    var query = '?user=' + user + '&zac_ddat=' + od.toISOString().substr(0, 10) + '&konc_ddat=' + this.danPlana.toISOString().substr(0, 10);
+
+    this.ObiskiService.filterObisk(query)
+      .subscribe(
+        response => {
+          this.danasnjiObiski = response.results;
+          var query = '?user=' + user + '&zac_pdat=' + this.danPlana.toISOString().substr(0, 10) + '&konc_pdat=' + this.danPlana.toISOString().substr(0, 10);
+          this.ObiskiService.filterObisk(query)
+            .subscribe(
+              response => {
+                for (var i in response.results) {
+                  if (response.results[i].je_obvezen_datum)
+                    this.danasnjiObiski.push(response.results[i]);
+                }
+
+                console.log(this.danasnjiObiski);
+
+                // make material array
+                this.danasnjiMaterial={};
+                for (var i in this.danasnjiObiski) {
+                  if (this.danasnjiObiski[i].material.length > 0) {
+                    for (var m in this.danasnjiObiski[i].material) {
+                      //this.danasnjiMaterial.push(this.danasnjiObiski[i].material[m]);
+                      if (!this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis]) this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] = 0;
+                      this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] += 1;
+                    }
+                  }
+                }
+                console.log(this.danasnjiMaterial);
+                this.prikaziMaterial = true;
+              },
+              error => {
+                // Pokazi obvestilo
+              }
+            );
+        },
+        error => {
+          // Pokazi obvestilo
+        }
+      );
+
+
+
   }
 
   test(event: any) {

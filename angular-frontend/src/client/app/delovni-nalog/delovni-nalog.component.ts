@@ -86,16 +86,16 @@ export class DelovniNalogComponent implements OnInit {
    this.delovniNalogService.getVrsteObiskov()
    .subscribe(
      response => {
-       if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
-         this.vrsteObiskov = [];
-         var that = this;
-         (response as any).results.forEach(function(entry:any) {
-           if (entry.id < 4)
-             that.vrsteObiskov.push(entry);
-         });
-       } else {
+      //  if (JSON.parse(localStorage.getItem('currentUser')).tipUporabnika === 'vodja PS') {
+      //    this.vrsteObiskov = [];
+      //    var that = this;
+      //    (response as any).results.forEach(function(entry:any) {
+      //      if (entry.id < 4)
+      //        that.vrsteObiskov.push(entry);
+      //    });
+      //  } else {
          this.vrsteObiskov = (response as any).results;
-       }
+      //  }
 
      },
      error => {
@@ -183,7 +183,7 @@ export class DelovniNalogComponent implements OnInit {
     this.query += '&page=1';
 
     // zapisi query v console
-    console.log(this.query);
+    //console.log(this.query);
 
     return this.query;
   }
@@ -191,14 +191,14 @@ export class DelovniNalogComponent implements OnInit {
   onNextPage() {
     if (this.trenutnaStran < this.stStrani) this.trenutnaStran++;
     this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
-    console.log(this.query);
+    //console.log(this.query);
     this.filtrirajNaloge();
   }
 
   onPreviousPage() {
     if (this.trenutnaStran >1) this.trenutnaStran--;
     this.query = (this.query.substring(0, this.query.length-1)+this.trenutnaStran);
-    console.log(this.query);
+    //console.log(this.query);
     this.filtrirajNaloge();
   }
 
@@ -274,7 +274,7 @@ export class DelovniNalogComponent implements OnInit {
           this.delovniNalogi = response.results;
           this.queryNext = response.next;
           this.queryPrev = response.previous;
-          console.log(this.queryNext + ' ' + this.queryPrev);
+          //console.log(this.queryNext + ' ' + this.queryPrev);
           if (this.delovniNalogi.length > 0) {
             this.getImenaPacientov(0);
             this.getImenaSester(0);
@@ -307,7 +307,7 @@ export class DelovniNalogComponent implements OnInit {
             this.delovniNalogi = response.results;
             this.queryNext = response.next;
             this.queryPrev = response.previous;
-            console.log(this.queryNext + ' ' + this.queryPrev);
+            //console.log(this.queryNext + ' ' + this.queryPrev);
             if (this.delovniNalogi.length > 0) {
               this.getImenaPacientov(0);
               this.getImenaSester(0);
