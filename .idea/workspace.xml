@@ -4,17 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/accounts/serializers.py" line="203" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b7af8c-86b8-4438-a0f1-f52200191ea7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/obiski/obiski.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delovniNalog/serializers.py" afterPath="$PROJECT_DIR$/delovniNalog/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/models.py" afterPath="$PROJECT_DIR$/obisk/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/serializers.py" afterPath="$PROJECT_DIR$/obisk/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/urls.py" afterPath="$PROJECT_DIR$/obisk/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/views.py" afterPath="$PROJECT_DIR$/obisk/views.py" />
-    </list>
+    <list default="true" id="f4b7af8c-86b8-4438-a0f1-f52200191ea7" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/obisk/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="286">
-              <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+              <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -87,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/obisk/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="366">
-              <caret line="128" column="23" lean-forward="true" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
+              <caret line="128" column="23" lean-forward="false" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -465,7 +455,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1060" extended-state="7" />
+    <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1609375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -879,7 +869,7 @@
     <entry file="file://$PROJECT_DIR$/obisk/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
-          <caret line="128" column="23" lean-forward="true" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
+          <caret line="128" column="23" lean-forward="false" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -887,7 +877,7 @@
     <entry file="file://$PROJECT_DIR$/obisk/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
-          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+          <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
           <folding />
         </state>
       </provider>

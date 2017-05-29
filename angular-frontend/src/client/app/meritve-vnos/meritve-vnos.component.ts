@@ -56,10 +56,14 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
         }
         this.potrjenDatum = new Date(this.obisk.dejanski_datum);
         var dejanskiDatum = new Date(this.obisk.dejanski_datum);
+        var predvidenDatum = new Date(this.obisk.predvideni_datum);
+        console.log(dejanskiDatum.toDateString(), this.today.toDateString(), predvidenDatum.toDateString(), this.obisk.je_obvezen_datum);
         if (this.yesterday.toDateString() === dejanskiDatum.toDateString()) {
           this.veljavenDatum = true;
           this.vceraj = true;
-        } else if (dejanskiDatum.getTime() >= this.today.getTime()) {
+        } else if (dejanskiDatum.toDateString() === this.today.toDateString() || dejanskiDatum.getTime() >= this.today.getTime()
+          || this.obisk.je_obvezen_datum && predvidenDatum.toDateString() === this.today.toDateString() ||
+          this.obisk.je_obvezen_datum && predvidenDatum.getTime() >= this.today.getTime()) {
           this.veljavenDatum = true;
           this.vceraj = false;
         }
@@ -180,7 +184,6 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
     }
     console.log(data);
     if (data) {
-      console.log('check');
       this.obiskiService.postMeritve(data).subscribe(
         response => {
           this.poslano = true;
