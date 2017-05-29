@@ -19,6 +19,7 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
   test: any;
   uspeh: boolean;
   poslano = false;
+  test1 = 1;
 
   today: Date = new Date();
   yesterday: Date = new Date();
@@ -55,9 +56,8 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
           );
         }
         this.potrjenDatum = new Date(this.obisk.dejanski_datum);
-        var dejanskiDatum = new Date(this.obisk.dejanski_datum);
-        var predvidenDatum = new Date(this.obisk.predvideni_datum);
-        console.log(dejanskiDatum.toDateString(), this.today.toDateString(), predvidenDatum.toDateString(), this.obisk.je_obvezen_datum);
+        const dejanskiDatum = new Date(this.obisk.dejanski_datum);
+        const predvidenDatum = new Date(this.obisk.predvideni_datum);
         if (this.yesterday.toDateString() === dejanskiDatum.toDateString()) {
           this.veljavenDatum = true;
           this.vceraj = true;
@@ -142,6 +142,14 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  kolicinaMateriala(length: any) {
+    let t = [];
+    for (let i=1; i<=length; i++) {
+      t.push(i);
+    };
+    return t;
+  }
+
   onSubmit(form: NgForm) {
     let data = <any>{};
     data.id_obisk = [];
@@ -171,7 +179,7 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
             }
           }
           if (post && form.value[key]) {
-            console.log('test');
+            console.log(key, form.value[key]);
             data.id_obisk.push(this.obisk.id);
             data.id_meritve.push(+key);
             data.vrednost.push(form.value[key]);
@@ -182,16 +190,13 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
       datum.dejanskiDatum = this.potrjenDatum;
       this.obiskiService.updateDejanskiDatum(this.obisk.id, datum).subscribe();
     }
-    console.log(data);
     if (data) {
       this.obiskiService.postMeritve(data).subscribe(
         response => {
           this.poslano = true;
           this.uspeh = true;
           const data = {'jeOpravljen': true};
-          this.obiskiService.updateStatus(this.obisk.id, data).subscribe(
-            response => console.log(response)
-          );
+          this.obiskiService.updateStatus(this.obisk.id, data).subscribe();
         },
         error => {
           this.poslano = true;
