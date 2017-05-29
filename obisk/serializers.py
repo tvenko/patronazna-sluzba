@@ -3,15 +3,16 @@ from .models import *
 from accounts.models import Uporabnik, Delavec, Pacient
 from accounts.serializers import PacientObiskSerializer, DelavecObiskSerializer, VezaniPacientSerializer
 import delovniNalog.models
-import accounts.models
-from django.utils import timezone
 from dateutil.parser import parse
 
-class MaterialSerializer(serializers.ModelSerializer):
+class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
+    '''Serializira material delovnega naloga'''
+    id_materiala = serializers.PrimaryKeyRelatedField(queryset=delovniNalog.models.Material.objects.all())
+    opis = serializers.CharField(source='id_materiala.opis')
 
     class Meta:
-        model = delovniNalog.models.Material
-        fields = ('opis', )
+        model = delovniNalog.models.DelovniNalogMaterial
+        fields = ('id_materiala', 'kolicina', 'opis')
 
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
@@ -72,7 +73,7 @@ class ObiskDnSerializer(serializers.ModelSerializer):
 class ObiskSerializer(serializers.ModelSerializer):
 
     pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta')
-    material = MaterialSerializer(source='delovni_nalog.id_materiala', many=True)
+    material = DelovniNalogMaterialSerializer(source='delovni_nalog.delovninalogmaterial_set', many=True)
     vrstaObiskaId = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska', read_only=True)
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')

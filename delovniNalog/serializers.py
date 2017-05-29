@@ -11,10 +11,11 @@ class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
     '''Serializira material delovnega naloga'''
     id_materiala = serializers.PrimaryKeyRelatedField(queryset=Material.objects.all())
     id_delovni_nalog = serializers.PrimaryKeyRelatedField(read_only=True)
+    opis = serializers.CharField(source='id_materiala.opis')
 
     class Meta:
         model = DelovniNalogMaterial
-        fields = ('id_delovni_nalog', 'id_materiala', 'kolicina',)
+        fields = ('id_delovni_nalog', 'id_materiala', 'kolicina', 'opis')
 
 class DelovniNalogSerializer(serializers.ModelSerializer):
 
