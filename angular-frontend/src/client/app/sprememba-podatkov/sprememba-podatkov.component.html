@@ -76,10 +76,115 @@
       <!-- Sprememba osebnih podatkov -->
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
+          <h3>Sprememba podatkov</h3>
+        </div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-6">
+          <form [formGroup]="pForm" (ngSubmit)="spremeniPodatke(pForm.value);">
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-6" style="padding-right: 5px;">
+                <label>Vaše ime</label>
+                <input class="form-control" formControlName="ime" type="text" placeholder="Ime">
+              </div>
+              <div class="ui-grid-col-6" style="padding-left: 5px;">
+                <label>Vaš priimek</label>
+                <input class="form-control" formControlName="priimek" type="text" placeholder="Priimek">
+              </div>
+            </div>
+
+            <div class="ui-grid-col-12">
+              <label>Datum rojstva</label>
+              <p-calendar formControlName="datumRojstva" dateFormat="dd.mm.yy"
+              [locale]="si" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="1900:2017" placeholder="Datum rojstva"
+               inputStyleClass="form-control" class="ui-fluid"></p-calendar>
+            </div>
+
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-12">
+                <label>Številka zdravstvenega zavarovanja</label>
+                <input class="form-control" formControlName="stevilkaPacienta" type="text"
+                placeholder="Številka zavarovanja" required pattern="^\d*$">
+              </div>
+            </div>
+
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-7">
+                <label>Ulica</label>
+                <input class="form-control" formControlName="ulica" type="text" placeholder="Ulica">
+              </div>
+              <div class="ui-grid-col-1">
+              </div>
+              <div class="ui-grid-col-4">
+                <label>Hišna števlika</label>
+                <input class="form-control" formControlName="hisnaStevilka" type="text" placeholder="Hišna št.">
+              </div>
+            </div>
+
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-12">
+                <label>Pošta</label>
+                <select class="form-control" formControlName="kraj" *ngIf="poste" >
+                  <option *ngFor="let posta of poste" [ngValue]="posta.kraj">
+                    {{ posta.stevilka }} - {{ posta.kraj }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!--- sifra okolisa
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-12">
+                <label>Šifra okoliša</label>
+                <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
+                  <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+                    {{ sifra.naziv }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            --->
+
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-12"
+                [ngClass]="{ 'has-error': pForm.controls.telefon.invalid && pForm.controls.telefon.touched }">
+                <label>Telefon</label>
+                <input class="form-control" formControlName="telefon" type="text"
+                  placeholder="Telefonska številka" required pattern="^\d*$">
+                <small *ngIf="pForm.controls.telefon.errors && !pForm.controls.telefon.untouched"
+                  class="text-danger">Vnesite veljavno telefonsko številko (samo števke).</small>
+              </div>
+            </div>
+
+            <div class="ui-grid-row form-group">
+              <div class="ui-grid-col-12"
+                [ngClass]="{ 'has-error': pForm.controls.eposta.invalid && pForm.controls.eposta.touched }">
+                <label>Epošta</label>
+                <input class="form-control" formControlName="eposta" type="text" placeholder="Email" required
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                <small *ngIf="pForm.controls.eposta.errors && !pForm.controls.eposta.untouched"
+                  class="text-danger">Vnesite veljaven epoštni naslov.</small>
+              </div>
+            </div>
+
+            <div class="ui-grid-row pull-right ps-margin-top">
+              <div class="ui-grid-col-6">
+                <button class="btn btn-primary" type="submit" [disabled]="!pForm.valid">Shrani</button>
+              </div>
+            </div>
+
+
+          </form>
+        </div>
+      </div>
+
+      <!-- Sprememba osebnih podatkov -->
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
           <h3>Sprememba gesla</h3>
         </div>
-
-
       </div>
 
       <div class="ui-grid-row">

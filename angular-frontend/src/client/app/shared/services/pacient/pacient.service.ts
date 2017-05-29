@@ -84,6 +84,12 @@ export class PacientService {
                     .catch(this.handleError);
   }
 
+  spremeniPodatke(id: string, podatki: any): Observable<any> {
+    return this.http.patch(Config.API + 'racuni/pacienti/' + id + '/', podatki)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
+
   query(query: string): Observable<any> {
     return this.http.get(Config.API + 'racuni/pacienti?q=' + query)
                     .map((res: Response) => res.json())
