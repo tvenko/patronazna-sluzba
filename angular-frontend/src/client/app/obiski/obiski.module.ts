@@ -5,20 +5,20 @@ import { SharedModule } from '../shared/shared.module';
 import { AccordionModule, SharedModule as primengSharedModule, CalendarModule, PaginatorModule, DialogModule } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'material'})
-export class MaterialPipe implements PipeTransform {
-  transform(value: any): any {
-    return JSON.stringify(value, null, 2)
-      .replace('{', '')
-      .replace('}', '')
-      .replace('"', '')
-      .replace('"', '')
+@Pipe({name: 'keyValues'})
+export class KeysPipe implements PipeTransform {
+  transform(value: any, args:string[]) : any {
+    var keys = [];
+    for (var key in value) {
+      keys.push({key: key, value: value[key]});
+    }
+    return keys;
   }
 }
 
 @NgModule({
   imports: [ObiskiRoutingModule, SharedModule.forRoot(), AccordionModule, primengSharedModule, CalendarModule, PaginatorModule, DialogModule],
-  declarations: [ObiskiComponent, MaterialPipe],
+  declarations: [ObiskiComponent, KeysPipe],
   exports: [ObiskiComponent]
 })
 export class ObiskiModule { }

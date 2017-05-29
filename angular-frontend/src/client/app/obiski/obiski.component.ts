@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ObiskiService } from '../shared/services/index';
-import { MaterialPipe } from '../shared/pipes/material.pipe';
+
 import { Router } from '@angular/router';
 
 @Component({
@@ -86,7 +86,7 @@ export class ObiskiComponent implements OnInit {
                     for (var m in this.danasnjiObiski[i].material) {
                       //this.danasnjiMaterial.push(this.danasnjiObiski[i].material[m]);
                       if (!this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis]) this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] = 0;
-                      this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] += 1;
+                      this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] += this.danasnjiObiski[i].material[m].kolicina;
                     }
                   }
                 }
