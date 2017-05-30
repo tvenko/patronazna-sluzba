@@ -23,6 +23,7 @@ export class ObiskiComponent implements OnInit {
   trenutnaStran: number = 1;
 
   danasnjiObiski: any = {};
+  public danasnjaZdravila: any = {};
   public danasnjiMaterial: any = {};
   public prikaziMaterial: boolean;
 
@@ -87,6 +88,12 @@ export class ObiskiComponent implements OnInit {
                       //this.danasnjiMaterial.push(this.danasnjiObiski[i].material[m]);
                       if (!this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis]) this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] = 0;
                       this.danasnjiMaterial[this.danasnjiObiski[i].material[m].opis] += this.danasnjiObiski[i].material[m].kolicina;
+                    }
+                  }
+                  if (this.danasnjiObiski[i].zdravila.length > 0) {
+                    for (var z in this.danasnjiObiski[i].zdravila) {
+                      if (!this.danasnjiMaterial[this.danasnjiObiski[i].zdravila[z].naziv]) this.danasnjiMaterial[this.danasnjiObiski[i].zdravila[z].naziv] = 0;
+                      this.danasnjiMaterial[this.danasnjiObiski[i].zdravila[z].naziv]++;
                     }
                   }
                 }
