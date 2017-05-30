@@ -13,7 +13,9 @@
           </div>
           <div class="panel-body">
             <div *ngFor="let meritev of meritve; let i = index">
-              <div class="form-group" *ngIf="!meritev.meritev_novorojencka">
+
+              <!-- meritev.id > 10 je zato da material na obisku ni zajet tu notri -->
+              <div class="form-group" *ngIf="!meritev.meritev_novorojencka && meritev.id > 10">
                 <label class="form-control-label">{{ meritev?.naziv }}<span *ngIf="meritev.je_obvezen">*</span></label>
                 <div class="zajem">
                   <input
@@ -28,8 +30,27 @@
                 <span class="opombe" *ngIf="meritev.sp_meja">Meritev mora zavzemati vrednosti med {{ meritev?.sp_meja }} in {{ meritev?.zg_meja }}</span>
               </div>
             </div>
+
+            <!-- forma za poklukanje ce je porabila vse epruvete na obisku -->
+            <div *ngIf="obisk.vrstaObiska == 'odvzem krvi'">
+              <p><strong>Označite porabljen material.</strong></p>
+              <div *ngFor="let material of obisk.material">
+                <p>
+                  <label>{{ nastaviVrednost(material.id_materiala, false) }}</label>
+                  <select [name]="material.id_materiala" [ngModel]>
+                    <option *ngFor="let option of kolicinaMateriala(material.kolicina)" [ngValue]="option">
+                      {{ option }}
+                    </option>
+                  </select>
+                  &nbsp; {{ material?.kolicina }} {{ material?.opis }}
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
+
+        <!-- forma za vezane paciente -->
         <div *ngFor="let vezaniPacient of vezaniPacienti">
           <div class="panel panel-success">
             <div class="panel-heading">
@@ -55,12 +76,17 @@
             </div>
           </div>
         </div>
+
+        <!-- posiljanje podatkov in povratna informacija o uspesnosti-->
         <div *ngIf="poslano">
           <p *ngIf="uspeh" style="color: green; text-align: center;">Uspešno ste poslali podatke</p>
           <p *ngIf="!uspeh" style="color: red; text-align: center;">Podatki niso bili uspešno poslani</p>
         </div>
         <button class="btn btn-success center-block" type="submit" [disabled]="!f.valid">Pošlji</button>
+
       </form>
+
+      <!-- ce popravljamo en dan po obisku potrebujemo potrjevanje datuma-->
       <div *ngIf="vceraj">
         <p>Ker podatke urejate nakdano, prosim potrdite dejanski datum opravljenega obiska.</p>
         <p-calendar
@@ -70,10 +96,14 @@
           [minDate]="yesterday"
         ></p-calendar>
       </div>
+
     </div>
+
+    <!-- ce bi sestra zelela popravljati meritve za obisk vec kot en dan po obisku -->
     <div *ngIf="!veljavenDatum">
       <h3>Meritve za ta obisk ne morete več urejat</h3>
     </div>
+
   </main>
 </div>
 
