@@ -34,6 +34,7 @@ import { MeritveVnosModule } from './meritve-vnos/meritve-vnos.module';
 import { PozabljenoGesloModule } from './pozabljeno-geslo/pozabljeno-geslo.module';
 import { PotrditevGeslaModule } from './potrditev-gesla/potrditev-gesla.module';
 import { SeznamObiskovModule } from './seznam-obiskov/seznam-obiskov.module';
+import { SeznamObiskovPacientModule } from './seznam-obiskov-pacient/seznam-obiskov-pacient.module';
 import { KreirajNadomescanjeModule } from './kreiraj-nadomescanje/kreiraj-nadomescanje.module'
 import { PosodobiOsebjeModule } from './posodobi-osebje/posodobi-osebje.module'
 import { PosodobiOsebjePodrobnostiModule } from './posodobi-osebje-podrobnosti/posodobi-osebje-podrobnosti.module'
@@ -47,7 +48,7 @@ import { PodrobnostiObiskModule } from './podrobnosti-obisk/podrobnosti-obisk.mo
 	PozabljenoGesloModule, PotrditevGeslaModule,
     DostopModule, PotrditevRegistracijeModule, ObiskiModule, SpremembaPodatkovModule,
     PodrobnostiNalogModule, MeritveVnosModule, SeznamObiskovModule, KreirajNadomescanjeModule,
-	PosodobiOsebjeModule, PosodobiOsebjePodrobnostiModule, PodrobnostiObiskModule],
+	PosodobiOsebjeModule, PosodobiOsebjePodrobnostiModule, PodrobnostiObiskModule, SeznamObiskovPacientModule],
   declarations: [AppComponent, PrijavaComponent],
   providers: [{
     provide: APP_BASE_HREF,
