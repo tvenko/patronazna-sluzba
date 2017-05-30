@@ -21,7 +21,7 @@ class Meritev(models.Model):
     tip = models.CharField(max_length=20, default='text')
 
     def __str__(self):
-        return self.naziv
+        return str(self.id) + ' ' + self.naziv
 
 class Obisk(models.Model):
     """Razred, ki vsebuje podatke o obiskih

@@ -143,7 +143,7 @@ class MeritevViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
     def get_queryset(self):
         vrsta_obiska_id = self.request.query_params.get('vrsta')
-        queryset = Meritev.objects.filter(vrsta_obsika=vrsta_obiska_id)
+        queryset = Meritev.objects.filter(vrsta_obsika=vrsta_obiska_id).order_by('je_obvezen')
         return queryset
     serializer_class = MeritevSeializer
 
