@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DelovniNalogService } from '../shared/services/index';
+import { ObiskiService } from '../shared/services/index';
 
 /**
 * This class represents the lazy loaded PodrobnostiNalogComponent.
@@ -17,14 +18,20 @@ export class PodrobnostiNalogComponent implements OnInit {
     public delovniNalog: any;
     public errorNalaganja: any;
     public errorCode: any;
+    public jeIzdajateljNaloga: boolean;
+    public seNimaObiskov: boolean;
+    sifra_zdravnika: any;
 
     constructor(private activatedRoute: ActivatedRoute,
-                private delovniNalogService: DelovniNalogService,
+                private delovniNalogService: DelovniNalogService, public obiskiService: ObiskiService,
                 private router: Router) {}
 
     ngOnInit() {
       // Ceski nacin za prikaz navbara
       this.tipUporabnika = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika;
+      this.sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
+      this.sifra_zdravnika = JSON.parse(this.sifra_zdravnika).osebna_sifra;
+      //console.log(this.sifra_zdravnika);
       // Pridobi id delovnega naloga iz naslova
       this.activatedRoute.params.subscribe((params: Params) => {
         let idNaloga = params['idNaloga'];
@@ -34,6 +41,66 @@ export class PodrobnostiNalogComponent implements OnInit {
 
 
     }
+
+    imaObiske() {
+      for (var o in this.delovniNalog.obiski)
+        if (this.delovniNalog.obiski[o].je_opravljen) return true;
+      return false;
+    }
+
+    zbrisiMeritev(id: number) {
+      this.obiskiService.deleteMeritev(id).subscribe(
+        response => {
+          console.log("zbrisana meritev "+id);
+        },
+        error => {
+          console.log("error brisanje meritev "+id);
+        }
+      );
+    }
+
+    zbrisiObisk(id: number) {
+      this.obiskiService.delete(id).subscribe(
+        response => {
+          console.log("zbrisan obisk "+id);
+        },
+        error => {
+          console.log("error brisanje obisk "+id);
+        }
+      );
+    }
+
+    zbrisiNalog() {
+      // alert kao sigurno želite zbrisat?
+
+      // najdi obiske
+      for (var o in this.delovniNalog.obiski) {
+        //console.log(this.delovniNalog.obiski[o].id);
+        // za vsak obisk meritve
+        for (var m in this.delovniNalog.obiski[o].id_meritev) {
+          //console.log(this.delovniNalog.obiski[o].id_meritev[m]);
+          // zbrisi meritve
+          this.zbrisiMeritev(this.delovniNalog.obiski[o].id_meritev[m]);
+        }
+        // zbrisi obiske
+        this.zbrisiObisk(this.delovniNalog.obiski[o].id);
+      }
+      // zbrisi nalog
+      //console.log("brisem nalog...");
+
+      this.delovniNalogService.delete(this.idNaloga).subscribe(
+        response => {
+          console.log("zbrisan obisk "+this.idNaloga);
+        },
+        error => {
+          console.log("error brisanje obisk "+this.idNaloga);
+        }
+      );
+
+      alert("Nalog je bil uspešno zbrisan!");
+      // nazajNaPregled()
+    }
+
 
     // Pridobi podronosti za delovni nalog, za katerega se izpisujejo podrobnosti
     getDelovniNalog(id: number) {
@@ -64,11 +131,15 @@ export class PodrobnostiNalogComponent implements OnInit {
             else
               otrok.spol = 'ženski';
           }
+          //console.log(response);
+          if (response.zdravnik.osebna_sifra == this.sifra_zdravnika) this.jeIzdajateljNaloga = true;
+          else this.jeIzdajateljNaloga = false;
+          this.seNimaObiskov = !this.imaObiske();
         },
         error => {
           this.errorNalaganja = error;
         }
-      )
+      );
     }
 
     // Preusmeri nazaj na pregled nalogov

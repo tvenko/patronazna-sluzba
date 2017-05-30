@@ -156,7 +156,7 @@ class ObiskDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Obisk
-        fields = ('predvideni_datum', 'dejanski_datum', 'je_opravljen', 'je_obvezen_datum',
+        fields = ('id', 'predvideni_datum', 'dejanski_datum', 'je_opravljen', 'je_obvezen_datum',
         'nadomestna_patronazna_sestra', 'id_meritev')
 
 class ObiskNadomescajSerializer(serializers.ModelSerializer):
