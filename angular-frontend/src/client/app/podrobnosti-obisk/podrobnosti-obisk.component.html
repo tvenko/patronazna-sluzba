@@ -1,7 +1,9 @@
 <div class="app-body">
   <div class="sidebar">
-    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika != 'patronažna sestra'"></sd-navbar-vodja-zdravnik>
+    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika === 'vodja PS'"></sd-navbar-vodja-zdravnik>
+    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika === 'zdravnik'"></sd-navbar-vodja-zdravnik>
     <sd-navbar-sestra *ngIf="tipUporabnika === 'patronažna sestra'"></sd-navbar-sestra>
+    <sd-navbar-pacient *ngIf="tipUporabnika === 'pacient'"></sd-navbar-pacient>
   </div>
 
 <main class="main">
@@ -145,7 +147,7 @@
 
                       </div>
                     </div>
-                    <!---
+
                     <div class="ui-grid-row">
                       <div class="ui-grid-col-4">
                         <i class="fa fa-venus-mars margin-right" aria-hidden="true"></i>
@@ -162,7 +164,7 @@
                         <i class="fa fa-map-marker margin-right" aria-hidden="true"></i>
 
                         {{obisk.pacient.okolis}}
-                      </div>--->
+                      </div>
                       <div class="ui-grid-col-1">
 
                       </div>
@@ -207,7 +209,7 @@
             <div class="ui-grid-row"></div>
             <!--- podatki obiska --->
             <div class="ui-grid-row">
-              <div class="ui-grid-col-11 margin-bottom-md">
+              <div class="ui-grid-col-11 level-1 margin-bottom-md">
                 <div class="ui-grid-row podrobnosti-header">
                   <div class="ui-grid-col-12">
                     <h5>Podatki obiska</h5>

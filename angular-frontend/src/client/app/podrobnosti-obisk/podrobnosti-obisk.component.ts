@@ -25,6 +25,7 @@ export class PodrobnostiObiskComponent implements OnInit {
     ngOnInit() {
       // Ceski nacin za prikaz navbara
       this.tipUporabnika = JSON.parse(localStorage.getItem('currentUser')).tipUporabnika;
+      console.log(this.tipUporabnika);
       // Pridobi id delovnega naloga iz naslova
       this.activatedRoute.params.subscribe((params: Params) => {
         let idObiska = params['idObiska'];
@@ -110,7 +111,8 @@ export class PodrobnostiObiskComponent implements OnInit {
 
     // Preusmeri nazaj na seznam obiskov
     nazajNaPregled() {
-      this.router.navigateByUrl('/seznam-obiskov');
+      if (this.tipUporabnika == 'pacient') this.router.navigateByUrl('/seznam-obiskov-pacient');
+      else this.router.navigateByUrl('/seznam-obiskov');
       // window.history.back();
     }
 
