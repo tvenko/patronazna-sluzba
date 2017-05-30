@@ -22,6 +22,7 @@ router.register(r'sestra', views.NadomestnaSestraViewSet, base_name='nadomestna_
 router.register(r'sestre', views.PatronazneSestreViewSet, base_name='patronazne_sestre')
 router.register(r'pozabljenogeslo', views.PozabljenoGesloViewSet, base_name='pozabljeno_geslo')
 router.register(r'potrditevgesla', views.PotrditevGeslaViewSet, base_name='potrditev_gesla')
+router.register(r'vrnjenesestre', views.VracujoceSestreViewSet, base_name='vrnjene_sestre')
 
 
 # Vkljucen JWT, je dovolj samo na root url?

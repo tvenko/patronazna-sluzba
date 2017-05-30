@@ -347,7 +347,7 @@ class PatronaznaSestraSerializer(serializers.ModelSerializer):
         exclude = ('delavec', 'password', 'je_admin')
 
 class PozabljenoGesloSerializer(serializers.ModelSerializer):
-	
+
 	#mail in geslo sta poslana kot ime in priimek, da ne teži za že obstoječi email
 	class Meta:
 		model = Uporabnik
@@ -378,3 +378,14 @@ class PotrditevGeslaSerializer(serializers.ModelSerializer):
         uporabnik.set_password(validated_data['password'])
         uporabnik.save()
         return uporabnik
+
+class PatronaznaSestraDelavecSerializer(serializers.ModelSerializer):
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    uporabnik = serializers.IntegerField(source='uporabnik.id')
+
+
+    class Meta:
+        model = Delavec
+        fields = ('ime', 'priimek', 'osebna_sifra', 'uporabnik',
+        'zacetek_odsotnosti', 'konec_odsotnosti')

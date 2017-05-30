@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
+from datetime import date
 from dateutil.parser import parse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
@@ -152,6 +153,7 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
 
     @detail_route(methods=['patch'])
     def nadomesti(self, request, *args, **kwargs):
+        '''Nadomesti sestro v URL s tisto poslano v body'''
         # Preveri da so vsi podatki za dodeljevanje nadomescanja podani
         pk = kwargs.pop('pk', None)
         context = {"request": request,}
@@ -250,6 +252,27 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
         body = dict(nadomestni=obiski_nadomesca, obiski=obiski, message='Nadomestna sestra je bila dodana')
         return Response(status=status.HTTP_200_OK, data=body)
 
+    @detail_route(methods=['patch'])
+    def vrni(self, request, *args, **kwargs):
+        '''Dodeli nerealizirane obiske nazaj prvostni sestri'''
+        # ID uporabnika sestre, ki se je vrnila
+        pk = kwargs.pop('pk', None)
+        context = {"request": request,}
+        sestra = None
+        try:
+            sestra = Uporabnik.objects.get(id=pk)
+        except Uporabnik.DoesNotExist:
+            body = dict(message='Ne najdem tega uporabnika')
+            return Response(status=status.HTTP_404_NOT_FOUND, data=body)
+        sestra_delavec = PatronaznaSestraSerializer(sestra, context=context)
+        if sestra_delavec.data['naziv_delavca'] != 'patronažna sestra':
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Uporabnik ni patronažna sestra'))
+
+        obiski = Obisk.objects.filter(patronazna_sestra=sestra, predvideni_datum__range=[sestra_delavec.data['zacetek_odsotnosti'], date.today()], je_opravljen=False).update(nadomestna_patronazna_sestra=None)
+        #print(obiski)
+        body = dict(obiski=obiski, message='Obiski so bili dodeljeni nazaj k prvotni sestri')
+        return Response(status=status.HTTP_200_OK, data=body)
+
 class PatronazneSestreViewSet(viewsets.ReadOnlyModelViewSet):
     '''Vrne vse Patronazne sestre'''
     serializer_class = ZdravnikSerializer
@@ -270,3 +293,14 @@ class PotrditevGeslaViewSet(viewsets.ModelViewSet):
 
 	serializer_class = PotrditevGeslaSerializer
 	queryset = Uporabnik.objects.all()
+
+class VracujoceSestreViewSet(viewsets.ReadOnlyModelViewSet):
+    '''Vrne sestre, katerih odsotnost se konca na danasnji datum'''
+    serializer_class = PatronaznaSestraDelavecSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        queryset = Delavec.objects.filter(
+            Q(vrsta_delavca__naziv='patronažna sestra')
+        ).filter(konec_odsotnosti__date=date.today())
+        return queryset
