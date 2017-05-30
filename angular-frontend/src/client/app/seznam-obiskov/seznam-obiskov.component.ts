@@ -163,9 +163,6 @@ export class SeznamObiskovComponent implements OnInit {
     sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
     this.query = '?user=' + sifra_zdravnika;
 
-    var offset = (24*60*60*1000);
-    podatki.dejanskiDatumOd = new Date (podatki.dejanskiDatumOd.getTime()-offset);
-
     // console.log(podatki.predvideniDatumOd);
     // console.log(podatki.predvideniDatumDo);
     // console.log(podatki.dejanskiDatumOd);
@@ -176,7 +173,11 @@ export class SeznamObiskovComponent implements OnInit {
     // p datum do
     if (podatki.predvideniDatumDo) this.query += '&konc_pdat=' + podatki.predvideniDatumDo.toISOString().substr(0, 10);
     // d datum od
-    if (podatki.dejanskiDatumOd) this.query += '&zac_ddat=' + podatki.dejanskiDatumOd.toISOString().substr(0, 10);
+    if (podatki.dejanskiDatumOd) {
+      this.query += '&zac_ddat=' + podatki.dejanskiDatumOd.toISOString().substr(0, 10);
+      var offset = (24*60*60*1000);
+      podatki.dejanskiDatumOd = new Date (podatki.dejanskiDatumOd.getTime()-offset);
+    }
     // d datum do
     if (podatki.dejanskiDatumDo) this.query += '&konc_ddat=' + podatki.dejanskiDatumDo.toISOString().substr(0, 10);
     // izdajatelj
