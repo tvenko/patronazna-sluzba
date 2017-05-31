@@ -37,7 +37,7 @@ export class ZakljuciNadomescanjeComponent implements OnInit {
   poslji(value: any) {
     this.delavecService.zakljuciNadomescanje(value.patronazna_sestra.uporabnik).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         //var i = this.vrnjeneSestre.indexOf(value.patronazna_sestra);
         //this.vrnjeneSestre.splice(i, 1);
         this.response = response.message + '(' + response.obiski + ')';
