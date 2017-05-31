@@ -75,13 +75,13 @@ export class PodrobnostiNalogComponent implements OnInit {
 
       // najdi obiske
       for (var o in this.delovniNalog.obiski) {
-        //console.log(this.delovniNalog.obiski[o].id);
-        // za vsak obisk meritve
-        for (var m in this.delovniNalog.obiski[o].id_meritev) {
-          //console.log(this.delovniNalog.obiski[o].id_meritev[m]);
-          // zbrisi meritve
-          this.zbrisiMeritev(this.delovniNalog.obiski[o].id_meritev[m]);
-        }
+        // console.log(this.delovniNalog.obiski[o].id);
+        // za vsak obisk meritve - ne rabi
+        // for (var m in this.delovniNalog.obiski[o].id_meritev) {
+        //   //console.log(this.delovniNalog.obiski[o].id_meritev[m]);
+        //   // zbrisi meritve
+        //   this.zbrisiMeritev(this.delovniNalog.obiski[o].id_meritev[m]);
+        // }
         // zbrisi obiske
         this.zbrisiObisk(this.delovniNalog.obiski[o].id);
       }
