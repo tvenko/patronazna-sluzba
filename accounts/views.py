@@ -251,6 +251,7 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
         #obiski_serializer = ObiskSerializer(obiski, many=True, context=context)
         # Popravi obiske, pri katerih je nadomestna sestra naša prvotna sestra
         obiski_nadomesca = Obisk.objects.filter(nadomestna_patronazna_sestra=sestra, predvideni_datum__range=[zacetek_nadomescanja, konec_nadomescanja]).update(nadomestna_patronazna_sestra=nadomestna_sestra)
+        Delavec.objects.filter(uporabnik=sestra).update(zacetek_odsotnosti=zacetek_nadomescanja, konec_odsotnosti=konec_nadomescanja)
         body = dict(nadomestni=obiski_nadomesca, obiski=obiski, message='Nadomestna sestra je bila dodana')
         return Response(status=status.HTTP_200_OK, data=body)
 
