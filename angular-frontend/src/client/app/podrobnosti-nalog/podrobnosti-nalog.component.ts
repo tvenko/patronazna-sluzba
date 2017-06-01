@@ -44,7 +44,10 @@ export class PodrobnostiNalogComponent implements OnInit {
 
     imaObiske() {
       for (var o in this.delovniNalog.obiski)
-        if (this.delovniNalog.obiski[o].je_opravljen) return true;
+        if (this.delovniNalog.obiski[o].je_opravljen == "da") {
+          console.log(this.delovniNalog.obiski[o]);
+          return true;
+        }
       return false;
     }
 
@@ -135,6 +138,7 @@ export class PodrobnostiNalogComponent implements OnInit {
           if (response.zdravnik.osebna_sifra == this.sifra_zdravnika) this.jeIzdajateljNaloga = true;
           else this.jeIzdajateljNaloga = false;
           this.seNimaObiskov = !this.imaObiske();
+          console.log(this.seNimaObiskov);
         },
         error => {
           this.errorNalaganja = error;

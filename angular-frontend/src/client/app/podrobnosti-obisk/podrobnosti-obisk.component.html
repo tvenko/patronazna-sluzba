@@ -246,7 +246,8 @@
                     </div>
 
                     <div class="ui-grid-row" *ngFor="let material of obisk.material"><div class="ui-grid-col-12">{{ material.opis }}</div></div>
-                    <div class="ui-grid-row" *ngIf="obisk.material.length == 0"><div class="ui-grid-col-12">Za obisk ni potrebnih materialov</div></div>
+                    <div class="ui-grid-row" *ngFor="let zdravilo of obisk.zdravila"><div class="ui-grid-col-12">{{ zdravilo.naziv }}</div></div>
+                    <div class="ui-grid-row" *ngIf="obisk.material.length == 0 && obisk.zdravila.length == 0"><div class="ui-grid-col-12">Za obisk ni potrebnih materialov</div></div>
 
                   </div>
                 </div>
