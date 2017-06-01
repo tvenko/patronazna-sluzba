@@ -11,11 +11,18 @@
       Zadnja prijava:
     </li>
     <li class="nav-item ps-nav-item ps-small-margin-bottom">
-      {{ pacient.datum | date}}
+      {{ pacient.datum }}
     </li>
     <li class="nav-title">
       Seznam strani
     </li>
+
+    <li class="nav-item">
+      <a [routerLink]="['/seznam-obiskov-pacient']" [routerLinkActive]="['router-link-active']"
+         [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-list-alt" aria-hidden="true"></i> Pregled obiskov</a>
+    </li>
+
     <li class="nav-item">
       <a [routerLink]="['/pacient/profil']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><i class="fa fa-id-card"></i> Osebni podatki</a>
     </li>

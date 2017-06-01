@@ -80,6 +80,8 @@ class PacientiViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return PacientPostSerializer
+        if self.request.method == 'PATCH':
+            return PacientUpdateSerializer
         return PacientGetSerializer
 
     def get_queryset(self):
@@ -270,6 +272,7 @@ class NadomestnaSestraViewSet(viewsets.GenericViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST, data=dict(message='Uporabnik ni patronažna sestra'))
 
         obiski = Obisk.objects.filter(patronazna_sestra=sestra, predvideni_datum__range=[sestra_delavec.data['zacetek_odsotnosti'], date.today()], je_opravljen=False).update(nadomestna_patronazna_sestra=None)
+        Delavec.objects.filter(uporabnik=sestra).update(zacetek_odsotnosti=None, konec_odsotnosti=None)
         #print(obiski)
         body = dict(obiski=obiski, message='Obiski so bili dodeljeni nazaj k prvotni sestri')
         return Response(status=status.HTTP_200_OK, data=body)

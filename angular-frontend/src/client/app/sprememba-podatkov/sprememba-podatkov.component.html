@@ -73,7 +73,8 @@
         </div>
       </div>
 
-      <!-- Sprememba osebnih podatkov -->
+<!---
+      <!-- Sprememba osebnih podatkov
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
           <h3>Sprememba podatkov</h3>
@@ -134,19 +135,6 @@
               </div>
             </div>
 
-            <!--- sifra okolisa
-            <div class="ui-grid-row form-group">
-              <div class="ui-grid-col-12">
-                <label>Šifra okoliša</label>
-                <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
-                  <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
-                    {{ sifra.naziv }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            --->
-
             <div class="ui-grid-row form-group">
               <div class="ui-grid-col-12"
                 [ngClass]="{ 'has-error': pForm.controls.telefon.invalid && pForm.controls.telefon.touched }">
@@ -179,8 +167,8 @@
           </form>
         </div>
       </div>
-
-      <!-- Sprememba osebnih podatkov -->
+--->
+      <!-- Sprememba gesla -->
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
           <h3>Sprememba gesla</h3>

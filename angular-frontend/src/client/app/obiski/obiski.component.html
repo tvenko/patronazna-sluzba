@@ -268,9 +268,12 @@
     </div>
 
     <p-dialog header="Potrebni material za dan {{ danPlana | date }}" [(visible)]="prikaziMaterial" modal="modal" responsive="true">
-      <span *ngFor="let material of danasnjiMaterial | keyValues">
+      <div *ngFor="let zdravilo of danasnjaZdravila | keyValues">
+        {{zdravilo.key}}: {{zdravilo.value}}<br/>
+      </div>
+      <div *ngFor="let material of danasnjiMaterial | keyValues">
         {{material.key}}: {{material.value}}<br/>
-      </span>
+      </div>
     </p-dialog>
 
   </main>

@@ -106,6 +106,17 @@ export class DelavecService {
                     .map((res: Response) => res.json());
   }
 
+  getVrnjeneMS(): Observable<any> {
+    return this.http.get(Config.API + 'racuni/vrnjenesestre/')
+                    .map((res: Response) => res.json());
+  }
+
+  zakljuciNadomescanje(id: string): Observable<any> {
+    let body = {};
+    return this.http.patch(Config.API + 'racuni/sestra/' + id + '/vrni/', body)
+                    .map((res: Response) => res.json());
+  }
+
   /**
     * Handle HTTP error
     */

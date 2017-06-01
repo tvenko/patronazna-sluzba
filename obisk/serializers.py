@@ -14,6 +14,12 @@ class DelovniNalogMaterialSerializer(serializers.ModelSerializer):
         model = delovniNalog.models.DelovniNalogMaterial
         fields = ('id_materiala', 'kolicina', 'opis')
 
+class ZdraviloSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = delovniNalog.models.Zdravilo
+        fields = ('sifra', 'naziv', 'opis')
+
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
     naziv_meritve = serializers.CharField(source='id_meritve.naziv')
@@ -74,6 +80,7 @@ class ObiskSerializer(serializers.ModelSerializer):
 
     pacient = PacientObiskSerializer(source='delovni_nalog.id_pacienta')
     material = DelovniNalogMaterialSerializer(source='delovni_nalog.delovninalogmaterial_set', many=True)
+    zdravila = ZdraviloSerializer(source='delovni_nalog.sifra_zdravila', many=True)
     vrstaObiskaId = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska', read_only=True)
     vrstaObiska = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vrsta_obiska.opis', read_only=True)
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
@@ -84,7 +91,7 @@ class ObiskSerializer(serializers.ModelSerializer):
         model = Obisk
         fields = ('id', 'patronazna_sestra', 'predvideni_datum', 'dejanski_datum', 'delovni_nalog', 'je_obvezen_datum',
                   'id_meritev', 'nadomestna_patronazna_sestra', 'je_opravljen', 'pacient', 'material', 'vrstaObiskaId',
-                  'vrstaObiska', 'zdravnik', 'vezani_pacienti', 'je_prvi')
+                  'vrstaObiska', 'zdravnik', 'vezani_pacienti', 'je_prvi', 'zdravila')
 
     def create(self, validated_data):
         obisk = Obisk(**validated_data)
@@ -149,7 +156,7 @@ class ObiskDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Obisk
-        fields = ('predvideni_datum', 'dejanski_datum', 'je_opravljen', 'je_obvezen_datum',
+        fields = ('id', 'predvideni_datum', 'dejanski_datum', 'je_opravljen', 'je_obvezen_datum',
         'nadomestna_patronazna_sestra', 'id_meritev')
 
 class ObiskNadomescajSerializer(serializers.ModelSerializer):

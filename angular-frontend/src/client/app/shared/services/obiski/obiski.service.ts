@@ -28,6 +28,19 @@ export class ObiskiService {
       .catch(this.handleError);
   }
 
+  delete(id: number) {
+    return this.http.delete(Config.API + 'obiski/obiski/' + id)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+  deleteMeritev(id: number) {
+    return this.http.delete(Config.API + 'obiski/meritvenaobisku/' + id)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+
   getByDelavec(delavec: any, stran: number): Observable<any> {
     return this.http.get(Config.API + 'obiski/obiski?user=' + delavec + '&page=' + stran)
       .map((res: Response) => res.json())
