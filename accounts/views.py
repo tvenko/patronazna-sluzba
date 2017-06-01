@@ -80,7 +80,7 @@ class PacientiViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return PacientPostSerializer
-        if self.request.method == 'PUT':
+        if self.request.method == 'PATCH':
             return PacientUpdateSerializer
         return PacientGetSerializer
 

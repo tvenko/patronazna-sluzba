@@ -85,7 +85,7 @@ export class PacientService {
   }
 
   spremeniPodatke(id: string, podatki: any): Observable<any> {
-    return this.http.put(Config.API + 'racuni/pacienti/' + id + '/', podatki)
+    return this.http.patch(Config.API + 'racuni/pacienti/' + id + '/', podatki)
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }

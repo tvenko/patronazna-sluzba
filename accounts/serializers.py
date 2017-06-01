@@ -240,27 +240,27 @@ class PacientUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pacient
-        fields = ('ime', 'priimek', 'eposta', 'telefon', 'ulica', 'hisnaStevilka', 'kraj',  'datumRojstva')
+        fields = ('ime', 'priimek', 'eposta', 'telefon', 'ulica', 'hisnaStevilka', 'kraj', 'sifra_okolisa',  'datumRojstva')
 
     def update(self, pacient, validated_data):
+        print(pacient.uporabnik)
         if ('ime' in validated_data['uporabnik'].keys()):
-            pacient.ime = validated_data['uporabnik']['ime']
+            pacient.uporabnik.ime = validated_data['uporabnik']['ime']
         if ('priimek' in validated_data['uporabnik'].keys()):
-            pacient.priimek = validated_data['uporabnik']['priimek']
-        if ('eposta' in validated_data['uporabnik'].keys()):
-            pacient.email = validated_data['uporabnik']['eposta']
-        if ('telefon' in validated_data['uporabnik'].keys()):
-            pacient.tel = validated_data['uporabnik']['telefon']
+            pacient.uporabnik.priimek = validated_data['uporabnik']['priimek']
+        if ('email' in validated_data['uporabnik'].keys()):
+            pacient.uporabnik.email = validated_data['uporabnik']['email']
+        if ('tel' in validated_data['uporabnik'].keys()):
+            pacient.uporabnik.tel = validated_data['uporabnik']['tel']
         if ('ulica' in validated_data.keys()):
             pacient.ulica = validated_data['ulica']
-        if ('datumRojstva' in validated_data.keys()):
-            pacient.datum_rojstva = validated_data['datumRojstva']
-        if ('kraj' in validated_data.keys()):
-            pacient.kraj = validated_data['posta']['kraj']
+        if ('datum_rojstva' in validated_data.keys()):
+            pacient.datum_rojstva = validated_data['datum_rojstva']
+        if ('kraj' in validated_data['posta'].keys()):
             pacient.posta = Posta.objects.get(kraj = validated_data.pop('posta')['kraj'])
-        if ('hisnaStevilka' in validated_data.keys()):
-            pacient.hisna_stevilka = validated_data['hisnaStevilka']
-        print(pacient)
+            # ne dela
+        if ('hisna_stevilka' in validated_data.keys()):
+            pacient.hisna_stevilka = validated_data['hisna_stevilka']
         pacient.save()
         return pacient
 
