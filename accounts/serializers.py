@@ -389,3 +389,34 @@ class PatronaznaSestraDelavecSerializer(serializers.ModelSerializer):
         model = Delavec
         fields = ('ime', 'priimek', 'osebna_sifra', 'uporabnik',
         'zacetek_odsotnosti', 'konec_odsotnosti')
+		
+class PosodobiOsebjeSerializer(serializers.ModelSerializer):
+
+	ime = serializers.CharField(source='uporabnik.ime')
+	priimek = serializers.CharField(source='uporabnik.priimek')
+	email = serializers.EmailField(source='uporabnik.email')
+	tel = serializers.CharField(source='uporabnik.tel')
+	password = serializers.CharField(source='uporabnik.password', required=False)
+	naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
+	naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
+	naziv_okolisa = serializers.CharField(source='sifra_okolisa.naziv')
+
+	class Meta:
+		model = Delavec
+		fields = ('ime', 'priimek', 'tel', 'email', 'password', 'osebna_sifra', 'naziv_ustanove', 'naziv_delavca', 'naziv_okolisa')
+		
+	def update(self, delavec, validated_data):
+		uporabnik = Uporabnik.objects.get(id = delavec.uporabnik_id)
+		uporabnik.ime = validated_data.get('uporabnik')['ime']
+		uporabnik.priimek = validated_data.get('uporabnik')['priimek']
+		uporabnik.email = validated_data.get('uporabnik')['email']
+		uporabnik.tel = validated_data.get('uporabnik')['tel']
+		if 'password' in validated_data.get('uporabnik'):
+			uporabnik.set_password(validated_data.get('uporabnik')['password'])
+		print(validated_data)
+		delavec.sifra_ustanove = SifraUstanove.objects.get(naziv =  validated_data.pop('sifra_ustanove', None)['naziv'])
+		delavec.vrsta_delavca = VrstaDelavca.objects.get(naziv = validated_data.pop('vrsta_delavca', None)['naziv'])
+		delavec.sifra_okolisa = SifraOkolisa.objects.get(naziv = validated_data.pop('sifra_okolisa', None)['naziv'])
+		delavec.save()
+		uporabnik.save()
+		return delavec

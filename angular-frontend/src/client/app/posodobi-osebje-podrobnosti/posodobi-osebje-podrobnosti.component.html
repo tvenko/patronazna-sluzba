@@ -7,64 +7,63 @@
       <form [formGroup]="regForm" (ngSubmit)="registriraj(regForm.value)">
         <p></p>
 
-        <input *ngIf="delavecNajden" class="form-control" formControlName="ime" type="ime" placeholder="{{ izbranDelavec.ime }}">
+        <input *ngIf="delavecNajden" class="form-control" formControlName="ime" type="ime" placeholder="Ime">
         <small *ngIf="regForm.controls.ime.errors && !regForm.controls.ime.untouched" class="text-danger">Polje je obvezno.</small>
         <br/>
-        <input *ngIf="delavecNajden" class="form-control" formControlName="priimek" type="priimek" placeholder="{{ izbranDelavec.priimek }}"><small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno.</small><br/>
+        <input *ngIf="delavecNajden" class="form-control" formControlName="priimek" type="priimek" placeholder="Priimek"><small *ngIf="regForm.controls.priimek.errors && !regForm.controls.priimek.untouched" class="text-danger">Polje je obvezno.</small><br/>
 
         <label>Vrsta uslužbenca: </label>
-        <select class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca" placeholder="Vrsta uslućbenca">
-          <option *ngFor="let vrsta of vrstaDelavca" [ngValue]="vrsta">{{ vrsta }}</option>
+        <select *ngIf="delavecNajden" class="form-control" formControlName="vrstaDelavca" id="vrstaDelavca" placeholder="Vrsta uslućbenca">
+		  <option *ngFor="let vrsta of vrstaDelavca" [ngValue]="vrsta">{{ vrsta }}</option>
         </select>
 
         <div *ngIf="rabiSifroOkolisa()">
           <label>Šifra okoliša: </label>
           <select class="form-control" *ngIf="sifreOkolisa" formControlName="sifreOkolisa">
-            <option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
+			<option *ngFor="let sifra of sifreOkolisa.results" [ngValue]="sifra">
               {{ sifra.naziv }}
             </option>
           </select>
         </div>
 
-        <br/><input *ngIf="delavecNajden" class="form-control" formControlName="tel" type="tel" placeholder="{{ izbranDelavec.tel }}" required
+        <br/><input *ngIf="delavecNajden" class="form-control" formControlName="tel" type="tel" placeholder="Telefonska številka" required
         pattern="^\d*$"><small *ngIf="regForm.controls.tel.errors && !regForm.controls.tel.untouched" class="text-danger">Polje je obvezno. </small>
         <small *ngIf="regForm.controls.tel.errors && regForm.controls.tel.errors.pattern" class="text-danger">Telefonska številka lahko vsebuje le številke</small>
         <br/>
 
-        <input *ngIf="delavecNajden" class="form-control" formControlName="sifra1" type="sifra1" placeholder="{{ izbranDelavec.osebna_sifra }}" required
+        <input *ngIf="delavecNajden" class="form-control" formControlName="sifra1" type="sifra1" placeholder="Šifra uslužbenca" required disabled
         pattern="^\d*$"><small *ngIf="regForm.controls.sifra1.errors && !regForm.controls.sifra1.untouched" class="text-danger">Polje je obvezno. </small>
 
         <label>Naziv ustanove: </label>
-        <select class="form-control" formControlName="sifra2" id="sifra2">
+        <select *ngIf="delavecNajden" class="form-control" formControlName="sifra2" id="sifra2">
           <option *ngFor="let sifra of nazivUstanove" [ngValue]="sifra">{{ sifra }}</option>
         </select><small *ngIf="regForm.controls.sifra2.errors && !regForm.controls.sifra2.untouched" class="text-danger">Polje je obvezno. </small><br/>
 
-        <input *ngIf="delavecNajden" class="form-control" formControlName="email" type="email" placeholder="{{ izbranDelavec.email }}" required
+        <input *ngIf="delavecNajden" class="form-control" formControlName="email" type="email" placeholder="Email" required
         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"><small *ngIf="regForm.controls.email.errors && !regForm.controls.email.untouched" class="text-danger">Polje je obvezno. </small>
         <small *ngIf="regForm.controls.email.errors && regForm.controls.email.errors.pattern" class="text-danger">Email mora slediti formatu <i>email@email.si</i>.</small>
         <br/>
 
-        <input class="form-control" formControlName="geslo1" type="password" placeholder="Geslo" required validateEqual="geslo2" reverse="true" pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})"><small *ngIf="(regForm.controls.geslo1.errors && regForm.controls.geslo1.errors.pattern) || (regForm.controls.geslo1.errors && !regForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko</small>
+        <input class="form-control" formControlName="geslo1" type="password" placeholder="Novo geslo" validateEqual="geslo2" reverse="true" pattern="((?=.*\d)(?=.*[a-zA-Z]).{8,})"><small *ngIf="(regForm.controls.geslo1.errors && regForm.controls.geslo1.errors.pattern) || (regForm.controls.geslo1.errors && !regForm.controls.geslo1.untouched)" class="text-danger">Geslo mora obsegati vsaj 8 znakov in vsebovati vsaj eno številko</small>
         <br/>
 
-        <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite geslo" validateEqual="geslo1" reverse="false"><small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
+        <input class="form-control" formControlName="geslo2" type="password" placeholder="Potrdite novo geslo" validateEqual="geslo1" reverse="false"><small [hidden]="regForm.controls.geslo2.valid || (regForm.controls.geslo2.untouched)" class="text-danger">Gesli se ne ujemata!</small><br/>
 
-        <button class="form-control" type="submit" [disabled]="!regForm.valid">Registriraj</button>
-        <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosim, še enrkat preverite obrazec.</small>
-        <!---<button class="form-control" type="submit">Registriraj</button>--->
+        <button class="form-control" type="submit" [disabled]="!regForm.valid">Posodobi podatke</button>
+        <small *ngIf="!regForm.valid && !regForm.untouched" class="text-danger">Napačno ste izpolnili podatke. Prosim, še enkrat preverite obrazec.</small>
 
       </form>
     </div>
 
     <p-dialog header="Registracija" [(visible)]="prikaziPregled" modal="modal" responsive="true">
       <div class="ui-grid ui-grid-responsive ui-grid-pad">
-        Registracija delavca je bila uspešna.
+        Posodobitev delavca je bila uspešna.
       </div>
     </p-dialog>
 
     <p-dialog header="Napaka!" [(visible)]="prikaziNapako" modal="modal" responsive="true">
       <div class="ui-grid ui-grid-responsive ui-grid-pad">
-        Pri registraciji je prišlo do napake! Prosim, preverite podatke.
+        Pri posodobitvi je prišlo do napake! Prosim, preverite podatke.
       </div>
     </p-dialog>
 

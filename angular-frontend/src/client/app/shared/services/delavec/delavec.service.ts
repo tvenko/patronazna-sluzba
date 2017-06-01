@@ -51,6 +51,12 @@ export class DelavecService {
                     .map((res: Response) => res.json())
                     .catch(this.handleError);
   }
+  
+  posodobi(delavec: any): Observable<string[]> {
+    return this.http.put(Config.API + 'racuni/posodobiosebje/' + delavec.osebna_sifra.toString() + '/',  delavec)
+                    .map((res: Response) => res.json())
+                    .catch(this.handleError);
+  }
 
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource.

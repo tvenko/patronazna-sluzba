@@ -305,3 +305,8 @@ class VracujoceSestreViewSet(viewsets.ReadOnlyModelViewSet):
             Q(vrsta_delavca__naziv='patronažna sestra')
         ).filter(konec_odsotnosti__date=date.today())
         return queryset
+		
+class PosodobiOsebjeViewSet(viewsets.ModelViewSet):
+
+	serializer_class = PosodobiOsebjeSerializer
+	queryset = Delavec.objects.all()
