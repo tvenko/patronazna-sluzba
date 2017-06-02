@@ -46,13 +46,11 @@ ngOnInit() {
   this.activatedRoute.params.subscribe((params: Params) => {
 	let osebnaSifra = params['osebnaSifra'];
 	this.osebnaSifra = osebnaSifra;
-	this.pridobiPodatke();
+	this.pridobiPodatke()
   });
   
   this.prikaziPregled = false;
   this.prikaziNapako = false;
-  this.dobiSifre();
-  //this.dobiVrste();
   this.regForm = this.fb.group({
     ime: ['', Validators.required],
     priimek: ['', Validators.required],
@@ -73,7 +71,7 @@ ngOnInit() {
 	  .subscribe(
 		response => {
 		  this.izbranDelavec = response;
-		  console.log(this.izbranDelavec);
+		  this.dobiSifre();
 		  this.delavecNajden = true;
 		},
 		error => {
@@ -93,7 +91,7 @@ ngOnInit() {
     }
     console.log(JSON.stringify(this.delavec));
 
-    this.delavecService.ustvari(this.delavec)
+    this.delavecService.posodobi(this.delavec)
       .subscribe(
         response => {
           console.log(response);
@@ -111,6 +109,26 @@ ngOnInit() {
     .subscribe(
       response => {
         this.sifreOkolisa = response;
+		var indeks = 0;
+		for (var i=this.sifreOkolisa.results.length-1; i>=0; i--) {
+			if (this.sifreOkolisa.results[i].naziv == this.izbranDelavec.naziv_okolisa) {
+				indeks = i;
+				break;
+			}
+		}
+		var sifraOkolisa = {id:1, naziv: this.izbranDelavec.naziv_okolisa};
+		this.regForm = this.fb.group({
+			ime: [this.izbranDelavec.ime, Validators.required],
+			priimek: [this.izbranDelavec.priimek, Validators.required],
+			vrstaDelavca: [this.izbranDelavec.naziv_delavca, Validators.required],
+			tel: [this.izbranDelavec.tel, Validators.required],
+			sifra1: [this.izbranDelavec.osebna_sifra, Validators.required],
+			sifra2: [this.izbranDelavec.naziv_ustanove, Validators.required],
+			email: [this.izbranDelavec.email, Validators.required],
+			geslo1: ['', Validators.required],
+			geslo2: ['', Validators.required],
+			sifreOkolisa: [this.sifreOkolisa.results[indeks]],
+		 });
       },
       error => {
         this.problemPridobivanja = true;

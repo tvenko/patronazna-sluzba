@@ -1,7 +1,9 @@
 <div class="app-body">
   <div class="sidebar">
-    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika != 'patronažna sestra'"></sd-navbar-vodja-zdravnik>
+    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika === 'vodja PS'"></sd-navbar-vodja-zdravnik>
+    <sd-navbar-vodja-zdravnik *ngIf="tipUporabnika === 'zdravnik'"></sd-navbar-vodja-zdravnik>
     <sd-navbar-sestra *ngIf="tipUporabnika === 'patronažna sestra'"></sd-navbar-sestra>
+    <sd-navbar-pacient *ngIf="tipUporabnika === 'pacient'"></sd-navbar-pacient>
   </div>
 
 <main class="main">
@@ -145,27 +147,13 @@
 
                       </div>
                     </div>
-                    <!---
+
                     <div class="ui-grid-row">
                       <div class="ui-grid-col-4">
-                        <i class="fa fa-venus-mars margin-right" aria-hidden="true"></i>
-                        {{obisk.pacient.spol}}
-                      </div>
-                      <div class="ui-grid-col-1"></div>
-                      <div class="ui-grid-col-6">
                         <i class="fa fa-birthday-cake margin-right" aria-hidden="true"></i>
                         {{obisk.pacient.rojstni_dan | date}}
                       </div>
-                    </div>
-                    <div class="ui-grid-row">
-                      <div class="ui-grid-col-4">
-                        <i class="fa fa-map-marker margin-right" aria-hidden="true"></i>
-
-                        {{obisk.pacient.okolis}}
-                      </div>--->
-                      <div class="ui-grid-col-1">
-
-                      </div>
+                      <div class="ui-grid-col-1"></div>
                       <div class="ui-grid-col-6">
                         <i class="fa fa-id-card margin-right" aria-hidden="true"></i>
                         {{obisk.pacient.stevilkaPacienta}}
@@ -204,7 +192,7 @@
                 </div>
               </div>
             </div>
-
+            <div class="ui-grid-row"></div>
             <!--- podatki obiska --->
             <div class="ui-grid-row">
               <div class="ui-grid-col-11 level-1 margin-bottom-md">
@@ -244,7 +232,8 @@
                     </div>
 
                     <div class="ui-grid-row" *ngFor="let material of obisk.material"><div class="ui-grid-col-12">{{ material.opis }}</div></div>
-                    <div class="ui-grid-row" *ngIf="obisk.material.length == 0"><div class="ui-grid-col-12">Za obisk ni potrebnih materialov</div></div>
+                    <div class="ui-grid-row" *ngFor="let zdravilo of obisk.zdravila"><div class="ui-grid-col-12">{{ zdravilo.naziv }}</div></div>
+                    <div class="ui-grid-row" *ngIf="obisk.material.length == 0 && obisk.zdravila.length == 0"><div class="ui-grid-col-12">Za obisk ni potrebnih materialov</div></div>
 
                   </div>
                 </div>

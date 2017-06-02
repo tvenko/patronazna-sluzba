@@ -161,14 +161,17 @@ export class DelovniNalogComponent implements OnInit {
     sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
     this.query = '?user=' + sifra_zdravnika;
 
-    var offset = (24*60*60*1000);
-    podatki.datumDo = new Date (podatki.datumDo.getTime()+offset);
+
     //console.log(podatki.datumDo);
 
     // datum od
     if (podatki.datumOd) this.query += '&zac_dat=' + podatki.datumOd.toISOString().substr(0, 10);
     // datum do
-    if (podatki.datumDo) this.query += '&konc_dat=' + podatki.datumDo.toISOString().substr(0, 10);
+    if (podatki.datumDo) {
+      var offset = (24*60*60*1000);
+      podatki.datumDo = new Date (podatki.datumDo.getTime()+offset);
+      this.query += '&konc_dat=' + podatki.datumDo.toISOString().substr(0, 10);
+    }
     // izdajatelj
     if (this.izbranIzdajatelj) this.query += '&izd=' + this.izbranIzdajatelj.osebna_sifra;
     // pacient

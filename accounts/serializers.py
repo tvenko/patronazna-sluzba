@@ -167,7 +167,7 @@ class PacientGetSerializer(serializers.ModelSerializer):
         model = Pacient
         fields = ('ime', 'priimek', 'eposta', 'telefon', 'stevilkaPacienta',
                   'ulica', 'hisnaStevilka', 'posta', 'kraj', 'datumRojstva',
-                  'kontaktnaOseba', 'vezaniPacienti', 'je_aktiviran')
+                  'kontaktnaOseba', 'vezaniPacienti', 'spol', 'je_aktiviran')
 
 class PacientPostSerializer(serializers.ModelSerializer):
     """
@@ -227,6 +227,43 @@ class PacientPostSerializer(serializers.ModelSerializer):
         sporocilo.content_subtype = "html"
         sporocilo.send()
         return pacient
+
+class PacientUpdateSerializer(serializers.ModelSerializer):
+
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    eposta = serializers.EmailField(source='uporabnik.email')
+    telefon = serializers.CharField(source='uporabnik.tel')
+    datumRojstva = serializers.DateField(source='datum_rojstva')
+    kraj = serializers.CharField(source='posta.kraj')
+    hisnaStevilka = serializers.CharField(source='hisna_stevilka')
+
+    class Meta:
+        model = Pacient
+        fields = ('ime', 'priimek', 'eposta', 'telefon', 'ulica', 'hisnaStevilka', 'kraj', 'sifra_okolisa',  'datumRojstva')
+
+    def update(self, pacient, validated_data):
+        print(pacient.uporabnik)
+        if ('ime' in validated_data['uporabnik'].keys()):
+            pacient.uporabnik.ime = validated_data['uporabnik']['ime']
+        if ('priimek' in validated_data['uporabnik'].keys()):
+            pacient.uporabnik.priimek = validated_data['uporabnik']['priimek']
+        if ('email' in validated_data['uporabnik'].keys()):
+            pacient.uporabnik.email = validated_data['uporabnik']['email']
+        if ('tel' in validated_data['uporabnik'].keys()):
+            pacient.uporabnik.tel = validated_data['uporabnik']['tel']
+        if ('ulica' in validated_data.keys()):
+            pacient.ulica = validated_data['ulica']
+        if ('datum_rojstva' in validated_data.keys()):
+            pacient.datum_rojstva = validated_data['datum_rojstva']
+        if ('kraj' in validated_data['posta'].keys()):
+            pacient.posta = Posta.objects.get(kraj = validated_data.pop('posta')['kraj'])
+            # ne dela
+        if ('hisna_stevilka' in validated_data.keys()):
+            pacient.hisna_stevilka = validated_data['hisna_stevilka']
+        pacient.save()
+        return pacient
+
 
 class PacientObiskSerializer(serializers.ModelSerializer):
 
@@ -353,7 +390,7 @@ class PatronaznaSestraSerializer(serializers.ModelSerializer):
         exclude = ('delavec', 'password', 'je_admin')
 
 class PozabljenoGesloSerializer(serializers.ModelSerializer):
-	
+
 	#mail in geslo sta poslana kot ime in priimek, da ne teži za že obstoječi email
 	class Meta:
 		model = Uporabnik
@@ -384,3 +421,45 @@ class PotrditevGeslaSerializer(serializers.ModelSerializer):
         uporabnik.set_password(validated_data['password'])
         uporabnik.save()
         return uporabnik
+
+class PatronaznaSestraDelavecSerializer(serializers.ModelSerializer):
+    ime = serializers.CharField(source='uporabnik.ime')
+    priimek = serializers.CharField(source='uporabnik.priimek')
+    uporabnik = serializers.IntegerField(source='uporabnik.id')
+
+
+    class Meta:
+        model = Delavec
+        fields = ('ime', 'priimek', 'osebna_sifra', 'uporabnik',
+        'zacetek_odsotnosti', 'konec_odsotnosti')
+		
+class PosodobiOsebjeSerializer(serializers.ModelSerializer):
+
+	ime = serializers.CharField(source='uporabnik.ime')
+	priimek = serializers.CharField(source='uporabnik.priimek')
+	email = serializers.EmailField(source='uporabnik.email')
+	tel = serializers.CharField(source='uporabnik.tel')
+	password = serializers.CharField(source='uporabnik.password', required=False)
+	naziv_ustanove = serializers.CharField(source='sifra_ustanove.naziv')
+	naziv_delavca = serializers.CharField(source='vrsta_delavca.naziv')
+	naziv_okolisa = serializers.CharField(source='sifra_okolisa.naziv')
+
+	class Meta:
+		model = Delavec
+		fields = ('ime', 'priimek', 'tel', 'email', 'password', 'osebna_sifra', 'naziv_ustanove', 'naziv_delavca', 'naziv_okolisa')
+		
+	def update(self, delavec, validated_data):
+		uporabnik = Uporabnik.objects.get(id = delavec.uporabnik_id)
+		uporabnik.ime = validated_data.get('uporabnik')['ime']
+		uporabnik.priimek = validated_data.get('uporabnik')['priimek']
+		uporabnik.email = validated_data.get('uporabnik')['email']
+		uporabnik.tel = validated_data.get('uporabnik')['tel']
+		if 'password' in validated_data.get('uporabnik'):
+			uporabnik.set_password(validated_data.get('uporabnik')['password'])
+		print(validated_data)
+		delavec.sifra_ustanove = SifraUstanove.objects.get(naziv =  validated_data.pop('sifra_ustanove', None)['naziv'])
+		delavec.vrsta_delavca = VrstaDelavca.objects.get(naziv = validated_data.pop('vrsta_delavca', None)['naziv'])
+		delavec.sifra_okolisa = SifraOkolisa.objects.get(naziv = validated_data.pop('sifra_okolisa', None)['naziv'])
+		delavec.save()
+		uporabnik.save()
+		return delavec

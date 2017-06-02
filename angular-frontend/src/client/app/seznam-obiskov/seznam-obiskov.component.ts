@@ -163,20 +163,16 @@ export class SeznamObiskovComponent implements OnInit {
     sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
     this.query = '?user=' + sifra_zdravnika;
 
-    var offset = (24*60*60*1000);
-    podatki.dejanskiDatumOd = new Date (podatki.dejanskiDatumOd.getTime()-offset);
-
-    // console.log(podatki.predvideniDatumOd);
-    // console.log(podatki.predvideniDatumDo);
-    // console.log(podatki.dejanskiDatumOd);
-    // console.log(podatki.dejanskiDatumDo);
-
     // p datum od
     if (podatki.predvideniDatumOd) this.query += '&zac_pdat=' + podatki.predvideniDatumOd.toISOString().substr(0, 10);
     // p datum do
     if (podatki.predvideniDatumDo) this.query += '&konc_pdat=' + podatki.predvideniDatumDo.toISOString().substr(0, 10);
     // d datum od
-    if (podatki.dejanskiDatumOd) this.query += '&zac_ddat=' + podatki.dejanskiDatumOd.toISOString().substr(0, 10);
+    if (podatki.dejanskiDatumOd) {
+      var offset = (24*60*60*1000);
+      podatki.dejanskiDatumOd = new Date (podatki.dejanskiDatumOd.getTime()-offset);
+      this.query += '&zac_ddat=' + podatki.dejanskiDatumOd.toISOString().substr(0, 10);
+    }
     // d datum do
     if (podatki.dejanskiDatumDo) this.query += '&konc_ddat=' + podatki.dejanskiDatumDo.toISOString().substr(0, 10);
     // izdajatelj
@@ -196,8 +192,6 @@ export class SeznamObiskovComponent implements OnInit {
     // stran
     this.query += '&page=1';
 
-    // zapisi query v console
-    //console.log(this.query);
 
     return this.query;
   }

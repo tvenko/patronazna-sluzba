@@ -22,7 +22,7 @@
         [routerLinkActiveOptions]="{exact:true}">
           <i class="fa fa-file-o" aria-hidden="true"></i> Kreiraj nalog</a>
     </li>
-	
+
 	<li class="nav-item">
       <a [routerLink]="['/seznam-obiskov']" [routerLinkActive]="['router-link-active']"
          [routerLinkActiveOptions]="{exact:true}">
@@ -33,6 +33,12 @@
       <a [routerLink]="['/nadomescanja/novo']" [routerLinkActive]="['router-link-active']"
       [routerLinkActiveOptions]="{exact:true}">
       <i class="fa fa-handshake-o" aria-hidden="true"></i> Novo nadomeščanje</a>
+    </li>
+
+    <li class="nav-item" *ngIf="uporabnik.tipUporabnika === 'vodja PS'">
+      <a [routerLink]="['/nadomescanja/zakljuci']" [routerLinkActive]="['router-link-active']"
+      [routerLinkActiveOptions]="{exact:true}">
+      <i class="fa fa-hand-paper-o" aria-hidden="true"></i> Zaključi nadomeščanje</a>
     </li>
 
     <li class="nav-item">

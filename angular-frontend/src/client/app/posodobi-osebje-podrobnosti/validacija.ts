@@ -24,27 +24,40 @@ export class EqualValidator implements Validator {
 
         // control vlaue
         let e = c.root.get(this.validateEqual);
-
-        // value not equal
-        if (e && v !== e.value && !this.isReverse) {
-          return {
-            validateEqual: false
-          }
-        }
-
-        // value equal and reverse
-        if (e && v === e.value && this.isReverse) {
-            delete e.errors['validateEqual'];
+		
+		/*console.log(e);
+		console.log(v);
+		if (e.value == "" && v.value == ""){
+			console.log("heya");
+			delete e.errors['validateEqual'];
             if (!Object.keys(e.errors).length) e.setErrors(null);
-        }
+			
+			return null;
+		}*/
+		
+		//else {
 
-        // value not equal and reverse
-        if (e && v !== e.value && this.isReverse) {
-            e.setErrors({
-                validateEqual: false
-            })
-        }
+			// value not equal
+			if (e && v !== e.value && !this.isReverse) {
+			  return {
+				validateEqual: false
+			  }
+			}
 
-        return null;
+			// value equal and reverse
+			if (e && v === e.value && this.isReverse) {
+				delete e.errors['validateEqual'];
+				if (!Object.keys(e.errors).length) e.setErrors(null);
+			}
+
+			// value not equal and reverse
+			if (e && v !== e.value && this.isReverse) {
+				e.setErrors({
+					validateEqual: false
+				})
+			}
+
+			return null;
+		//}
     }
 }
