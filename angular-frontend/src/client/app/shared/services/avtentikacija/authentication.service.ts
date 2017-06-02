@@ -22,11 +22,11 @@ export class AuthenticationService {
     prijava(username: string, password: string): Observable<boolean> {
       var headers = new Headers();
       headers.append('Content-Type', 'application/json');
-		
+
         return this.http.post(Config.API + 'token/auth/', JSON.stringify({ email: username, password: password }), {headers: headers})
             .map(
 				(response : Response) => {
-					
+
 					var time = new Date().getTime();
 					var loginTime;
 					if (!localStorage.getItem('loginTime'))
@@ -36,12 +36,12 @@ export class AuthenticationService {
 					var timeLeft = ((15 * 1000) - (time - loginTime)) / 1000;
 					if (timeLeft > 0) {
 						var timeLeftInt = Math.ceil(timeLeft);
-						localStorage.setItem('loginError', "Prijava blokirana za " + timeLeftInt.toString() + " sekund.");
+						localStorage.setItem('loginError', 'Prijava blokirana za ' + timeLeftInt.toString() + ' sekund.');
 						return false;
 					}
-					
+
 					if (response.json().pacient && response.json().pacient[0].je_aktiviran == false) {
-						localStorage.setItem('loginError', "Račun ni aktiviran.");
+						localStorage.setItem('loginError', 'Račun ni aktiviran.');
 						return false;
 					}
 					else {
@@ -55,18 +55,18 @@ export class AuthenticationService {
 							var trenutniDatum = new Date();
 
 							//spremeni datum v pravilen format za shranjevanje v bazo
-							var day = trenutniDatum.getDate() + "";
+							var day = trenutniDatum.getDate() + '';
 							if (day.length === 1)
-								day = "0" + trenutniDatum.getDate();
-							var month = (trenutniDatum.getMonth() + 1) + "";
+								day = '0' + trenutniDatum.getDate();
+							var month = (trenutniDatum.getMonth() + 1) + '';
 							if (month.length === 1)
-								month = "0" + (trenutniDatum.getMonth() + 1);
+								month = '0' + (trenutniDatum.getMonth() + 1);
 							var milisekundeTemp = trenutniDatum.getMilliseconds();
 							milisekundeTemp = milisekundeTemp * 60 / 100;
-							var milisekunde = milisekundeTemp + "";
+							var milisekunde = milisekundeTemp + '';
 							milisekunde = milisekunde.substring(0,2);
 
-							this.datumStr = trenutniDatum.getFullYear() + "-" + month + "-" + day + " " + trenutniDatum.getHours() + ":" + trenutniDatum.getMinutes() + ":" + milisekunde;
+							this.datumStr = trenutniDatum.getFullYear() + '-' + month + '-' + day + ' ' + trenutniDatum.getHours() + ':' + trenutniDatum.getMinutes() + ':' + milisekunde;
 
 							//ali je uporabnik admin?
 							var admin = JSON.stringify(response.json().uporabnik.je_admin);
@@ -76,23 +76,23 @@ export class AuthenticationService {
 
 							//pridobi datum zadnje prijave
 							var datumObj = response.json().uporabnik.last_login;
-							var dateAgain = "";
+							var dateAgain = '';
 
 							if (datumObj !== null) {
 								//spremeni datum v slovenski format
 								var ura = datumObj.substring(11,13);
 								//zelo grd način prilagajanja časovnega pasa
 								//ura = (parseInt(ura) + 2) + "";
-								dateAgain = datumObj.substring(8,10) + "-" + datumObj.substring(5,7) + "-" + datumObj.substring(0,4) + " " + ura + datumObj.substring(13,19);
+								dateAgain = datumObj.substring(8,10) + '-' + datumObj.substring(5,7) + '-' + datumObj.substring(0,4) + ' ' + ura + datumObj.substring(13,19);
 							}
 							else {
-								dateAgain = "Prva prijava";
+								dateAgain = 'Prva prijava';
 							}
 
 							// določi tip uporabnika in nastavi podatke pacienta
-							var tipUporabnika = "";
+							var tipUporabnika = '';
 							if (response.json().pacient) {
-								tipUporabnika = "pacient";
+								tipUporabnika = 'pacient';
 								localStorage.setItem('podatkiPacienta', JSON.stringify(response.json().pacient[0]));
 
 							}
@@ -110,7 +110,7 @@ export class AuthenticationService {
 						}
 						else {
 							//če se zgornji if ne sproži, gre v spodnji catch, do else sploh ne pride (je pa prisoten da ne teži prevajalnik)
-							localStorage.setItem('loginError', "Uporabniško ime / geslo je nepravilno.");
+							localStorage.setItem('loginError', 'Uporabniško ime / geslo je nepravilno.');
 							return false;
 						}
 					}
@@ -134,8 +134,8 @@ export class AuthenticationService {
 		if (localStorage.getItem('loginError')) {
 			localStorage.removeItem('loginError');
 		}
-		localStorage.setItem('loginTime', "0");
-		localStorage.setItem('stLogin', "0");
+		localStorage.setItem('loginTime', '0');
+		localStorage.setItem('stLogin', '0');
 		//pošlji datum prijave
 		if (this.id.length !== 0) {
 
@@ -155,7 +155,7 @@ export class AuthenticationService {
 	private handleError (error: any) {
 		let errMsg = (error.message) ? error.message :
 		  error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-		
+
 		var stLogin;
 		if (!localStorage.getItem('stLogin'))
 			stLogin = 0;
@@ -172,19 +172,19 @@ export class AuthenticationService {
 		var timeLeft = ((15 * 1000) - (time - loginTime)) / 1000;
 		if (timeLeft > 0) {
 			var timeLeftInt = Math.ceil(timeLeft);
-			localStorage.setItem('loginError', "Prijava blokirana za " + timeLeftInt.toString() + " sekund.");
+			localStorage.setItem('loginError', 'Prijava blokirana za ' + timeLeftInt.toString() + ' sekund.');
 		}
 		else {
 			if (stLogin > 3) {
-				localStorage.setItem('stLogin', "1");
+				localStorage.setItem('stLogin', '1');
 			}
-			localStorage.setItem('loginError', "Uporabniško ime / geslo je nepravilno.");
+			localStorage.setItem('loginError', 'Uporabniško ime / geslo je nepravilno.');
 		}
 		if (stLogin == 3) {
 			var time = new Date().getTime();
 			localStorage.setItem('loginTime', time.toString());
 		}
-		
+
 		return Observable.of(false);
 	}
 }

@@ -305,6 +305,7 @@ export class DelovniNalogComponent implements OnInit {
           response => {
             // console.log(response.count);
             this.delovniNalogi = response.results;
+            console.log(this.delovniNalogi);
             this.queryNext = response.next;
             this.queryPrev = response.previous;
             //console.log(this.queryNext + ' ' + this.queryPrev);

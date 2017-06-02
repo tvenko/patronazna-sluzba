@@ -38,13 +38,13 @@
       		<tr *ngFor="let obisk of delovniNalogi">
             <!--- <td class="nalogId {{nalog.id}}" (click)="test(nalog)">{{ nalog.id }}</td> --->
             <td>{{ obisk.id }}</td>
-            <td>{{ obisk.zdravnik.ime }} {{ obisk.zdravnik.priimek }}</td>
-            <td>{{ obisk.vrstaObiska }}</td>
-      			<td>{{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}</td>
-      			<td>{{ obisk.ime_sestre }}</td>
-      			<td>{{ obisk.ime_nadomestne_sestre }}</td>
-      			<td>{{ obisk.predvideni_datum | date }}</td>
-            <td>{{ obisk.dejanski_datum | date}}</td>
+            <td>{{ obisk.zdravnik?.ime }} {{ obisk.zdravnik?.priimek }}</td>
+            <td>{{ obisk?.vrstaObiska }}</td>
+      			<td>{{ obisk?.pacient?.ime }} {{ obisk?.pacient?.priimek }}</td>
+      			<td>{{ obisk?.ime_sestre }}</td>
+      			<td>{{ obisk?.nadomestna_patronazna_sestra?.ime }} {{ obisk?.nadomestna_patronazna_sestra?.priimek }}</td>
+      			<td>{{ obisk?.predvideni_datum | date }}</td>
+            <td>{{ obisk?.dejanski_datum | date}}</td>
             <td *ngIf="obisk.je_opravljen"> da</td>
             <td *ngIf="!(obisk.je_opravljen)"> ne</td>
             <td><span class="podrobnosti-link" (click)="redirect(obisk.id)">podrobnosti</span></td>

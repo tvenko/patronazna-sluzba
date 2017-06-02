@@ -37,7 +37,7 @@
               <div *ngFor="let material of obisk.material">
                 <p>
                   <label>{{ nastaviVrednost(material.id_materiala, false) }}</label>
-                  <select [name]="material.id_materiala" [ngModel]>
+                  <select [name]="material.id_materiala" [ngModel] required>
                     <option *ngFor="let option of kolicinaMateriala(material.kolicina)" [ngValue]="option">
                       {{ option }}
                     </option>

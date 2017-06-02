@@ -28,7 +28,7 @@
       			<th><strong>VRSTA OBISKA</strong></th>
             <th><strong>PACIENT</strong></th>
       			<th><strong>PATR. SESTRA</strong></th>
-            <th><strong>NAD. SESTRA</strong></th>
+            <!--<th><strong>NAD. SESTRA</strong></th>-->
       			<th><strong>IZDANO</strong></th>
       			<th></th>
       		</tr>
@@ -41,7 +41,7 @@
             <td>{{ nalog.ime_obiska }}</td>
       			<td>{{ nalog.ime_pacienta }}</td>
       			<td>{{ nalog.ime_sestre }}</td>
-      			<td>{{ nalog.ime_sestre }}</td>
+      			<!--<td>{{ nalog.ime_sestre }}</td>-->
 
       			<td>{{ nalog.datum_izdaje | date }}</td>
             <td><span class="podrobnosti-link" (click)="redirect(nalog.id)">podrobnosti </span></td>

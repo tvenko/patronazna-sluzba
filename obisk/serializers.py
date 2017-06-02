@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from accounts.models import Uporabnik, Delavec, Pacient
-from accounts.serializers import PacientObiskSerializer, DelavecObiskSerializer, VezaniPacientSerializer
+from accounts.serializers import PacientObiskSerializer, DelavecObiskSerializer, SestraObiskSerializer
 import delovniNalog.models
 from dateutil.parser import parse
 
@@ -79,6 +79,7 @@ class ObiskSerializer(serializers.ModelSerializer):
     zdravnik = DelavecObiskSerializer(source='delovni_nalog.sifra_zdravnika')
     vezani_pacienti = serializers.PrimaryKeyRelatedField(source='delovni_nalog.vezani_pacienti', many=True, read_only=True)
     id_meritev = MeritveNaObiskuSerializer(source='meritvenaobisku_set', many=True,  required=False)
+    nadomestna_patronazna_sestra = SestraObiskSerializer()
 
     class Meta:
         model = Obisk

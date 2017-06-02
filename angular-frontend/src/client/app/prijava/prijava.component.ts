@@ -6,7 +6,7 @@ import { AuthenticationService } from '../shared/services/avtentikacija/authenti
 @Component({
     moduleId: module.id,
     templateUrl: 'prijava.component.html',
-		styleUrls: ['prijava.component.css']
+    styleUrls: ['prijava.component.css']
 })
  
 export class PrijavaComponent implements OnInit {
@@ -27,7 +27,7 @@ export class PrijavaComponent implements OnInit {
  
 prijava() {
         this.loading = true;
-				this.error = ''
+				this.error = '';
         this.authenticationService.prijava(this.model.username, this.model.password)
             .subscribe(result => {
                 if (result === true) {

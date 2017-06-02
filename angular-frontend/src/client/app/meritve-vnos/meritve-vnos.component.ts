@@ -86,7 +86,6 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
   }
 
   onValueChanged(data?: any) {
-    console.log('check');
     if(!this.myForm) { return; }
     const form = this.myForm.form;
     for (const key in form.value) {
@@ -94,10 +93,8 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
         for (const meritev of this.meritve) {
           if (meritev.id === +key && meritev.sp_meja !== null && meritev.zg_meja !== null) {
             if ( form.value[key] >= meritev.sp_meja && form.value[key] <= meritev.zg_meja ) {
-              console.log('true');
               form.setValidators([Validators.required, this.validatorTrue.bind(this)]);
             } else {
-              console.log('false');
               return form.setValidators([Validators.required, this.validatorFalse.bind(this)]);
             }
           }
@@ -147,9 +144,9 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
 
   kolicinaMateriala(length: any) {
     let t = [];
-    for (let i=1; i<=length; i++) {
+    for (let i=0; i<=length; i++) {
       t.push(i);
-    };
+    }
     return t;
   }
 
