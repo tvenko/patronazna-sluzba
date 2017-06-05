@@ -71,6 +71,7 @@ ngOnInit() {
 	  .subscribe(
 		response => {
 		  this.izbranDelavec = response;
+		  console.log(this.izbranDelavec);
 		  this.dobiSifre();
 		  this.delavecNajden = true;
 		},
@@ -94,7 +95,6 @@ ngOnInit() {
     this.delavecService.posodobi(this.delavec)
       .subscribe(
         response => {
-          console.log(response);
           this.prikaziPregled = true;
         },
         error => {
@@ -125,8 +125,8 @@ ngOnInit() {
 			sifra1: [this.izbranDelavec.osebna_sifra, Validators.required],
 			sifra2: [this.izbranDelavec.naziv_ustanove, Validators.required],
 			email: [this.izbranDelavec.email, Validators.required],
-			geslo1: ['', Validators.required],
-			geslo2: ['', Validators.required],
+			geslo1: [''],
+			geslo2: [''],
 			sifreOkolisa: [this.sifreOkolisa.results[indeks]],
 		 });
       },
