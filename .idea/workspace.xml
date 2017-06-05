@@ -6,15 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f4b7af8c-86b8-4438-a0f1-f52200191ea7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/accounts/serializers.py" afterPath="$PROJECT_DIR$/accounts/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/delovni-nalog/delovni-nalog.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/meritve-vnos/meritve-vnos.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/prijava/prijava.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/prijava/prijava.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/seznam-obiskov/seznam-obiskov.component.html" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/seznam-obiskov/seznam-obiskov.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/avtentikacija/authentication.service.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/shared/services/avtentikacija/authentication.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obisk/serializers.py" afterPath="$PROJECT_DIR$/obisk/serializers.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-frontend/src/client/app/kreiraj-nadomescanje/kreiraj-nadomescanje.component.ts" afterPath="$PROJECT_DIR$/angular-frontend/src/client/app/kreiraj-nadomescanje/kreiraj-nadomescanje.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delovniNalog/serializers.py" afterPath="$PROJECT_DIR$/delovniNalog/serializers.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,7 +28,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/delovniNalog/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
+            <state relative-caret-position="440">
               <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
@@ -52,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/delovniNalog/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="17" column="73" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="17" selection-end-column="73" />
+            <state relative-caret-position="132">
+              <caret line="12" column="73" lean-forward="false" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -72,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/obisk/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="81" column="57" lean-forward="false" selection-start-line="81" selection-start-column="57" selection-end-line="81" selection-end-column="57" />
+            <state relative-caret-position="550">
+              <caret line="91" column="21" lean-forward="false" selection-start-line="91" selection-start-column="21" selection-end-line="91" selection-end-column="21" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -87,8 +80,8 @@
       <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounts/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
-              <caret line="248" column="34" lean-forward="false" selection-start-line="248" selection-start-column="34" selection-end-line="248" selection-end-column="34" />
+            <state relative-caret-position="6160">
+              <caret line="285" column="34" lean-forward="false" selection-start-line="285" selection-start-column="34" selection-end-line="285" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -97,7 +90,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/obisk/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
+            <state relative-caret-position="2860">
               <caret line="134" column="54" lean-forward="false" selection-start-line="134" selection-start-column="54" selection-end-line="134" selection-end-column="54" />
               <folding />
             </state>
@@ -176,11 +169,11 @@
         <option value="$PROJECT_DIR$/delovniNalog/models.py" />
         <option value="$PROJECT_DIR$/patronaza/settings.py" />
         <option value="$PROJECT_DIR$/obisk/urls.py" />
-        <option value="$PROJECT_DIR$/delovniNalog/serializers.py" />
         <option value="$PROJECT_DIR$/obisk/models.py" />
         <option value="$PROJECT_DIR$/obisk/views.py" />
         <option value="$PROJECT_DIR$/accounts/serializers.py" />
         <option value="$PROJECT_DIR$/obisk/serializers.py" />
+        <option value="$PROJECT_DIR$/delovniNalog/serializers.py" />
       </list>
     </option>
   </component>
@@ -288,8 +281,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -476,7 +469,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1060" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1609375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -855,7 +848,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/delovniNalog/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
+        <state relative-caret-position="440">
           <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
@@ -871,35 +864,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/obisk/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
+        <state relative-caret-position="2860">
           <caret line="134" column="54" lean-forward="false" selection-start-line="134" selection-start-column="54" selection-end-line="134" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/delovniNalog/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="17" column="73" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="17" selection-end-column="73" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/accounts/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="248" column="34" lean-forward="false" selection-start-line="248" selection-start-column="34" selection-end-line="248" selection-end-column="34" />
+        <state relative-caret-position="6160">
+          <caret line="285" column="34" lean-forward="false" selection-start-line="285" selection-start-column="34" selection-end-line="285" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/obisk/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="81" column="57" lean-forward="false" selection-start-line="81" selection-start-column="57" selection-end-line="81" selection-end-column="57" />
+        <state relative-caret-position="550">
+          <caret line="91" column="21" lean-forward="false" selection-start-line="91" selection-start-column="21" selection-end-line="91" selection-end-column="21" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/delovniNalog/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="12" column="73" lean-forward="false" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
+          <folding />
         </state>
       </provider>
     </entry>

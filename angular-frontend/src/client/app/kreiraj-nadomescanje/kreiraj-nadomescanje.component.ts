@@ -31,10 +31,10 @@ export class KreirajNadomescanjeComponent implements OnInit {
         this.seznamSester = response;
         //console.log(response);
       }, error => {
-        console.log("Napaka pri pridobivanju seznama patronažnih sester")
+        console.log('Napaka pri pridobivanju seznama patronažnih sester');
         //console.log(error);
       }
-    )
+    );
     this.formaNadomestneSestre = this._fb.group({
       patronazna_sestra: ['', Validators.required],
       nadomestna_patronazna_sestra: ['', Validators.required],
@@ -97,13 +97,13 @@ export class KreirajNadomescanjeComponent implements OnInit {
         response => {
           let stObiskov = parseInt(response.obiski) + parseInt(response.nadomestni);
           this.response = response.message + ' (' + stObiskov + ' obiskov)';
-          this.loading = false
+          this.loading = false;
           //console.log(response);
         }, error => {
           this.loading = false;
           this.error = JSON.parse(error._body).message;
           //console.log(error);
         }
-      )
+      );
   }
 }
