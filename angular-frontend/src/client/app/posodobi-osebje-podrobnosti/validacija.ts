@@ -25,9 +25,9 @@ export class EqualValidator implements Validator {
         // control vlaue
         let e = c.root.get(this.validateEqual);
 		
-		/*console.log(e);
+		console.log(e);
 		console.log(v);
-		if (e.value == "" && v.value == ""){
+		/*if (e.value == ""){
 			console.log("heya");
 			delete e.errors['validateEqual'];
             if (!Object.keys(e.errors).length) e.setErrors(null);

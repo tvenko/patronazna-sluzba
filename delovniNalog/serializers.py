@@ -100,8 +100,8 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
 
             #priredi MS delovnemu nalogu
             okolis_pacient = validated_data.pop('id_pacienta').sifra_okolisa
-            if(okolis_pacient and Delavec.objects.get(sifra_okolisa = okolis_pacient)):
-                sestra = Delavec.objects.get(sifra_okolisa = okolis_pacient)
+            if(okolis_pacient and Delavec.objects.filter(sifra_okolisa = okolis_pacient)[:1].get()):
+                sestra = Delavec.objects.filter(sifra_okolisa = okolis_pacient)[:1].get()
                 delovniNalog.patronazna_sestra = sestra.uporabnik
                 delovniNalog.save()
 
