@@ -283,7 +283,7 @@ class SestraObiskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Uporabnik
-        fields = ('ime', 'priimek')
+        fields = ('ime', 'priimek', 'tel', 'email')
 
 class DelavecObiskSerializer(serializers.ModelSerializer):
 

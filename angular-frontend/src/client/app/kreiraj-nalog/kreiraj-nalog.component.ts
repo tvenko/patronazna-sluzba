@@ -169,7 +169,9 @@ export class KreirajNalogComponent implements OnInit {
         }
       }
 
-      novNalog.datum_prvega_obiska = ctrl.prviDatum.value;
+      let prviDatum: Date = new Date(ctrl.prviDatum.value);
+      prviDatum.setHours(prviDatum.getHours()-prviDatum.getTimezoneOffset()/60);
+      novNalog.datum_prvega_obiska = prviDatum;
       novNalog.vrsta_obiska = ctrl.vrstaObiska.value.id;
       novNalog.stevilo_obiskov = ctrl.steviloObiskov.value;
 
@@ -201,16 +203,13 @@ export class KreirajNalogComponent implements OnInit {
         }
       }
 
-      // Ce je vrsta obiska obisk otrocnice, potem poslji se vezane paciente
-      if (ctrl.vrstaObiska.value.id) {}
-
       if (ctrl.obvezen.value === 'true')
         novNalog.je_obvezen_datum = true;
       else
         novNalog.je_obvezen_datum = false;
 
       //console.log(JSON.stringify(novNalog));
-      //console.log(novNalog);
+      console.log(novNalog);
       this.delovniNalogService.ustvari(novNalog)
         .subscribe(
           response => {

@@ -49,6 +49,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
     # funkcija, ki izracuna datume in kreira zapise o Obiskih va bazo, ce je podan interval med obiski
     def kreirajObiskInterval(self, stObiskov, zacetniDatum, interval, patronaznaSestra, delovniNalog, jeObvezen = False):
         datum = zacetniDatum
+        print('zacetniDatum: ', datum);
         for i in range(0, stObiskov):
             if (i == 0):
                 data = {'patronazna_sestra': patronaznaSestra, 'predvideni_datum': datum, 'je_obvezen_datum': jeObvezen,
@@ -74,7 +75,7 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                 delovniNalog = DelovniNalog(
                     sifra_zdravnika=validated_data['sifra_zdravnika'],
                     vrsta_obiska=validated_data['vrsta_obiska'],
-                    datum_prvega_obiska='2017-05-17',#validated_data['datum_prvega_obiska'],
+                    datum_prvega_obiska=validated_data['datum_prvega_obiska'],
                     je_obvezen_datum=validated_data['je_obvezen_datum'],
                     stevilo_obiskov=validated_data['stevilo_obiskov'],
                     casovni_interval=validated_data['casovni_interval'],
