@@ -55,7 +55,11 @@ export class MeritveVnosComponent implements OnInit, AfterViewChecked {
             }
           );
         }
-        this.potrjenDatum = new Date(this.obisk.dejanski_datum);
+        if (this.obisk.je_obvezen_datum) {
+          this.potrjenDatum = new Date(this.obisk.predvideni_datum);
+        } else {
+          this.potrjenDatum = new Date(this.obisk.dejanski_datum);
+        }
         const dejanskiDatum = new Date(this.obisk.dejanski_datum);
         const predvidenDatum = new Date(this.obisk.predvideni_datum);
         if (this.yesterday.toDateString() === dejanskiDatum.toDateString() ||

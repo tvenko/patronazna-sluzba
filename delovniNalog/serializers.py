@@ -120,8 +120,6 @@ class DelovniNalogSerializer(serializers.ModelSerializer):
                         kolicina = material['kolicina']
                     )
                     novi_material.save()
-                # Nevem ce je potrebna spodnja vrstica ?
-                #delovniNalog.id_materiala = material.objects.get(id)
 
             #Kreira zapise o Obisku v bazo
 

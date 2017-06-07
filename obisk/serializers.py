@@ -129,6 +129,8 @@ class ObiskUpdateSerializer(serializers.ModelSerializer):
             # TODO vrni custom error
         if ('je_opravljen' in validated_data.keys()):
             obisk.je_opravljen = validated_data['je_opravljen']
+            if (obisk.je_obvezen_datum):
+                obisk.dejanski_datum = obisk.predvideni_datum
         if ('meritevnaobisku_set' in validated_data.keys()):
             for meritev in validated_data['meritevnaobisku_set']:
                 m = meritev['id_meritve']
