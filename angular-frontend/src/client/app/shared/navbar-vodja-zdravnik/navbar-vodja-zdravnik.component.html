@@ -40,12 +40,18 @@
       [routerLinkActiveOptions]="{exact:true}">
       <i class="fa fa-hand-paper-o" aria-hidden="true"></i> Zaključi nadomeščanje</a>
     </li>
+	
+	<li class="nav-item">
+      <a [routerLink]="['/pacient/sprememba']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><i class="fa fa-pencil-square-o"></i> Spremembe podatkov</a>
+    </li>
 
     <li class="nav-item">
       <a [routerLink]="['/prijava']" [routerLinkActive]="['router-link-active']"
       [routerLinkActiveOptions]="{exact:true}">
        <i class="fa fa-lock" aria-hidden="true"></i> Odjava</a>
     </li>
+	
+	
 
   </ul>
 </nav>

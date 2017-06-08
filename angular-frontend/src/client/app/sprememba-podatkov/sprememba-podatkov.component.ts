@@ -22,6 +22,7 @@ export class SpremembaPodatkovComponent implements OnInit {
   public sifreOkolisa: any;
   public sorodstvenaRazmerja: any;
   public problemPridobivanja: boolean;
+  public jePacient: boolean;
 
   trenutniPodatki: any;
 
@@ -31,38 +32,41 @@ export class SpremembaPodatkovComponent implements OnInit {
   constructor(public pacientService: PacientService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.pacient = JSON.parse(localStorage.getItem('podatkiPacienta'));
-    if (!this.pacient) {
-      this.pacient = {};
-    }
-    this.uporabnik = JSON.parse(localStorage.getItem('currentUser'));
-    if (!this.uporabnik)
-      this.uporabnik = {};
+	this.jePacient = true;
+	this.uporabnik = JSON.parse(localStorage.getItem('currentUser'));
+	if (this.uporabnik.tipUporabnika != 'pacient') {
+		this.jePacient = false;
+	}
+	this.pacient = JSON.parse(localStorage.getItem('podatkiPacienta'));
+	if (!this.pacient) {
+	  this.pacient = {};
+	}
+	if (!this.uporabnik)
+	  this.uporabnik = {};
 
-      this.prikaziNapako = false;
-      this.prikaziPregled = false;
+	  this.prikaziNapako = false;
+	  this.prikaziPregled = false;
 
-    // on init
-    this.sForm = this.fb.group({
-      trenutno: ['', Validators.required],
-      geslo1: ['', Validators.required],
-      geslo2: ['', Validators.required],
-    });
-    this.pForm = this.fb.group({
-      datumRojstva: [''],
-      kraj: [''],
-      hisnaStevilka: [''],
-      ulica: [''],
-      eposta: [''],
-      ime: [''],
-      priimek: [''],
-      telefon: [''],
-      stevilkaPacienta: ['']
-    });
-    this.getPacient();
-    this.dobiSifre();
-    this.dobiPoste();
-
+	// on init
+	this.sForm = this.fb.group({
+	  trenutno: ['', Validators.required],
+	  geslo1: ['', Validators.required],
+	  geslo2: ['', Validators.required],
+	});
+	this.pForm = this.fb.group({
+	  datumRojstva: [''],
+	  kraj: [''],
+	  hisnaStevilka: [''],
+	  ulica: [''],
+	  eposta: [''],
+	  ime: [''],
+	  priimek: [''],
+	  telefon: [''],
+	  stevilkaPacienta: ['']
+	});
+	this.getPacient();
+	this.dobiSifre();
+	this.dobiPoste();
     this.si = {
             firstDayOfWeek: 0,
             dayNames: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],

@@ -16,7 +16,7 @@ export class NavbarPacientComponent implements OnInit{
     // on init
     this.pacient = JSON.parse(localStorage.getItem('podatkiPacienta'));
     let datum = JSON.parse(localStorage.getItem('currentUser'));
-    if (datum)
+    if (datum && datum.tipUporabnika == 'pacient')
       this.pacient.datum = datum.datum;
     if (!this.pacient) {
       this.pacient = {};
