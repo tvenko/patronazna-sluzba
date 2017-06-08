@@ -54,4 +54,4 @@ class MeritveNaObisku(models.Model):
     vrednost = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.id_meritve.naziv + " za obisk " + str(self.id_obisk.id)
+        return str(self.id_meritve) + " za obisk " + str(self.id_obisk)
