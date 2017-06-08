@@ -4,7 +4,7 @@
   </div>
   <main class="main">
     <div class="ui-grid ui-grid-responsive ui-grid-pad">
-      <div class="ui-grid-row">
+      <div *ngIf="jePacient" class="ui-grid-row">
         <div class="ui-grid-col-1">
           <i class="fa fa-user-o fa-5x ps-profile-pic" aria-hidden="true"></i>
         </div>
@@ -18,7 +18,7 @@
         </div>
       </div>
       <!-- Body od vseh osebnih podatkov -->
-      <div class="ui-grid-row pacient">
+      <div *ngIf="jePacient" class="ui-grid-row pacient">
         <div class="ui-grid-col-12">
 
           <!-- datum rojstva -->
