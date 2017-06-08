@@ -145,8 +145,8 @@
             <p-accordion (onOpen)="pridobiVezanegaPacienta(obisk.vezani_pacienti)" [multiple]="true" class="ui-grid-row" *ngFor="let obisk of prihajajociObiski">
               <p-accordionTab>
                 <p-header>
-                  {{ obisk.predvideni_datum | date }} | {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}
-                  <span *ngIf="obisk.nadomestna_patronazna_sestra">(nadomeščanje)</span>
+                  {{ obisk?.predvideni_datum | date }} | {{ obisk?.vrstaObiska }} pacienta {{ obisk.pacient?.ime }} {{ obisk.pacient?.priimek }}
+                  <span *ngIf="obisk?.nadomestna_patronazna_sestra">(nadomeščanje)</span>
                 </p-header>
 
                 <div *ngIf="obisk.je_obvezen_datum; else elseBlock">
@@ -162,7 +162,7 @@
                     <strong>Vrsta obiska:</strong>
                   </div>
                   <div class="ui-grid-col-6">
-                    {{ obisk.vrstaObiska }}
+                    {{ obisk?.vrstaObiska }}
                   </div>
                 </div>
 
@@ -171,7 +171,7 @@
                     <strong>Predviden datum:</strong>
                   </div>
                   <div class="ui-grid-col-6">
-                    {{ obisk.predvideni_datum | date }}
+                    {{ obisk?.predvideni_datum | date }}
                   </div>
                 </div>
 
@@ -180,7 +180,7 @@
                     <strong>Pacient:</strong>
                   </div>
                   <div class="ui-grid-col-6">
-                    {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}
+                    {{ obisk.pacient?.ime }} {{ obisk.pacient?.priimek }}
                   </div>
                 </div>
 
@@ -193,7 +193,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="obisk.vezani_pacienti.length > 0">
+                <div *ngIf="obisk?.vezani_pacienti?.length > 0">
                   <div class="ui-grid-row">
                     <div class="ui-grid-col-4">
                       <strong>VezaniPacienti:</strong>
@@ -234,7 +234,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="obisk.material[0]">
+                <div *ngIf="obisk?.material?.length > 0">
                   <div class="ui-grid-row" >
                     <div class="ui-grid-col-4">
                       <strong>Potreben material:</strong>

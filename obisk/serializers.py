@@ -23,10 +23,11 @@ class ZdraviloSerializer(serializers.ModelSerializer):
 class MeritveNaObiskuSerializer(serializers.ModelSerializer):
 
     naziv_meritve = serializers.CharField(source='id_meritve.naziv')
+    meritev_novorojencka = serializers.CharField(source='id_meritve.meritev_novorojencka')
 
     class Meta:
         model = MeritveNaObisku
-        fields = ('id', 'vrednost', 'id_obisk', 'id_meritve', 'naziv_meritve')
+        fields = ('id', 'vrednost', 'id_obisk', 'id_meritve', 'naziv_meritve', 'meritev_novorojencka')
 
 class MeritveNaObiskuPutSerializer(serializers.ModelSerializer):
 
