@@ -59,7 +59,7 @@ export class SeznamObiskovPacientComponent implements OnInit {
     // let sifra_zdravnika = localStorage.getItem('podatkiIzvajalca');
     // sifra_zdravnika = JSON.parse(sifra_zdravnika).osebna_sifra;
     // ugly :D
-    this.query = '?user=56722';
+    this.query = '?user=91555';
 
     // pacient
     if (this.pacient) this.query += '&pac=' + this.pacient.stevilkaPacienta;

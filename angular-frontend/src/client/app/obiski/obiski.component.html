@@ -22,6 +22,7 @@
             <p-accordionTab *ngIf="jePredviden(obisk.dejanski_datum, obisk.predvideni_datum, obisk.je_obvezen_datum)">
               <p-header>
                 {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }} v {{ obisk.pacient.kraj}}
+                <span *ngIf="obisk.nadomestna_patronazna_sestra">(nadomeščanje)</span>
               </p-header>
               <div *ngIf="obisk.je_obvezen_datum; else elseBlock">
                 Ta obisk ima obvezen datum
@@ -145,6 +146,7 @@
               <p-accordionTab>
                 <p-header>
                   {{ obisk.predvideni_datum | date }} | {{ obisk.vrstaObiska }} pacienta {{ obisk.pacient.ime }} {{ obisk.pacient.priimek }}
+                  <span *ngIf="obisk.nadomestna_patronazna_sestra">(nadomeščanje)</span>
                 </p-header>
 
                 <div *ngIf="obisk.je_obvezen_datum; else elseBlock">
